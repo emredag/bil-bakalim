@@ -13,6 +13,7 @@
 Bir öğretmen ders konusuna özel kelime kategorisi oluşturur (Spor, Yiyecek, Teknoloji vb.) ve o kategorideki kelimelerle sınıf içinde yarışma düzenler. Yarışmacılar kapalı harflerden oluşan kelimeleri ipuçları yardımıyla tahmin etmeye çalışır.
 
 **Oyun Kuralları (Ana Hatlar):**
+
 - 📝 Her oyuncuya **14 kelime** verilir (her uzunluktan 2'şer: 4-10 harf)
 - 🔄 Çoklu/takım modunda **her katılımcıya farklı kelimeler** verilir
 - 📚 Kategori minimum kelime: Tek mod için 14, çoklu için (katılımcı × 14)
@@ -30,6 +31,7 @@ Bir öğretmen ders konusuna özel kelime kategorisi oluşturur (Spor, Yiyecek, 
 ### 2.1 Teknoloji Stack
 
 **Frontend:**
+
 - React 18+ (UI geliştirme)
 - TypeScript (tip güvenliği)
 - Tailwind CSS (stil ve tasarım)
@@ -38,6 +40,7 @@ Bir öğretmen ders konusuna özel kelime kategorisi oluşturur (Spor, Yiyecek, 
 - Lucide React (ikonlar)
 
 **Backend (Tauri):**
+
 - Rust (Tauri backend)
 - Tauri 1.5+ (desktop framework)
 - SQLite (lokal veritabanı - kategori ve kelime yönetimi)
@@ -45,20 +48,23 @@ Bir öğretmen ders konusuna özel kelime kategorisi oluşturur (Spor, Yiyecek, 
 - Tauri Dialog API (dosya seçici, onay popup'ları)
 
 **Ses Sistemi:**
+
 - Web Audio API (ses efektleri)
 - Tauri Resource API (ses dosyaları için)
 
 ### 2.2 Platform Desteği
+
 - Windows 10/11
 - macOS 10.15+
 - Linux (Ubuntu 20.04+, Fedora, Debian)
 
 ### 2.3 Performans Hedefleri
+
 - Uygulama başlatma: < 3 saniye
 - Kategori yükleme: < 500ms
 - Animasyonlar: 60 FPS
 - Bellek kullanımı: < 150 MB
-- Disk boyutu: 
+- Disk boyutu:
   - Windows: ~20 MB
   - macOS: ~25 MB
   - Linux: ~18 MB
@@ -124,6 +130,7 @@ game_word_results
 ```
 
 **Açıklamalar:**
+
 - `game_history`: Her yarışmanın genel bilgilerini saklar
 - `game_participants`: Her yarışmadaki oyuncuların/takımların detaylarını saklar
 - `game_word_results`: Her kelime için hangi katılımcının ne yaptığını saklar
@@ -132,6 +139,7 @@ game_word_results
 - `result`: "found" (bulundu), "skipped" (pas geçildi), "timeout" (süre doldu)
 
 ### 2.5 Güvenlik ve İzinler
+
 - Dosya sistemi erişimi: Yalnızca kullanıcı tarafından seçilen dizinler
 - Ağ erişimi: Gerekli değil (tamamen offline)
 - Veritabanı: Kullanıcı veri dizininde (`$APPDATA`, `~/.local/share`, vb.)
@@ -143,6 +151,7 @@ game_word_results
 ### 3.1 Kategori Yapısı
 
 Her kategori şunları içerir:
+
 - **ID:** Benzersiz otomatik artan sayı
 - **İsim:** Kategori adı (örn: "Spor", "Teknoloji")
 - **Emoji:** Görsel tanımlayıcı (örn: ⚽, 💻)
@@ -153,12 +162,14 @@ Her kategori şunları içerir:
 ### 3.2 Varsayılan Kategori
 
 **İlk Kurulumda Yüklenen:**
+
 - **📦 Genel Kelimeler** (70 kelime)
   - Varsayılan kategori, silinemez
   - Düzenlenebilir (kelime eklenip çıkarılabilir)
   - İngilizce öğrenimi için temel kelime seti
 
 **Kullanıcı Oluşturabilir:**
+
 - Sınırsız özel kategori
 - Önerilen emoji listesi sunulur
 - İsim, emoji ve açıklama girişi
@@ -168,20 +179,24 @@ Her kategori şunları içerir:
 **Oynanabilir Kategori Kriterleri:**
 
 **Tek Yarışmacı Modu İçin:**
+
 - ✅ Toplam EN AZ 14 kelime olmalı (daha fazla olabilir, yüzlerce kelime bile)
 - ✅ Her harf uzunluğundan (4,5,6,7,8,9,10) EN AZ 2'şer kelime olmalı
 
 **Çoklu Yarışmacı Modu İçin:**
+
 - ✅ Toplam EN AZ (Yarışmacı Sayısı × 14) kelime olmalı
 - ✅ Her harf uzunluğundan EN AZ (Yarışmacı Sayısı × 2) kelime olmalı
 - Örnek: 3 yarışmacı → minimum 42 kelime (her uzunluktan 6'şar)
 
 **Takım Yarışması Modu İçin:**
+
 - ✅ Toplam EN AZ (Takım Sayısı × 14) kelime olmalı
 - ✅ Her harf uzunluğundan EN AZ (Takım Sayısı × 2) kelime olmalı
 - Örnek: 2 takım → minimum 28 kelime (her uzunluktan 4'er)
 
 **Validasyon Mesajları:**
+
 - "✅ Tek yarışmacı için oynanabilir (14+ kelime)" (yeşil)
 - "✅ 3 yarışmacıya kadar oynanabilir (42+ kelime)" (yeşil)
 - "⚠️ Sadece tek yarışmacı modu için yeterli (42 kelime gerekli çoklu mod için)" (sarı)
@@ -189,6 +204,7 @@ Her kategori şunları içerir:
 - "⚠️ Dikkat: Toplam X kelime, en az 14 kelime gerekli" (sarı)
 
 **UI Davranışı:**
+
 - Kategori kartında kaç kişilik oynanabileceği gösterilir
 - Yetersiz kelime varsa ilgili modlar devre dışı bırakılır
 - Tooltip'te eksik bilgiler detaylı gösterilir
@@ -198,9 +214,14 @@ Her kategori şunları içerir:
 
 ## 4. OYUN AKIŞI
 
+> See also: UI/UX implementation guidelines in `docs/ui-ux-design.md` (layout, motion, and component specs for all screens)
+
 ### 4.1 Başlangıç Ekranı (Ana Menü)
 
+> Design reference: `docs/ui-ux-design.md#main-menu`
+
 **Bileşenler:**
+
 - Logo ve başlık (büyük, merkezi)
 - 5 ana aksiyon kartı (grid düzeni):
   - 🏁 Yarışma Başlat
@@ -212,6 +233,7 @@ Her kategori şunları içerir:
 - GitHub repo linki (opsiyonel, alt köşe)
 
 **Tasarım Notları:**
+
 - Gradient arkaplan (koyu tema)
 - Büyük, dokunulabilir kartlar
 - Hover animasyonları
@@ -222,6 +244,7 @@ Her kategori şunları içerir:
 **Yarışma Başlat > Kategori Seç**
 
 **Bileşenler:**
+
 - Başlık: "Kategori Seçin"
 - Kategori kartları (kaydırılabilir grid):
   - Emoji ve isim (büyük)
@@ -233,6 +256,7 @@ Her kategori şunları içerir:
 - Geri butonu
 
 **Kart Tasarımı:**
+
 ```
 ┌────────────────────────┐
 │   ⚽                   │
@@ -252,6 +276,7 @@ Her kategori şunları içerir:
 **3 Ana Mod:**
 
 1. **👤 Tek Yarışmacı**
+
    - Tek kişi oynar
    - 14 kelime ile yarışır
    - Süre tutulur
@@ -259,6 +284,7 @@ Her kategori şunları içerir:
    - Özet ekran
 
 2. **👥 Çoklu Yarışmacı** (2-6 kişi)
+
    - Sırayla oynarlar
    - Her yarışmacıya FARKLI 14 kelime verilir
    - Kategori (yarışmacı sayısı × 14) kelime içermelidir
@@ -276,11 +302,13 @@ Her kategori şunları içerir:
    - Kazanan takım belirlenir
 
 **Mod Seçiminde Validasyon:**
+
 - Kategori kelime sayısı kontrol edilir
 - Yetersiz kelime varsa mod devre dışı bırakılır
 - "Bu mod için en az X kelime gerekli" uyarısı gösterilir
 
 **UI:**
+
 - Mod kartları (büyük, görsel)
 - Her mod için kısa açıklama + gerekli kelime sayısı
 - Devre dışı modlar soluk gösterilir
@@ -290,10 +318,12 @@ Her kategori şunları içerir:
 ### 4.4 Yarışmacı/Takım Ayarlama
 
 **Tek Yarışmacı Modu:**
+
 - İsim girişi
 - "Başla" butonu
 
 **Çoklu Yarışmacı Modu:**
+
 - 2-6 yarışmacı isim girişi
 - Dinamik ekle/çıkar butonları
 - Sıralama değiştirme (drag & drop)
@@ -301,6 +331,7 @@ Her kategori şunları içerir:
 - "Başla" butonu
 
 **Takım Modu:**
+
 - 2-4 takım oluşturma
 - Her takım için:
   - Takım adı girişi
@@ -312,6 +343,7 @@ Her kategori şunları içerir:
 - "Başla" butonu
 
 **Takım Modu Örnek UI:**
+
 ```
 ┌─────────────────────────────────┐
 │ Takım 1: 🔴 Kırmızı Takım       │
@@ -335,26 +367,32 @@ Gerekli kelime: 28 | Mevcut: 42 ✓
 
 ### 4.5 Oyun Ekranı (Ana Oyun)
 
+> Design reference: `docs/ui-ux-design.md#game-screen` and mechanics: `docs/ui-ux-design.md#mechanics`
+
 **Layout (1920x1080 optimize):**
 
 **Üst Header (120px):**
+
 - Kategori adı ve emoji (sol)
 - Süre sayacı (ortada, büyük)
 - Puan ve ilerleme (sağ)
 - Yarışmacı adı (mod bazlı)
 
 **Kelime Alanı (500px, merkezi):**
+
 - Harf kutuları (büyük, eşit aralıklı)
 - Kapalı: Koyu arka plan, "?" işareti
 - Açık: Altın rengi arka plan, harf
 - Animasyon: 3D flip
 
 **İpucu Bölgesi (100px):**
+
 - İpucu metni (büyük, okunabilir)
 - 💡 ikonu
 - Çerçeve ile vurgulanmış
 
 **Kontrol Paneli (280px):**
+
 - 3 ana buton (yan yana):
   - 🔤 Harf Aç
   - ✓ Tahmin Et
@@ -369,6 +407,7 @@ Gerekli kelime: 28 | Mevcut: 42 ✓
   - 🏠 Ana Menü
 
 **Alt Bar (60px):**
+
 - Kelime ilerlemesi: "6 / 14"
 - Kategori açıklaması (küçük)
 
@@ -377,11 +416,13 @@ Gerekli kelime: 28 | Mevcut: 42 ✓
 **Kelime Seçim Algoritması:**
 
 **Tek Yarışmacı:**
+
 - Kategoriden rastgele 14 kelime seçilir
 - Her uzunluktan 2'şer kelime (4-10 harf)
 - Karışık sırada sunulur
 
 **Çoklu Yarışmacı:**
+
 - Her yarışmacı için ayrı 14 kelime seçilir
 - Toplam (yarışmacı sayısı × 14) kelime gerekir
 - Kelimelerin tekrar etmemesi sağlanır
@@ -389,6 +430,7 @@ Gerekli kelime: 28 | Mevcut: 42 ✓
 - Sıra değişiminde yarışmacıya özel kelimeler gösterilir
 
 **Takım Modu:**
+
 - Her takım için ayrı 14 kelime seçilir
 - Toplam (takım sayısı × 14) kelime gerekir
 - Kelimelerin tekrar etmemesi sağlanır
@@ -397,6 +439,7 @@ Gerekli kelime: 28 | Mevcut: 42 ✓
 **ÖNEMLI KURAL:** Tahmin yapıldıktan sonra yeniden harf alınamaz!
 
 **Harf Açma:**
+
 1. "Harf Aç" butonuna tıkla
 2. Tahmin yapılmamış olmalı (yapıldıysa buton devre dışı)
 3. Rastgele kapalı harf seç
@@ -407,6 +450,7 @@ Gerekli kelime: 28 | Mevcut: 42 ✓
 8. Kalan puan güncellenir
 
 **Tahmin Etme:**
+
 1. "Tahmin Et" butonuna tıkla
 2. Modal popup aç:
    - "Yarışmacının cevabı doğru mu?"
@@ -427,12 +471,14 @@ Gerekli kelime: 28 | Mevcut: 42 ✓
 5. **ÖNEMLİ:** Tahmin yapıldıktan sonra yeniden harf alınamaz (oyun kuralı)
 
 **Pas Geçme:**
+
 1. "Pas Geç" butonuna tıkla
 2. Onay popup'ı: "Pas geçmek istediğinizden emin misiniz?"
 3. [Evet] → 0 puan, sonraki kelime
 4. [Hayır] → popup kapat
 
 **Süre Yönetimi:**
+
 - Toplam oyun süresi: 5 dakika (300 saniye) - tüm 14 kelime için
 - Süre tüm kelimeler için ortaktır - her kelimede sıfırlanmaz
 - Her saniye sayaç güncelle
@@ -441,6 +487,7 @@ Gerekli kelime: 28 | Mevcut: 42 ✓
 - Süre 0: Oyun biter (bitirilen kelimeler kadar puan alınır)
 
 **Pause (Duraklat):**
+
 - Tüm oyun dondurulur
 - Blurred overlay + "Duraklatıldı" mesajı
 - [Devam Et] [Ana Menü] butonları
@@ -449,6 +496,7 @@ Gerekli kelime: 28 | Mevcut: 42 ✓
 ### 4.7 Sonuç Ekranı
 
 **Otomatik Kayıt:**
+
 - Oyun bittiğinde tüm sonuçlar otomatik olarak veritabanına kaydedilir
 - Kayıt bilgileri:
   - Oyun tarihi ve saati
@@ -458,6 +506,7 @@ Gerekli kelime: 28 | Mevcut: 42 ✓
   - Her kelime için detaylı bilgiler
 
 **Tek Yarışmacı:**
+
 - 🎉 Başlık
 - Kategori bilgisi
 - Yarışmacı adı
@@ -478,6 +527,7 @@ Gerekli kelime: 28 | Mevcut: 42 ✓
   - 📊 Geçmiş Yarışmaları Gör
 
 **Çoklu Yarışmacı:**
+
 - Sıralama tablosu:
   - 1. 🥇 İsim - Puan
   - 2. 🥈 İsim - Puan
@@ -487,6 +537,7 @@ Gerekli kelime: 28 | Mevcut: 42 ✓
 - Aksiyon butonları aynı
 
 **Takım Yarışması:**
+
 - Kazanan takım vurgusu (büyük)
 - Takım sıralaması
 - Her takım için toplam puan
@@ -498,6 +549,7 @@ Gerekli kelime: 28 | Mevcut: 42 ✓
 **Ana Menü > Geçmiş Yarışmalar**
 
 **Layout:**
+
 - Başlık: "Geçmiş Yarışmalar"
 - Filtreleme ve Sıralama:
   - Tarih aralığı seçimi
@@ -525,16 +577,19 @@ Gerekli kelime: 28 | Mevcut: 42 ✓
 - Geri butonu
 
 **Dışa Aktarma:**
+
 - JSON formatında tüm yarışma geçmişi
 - Dosya adı: `yarisma-gecmisi-[tarih].json`
 - İçerik: Tüm yarışmalar, katılımcılar ve kelime sonuçları
 
 **Boş Durum:**
+
 - "Henüz hiç yarışma yapılmamış"
 - "İlk yarışmanızı başlatın!" mesajı
 - [Yarışma Başlat] butonu
 
 **Yarışma Kartı Tasarımı:**
+
 ```
 ┌──────────────────────────────────────────────┐
 │ 📅 15 Ekim 2025, 14:30                       │
@@ -551,6 +606,7 @@ Gerekli kelime: 28 | Mevcut: 42 ✓
 **Geçmiş Yarışmalar > Detay**
 
 **Layout:**
+
 - Başlık: "Yarışma Detayları"
 - Üst Bilgiler:
   - 📅 Tarih: "15 Ekim 2025, 14:30"
@@ -559,15 +615,17 @@ Gerekli kelime: 28 | Mevcut: 42 ✓
   - ⏱️ Toplam Süre: "12:45"
 
 **Katılımcı Sıralaması:**
+
 - Tablo formatı:
-  
+
 | Sıra | İsim   | Puan | Bulunan | Pas | Harf |
-|------|--------|------|---------|-----|------|
+| ---- | ------ | ---- | ------- | --- | ---- |
 | 🥇 1 | Ahmet  | 850  | 12/14   | 2   | 15   |
 | 🥈 2 | Mehmet | 720  | 10/14   | 4   | 18   |
 | 🥉 3 | Ayşe   | 680  | 9/14    | 5   | 20   |
 
 **Detaylı Kelime Sonuçları:**
+
 - Her katılımcı için genişletilebilir bölüm
 - Her kelimenin durumu:
   - Kelime adı ve harf sayısı
@@ -577,15 +635,17 @@ Gerekli kelime: 28 | Mevcut: 42 ✓
   - İpucu
 
 **Aksiyon Butonları:**
+
 - 🔄 Bu Kategoride Tekrar Oyna
 - 📊 Kategori İstatistikleri (opsiyonel)
 - 🏠 Ana Menü
 - ← Geri
 
 **Örnek Detay (Genişletilmiş):**
+
 ```
 ▼ Ahmet - 850 puan
-  
+
   1. BOOK (4) ✅ Bulundu | 400 puan | 0 harf
   2. GAME (4) ✅ Bulundu | 300 puan | 1 harf
   3. SCHOOL (6) ⏭ Pas | 0 puan | 3 harf
@@ -599,6 +659,7 @@ Gerekli kelime: 28 | Mevcut: 42 ✓
 ### 5.1 Ana Kategori Yönetim Ekranı
 
 **Layout:**
+
 - Başlık: "Kategori Yönetimi"
 - "Yeni Kategori Oluştur" butonu (üstte, büyük)
 - Arama/Filtreleme çubuğu
@@ -615,6 +676,7 @@ Gerekli kelime: 28 | Mevcut: 42 ✓
 - Geri butonu
 
 **Kategori Kartı Tasarımı:**
+
 ```
 ┌─────────────────────────────────┐
 │ ⚽ Spor                          │
@@ -628,6 +690,7 @@ Gerekli kelime: 28 | Mevcut: 42 ✓
 ### 5.2 Yeni Kategori Oluşturma
 
 **Modal/Sayfa:**
+
 - Başlık: "Yeni Kategori Oluştur"
 - Form alanları:
   - Kategori Adı (zorunlu, max 50 karakter)
@@ -642,6 +705,7 @@ Gerekli kelime: 28 | Mevcut: 42 ✓
   - "İptal" (secondary)
 
 **Validasyon:**
+
 - Kategori adı benzersiz olmalı
 - Emoji seçilmeli
 - Başarılı oluşturma sonrası → Kelime yönetim ekranına git
@@ -649,6 +713,7 @@ Gerekli kelime: 28 | Mevcut: 42 ✓
 ### 5.3 Kategori Kelime Yönetimi
 
 **Layout:**
+
 - Başlık: "[Emoji] [Kategori Adı] - Kelime Yönetimi"
 - Üst bar:
   - "Yeni Kelime Ekle" butonu
@@ -670,6 +735,7 @@ Gerekli kelime: 28 | Mevcut: 42 ✓
   - "Geri" butonu
 
 **Kelime Satırı Tasarımı (Tablo):**
+
 ```
 | Kelime    | Harf | İpucu                      | Aksiyon      |
 |-----------|------|----------------------------|--------------|
@@ -679,6 +745,7 @@ Gerekli kelime: 28 | Mevcut: 42 ✓
 ### 5.4 Yeni Kelime Ekleme
 
 **Modal:**
+
 - Başlık: "Yeni Kelime Ekle"
 - Form alanları:
   - Kelime (zorunlu, otomatik büyük harf, sadece A-Z)
@@ -694,6 +761,7 @@ Gerekli kelime: 28 | Mevcut: 42 ✓
   - "İptal" (secondary)
 
 **Validasyon:**
+
 - Kelime benzersiz olmalı (kategori içinde)
 - Sadece harf (A-Z)
 - 4-10 karakter arası
@@ -703,6 +771,7 @@ Gerekli kelime: 28 | Mevcut: 42 ✓
 ### 5.5 Kelime Düzenleme
 
 **Modal:**
+
 - Başlık: "Kelime Düzenle"
 - Form alanları aynı (kelime, ipucu)
 - Kelime değiştirilebilir (benzersizlik kontrolü)
@@ -712,6 +781,7 @@ Gerekli kelime: 28 | Mevcut: 42 ✓
 ### 5.6 Kategori/Kelime Silme
 
 **Onay Dialog:**
+
 - "Bu kategoriyi silmek istediğinizden emin misiniz?"
 - "Bu işlem geri alınamaz ve [X] kelime silinecek."
 - [Evet, Sil] (destructive) / [İptal]
@@ -720,10 +790,12 @@ Gerekli kelime: 28 | Mevcut: 42 ✓
 ### 5.7 JSON Import/Export
 
 **Export:**
+
 - "JSON Dışa Aktar" butonuna tıkla
 - Tauri Dialog API ile kaydetme konumu seç
 - Varsayılan dosya adı: `[kategori-adi].json`
 - Format:
+
 ```json
 {
   "category": {
@@ -740,9 +812,11 @@ Gerekli kelime: 28 | Mevcut: 42 ✓
   ]
 }
 ```
+
 - Başarı toast'ı
 
 **Import:**
+
 - "JSON'dan İçe Aktar" butonuna tıkla
 - Tauri Dialog API ile dosya seç
 - JSON formatı valide edilir:
@@ -759,11 +833,13 @@ Gerekli kelime: 28 | Mevcut: 42 ✓
 **Ayarlar Sayfası:**
 
 **Genel Ayarlar:**
+
 - Ses Efektleri: [ON/OFF toggle]
 - Tam Ekran Başlat: [ON/OFF toggle]
 - Dil: [Türkçe] (gelecek güncellemeler için)
 
 **Oyun Ayarları:**
+
 - Varsayılan Süre: [5 dakika / 300 saniye] (sabit - oyun kurallarına göre)
 - Varsayılan Tahmin Hakkı: [3] (sabit - her kelime için maksimum 3 tahmin)
 - Animasyon Hızı: [Normal] (dropdown: Yavaş, Normal, Hızlı)
@@ -771,6 +847,7 @@ Gerekli kelime: 28 | Mevcut: 42 ✓
 **NOT:** Süre ve tahmin hakkı oyun kurallarına göre sabittir, değiştirilemez.
 
 **Veri Yönetimi:**
+
 - [Veritabanını Yedekle] butonu
   - SQLite dosyasını dışa aktar
 - [Veritabanını Geri Yükle] butonu
@@ -780,6 +857,7 @@ Gerekli kelime: 28 | Mevcut: 42 ✓
   - Varsayılan kategoriye dön
 
 **Hakkında:**
+
 - Uygulama adı ve versiyonu
 - Açık kaynak lisans bilgisi
 - GitHub repo linki
@@ -792,6 +870,7 @@ Gerekli kelime: 28 | Mevcut: 42 ✓
 **Oyun Kuralları (Resmi Kurallar):**
 
 **Temel Bilgiler:**
+
 - 📝 Her yarışmacıya **14 kelime** verilir
 - ⏱️ Toplam süre: **5 dakika (300 saniye)** - tüm kelimeler için
 - 🎯 Her kelime için **maksimum 3 tahmin hakkı**
@@ -799,6 +878,7 @@ Gerekli kelime: 28 | Mevcut: 42 ✓
 - ⚠️ **Tahmin yaptıktan sonra harf alınamaz**
 
 **Kelime Dağılımı (Her Yarışmacı İçin):**
+
 - 2 adet 4 harfli kelime
 - 2 adet 5 harfli kelime
 - 2 adet 6 harfli kelime
@@ -808,6 +888,7 @@ Gerekli kelime: 28 | Mevcut: 42 ✓
 - 2 adet 10 harfli kelime
 
 **Çoklu Yarışmacı ve Takım Modu:**
+
 - 🔄 Her yarışmacı/takım **farklı 14 kelime** alır
 - 📚 Kategori yeterli kelime içermelidir:
   - 2 kişi → 28 kelime
@@ -818,25 +899,31 @@ Gerekli kelime: 28 | Mevcut: 42 ✓
 **İnteraktif Tutorial:**
 
 **Adımlar:**
+
 1. **Kategori Seçin**
+
    - Görsel: Kategori seçim ekranı
    - Açıklama: "En az 14 kelime içeren kategoriyi seçin"
    - Not: Çoklu mod için daha fazla kelime gerekir
 
 2. **Mod Seçin**
+
    - Görsel: Mod seçim kartları
    - Açıklama: "Tek, çoklu veya takım modu - kategori kelime sayısına göre"
 
 3. **Yarışmacıları/Takımları Ayarlayın**
+
    - Tek mod: İsim girin
    - Çoklu mod: Yarışmacı sayısı seçin
    - Takım mod: Takımları ve oyuncuları oluşturun
 
 4. **Kelimeyi Tahmin Edin**
+
    - Görsel: Oyun ekranı (kapalı harfler)
    - Açıklama: "İpucunu kullanarak kelimeyi bulmaya çalışın"
 
 5. **Harf Açın veya Tahmin Edin**
+
    - Görsel: Butonlar
    - Açıklama: "Harf açarak yardım alın (-100 puan) veya tahmin edin"
    - ⚠️ "DİKKAT: Tahmin yaptıktan sonra harf alamazsınız!"
@@ -846,14 +933,17 @@ Gerekli kelime: 28 | Mevcut: 42 ✓
    - Açıklama: "Daha az harf açarak daha çok puan kazanın"
 
 **Kazanma Kuralları:**
+
 - 🥇 En yüksek puanlı kazanır
 - Eşitlik durumunda: Az harf açan → Hızlı bitiren
 
 **Puan Sistemi Tablosu:**
+
 - Görsel tablo (daha önce verilen)
 - Her harf uzunluğu için örnekler
 
 **Klavye Kısayolları:**
+
 - Tablo formatında gösterim
 - H: Harf Aç
 - T: Tahmin Et
@@ -865,20 +955,26 @@ Gerekli kelime: 28 | Mevcut: 42 ✓
 
 ## 8. UI/UX TASARIM GEREKSİNİMLERİ
 
+> Detailed design tokens, components, motion/audio, accessibility and screen-by-screen guidelines: `docs/ui-ux-design.md`
+
 ### 8.1 Renk Paleti
 
 **Ana Renkler (Modern Dark Theme):**
+
 - **Background:**
+
   - Primary: #0f172a (Slate-900)
   - Secondary: #1e293b (Slate-800)
   - Tertiary: #334155 (Slate-700)
 
 - **Accent Renkler:**
+
   - Primary: #3b82f6 (Blue-500) - Ana butonlar, vurgular
   - Secondary: #8b5cf6 (Violet-500) - İkincil vurgular
   - Gold: #fbbf24 (Amber-400) - Açık harfler, ödüller
 
 - **Durum Renkleri:**
+
   - Başarı: #10b981 (Emerald-500)
   - Hata: #ef4444 (Red-500)
   - Uyarı: #f59e0b (Amber-500)
@@ -890,6 +986,7 @@ Gerekli kelime: 28 | Mevcut: 42 ✓
   - Tertiary: #94a3b8 (Slate-400)
 
 **Gradient'ler:**
+
 - Ana arkaplan: `from-slate-900 via-slate-800 to-slate-900`
 - Kartlar: `from-slate-800 to-slate-700`
 - Butonlar: `from-blue-600 to-blue-700`
@@ -897,11 +994,13 @@ Gerekli kelime: 28 | Mevcut: 42 ✓
 ### 8.2 Tipografi
 
 **Font Ailesi:**
+
 - Ana Font: Inter (Google Fonts)
   - Modern, okunabilir, çok ağırlıklı
 - Monospace (kodlar için): JetBrains Mono
 
 **Font Boyutları (Tailwind):**
+
 - Başlıklar:
   - H1: text-6xl (60px) font-bold
   - H2: text-4xl (36px) font-semibold
@@ -916,30 +1015,37 @@ Gerekli kelime: 28 | Mevcut: 42 ✓
 ### 8.3 Bileşen Tasarımı
 
 **Butonlar:**
+
 - **Primary:**
+
   - Tailwind: `bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl`
   - Gölge: `shadow-lg hover:shadow-xl`
   - Animasyon: `transition-all duration-200`
 
 - **Secondary:**
+
   - Tailwind: `bg-slate-700 hover:bg-slate-600 text-slate-100`
 
 - **Destructive:**
   - Tailwind: `bg-red-600 hover:bg-red-700 text-white`
 
 **Kartlar:**
+
 - Tailwind: `bg-slate-800 rounded-2xl p-6 shadow-xl border border-slate-700`
 - Hover: `hover:scale-105 hover:shadow-2xl transition-transform duration-200`
 
 **Input Alanları:**
+
 - Tailwind: `bg-slate-900 border-2 border-slate-700 focus:border-blue-500 rounded-lg px-4 py-2 text-slate-100`
 - Focus ring: `focus:ring-2 focus:ring-blue-500`
 
 **Modal/Dialog:**
+
 - Overlay: `bg-black/50 backdrop-blur-sm`
 - Content: `bg-slate-800 rounded-2xl p-8 shadow-2xl max-w-md`
 
 **Harf Kutuları:**
+
 - Kapalı:
   - `bg-slate-700 border-2 border-slate-600 rounded-lg w-16 h-20`
   - İçerik: "?" (text-4xl text-slate-400)
@@ -950,76 +1056,94 @@ Gerekli kelime: 28 | Mevcut: 42 ✓
 
 ### 8.4 Animasyonlar (Framer Motion)
 
+> Detailed animation patterns: `docs/ui-ux-design.md#motion`
+
 **Sayfa Geçişleri:**
+
 - Fade in: `opacity: 0 → 1` (duration: 0.3s)
 - Slide in: `x: 20 → 0` (duration: 0.3s, ease: easeOut)
 
 **Harf Açılma (3D Flip):**
+
 - Framer Motion variants:
   - `rotateY: 0deg → 180deg` (duration: 0.6s)
   - `scale: 1 → 1.1 → 1` (duration: 0.6s)
 - Easing: spring animation
 
 **Doğru Cevap:**
+
 1. Tüm harfler yeşil glow (duration: 0.2s)
 2. Scale pulse: `1 → 1.1 → 1` (3 kez)
 3. Konfeti patlaması (canvas animasyonu)
 4. Puan sayacı: Count-up animasyon
 
 **Yanlış Cevap:**
+
 - Shake animasyon: `x: 0 → -10 → 10 → 0` (duration: 0.3s)
 - Kırmızı flash overlay (opacity pulse)
 
 **Süre Uyarısı:**
+
 - Son 30 saniye: Pulse animasyon (scale: 1 → 1.05)
 - Son 10 saniye: Hızlı pulse + renk değişimi
 
 **Kart Hover:**
+
 - Scale: `1 → 1.05` (duration: 0.2s)
 - Shadow: `shadow-lg → shadow-2xl`
 - Border glow efekti
 
 **Loading Durumları:**
+
 - Skeleton loaders (Tailwind animate-pulse)
 - Spinner (custom SVG animasyonu)
 
 ### 8.5 Responsive Tasarım
 
 **Desteklenen Çözünürlükler:**
+
 - **Full HD:** 1920x1080 (optimal)
 - **HD:** 1366x768 (desteklenen)
 - **4K:** 3840x2160 (ölçeklenebilir)
 
 **Breakpoint'ler (Tauri pencere boyutu):**
+
 - Minimum pencere: 1280x720
 - Maksimum pencere: Sınırsız
 - Tam ekran: Destekleniyor
 
 **Responsive Davranış:**
+
 - Harf kutuları: Ekran genişliğine göre scale
 - Grid layout'lar: Otomatik sütun ayarlaması
 - Font boyutları: Viewport birimlerine göre (vw, vh)
 
 ### 8.6 Erişilebilirlik (A11y)
 
+> Accessibility checklist and patterns: `docs/ui-ux-design.md#a11y`
+
 **Klavye Navigasyonu:**
+
 - Tab ile tüm interaktif elemanlara erişim
 - Enter/Space ile buton aktivasyonu
 - Esc ile modal/dialog kapatma
 - Focus indicator'lar (ring)
 
 **Renk Kontrastı:**
+
 - WCAG 2.1 Level AA uyumlu
 - Metin/arkaplan kontrastı: minimum 4.5:1
 - Durum renkleri: sadece renge bağımlı olmayan (ikon + renk)
 
 **Ekran Okuyucu Desteği:**
+
 - Semantik HTML (nav, main, article, vb.)
 - ARIA etiketleri (aria-label, aria-describedby)
 - Alt metinler (emoji için)
 - Canlı bölgeler (aria-live) puan güncellemeleri için
 
 **Metin Ölçeklendirme:**
+
 - 200%'e kadar zoom desteklenir
 - Tailwind responsive font boyutları
 
@@ -1030,6 +1154,7 @@ Gerekli kelime: 28 | Mevcut: 42 ✓
 ### 9.1 Puan Hesaplama
 
 **Formül:**
+
 ```
 basePuan = harfSayisi × 100
 toplamCeza = alinanHarfSayisi × 100
@@ -1037,6 +1162,7 @@ netPuan = max(0, basePuan - toplamCeza)
 ```
 
 **Örnek:**
+
 - 8 harfli kelime: 800 puan
 - 2 harf açıldı: -200 puan
 - Net puan: 600
@@ -1044,7 +1170,7 @@ netPuan = max(0, basePuan - toplamCeza)
 ### 9.2 Puan Tablosu
 
 | Harf | Temel | 0 Harf | 1 Harf | 2 Harf | 3 Harf | 4 Harf |
-|------|-------|--------|--------|--------|--------|--------|
+| ---- | ----- | ------ | ------ | ------ | ------ | ------ |
 | 4    | 400   | 400    | 300    | 200    | 100    | 0      |
 | 5    | 500   | 500    | 400    | 300    | 200    | 100    |
 | 6    | 600   | 600    | 500    | 400    | 300    | 200    |
@@ -1056,9 +1182,11 @@ netPuan = max(0, basePuan - toplamCeza)
 ### 9.3 Sıralama ve Kazanma Kuralları
 
 **Kazanan Belirleme:**
+
 1. **En yüksek toplam puan** alan yarışmacı kazanır
 
 **Eşitlik Durumunda (Oyun Kurallarına Göre):**
+
 1. Puanlar eşitse → **Daha az harf açan** kazanır
 2. Hâlâ eşitse → **Daha kısa sürede bitiren** kazanır
 3. Son çare → **Berabere** ilan edilir
@@ -1068,6 +1196,7 @@ netPuan = max(0, basePuan - toplamCeza)
 ### 9.4 İstatistikler
 
 **Oyuncu Bazlı:**
+
 - Toplam oynanan oyun
 - Toplam puan
 - Ortalama puan
@@ -1077,6 +1206,7 @@ netPuan = max(0, basePuan - toplamCeza)
 - Ortalama süre
 
 **Kategori Bazlı:**
+
 - En çok oynanan kategori
 - Kategori başına ortalama puan
 - Kategori başına doğruluk oranı
@@ -1090,35 +1220,41 @@ netPuan = max(0, basePuan - toplamCeza)
 **Üretilecek Sesler:**
 
 1. **Harf Açma (Pop):**
+
    - Frequency: 440 Hz
    - Duration: 0.1s
    - Waveform: Sine
    - Envelope: Quick attack, quick decay
 
 2. **Doğru Cevap (Başarı Jingle):**
+
    - Notalar: C5-E5-G5-C6
    - Duration: 1s
    - Waveform: Square
    - Envelope: Medium attack, long release
 
 3. **Yanlış Cevap (Hata):**
+
    - Frequency: 200 Hz (düşük)
    - Duration: 0.3s
    - Waveform: Sawtooth
    - Envelope: Sharp attack, medium decay
 
 4. **Pas Geç (Whoosh):**
+
    - White noise sweep
    - Duration: 0.2s
    - Filter: Low-pass (sliding)
 
 5. **Süre Uyarısı (Tick):**
+
    - Frequency: 880 Hz
    - Duration: 0.05s
    - Waveform: Square
    - Interval: 1 saniye
 
 6. **Kazanma (Fanfare):**
+
    - Notalar: C4-E4-G4-C5-E5-G5
    - Duration: 1.5s
    - Waveform: Triangle
@@ -1130,6 +1266,7 @@ netPuan = max(0, basePuan - toplamCeza)
    - Waveform: Sine
 
 **Ses Ayarları:**
+
 - Master volume slider (0-100%)
 - Mute/Unmute toggle
 - Sesler localStorage'da kayıtlı
@@ -1137,6 +1274,7 @@ netPuan = max(0, basePuan - toplamCeza)
 ### 10.2 Ses Sınıfı (TypeScript)
 
 **Özellikler:**
+
 - AudioContext yönetimi
 - Ses cache sistemi
 - Volume kontrolü
@@ -1149,40 +1287,40 @@ netPuan = max(0, basePuan - toplamCeza)
 
 ### 11.1 Global Kısayollar
 
-| Tuş Kombinasyonu | İşlev | Ekran |
-|------------------|-------|-------|
-| `F11` | Tam ekran aç/kapat | Tüm ekranlar |
-| `Ctrl/Cmd + Q` | Uygulamadan çık | Tüm ekranlar |
-| `Ctrl/Cmd + ,` | Ayarlar | Tüm ekranlar |
-| `Esc` | Geri / İptal | Tüm ekranlar |
+| Tuş Kombinasyonu | İşlev              | Ekran        |
+| ---------------- | ------------------ | ------------ |
+| `F11`            | Tam ekran aç/kapat | Tüm ekranlar |
+| `Ctrl/Cmd + Q`   | Uygulamadan çık    | Tüm ekranlar |
+| `Ctrl/Cmd + ,`   | Ayarlar            | Tüm ekranlar |
+| `Esc`            | Geri / İptal       | Tüm ekranlar |
 
 ### 11.2 Oyun Ekranı Kısayolları
 
-| Tuş | İşlev | Açıklama |
-|-----|-------|----------|
-| `H` | Harf Aç | Rastgele harf açar |
-| `T` | Tahmin Et | Tahmin popup'ı açar |
-| `P` | Pas Geç | Pas geçme onayı ister |
-| `Space` | Duraklat/Devam | Oyunu duraklat |
-| `M` | Ses Aç/Kapat | Ses toggle |
-| `Esc` | Ana Menü | Onaylı çıkış |
+| Tuş     | İşlev          | Açıklama              |
+| ------- | -------------- | --------------------- |
+| `H`     | Harf Aç        | Rastgele harf açar    |
+| `T`     | Tahmin Et      | Tahmin popup'ı açar   |
+| `P`     | Pas Geç        | Pas geçme onayı ister |
+| `Space` | Duraklat/Devam | Oyunu duraklat        |
+| `M`     | Ses Aç/Kapat   | Ses toggle            |
+| `Esc`   | Ana Menü       | Onaylı çıkış          |
 
 ### 11.3 Popup/Dialog Kısayolları
 
-| Tuş | İşlev | Kullanım |
-|-----|-------|----------|
-| `D` / `Enter` | Doğru | Tahmin popup'ında |
-| `Y` / `N` | Yanlış | Tahmin popup'ında |
-| `Enter` | Onayla | Tüm onay dialog'larında |
-| `Esc` | İptal | Tüm dialog'larda |
+| Tuş           | İşlev  | Kullanım                |
+| ------------- | ------ | ----------------------- |
+| `D` / `Enter` | Doğru  | Tahmin popup'ında       |
+| `Y` / `N`     | Yanlış | Tahmin popup'ında       |
+| `Enter`       | Onayla | Tüm onay dialog'larında |
+| `Esc`         | İptal  | Tüm dialog'larda        |
 
 ### 11.4 Kategori/Kelime Yönetimi
 
-| Tuş Kombinasyonu | İşlev |
-|------------------|-------|
-| `Ctrl/Cmd + N` | Yeni kategori/kelime |
-| `Ctrl/Cmd + S` | Kaydet (form'larda) |
-| `Ctrl/Cmd + F` | Arama (listelerde) |
+| Tuş Kombinasyonu | İşlev                |
+| ---------------- | -------------------- |
+| `Ctrl/Cmd + N`   | Yeni kategori/kelime |
+| `Ctrl/Cmd + S`   | Kaydet (form'larda)  |
+| `Ctrl/Cmd + F`   | Arama (listelerde)   |
 
 ---
 
@@ -1191,6 +1329,7 @@ netPuan = max(0, basePuan - toplamCeza)
 ### 12.1 Genel Kelimeler Kategorisi (70 Kelime)
 
 **Kategori Bilgileri:**
+
 - İsim: "Genel Kelimeler"
 - Emoji: 📦
 - Açıklama: "Günlük yaşamda sık kullanılan genel kelimeler - İngilizce öğrenimi için temel kelimeler"
@@ -1199,6 +1338,7 @@ netPuan = max(0, basePuan - toplamCeza)
 **Kelime Listesi:**
 
 **4 Harfli (10 kelime):**
+
 1. BOOK - "Kitap - okumak için kullanılan basılı eser"
 2. GAME - "Oyun - eğlence amaçlı oynanan aktivite"
 3. TIME - "Zaman - olayların sırası ve süresi"
@@ -1210,77 +1350,17 @@ netPuan = max(0, basePuan - toplamCeza)
 9. ROOM - "Oda - binanın bir bölümü"
 10. RAIN - "Yağmur - gökten düşen su damlacıkları"
 
-**5 Harfli (10 kelime):**
-11. DANCE - "Dans etmek - müzik eşliğinde yapılan hareketler"
-12. WATCH - "İzlemek / saat - görmek veya zaman ölçen cihaz"
-13. STUDY - "Ders çalışmak - öğrenmek için araştırma yapmak"
-14. BREAD - "Ekmek - un, su ve mayadan yapılan besin"
-15. MUSIC - "Müzik - seslerden oluşan sanat dalı"
-16. DREAM - "Hayal / rüya - uykuda görülen olaylar"
-17. APPLE - "Elma - meyvesi yenen ağaç"
-18. CHAIR - "Sandalye - oturmak için kullanılan mobilya"
-19. SPORT - "Spor - fiziksel aktivite ve yarışma"
-20. WATER - "Su - canlılar için hayati sıvı"
+**5 Harfli (10 kelime):** 11. DANCE - "Dans etmek - müzik eşliğinde yapılan hareketler" 12. WATCH - "İzlemek / saat - görmek veya zaman ölçen cihaz" 13. STUDY - "Ders çalışmak - öğrenmek için araştırma yapmak" 14. BREAD - "Ekmek - un, su ve mayadan yapılan besin" 15. MUSIC - "Müzik - seslerden oluşan sanat dalı" 16. DREAM - "Hayal / rüya - uykuda görülen olaylar" 17. APPLE - "Elma - meyvesi yenen ağaç" 18. CHAIR - "Sandalye - oturmak için kullanılan mobilya" 19. SPORT - "Spor - fiziksel aktivite ve yarışma" 20. WATER - "Su - canlılar için hayati sıvı"
 
-**6 Harfli (10 kelime):**
-21. SCHOOL - "Okul - öğrencilerin eğitim gördüğü kurum"
-22. TRAVEL - "Seyahat etmek - bir yerden başka bir yere gitmek"
-23. NATURE - "Doğa - canlılar ve çevrenin bütünü"
-24. ANIMAL - "Hayvan - insanlar dışındaki canlılar"
-25. MOTHER - "Anne - çocuğu doğuran kadın"
-26. FATHER - "Baba - çocuğun erkek ebeveyni"
-27. FRIEND - "Arkadaş - yakın dost, ahbap"
-28. FAMILY - "Aile - anne, baba ve çocukların oluşturduğu topluluk"
-29. SUMMER - "Yaz mevsimi - yılın en sıcak dönemi"
-30. WINTER - "Kış mevsimi - yılın en soğuk dönemi"
+**6 Harfli (10 kelime):** 21. SCHOOL - "Okul - öğrencilerin eğitim gördüğü kurum" 22. TRAVEL - "Seyahat etmek - bir yerden başka bir yere gitmek" 23. NATURE - "Doğa - canlılar ve çevrenin bütünü" 24. ANIMAL - "Hayvan - insanlar dışındaki canlılar" 25. MOTHER - "Anne - çocuğu doğuran kadın" 26. FATHER - "Baba - çocuğun erkek ebeveyni" 27. FRIEND - "Arkadaş - yakın dost, ahbap" 28. FAMILY - "Aile - anne, baba ve çocukların oluşturduğu topluluk" 29. SUMMER - "Yaz mevsimi - yılın en sıcak dönemi" 30. WINTER - "Kış mevsimi - yılın en soğuk dönemi"
 
-**7 Harfli (10 kelime):**
-31. SUBJECT - "Ders - okul müfredatında yer alan konu"
-32. CULTURE - "Kültür - toplumun yaşam biçimi ve değerleri"
-33. TEACHER - "Öğretmen - eğitim veren kişi"
-34. STUDENT - "Öğrenci - eğitim alan kişi"
-35. COUNTRY - "Ülke - sınırları belli olan coğrafi bölge"
-36. HOLIDAY - "Tatil - dinlenme ve eğlence dönemi"
-37. PICTURE - "Resim - görsel sanat eseri"
-38. PROJECT - "Proje - planlanan ve yürütülen iş"
-39. LIBRARY - "Kütüphane - kitapların toplandığı yer"
-40. MORNING - "Sabah - günün ilk saatleri"
+**7 Harfli (10 kelime):** 31. SUBJECT - "Ders - okul müfredatında yer alan konu" 32. CULTURE - "Kültür - toplumun yaşam biçimi ve değerleri" 33. TEACHER - "Öğretmen - eğitim veren kişi" 34. STUDENT - "Öğrenci - eğitim alan kişi" 35. COUNTRY - "Ülke - sınırları belli olan coğrafi bölge" 36. HOLIDAY - "Tatil - dinlenme ve eğlence dönemi" 37. PICTURE - "Resim - görsel sanat eseri" 38. PROJECT - "Proje - planlanan ve yürütülen iş" 39. LIBRARY - "Kütüphane - kitapların toplandığı yer" 40. MORNING - "Sabah - günün ilk saatleri"
 
-**8 Harfli (10 kelime):**
-41. LANGUAGE - "Dil - iletişim aracı, konuşma sistemi"
-42. HOMEWORK - "Ödev - evde yapılan ders çalışması"
-43. HOSPITAL - "Hastane - hastaların tedavi edildiği kurum"
-44. EXERCISE - "Egzersiz - fiziksel veya zihinsel çalışma"
-45. COMPUTER - "Bilgisayar - elektronik hesaplama ve veri işleme cihazı"
-46. BUILDING - "Bina - insanların yaşadığı veya çalıştığı yapı"
-47. LEARNING - "Öğrenme - bilgi ve beceri edinme süreci"
-48. QUESTION - "Soru - bilgi almak için sorulan cümle"
-49. SUNSHINE - "Güneş ışığı - güneşten gelen aydınlatma"
-50. NOTEBOOK - "Defter - yazı yazmak için kullanılan kağıt demeti"
+**8 Harfli (10 kelime):** 41. LANGUAGE - "Dil - iletişim aracı, konuşma sistemi" 42. HOMEWORK - "Ödev - evde yapılan ders çalışması" 43. HOSPITAL - "Hastane - hastaların tedavi edildiği kurum" 44. EXERCISE - "Egzersiz - fiziksel veya zihinsel çalışma" 45. COMPUTER - "Bilgisayar - elektronik hesaplama ve veri işleme cihazı" 46. BUILDING - "Bina - insanların yaşadığı veya çalıştığı yapı" 47. LEARNING - "Öğrenme - bilgi ve beceri edinme süreci" 48. QUESTION - "Soru - bilgi almak için sorulan cümle" 49. SUNSHINE - "Güneş ışığı - güneşten gelen aydınlatma" 50. NOTEBOOK - "Defter - yazı yazmak için kullanılan kağıt demeti"
 
-**9 Harfli (10 kelime):**
-51. VOLUNTEER - "Gönüllü - karşılıksız yardım eden kişi"
-52. INTERVIEW - "Röportaj / mülakat - soru-cevap görüşmesi"
-53. EDUCATION - "Eğitim - öğretim ve öğrenme süreci"
-54. ADVENTURE - "Macera - heyecan verici deneyim"
-55. YESTERDAY - "Dün - bugünden bir gün önce"
-56. AFTERNOON - "Öğleden sonra - öğle ile akşam arası"
-57. DANGEROUS - "Tehlikeli - risk içeren, zararlı olabilecek"
-58. APARTMENT - "Daire - büyük binanın içindeki konut"
-59. KNOWLEDGE - "Bilgi - öğrenilen ve bilinen şeyler"
-60. CAREFULLY - "Dikkatlice - özenli ve dikkatli bir şekilde"
+**9 Harfli (10 kelime):** 51. VOLUNTEER - "Gönüllü - karşılıksız yardım eden kişi" 52. INTERVIEW - "Röportaj / mülakat - soru-cevap görüşmesi" 53. EDUCATION - "Eğitim - öğretim ve öğrenme süreci" 54. ADVENTURE - "Macera - heyecan verici deneyim" 55. YESTERDAY - "Dün - bugünden bir gün önce" 56. AFTERNOON - "Öğleden sonra - öğle ile akşam arası" 57. DANGEROUS - "Tehlikeli - risk içeren, zararlı olabilecek" 58. APARTMENT - "Daire - büyük binanın içindeki konut" 59. KNOWLEDGE - "Bilgi - öğrenilen ve bilinen şeyler" 60. CAREFULLY - "Dikkatlice - özenli ve dikkatli bir şekilde"
 
-**10 Harfli (10 kelime):**
-61. TECHNOLOGY - "Teknoloji - bilimsel gelişmeler ve uygulamalar"
-62. TELEVISION - "Televizyon - görüntülü yayın cihazı"
-63. DICTIONARY - "Sözlük - kelimelerin anlamlarını açıklayan kitap"
-64. POPULATION - "Nüfus - bir bölgede yaşayan insan sayısı"
-65. DIFFERENCE - "Fark - iki şey arasındaki ayrım"
-66. UNIVERSITY - "Üniversite - yüksek öğretim kurumu"
-67. IMPORTANCE - "Önem - bir şeyin değeri ve anlamlılığı"
-68. SMARTPHONE - "Akıllı telefon - internet bağlantılı mobil cihaz"
-69. GOVERNMENT - "Hükümet - ülkeyi yöneten resmi kurum"
-70. BASKETBALL - "Basketbol - potaya top atma sporu"
+**10 Harfli (10 kelime):** 61. TECHNOLOGY - "Teknoloji - bilimsel gelişmeler ve uygulamalar" 62. TELEVISION - "Televizyon - görüntülü yayın cihazı" 63. DICTIONARY - "Sözlük - kelimelerin anlamlarını açıklayan kitap" 64. POPULATION - "Nüfus - bir bölgede yaşayan insan sayısı" 65. DIFFERENCE - "Fark - iki şey arasındaki ayrım" 66. UNIVERSITY - "Üniversite - yüksek öğretim kurumu" 67. IMPORTANCE - "Önem - bir şeyin değeri ve anlamlılığı" 68. SMARTPHONE - "Akıllı telefon - internet bağlantılı mobil cihaz" 69. GOVERNMENT - "Hükümet - ülkeyi yöneten resmi kurum" 70. BASKETBALL - "Basketbol - potaya top atma sporu"
 
 ---
 
@@ -1291,10 +1371,12 @@ netPuan = max(0, basePuan - toplamCeza)
 **Uygulama İlk Kez Açıldığında:**
 
 1. **Veritabanı Kontrolü:**
+
    - `~/.local/share/kelime-oyunu/` dizinini kontrol et
    - `kelime-oyunu.db` dosyası var mı?
 
 2. **Veritabanı Oluşturma (yoksa):**
+
    - SQLite veritabanı oluştur
    - Tabloları oluştur (schema)
    - Varsayılan kategoriyi ekle (70 kelimeyle)
@@ -1395,6 +1477,7 @@ CREATE INDEX IF NOT EXISTS idx_game_word_results_game ON game_word_results(game_
 ### 13.3 Varsayılan Veri Ekleme
 
 **İlk kurulumda eklenecek veriler:**
+
 - Genel Kelimeler kategorisi (yukarıdaki 70 kelime)
 - Varsayılan ayarlar:
   - `sound_enabled: true`
@@ -1411,6 +1494,7 @@ CREATE INDEX IF NOT EXISTS idx_game_word_results_game ON game_word_results(game_
 **Gerekli Komutlar:**
 
 **Kategori İşlemleri:**
+
 - `get_all_categories()` → Tüm kategorileri getir
 - `get_category_by_id(id)` → Tek kategori detayı
 - `create_category(name, emoji, desc)` → Yeni kategori
@@ -1419,6 +1503,7 @@ CREATE INDEX IF NOT EXISTS idx_game_word_results_game ON game_word_results(game_
 - `validate_category(id)` → Oynanabilirlik kontrolü
 
 **Kelime İşlemleri:**
+
 - `get_words_by_category(category_id)` → Kategorinin kelimeleri
 - `add_word(category_id, word, hint)` → Yeni kelime
 - `update_word(id, word, hint)` → Kelime güncelle
@@ -1429,16 +1514,19 @@ CREATE INDEX IF NOT EXISTS idx_game_word_results_game ON game_word_results(game_
 - `validate_category_for_mode(category_id, mode, participant_count)` → Mod için yeterli kelime var mı?
 
 **Dosya İşlemleri:**
+
 - `export_category_json(category_id, path)` → JSON export
 - `import_category_json(path)` → JSON import
 - `backup_database(path)` → DB yedekleme
 - `restore_database(path)` → DB geri yükleme
 
 **Ayarlar:**
+
 - `get_settings()` → Tüm ayarlar
 - `update_setting(key, value)` → Ayar güncelle
 
 **Oyun Geçmişi:**
+
 - `save_game_result(game_data, participants, word_results)` → Yarışma sonucu kaydet
 - `get_game_history(filters, pagination)` → Geçmiş yarışmaları getir
 - `get_game_detail(game_id)` → Tek yarışma detayı
@@ -1450,6 +1538,7 @@ CREATE INDEX IF NOT EXISTS idx_game_word_results_game ON game_word_results(game_
 ### 14.2 Hata Yönetimi
 
 **Error Types:**
+
 - `DatabaseError` - Veritabanı hataları
 - `ValidationError` - Validasyon hataları
 - `NotFoundError` - Kayıt bulunamadı
@@ -1457,6 +1546,7 @@ CREATE INDEX IF NOT EXISTS idx_game_word_results_game ON game_word_results(game_
 - `FileSystemError` - Dosya işlem hataları
 
 **Frontend'de Hata Gösterimi:**
+
 - Toast bildirimleri
 - Error boundary (React)
 - Kullanıcı dostu mesajlar
@@ -1468,12 +1558,14 @@ CREATE INDEX IF NOT EXISTS idx_game_word_results_game ON game_word_results(game_
 ### 15.1 Veri Güvenliği
 
 **Lokal Veri:**
+
 - Tüm veriler kullanıcının bilgisayarında
 - Ağ erişimi YOK
 - Şifreleme: SQLite varsayılan (opsiyonel: SQLCipher)
 - Yedekleme: Kullanıcı kontrolünde
 
 **Dosya İzinleri:**
+
 - Veritabanı: Kullanıcı okuma/yazma
 - Yedekler: Kullanıcı tarafından belirlenen dizin
 - JSON dosyalar: Kullanıcı tarafından belirlenen dizin
@@ -1481,12 +1573,14 @@ CREATE INDEX IF NOT EXISTS idx_game_word_results_game ON game_word_results(game_
 ### 15.2 Gizlilik
 
 **Veri Toplama:**
+
 - Hiçbir analitik YOKTUR
 - Hiçbir telemetri YOKTUR
 - İnternet bağlantısı gerekmez
 - Tamamen offline çalışır
 
 **Kullanıcı Verileri:**
+
 - Yarışmacı isimleri lokal
 - Oyun sonuçları lokal
 - Dışa aktarma: Kullanıcı kararı
@@ -1498,6 +1592,7 @@ CREATE INDEX IF NOT EXISTS idx_game_word_results_game ON game_word_results(game_
 ### 16.1 Kategori Sistemi Testleri
 
 **Fonksiyonel Testler:**
+
 - [ ] Varsayılan kategori yükleniyor mu?
 - [ ] Yeni kategori oluşturulabiliyor mu?
 - [ ] Kategori adı benzersizliği kontrol ediliyor mu?
@@ -1511,6 +1606,7 @@ CREATE INDEX IF NOT EXISTS idx_game_word_results_game ON game_word_results(game_
 - [ ] Kelime silinebiliyor mu?
 
 **Validasyon Testleri:**
+
 - [ ] 4-10 harf arası kelime kontrolü çalışıyor mu?
 - [ ] Sadece A-Z harf kontrolü çalışıyor mu?
 - [ ] Her uzunluktan EN AZ 2 kelime kontrolü çalışıyor mu?
@@ -1524,6 +1620,7 @@ CREATE INDEX IF NOT EXISTS idx_game_word_results_game ON game_word_results(game_
 ### 16.2 Oyun Akışı Testleri
 
 **Oyun Başlatma:**
+
 - [ ] Kategori seçimi çalışıyor mu?
 - [ ] Oynanamaz kategoride oyun engellenmiş mi?
 - [ ] Mod seçimi kelime sayısına göre filtreliyor mu?
@@ -1533,6 +1630,7 @@ CREATE INDEX IF NOT EXISTS idx_game_word_results_game ON game_word_results(game_
 - [ ] Oyun ekranı doğru yükleniyor mu?
 
 **Kelime Seçimi:**
+
 - [ ] Tek yarışmacıya 14 kelime veriliyor mu?
 - [ ] Çoklu modda her yarışmacıya farklı kelimeler mi?
 - [ ] Takım modunda her takıma farklı kelimeler mi?
@@ -1540,6 +1638,7 @@ CREATE INDEX IF NOT EXISTS idx_game_word_results_game ON game_word_results(game_
 - [ ] Her uzunluktan 2'şer kelime seçiliyor mu?
 
 **Oyun Mekanikleri:**
+
 - [ ] Harf açma rastgele çalışıyor mu?
 - [ ] Tahmin yapıldıktan sonra harf açma engellenmiş mi? (KRİTİK)
 - [ ] Tüm harfler açıkken harf açma engellenmiş mi?
@@ -1556,6 +1655,7 @@ CREATE INDEX IF NOT EXISTS idx_game_word_results_game ON game_word_results(game_
 - [ ] 14 kelime tamamlanınca oyun bitiyor mu?
 
 **Çoklu Mod:**
+
 - [ ] Sırayla yarışmacı değişimi çalışıyor mu?
 - [ ] Her yarışmacı FARKLI 14 kelime görüyor mu? (KRİTİK)
 - [ ] Kelimeler tekrar etmiyor mu?
@@ -1563,6 +1663,7 @@ CREATE INDEX IF NOT EXISTS idx_game_word_results_game ON game_word_results(game_
 - [ ] Eşitlik kuralları uygulanıyor mu? (puan → harf → süre)
 
 **Takım Modu:**
+
 - [ ] Takım oluşturma çalışıyor mu?
 - [ ] Her takıma oyuncu eklenebiliyor mu?
 - [ ] Her takım FARKLI 14 kelime görüyor mu? (KRİTİK)
@@ -1572,6 +1673,7 @@ CREATE INDEX IF NOT EXISTS idx_game_word_results_game ON game_word_results(game_
 ### 16.3 UI/UX Testleri
 
 **Animasyonlar:**
+
 - [ ] Harf açılma 3D flip çalışıyor mu?
 - [ ] Doğru cevap konfetisi çalışıyor mu?
 - [ ] Yanlış cevap shake çalışıyor mu?
@@ -1579,12 +1681,14 @@ CREATE INDEX IF NOT EXISTS idx_game_word_results_game ON game_word_results(game_
 - [ ] Kart hover efektleri çalışıyor mu?
 
 **Responsive:**
+
 - [ ] 1920x1080 düzgün görünüyor mu?
 - [ ] 1366x768 düzgün görünüyor mu?
 - [ ] Tam ekran modu çalışıyor mu?
 - [ ] Pencere yeniden boyutlandırma düzgün çalışıyor mu?
 
 **Erişilebilirlik:**
+
 - [ ] Klavye navigasyonu çalışıyor mu?
 - [ ] Tab sırası mantıklı mı?
 - [ ] Focus indicator'lar görünüyor mu?
@@ -1593,18 +1697,21 @@ CREATE INDEX IF NOT EXISTS idx_game_word_results_game ON game_word_results(game_
 ### 16.4 Dosya İşlemleri Testleri
 
 **JSON Export:**
+
 - [ ] Kategori JSON'a aktarılabiliyor mu?
 - [ ] Dosya adı doğru önerilmiş mi?
 - [ ] Format doğru mu?
 - [ ] Tüm kelimeler dahil mi?
 
 **JSON Import:**
+
 - [ ] Geçerli JSON import ediliyor mu?
 - [ ] Geçersiz JSON reddediliyor mu?
 - [ ] Duplicate kelimeler atlanıyor mu?
 - [ ] Hatalı format mesajı gösteriliyor mu?
 
 **Veritabanı Yedekleme:**
+
 - [ ] DB yedeği alınabiliyor mu?
 - [ ] DB geri yüklenebiliyor mu?
 - [ ] Geri yükleme sonrası veriler düzgün mü?
@@ -1612,6 +1719,7 @@ CREATE INDEX IF NOT EXISTS idx_game_word_results_game ON game_word_results(game_
 ### 16.5 Geçmiş Yarışmalar Testleri
 
 **Kayıt İşlemleri:**
+
 - [ ] Oyun bittiğinde sonuçlar otomatik kaydediliyor mu?
 - [ ] Tek yarışmacı modu sonuçları doğru kaydediliyor mu?
 - [ ] Çoklu yarışmacı modu sonuçları doğru kaydediliyor mu?
@@ -1620,6 +1728,7 @@ CREATE INDEX IF NOT EXISTS idx_game_word_results_game ON game_word_results(game_
 - [ ] Katılımcı bilgileri doğru kaydediliyor mu?
 
 **Görüntüleme:**
+
 - [ ] Geçmiş yarışmalar listesi doğru gösteriliyor mu?
 - [ ] Filtreleme çalışıyor mu?
 - [ ] Sıralama çalışıyor mu?
@@ -1628,12 +1737,14 @@ CREATE INDEX IF NOT EXISTS idx_game_word_results_game ON game_word_results(game_
 - [ ] Boş durum mesajı gösteriliyor mu?
 
 **Detay Ekranı:**
+
 - [ ] Yarışma detayları doğru gösteriliyor mu?
 - [ ] Katılımcı sıralaması doğru mu?
 - [ ] Kelime sonuçları doğru mu?
 - [ ] Genişletilebilir bölümler çalışıyor mu?
 
 **Export/Delete:**
+
 - [ ] Geçmiş JSON'a aktarılabiliyor mu?
 - [ ] Export dosyası doğru formatlanmış mı?
 - [ ] Tek yarışma silinebiliyor mu?
@@ -1643,11 +1754,13 @@ CREATE INDEX IF NOT EXISTS idx_game_word_results_game ON game_word_results(game_
 ### 16.6 Klavye Kısayolları Testleri
 
 **Global Kısayollar:**
+
 - [ ] F11 tam ekran çalışıyor mu?
 - [ ] Ctrl/Cmd+Q çıkış çalışıyor mu?
 - [ ] Esc geri/iptal çalışıyor mu?
 
 **Oyun Ekranı:**
+
 - [ ] H tuşu harf açıyor mu?
 - [ ] T tuşu tahmin popup'ı açıyor mu?
 - [ ] P tuşu pas geçiyor mu?
@@ -1655,6 +1768,7 @@ CREATE INDEX IF NOT EXISTS idx_game_word_results_game ON game_word_results(game_
 - [ ] M tuşu ses toggle çalışıyor mu?
 
 **Popup Kısayolları:**
+
 - [ ] D/Enter doğru seçiyor mu?
 - [ ] Y/N yanlış seçiyor mu?
 - [ ] Esc dialog kapatıyor mu?
@@ -1662,6 +1776,7 @@ CREATE INDEX IF NOT EXISTS idx_game_word_results_game ON game_word_results(game_
 ### 16.7 Edge Case Testleri
 
 **Sınır Durumları:**
+
 - [ ] Boş kategori oluşturulmaya çalışılırsa?
 - [ ] 13 kelimeli kategoride tek yarışmacı modu başlatılırsa?
 - [ ] 20 kelimeli kategoride 2 kişilik mod başlatılırsa? (28 gerekli)
@@ -1675,6 +1790,7 @@ CREATE INDEX IF NOT EXISTS idx_game_word_results_game ON game_word_results(game_
 - [ ] Sayı içeren kelime eklenmeye çalışılırsa?
 
 **Oyun Kuralları Edge Cases:**
+
 - [ ] Tahmin sonrası harf açmaya çalışırsa ne olur?
 - [ ] 4. tahmin yapılmaya çalışılırsa ne olur? (max 3)
 - [ ] 300 saniye bitmeden 14 kelime bulunursa oyun bitiyor mu?
@@ -1683,6 +1799,7 @@ CREATE INDEX IF NOT EXISTS idx_game_word_results_game ON game_word_results(game_
 - [ ] Takım modunda oyuncu eklenemezse ne olur?
 
 **Performans:**
+
 - [ ] 100+ kelimeli kategori düzgün çalışıyor mu?
 - [ ] 50+ kategori varken yavaşlama var mı?
 - [ ] Uzun oyunlarda bellek sızıntısı var mı?
@@ -1696,11 +1813,13 @@ CREATE INDEX IF NOT EXISTS idx_game_word_results_game ON game_word_results(game_
 ### 17.1 Geliştirme Ortamı Gereksinimleri
 
 **Sistem Gereksinimleri:**
+
 - Node.js 18+ ve npm/yarn
 - Rust 1.70+
 - Tauri CLI
 
 **Platform Bazlı:**
+
 - **Windows:** Visual Studio Build Tools
 - **macOS:** Xcode Command Line Tools
 - **Linux:** Build essential, webkit2gtk
@@ -1710,11 +1829,13 @@ CREATE INDEX IF NOT EXISTS idx_game_word_results_game ON game_word_results(game_
 **Tauri Config (`tauri.conf.json`):**
 
 **Uygulama Bilgileri:**
+
 - App Name: "Kelime Oyunu"
 - Version: "1.0.0"
 - Identifier: "com.kelimeoyunu.app"
 
 **Pencere Ayarları:**
+
 - Başlangıç boyutu: 1920x1080
 - Minimum boyut: 1280x720
 - Resizable: true
@@ -1722,6 +1843,7 @@ CREATE INDEX IF NOT EXISTS idx_game_word_results_game ON game_word_results(game_
 - Title: "Kelime Oyunu"
 
 **Güvenlik:**
+
 - CSP: Default-src 'self'
 - Dangling remote enable: false
 - LocalStorage: enabled
@@ -1729,12 +1851,14 @@ CREATE INDEX IF NOT EXISTS idx_game_word_results_game ON game_word_results(game_
 ### 17.3 Uygulama İkonları
 
 **Gerekli İkon Boyutları:**
+
 - 32x32, 128x128, 256x256, 512x512 (PNG)
 - ICO (Windows)
 - ICNS (macOS)
 - PNG (Linux)
 
 **İkon Tasarımı:**
+
 - Ana renk: Mavi/Mor gradient
 - Kelime/harf teması
 - Modern, minimal stil
@@ -1743,16 +1867,19 @@ CREATE INDEX IF NOT EXISTS idx_game_word_results_game ON game_word_results(game_
 ### 17.4 Yayınlama
 
 **Sürüm Numaralandırma:**
+
 - Semantic versioning: MAJOR.MINOR.PATCH
 - Örnek: 1.0.0 (ilk stabil sürüm)
 
 **Dağıtım Kanalları:**
+
 - GitHub Releases (tüm platformlar)
 - Windows: Portable EXE + MSI installer
 - macOS: DMG + .app bundle
 - Linux: AppImage + .deb + .rpm
 
 **Güncelleme Mekanizması:**
+
 - Tauri Updater (opsiyonel)
 - Manuel indirme (GitHub Releases)
 
@@ -1763,6 +1890,7 @@ CREATE INDEX IF NOT EXISTS idx_game_word_results_game ON game_word_results(game_
 ### 18.1 README.md
 
 **İçerik:**
+
 - Proje açıklaması
 - Özellikler listesi
 - Ekran görüntüleri
@@ -1774,6 +1902,7 @@ CREATE INDEX IF NOT EXISTS idx_game_word_results_game ON game_word_results(game_
 ### 18.2 CONTRIBUTING.md
 
 **İçerik:**
+
 - Kod stili kuralları
 - Commit mesaj formatı
 - Branch stratejisi
@@ -1783,6 +1912,7 @@ CREATE INDEX IF NOT EXISTS idx_game_word_results_game ON game_word_results(game_
 ### 18.3 LICENSE
 
 **MIT License:**
+
 - Tam metin dahil
 - Copyright bilgisi
 - İzinler ve kısıtlamalar
@@ -1790,6 +1920,7 @@ CREATE INDEX IF NOT EXISTS idx_game_word_results_game ON game_word_results(game_
 ### 18.4 CHANGELOG.md
 
 **Format:**
+
 - Sürüm numarası ve tarih
 - Added, Changed, Fixed, Removed kategorileri
 - Her değişiklik madde madde
@@ -1797,6 +1928,7 @@ CREATE INDEX IF NOT EXISTS idx_game_word_results_game ON game_word_results(game_
 ### 18.5 Kullanıcı Kılavuzu
 
 **İçerik:**
+
 - Kurulum adımları
 - İlk başlangıç
 - Kategori oluşturma
@@ -1813,12 +1945,14 @@ CREATE INDEX IF NOT EXISTS idx_game_word_results_game ON game_word_results(game_
 ### 19.1 Kod Kalitesi
 
 **TypeScript:**
+
 - Strict mode enabled
 - No implicit any
 - No unused variables
 - ESLint + Prettier
 
 **Rust:**
+
 - Clippy warnings: 0
 - Cargo fmt uyumlu
 - No unsafe code (mümkünse)
@@ -1826,22 +1960,26 @@ CREATE INDEX IF NOT EXISTS idx_game_word_results_game ON game_word_results(game_
 ### 19.2 Performans Hedefleri
 
 **Başlangıç:**
+
 - Cold start: < 3 saniye
 - Warm start: < 1 saniye
 
 **Oyun İçi:**
+
 - Harf açma latency: < 50ms
 - Animasyon frame rate: 60 FPS
 - Kategori değiştirme: < 200ms
 - Kelime listesi yükleme: < 100ms
 
 **Bellek:**
+
 - İlk yükleme: < 100 MB
 - Oyun sırasında: < 150 MB
 - Peak kullanım: < 200 MB
 - Memory leak: 0
 
 **Disk:**
+
 - Veritabanı boyutu (100 kategori, 3000 kelime): < 5 MB
 - Uygulama boyutu:
   - Windows: 15-25 MB
@@ -1851,11 +1989,13 @@ CREATE INDEX IF NOT EXISTS idx_game_word_results_game ON game_word_results(game_
 ### 19.3 Test Coverage
 
 **Hedef Coverage:**
+
 - Unit tests: > 80%
 - Integration tests: > 60%
 - E2E tests: Kritik akışlar
 
 **Test Araçları:**
+
 - Jest (React bileşenleri)
 - React Testing Library
 - Tauri test framework
@@ -1868,6 +2008,7 @@ CREATE INDEX IF NOT EXISTS idx_game_word_results_game ON game_word_results(game_
 ### 20.1 V1.1 - Gelişmiş Özellikler
 
 **Planlanan:**
+
 - Çoklu dil desteği (İngilizce UI)
 - Tema değiştirme (Light/Dark/Auto)
 - Özel ses dosyası yükleme
@@ -1884,6 +2025,7 @@ CREATE INDEX IF NOT EXISTS idx_game_word_results_game ON game_word_results(game_
 ### 20.2 V1.2 - Sosyal Özellikler
 
 **Planlanan:**
+
 - Lokal network multiplayer
 - Turnuva modu
 - Achievement sistemi
@@ -1896,6 +2038,7 @@ CREATE INDEX IF NOT EXISTS idx_game_word_results_game ON game_word_results(game_
 ### 20.3 V2.0 - Büyük Güncelleme
 
 **Planlanan:**
+
 - Cloud sync (opsiyonel)
 - Mobil uygulama (React Native)
 - Web versiyonu
@@ -1908,6 +2051,7 @@ CREATE INDEX IF NOT EXISTS idx_game_word_results_game ON game_word_results(game_
 ### 20.4 Topluluk İstekleri
 
 **Değerlendirme Süreci:**
+
 - GitHub Issues üzerinden
 - Oylamalı feature request sistemi
 - Aylık roadmap güncellemesi
@@ -1920,6 +2064,7 @@ CREATE INDEX IF NOT EXISTS idx_game_word_results_game ON game_word_results(game_
 ### 21.1 Topluluk Kanalları
 
 **Planlanan:**
+
 - GitHub Discussions (ana forum)
 - Discord sunucusu (opsiyonel)
 - Reddit community (opsiyonel)
@@ -1928,6 +2073,7 @@ CREATE INDEX IF NOT EXISTS idx_game_word_results_game ON game_word_results(game_
 ### 21.2 Issue Yönetimi
 
 **Etiket Sistemi:**
+
 - `bug` - Hata raporları
 - `enhancement` - Yeni özellik
 - `documentation` - Dokümantasyon
@@ -1938,6 +2084,7 @@ CREATE INDEX IF NOT EXISTS idx_game_word_results_game ON game_word_results(game_
 - `duplicate` - Tekrar
 
 **Issue Template:**
+
 - Bug report şablonu
 - Feature request şablonu
 - Soru şablonu
@@ -1945,6 +2092,7 @@ CREATE INDEX IF NOT EXISTS idx_game_word_results_game ON game_word_results(game_
 ### 21.3 Pull Request Süreci
 
 **Gereksinimler:**
+
 - Test coverage düşmemeli
 - Kod formatı uygun olmalı
 - Commit mesajları anlamlı
@@ -1952,6 +2100,7 @@ CREATE INDEX IF NOT EXISTS idx_game_word_results_game ON game_word_results(game_
 - Dokümantasyon güncellenmiş (gerekirse)
 
 **Review Süreci:**
+
 - En az 1 maintainer onayı
 - CI/CD testleri geçmeli
 - Çakışma olmamalı
@@ -1991,11 +2140,13 @@ SOFTWARE.
 ### 22.2 Üçüncü Parti Bağımlılıklar
 
 **Lisans Uyumluluğu:**
+
 - Tüm bağımlılıklar MIT uyumlu olmalı
 - GPL lisanslı kütüphanelerden kaçınılmalı
 - LICENSE-3RD-PARTY.md dosyası tutulmalı
 
 **Kullanılan Başlıca Kütüphaneler:**
+
 - React (MIT)
 - Tauri (MIT/Apache-2.0)
 - Tailwind CSS (MIT)
@@ -2006,11 +2157,13 @@ SOFTWARE.
 ### 22.3 Marka ve Telif Hakları
 
 **Uygulama Adı:**
+
 - "Kelime Oyunu" generic bir isimdir
 - Trademark başvurusu yapılmamıştır
 - Topluluk projesinde değişebilir
 
 **Logo ve Görsel Materyal:**
+
 - Tüm görseller açık kaynaklıdır
 - Topluluk katkıları MIT altındadır
 - Üçüncü parti kaynaklar lisanslanmıştır
@@ -2018,12 +2171,14 @@ SOFTWARE.
 ### 22.4 Gizlilik Politikası
 
 **Veri Toplama:**
+
 - Hiçbir kişisel veri toplanmaz
 - Hiçbir analitik kullanılmaz
 - Hiçbir telemetri yapılmaz
 - Tamamen offline çalışır
 
 **Kullanıcı İçeriği:**
+
 - Tüm kategoriler ve kelimeler kullanıcının bilgisayarındadır
 - Dışa aktarma kullanıcı kontrolündedir
 - Hiçbir sunucuya veri gönderilmez
@@ -2035,6 +2190,7 @@ SOFTWARE.
 ### 23.1 Geliştirme Metodolojisi
 
 **Agile Yaklaşım:**
+
 - 2 haftalık sprint'ler
 - Haftalık progress review
 - Kanban board (GitHub Projects)
@@ -2043,6 +2199,7 @@ SOFTWARE.
 ### 23.2 Git Workflow
 
 **Branch Stratejisi:**
+
 - `main` - Stabil production branch
 - `develop` - Geliştirme branch'i
 - `feature/*` - Yeni özellikler
@@ -2050,6 +2207,7 @@ SOFTWARE.
 - `hotfix/*` - Acil düzeltmeler
 
 **Commit Convention:**
+
 ```
 <type>(<scope>): <subject>
 
@@ -2059,6 +2217,7 @@ SOFTWARE.
 ```
 
 **Types:**
+
 - `feat` - Yeni özellik
 - `fix` - Hata düzeltme
 - `docs` - Dokümantasyon
@@ -2068,6 +2227,7 @@ SOFTWARE.
 - `chore` - Diğer işler
 
 **Örnek:**
+
 ```
 feat(category): add JSON import/export functionality
 
@@ -2082,6 +2242,7 @@ Closes #42
 **GitHub Actions:**
 
 **Pull Request:**
+
 - Lint check (ESLint, Clippy)
 - Type check (TypeScript)
 - Unit tests
@@ -2089,12 +2250,14 @@ Closes #42
 - Code coverage report
 
 **Main Branch:**
+
 - Yukarıdakiler
 - E2E tests
 - Release build
 - Artifact upload
 
 **Release:**
+
 - Version bump
 - Changelog update
 - Build tüm platformlar
@@ -2105,11 +2268,13 @@ Closes #42
 ### 23.4 Versiyon Yönetimi
 
 **Semantic Versioning:**
+
 - **MAJOR:** Breaking changes
 - **MINOR:** Yeni özellikler (backward compatible)
 - **PATCH:** Hata düzeltmeleri
 
 **Örnek:**
+
 - `1.0.0` - İlk stabil release
 - `1.1.0` - Tema desteği eklendi
 - `1.1.1` - Kategori silme hatası düzeltildi
@@ -2122,6 +2287,7 @@ Closes #42
 ### 24.1 Güvenlik İlkeleri
 
 **Kod Güvenliği:**
+
 - Input validation her zaman
 - SQL injection koruması (prepared statements)
 - XSS koruması (React default)
@@ -2129,6 +2295,7 @@ Closes #42
 - No eval() usage
 
 **Bağımlılık Güvenliği:**
+
 - Otomatik security audit (npm audit, cargo audit)
 - Düzenli bağımlılık güncellemesi
 - Vulnerability monitoring (Dependabot)
@@ -2136,12 +2303,14 @@ Closes #42
 ### 24.2 Güvenlik Raporlama
 
 **Responsible Disclosure:**
+
 - SECURITY.md dosyası
 - Özel güvenlik e-postası
 - 90 gün disclosure timeline
 - Hall of Fame (raporlayan kişiler)
 
 **Güvenlik Güncellemeleri:**
+
 - Critical: Anında patch
 - High: 7 gün içinde
 - Medium: 30 gün içinde
@@ -2154,6 +2323,7 @@ Closes #42
 ### 25.1 V1.0 Launch Kriterleri
 
 **Fonksiyonel:**
+
 - [ ] Tüm core özellikler çalışıyor
 - [ ] Critical bug'lar çözülmüş
 - [ ] Tüm testler geçiyor
@@ -2161,6 +2331,7 @@ Closes #42
 - [ ] Kurulum sorunsuz yapılabiliyor
 
 **Dokümantasyon:**
+
 - [ ] README.md tamamlanmış
 - [ ] Kullanıcı kılavuzu yazılmış
 - [ ] API dokümantasyonu hazır
@@ -2168,6 +2339,7 @@ Closes #42
 - [ ] LICENSE eklenmiş
 
 **Kalite:**
+
 - [ ] Test coverage > 80%
 - [ ] Performance metrikleri karşılanmış
 - [ ] Accessibility AA seviyesi
@@ -2177,17 +2349,20 @@ Closes #42
 ### 25.2 Başarı Metrikleri (3 ay sonra)
 
 **Teknik:**
+
 - 0 critical bug
 - < 5 high priority bug
 - > 90% uptime (crash-free)
 
 **Kullanıcı:**
+
 - > 100 indirme
 - > 10 GitHub star
 - > 5 topluluk katkısı
 - 0 negatif güvenlik raporu
 
 **Topluluk:**
+
 - > 20 GitHub issue açılmış
 - > 5 pull request merge edilmiş
 - > 3 kategori şablonu paylaşılmış
@@ -2224,6 +2399,7 @@ Closes #42
 ### 27.1 Tasarım Felsefesi
 
 **İlkeler:**
+
 1. **Basitlik:** Karmaşık özelliklerden kaçın
 2. **Performans:** Hız her zaman öncelik
 3. **Erişilebilirlik:** Herkes kullanabilmeli
@@ -2234,6 +2410,7 @@ Closes #42
 ### 27.2 Geliştirici Notları
 
 **Best Practices:**
+
 - Fonksiyonlar tek sorumluluk prensibi
 - Magic number kullanmayın (constant tanımlayın)
 - Yorum satırları neden açıklasın, ne değil
@@ -2241,6 +2418,7 @@ Closes #42
 - Type safety'den taviz vermeyin
 
 **Kod Organizasyonu:**
+
 ```
 src/
 ├── components/        # React bileşenleri
@@ -2267,6 +2445,7 @@ src-tauri/
 ### 27.3 Önemli Kararlar
 
 **Neden Tauri?**
+
 - Electron'dan 10x daha küçük
 - Daha hızlı başlangıç
 - Daha az bellek kullanımı
@@ -2274,6 +2453,7 @@ src-tauri/
 - Rust güvenliği
 
 **Neden SQLite?**
+
 - Dosya bazlı, kurulum gerektirmez
 - Hafif ve hızlı
 - ACID uyumlu
@@ -2281,6 +2461,7 @@ src-tauri/
 - Yedekleme kolay
 
 **Neden React?**
+
 - Geniş ekosistem
 - Developer experience
 - Tailwind entegrasyonu
@@ -2288,6 +2469,7 @@ src-tauri/
 - TypeScript uyumu
 
 **Neden Offline-Only?**
+
 - Gizlilik
 - Basitlik
 - Güvenilirlik
@@ -2301,6 +2483,7 @@ src-tauri/
 ### 28.1 Dokümantasyon
 
 **Resmi Dokümanlar:**
+
 - Tauri: https://tauri.app/
 - React: https://react.dev/
 - TypeScript: https://www.typescriptlang.org/
@@ -2308,6 +2491,7 @@ src-tauri/
 - Framer Motion: https://www.framer.com/motion/
 
 **Topluluk Kaynakları:**
+
 - GitHub Discussions
 - Stack Overflow
 - Discord (Tauri)
@@ -2316,6 +2500,7 @@ src-tauri/
 ### 28.2 İlham Kaynakları
 
 **Benzer Projekte:**
+
 - Kelime oyunları (TV formatları)
 - Wordle
 - Hangman
@@ -2325,12 +2510,14 @@ src-tauri/
 ### 28.3 Tasarım İlhamı
 
 **Design Systems:**
+
 - Tailwind UI
 - Shadcn/ui
 - Radix UI
 - Headless UI
 
 **Color Palettes:**
+
 - Tailwind Colors
 - Coolors.co
 - Adobe Color
@@ -2342,6 +2529,7 @@ src-tauri/
 Bu dokümantasyon, Kelime Oyunu projesinin Tauri ile geliştirilmesi için kapsamlı bir rehber sunmaktadır. Tüm teknik gereksinimler, tasarım prensipleri, iş akışları ve kalite standartları detaylı olarak açıklanmıştır.
 
 **Proje Özeti:**
+
 - Modern, performanslı masaüstü uygulaması
 - Eğitim odaklı, açık kaynak
 - Kategori bazlı kelime yarışması
@@ -2349,6 +2537,7 @@ Bu dokümantasyon, Kelime Oyunu projesinin Tauri ile geliştirilmesi için kapsa
 - Cross-platform (Windows, macOS, Linux)
 
 **Başarı İçin Anahtar Noktalar:**
+
 1. Kullanıcı deneyimine odaklanın
 2. Performanstan ödün vermeyin
 3. Kod kalitesini koruyun
@@ -2356,6 +2545,7 @@ Bu dokümantasyon, Kelime Oyunu projesinin Tauri ile geliştirilmesi için kapsa
 5. Şeffaf olun
 
 **İletişim:**
+
 - GitHub: [Repo URL]
 - Issues: [Issues URL]
 - Discussions: [Discussions URL]

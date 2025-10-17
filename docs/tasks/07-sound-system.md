@@ -1,5 +1,7 @@
 # Sound System
+
 > PRD Reference: Section 10 - Sound System
+> See also: [UI/UX Design Spec](../ui-ux-design.md#ses-tasarımı)
 > Category: Frontend
 > Status: Not Started
 > Priority: Medium
@@ -8,11 +10,13 @@
 ---
 
 ## 🎯 Objective
+
 Implement a complete sound system using Web Audio API to provide audio feedback for all game actions. Create 7 distinct sound effects using synthesized audio (no external sound files) with volume control and mute functionality as specified in PRD Section 10.
 
 ---
 
 ## 🧾 Requirements
+
 - PRD 10.1: Implement Letter Reveal sound (Pop: 440Hz sine wave, 0.1s, quick attack/decay)
 - PRD 10.1: Implement Correct Answer sound (Jingle: C5-E5-G5-C6 square wave, 1s, medium attack/long release)
 - PRD 10.1: Implement Wrong Answer sound (Error: 200Hz sawtooth, 0.3s, sharp attack/medium decay)
@@ -28,6 +32,7 @@ Implement a complete sound system using Web Audio API to provide audio feedback 
 ---
 
 ## ⚙️ Technical Details
+
 **Technology:** Web Audio API, TypeScript
 **Sound Architecture:** Sound manager class with AudioContext, oscillator factory, envelope generator, cache system
 **Storage:** localStorage for volume and mute state
@@ -36,6 +41,7 @@ Implement a complete sound system using Web Audio API to provide audio feedback 
 ---
 
 ## 🧩 Implementation Steps
+
 1. Create SoundManager class with AudioContext initialization
 2. Implement oscillator factory (sine, square, sawtooth, triangle)
 3. Create envelope generator (ADSR: Attack, Decay, Sustain, Release)
@@ -55,6 +61,7 @@ Implement a complete sound system using Web Audio API to provide audio feedback 
 ---
 
 ## ✅ Acceptance Criteria
+
 - AudioContext properly initialized and managed
 - All 7 sound effects implemented with correct waveforms and frequencies
 - Sounds play without delay or glitches
@@ -69,27 +76,30 @@ Implement a complete sound system using Web Audio API to provide audio feedback 
 ---
 
 ## 🧪 Test Scenarios
-| Test No | Scenario | Expected Result |
-|----------|----------|----------------|
-| T-001 | Reveal a letter | Pop sound plays (440Hz, 0.1s) |
-| T-002 | Correct answer | Jingle plays with musical notes |
-| T-003 | Wrong answer | Error beep plays (low frequency) |
-| T-004 | Skip word | Whoosh sound plays |
-| T-005 | Time warning (last 10s) | Tick sound repeats every 1s |
-| T-006 | Win game | Fanfare plays (1.5s duration) |
-| T-007 | Click button | Click sound plays |
-| T-008 | Adjust volume to 50% | All sounds play at half volume |
-| T-009 | Mute sounds | No sounds play |
-| T-010 | Reload page | Volume/mute settings persisted |
+
+| Test No | Scenario                | Expected Result                  |
+| ------- | ----------------------- | -------------------------------- |
+| T-001   | Reveal a letter         | Pop sound plays (440Hz, 0.1s)    |
+| T-002   | Correct answer          | Jingle plays with musical notes  |
+| T-003   | Wrong answer            | Error beep plays (low frequency) |
+| T-004   | Skip word               | Whoosh sound plays               |
+| T-005   | Time warning (last 10s) | Tick sound repeats every 1s      |
+| T-006   | Win game                | Fanfare plays (1.5s duration)    |
+| T-007   | Click button            | Click sound plays                |
+| T-008   | Adjust volume to 50%    | All sounds play at half volume   |
+| T-009   | Mute sounds             | No sounds play                   |
+| T-010   | Reload page             | Volume/mute settings persisted   |
 
 ---
 
 ## 🔗 Dependencies
+
 - `05-ui-design-system.md` (for volume control UI components)
 
 ---
 
 ## 📄 Deliverables
+
 - `src/services/SoundManager.ts` - Main sound manager class
 - `src/services/audio/oscillators.ts` - Oscillator factory
 - `src/services/audio/envelopes.ts` - ADSR envelope generator
@@ -101,6 +111,7 @@ Implement a complete sound system using Web Audio API to provide audio feedback 
 ---
 
 ## 🧭 Notes
+
 > Web Audio API requires user interaction before playing sounds on most browsers.
 
 > Use GainNode for smooth volume changes and fading.
@@ -112,5 +123,6 @@ Implement a complete sound system using Web Audio API to provide audio feedback 
 ---
 
 ## 📚 References
+
 - [PRD Document - Section 10: Sound System](../docs/PRD.md#10-ses-sistemi)
 - [Web Audio API Documentation](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API)

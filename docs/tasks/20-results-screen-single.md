@@ -1,12 +1,17 @@
 # Task 20: Results Screen - Single Player
 
+> See also: [UI/UX Design Spec](../ui-ux-design.md#results)
+
 ## Description
+
 Implement results screen for single player mode with statistics and word details.
 
 ## Requirements from PRD
+
 - **Section:** 4.7 Sonuç Ekranı → Tek Yarışmacı
 
 ## Components
+
 - 🎉 Başlık
 - Kategori bilgisi
 - Yarışmacı adı
@@ -27,9 +32,11 @@ Implement results screen for single player mode with statistics and word details
   - 📊 Geçmiş Yarışmaları Gör
 
 ## Auto-Save
+
 - Oyun bittiğinde tüm sonuçlar otomatik olarak veritabanına kaydedilir
 
 ## Acceptance Criteria
+
 - [ ] Victory title displayed
 - [ ] Category info shown
 - [ ] Player name displayed

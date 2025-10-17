@@ -1,5 +1,7 @@
 # Category Selection Screen
+
 > PRD Reference: Section 4.2 - Category Selection Screen
+> See also: [UI/UX Design Spec](../ui-ux-design.md#category-selection)
 > Category: Frontend
 > Status: Not Started
 > Priority: High
@@ -8,11 +10,13 @@
 ---
 
 ## 🎯 Objective
+
 Implement the category selection screen where users choose which word category to play with. Display category cards with validation status badges indicating playability for different game modes as specified in PRD Section 4.2.
 
 ---
 
 ## 🧾 Requirements
+
 - PRD 4.2: Page title "Kategori Seçin"
 - PRD 4.2: Scrollable grid of category cards with emoji, name, word count, playability status badge, Play button
 - PRD 4.2: Empty state message when no categories exist
@@ -25,6 +29,7 @@ Implement the category selection screen where users choose which word category t
 ---
 
 ## ⚙️ Technical Details
+
 **Technology:** React, TypeScript, Tailwind CSS
 **Data Source:** Tauri backend get_all_categories command
 **Validation:** validate_category command from backend
@@ -34,6 +39,7 @@ Implement the category selection screen where users choose which word category t
 ---
 
 ## 🧩 Implementation Steps
+
 1. Create CategorySelection page component
 2. Fetch all categories from backend on load
 3. Create CategoryCard component
@@ -50,6 +56,7 @@ Implement the category selection screen where users choose which word category t
 ---
 
 ## ✅ Acceptance Criteria
+
 - Categories loaded from database successfully
 - Category cards display emoji, name, word count
 - Validation status badge shows correctly for each category
@@ -64,21 +71,23 @@ Implement the category selection screen where users choose which word category t
 ---
 
 ## 🧪 Test Scenarios
-| Test No | Scenario | Expected Result |
-|----------|----------|----------------|
-| T-001 | Load screen with categories | All categories displayed in grid |
-| T-002 | Category with 70+ words | Green badge "Oynanabilir" |
-| T-003 | Category with 14-27 words | Yellow badge "Sınırlı" |
-| T-004 | Category with <14 words | Red badge "Oynanamaz", Play disabled |
-| T-005 | Click Play on valid category | Navigate to mode selection |
-| T-006 | Click Play on invalid category | Button disabled, no navigation |
-| T-007 | No categories exist | Empty state message shown |
-| T-008 | Click "Create New Category" | Navigate to category creation |
-| T-009 | Click Back button | Return to main menu |
+
+| Test No | Scenario                       | Expected Result                      |
+| ------- | ------------------------------ | ------------------------------------ |
+| T-001   | Load screen with categories    | All categories displayed in grid     |
+| T-002   | Category with 70+ words        | Green badge "Oynanabilir"            |
+| T-003   | Category with 14-27 words      | Yellow badge "Sınırlı"               |
+| T-004   | Category with <14 words        | Red badge "Oynanamaz", Play disabled |
+| T-005   | Click Play on valid category   | Navigate to mode selection           |
+| T-006   | Click Play on invalid category | Button disabled, no navigation       |
+| T-007   | No categories exist            | Empty state message shown            |
+| T-008   | Click "Create New Category"    | Navigate to category creation        |
+| T-009   | Click Back button              | Return to main menu                  |
 
 ---
 
 ## 🔗 Dependencies
+
 - `04-tauri-backend-commands.md` (get_all_categories, validate_category commands)
 - `05-ui-design-system.md` (Card component)
 - `29-category-validation.md` (validation logic)
@@ -86,6 +95,7 @@ Implement the category selection screen where users choose which word category t
 ---
 
 ## 📄 Deliverables
+
 - `src/pages/CategorySelection.tsx` - Main page component
 - `src/components/CategoryCard.tsx` - Category card component
 - `src/components/ValidationBadge.tsx` - Playability badge component
@@ -94,6 +104,7 @@ Implement the category selection screen where users choose which word category t
 ---
 
 ## 🧭 Notes
+
 > Validation should run on component mount to ensure accurate playability status.
 
 > Consider caching category data to reduce backend calls.
@@ -103,5 +114,6 @@ Implement the category selection screen where users choose which word category t
 ---
 
 ## 📚 References
+
 - [PRD Document - Section 4.2: Category Selection](../docs/PRD.md#42-kategori-seçim-ekranı)
 - [PRD Document - Section 3.3: Category Validation](../docs/PRD.md#33-kategori-validasyonu)

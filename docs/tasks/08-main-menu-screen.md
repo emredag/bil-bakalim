@@ -1,5 +1,7 @@
 # Main Menu Screen
+
 > PRD Reference: Section 4.1 - Main Menu Screen
+> See also: [UI/UX Design Spec](../ui-ux-design.md#main-menu)
 > Category: Frontend
 > Status: Not Started
 > Priority: High
@@ -8,11 +10,13 @@
 ---
 
 ## 🎯 Objective
+
 Create the main menu (başlangıç ekranı) as the primary navigation hub with 5 action cards, branding, and modern dark theme design. This screen serves as the entry point to all major features of the word game application as specified in PRD Section 4.1.
 
 ---
 
 ## 🧾 Requirements
+
 - PRD 4.1: Logo and title displayed prominently (large, centered)
 - PRD 4.1: 5 action cards in grid layout: Start Game, Category Management, Game History, Settings, How to Play
 - PRD 4.1: Emoji icons for each card: 🏁 📚 📊 ⚙️ ℹ️
@@ -26,6 +30,7 @@ Create the main menu (başlangıç ekranı) as the primary navigation hub with 5
 ---
 
 ## ⚙️ Technical Details
+
 **Technology:** React, TypeScript, Tailwind CSS, Framer Motion
 **Layout:** Centered flex container with grid of 5 cards
 **Design:** Dark gradient background, slate-based card colors, blue accent on hover
@@ -34,6 +39,7 @@ Create the main menu (başlangıç ekranı) as the primary navigation hub with 5
 ---
 
 ## 🧩 Implementation Steps
+
 1. Create MainMenu component
 2. Design logo/title section (centered, large typography)
 3. Create ActionCard component with emoji, title, description
@@ -49,6 +55,7 @@ Create the main menu (başlangıç ekranı) as the primary navigation hub with 5
 ---
 
 ## ✅ Acceptance Criteria
+
 - Logo and title prominently displayed
 - All 5 action cards visible in attractive grid
 - Cards have proper emoji icons and descriptions
@@ -63,21 +70,23 @@ Create the main menu (başlangıç ekranı) as the primary navigation hub with 5
 ---
 
 ## 🧪 Test Scenarios
-| Test No | Scenario | Expected Result |
-|----------|----------|----------------|
-| T-001 | Load main menu | All 5 cards displayed in grid |
-| T-002 | Hover over "Start Game" card | Scale and shadow animation |
-| T-003 | Click "Start Game" | Navigate to category selection |
-| T-004 | Click "Category Management" | Navigate to category management |
-| T-005 | Click "Game History" | Navigate to game history |
-| T-006 | Click "Settings" | Navigate to settings |
-| T-007 | Click "How to Play" | Navigate to tutorial |
-| T-008 | Check version info | Version number displayed |
-| T-009 | Tab through cards | Keyboard focus moves correctly |
+
+| Test No | Scenario                     | Expected Result                 |
+| ------- | ---------------------------- | ------------------------------- |
+| T-001   | Load main menu               | All 5 cards displayed in grid   |
+| T-002   | Hover over "Start Game" card | Scale and shadow animation      |
+| T-003   | Click "Start Game"           | Navigate to category selection  |
+| T-004   | Click "Category Management"  | Navigate to category management |
+| T-005   | Click "Game History"         | Navigate to game history        |
+| T-006   | Click "Settings"             | Navigate to settings            |
+| T-007   | Click "How to Play"          | Navigate to tutorial            |
+| T-008   | Check version info           | Version number displayed        |
+| T-009   | Tab through cards            | Keyboard focus moves correctly  |
 
 ---
 
 ## 🔗 Dependencies
+
 - `05-ui-design-system.md` (design tokens and Card component)
 - `06-animations-framer-motion.md` (hover animations)
 - `37-routing-navigation.md` (routing setup)
@@ -85,6 +94,7 @@ Create the main menu (başlangıç ekranı) as the primary navigation hub with 5
 ---
 
 ## 📄 Deliverables
+
 - `src/pages/MainMenu.tsx` - Main menu page component
 - `src/components/ActionCard.tsx` - Reusable action card component
 - Updated routing configuration
@@ -92,6 +102,7 @@ Create the main menu (başlangıç ekranı) as the primary navigation hub with 5
 ---
 
 ## 🧭 Notes
+
 > The main menu is the first screen users see - make it visually appealing and intuitive.
 
 > Card grid should adapt to different screen sizes gracefully.
@@ -101,4 +112,5 @@ Create the main menu (başlangıç ekranı) as the primary navigation hub with 5
 ---
 
 ## 📚 References
+
 - [PRD Document - Section 4.1: Main Menu](../docs/PRD.md#41-başlangıç-ekranı-ana-menü)

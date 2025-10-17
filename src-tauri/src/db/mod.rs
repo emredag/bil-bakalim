@@ -15,6 +15,6 @@
 
 pub mod connection;
 pub mod schema;
+pub mod seed;
 
-pub use connection::{get_connection, init_database};
-pub use schema::run_migrations;
+pub use connection::init_database;

@@ -42,12 +42,14 @@ pub fn get_connection() -> Result<Connection> {
     Ok(conn)
 }
 
-/// Initialize the database by running all migrations
-/// 
-/// This function should be called on application startup to ensure
-/// the database schema is created and up-to-date.
+/// Initialize the database by running all migrations and seeding
+///
+/// This function should be called on application startup to ensure:
+/// 1. The database schema is created and up-to-date
+/// 2. Default data is seeded (only on first launch)
 pub fn init_database() -> Result<()> {
     let conn = get_connection()?;
     super::schema::run_migrations(&conn)?;
+    super::seed::seed_database(&conn)?;
     Ok(())
 }

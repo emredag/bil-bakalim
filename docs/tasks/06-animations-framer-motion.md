@@ -1,7 +1,7 @@
 # Animations with Framer Motion
 
 > PRD Reference: Section 8.4 - Animations
-> See also: [UI/UX Design Spec](../ui-ux-design.md#hareket-motion-ve-mikro-etkileşimler)
+> **Complete Motion Spec:** [UI/UX Design Spec - Motion & Micro-interactions](../ui-ux-design.md#motion) - TV show quality animations
 > Category: Frontend
 > Status: Not Started
 > Priority: Medium
@@ -11,7 +11,7 @@
 
 ## 🎯 Objective
 
-Implement all UI animations using Framer Motion to create smooth and engaging user experience throughout the application. Animations must run at 60 FPS and include page transitions, letter reveals, success/error feedback, and loading states as specified in PRD Section 8.4.
+Implement all UI animations using Framer Motion to create **TV show quality** smooth and engaging user experience throughout the application. Animations must run at 60 FPS using `transform/opacity` only, respect "reduce motion" preference, and include page transitions, 3D letter flip, success/error feedback (confetti, glows), and loading states as specified in PRD Section 8.4 and ui-ux-design.md#motion.
 
 ---
 

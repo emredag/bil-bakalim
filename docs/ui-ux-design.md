@@ -1,10 +1,11 @@
 # Kelime Oyunu – UI/UX Tasarım Spesifikasyonu (TV Show Kalitesinde)
 
-Bu belge, PRD’de tanımlanan gereksinimlere sadık kalarak; sınıflarda akıllı tahta, projeksiyon ve büyük ekran TV’lerde net görüntü ve güçlü sahne etkisi sağlayan, TV yarışması kalitesinde bir deneyim için UI/UX kurallarını tanımlar. Uygulama React + TypeScript + Tailwind + Framer Motion + Tauri teknolojileriyle geliştirilecektir.
+Bu belge, PRD'de tanımlanan gereksinimlere sadık kalarak; sınıflarda akıllı tahta, projeksiyon ve büyük ekran TV'lerde net görüntü ve güçlü sahne etkisi sağlayan, TV yarışması kalitesinde bir deneyim için UI/UX kurallarını tanımlar. Uygulama React + TypeScript + Tailwind + Framer Motion + Tauri teknolojileriyle geliştirilecektir.
 
-- Hedef çözünürlük: 1920×1080 (optimum), 1366×768 (destek), 3840×2160 (ölçeklenebilir)
-- Kullanım bağlamı: Uzaktan okunabilirlik, yüksek kontrast, büyük dokunma hedefleri, klavye/uzaktan kumanda ile kontrol edilebilirlik
-- Referanslar: PRD bölümleri 4–12, 16, 19; docs/tasks 05–35; repo teknolojileri
+- **Tam Responsive Tasarım:** Herhangi bir ekran boyutunda mükemmel çalışır (küçük laptop'tan büyük TV'lere)
+- **Fluid Layout:** Viewport-aware scaling, flexible grids, relative units (%, vw, vh, rem)
+- **Kullanım Bağlamı:** Uzaktan okunabilirlik, yüksek kontrast, büyük dokunma hedefleri, klavye/uzaktan kumanda ile kontrol edilebilirlik
+- **Referanslar:** PRD bölümleri 4–12, 16, 19; docs/tasks 05–35; repo teknolojileri
 
 ## Tasarım İlkeleri
 
@@ -32,8 +33,8 @@ Tüm renkler ve tipografi Tailwind üzerinden yönetilir. Gerekirse `tailwind.co
 - Tipografi:
   - Font ailesi: Inter (UI), JetBrains Mono (kod/numara ops.)
   - Sayısal göstergeler (süre/puan): `font-variant-numeric: tabular-nums;` (CSS) — net atlama animasyonları ve hizalama
-  - Başlık ölçeği (örnek Tailwind): H1 `text-6xl`, H2 `text-4xl`, H3 `text-2xl`, Body `text-base|lg`, Buton `text-lg`, Harf kutusu `text-5xl`
-  - Fluid/Clamp önerisi (CSS): Başlıklar için `clamp()` kullanarak 1366–3840 aralığında akışkan büyüklük
+  - Başlık ölçeği (örnek Tailwind): H1 `text-4xl md:text-5xl lg:text-6xl`, H2 `text-2xl md:text-3xl lg:text-4xl`, H3 `text-xl md:text-2xl`, Body `text-sm md:text-base lg:text-lg`, Buton `text-base md:text-lg`, Harf kutusu `text-3xl md:text-4xl lg:text-5xl`
+  - **Fluid Typography:** Başlıklar için `clamp()` kullanarak viewport'a göre akışkan büyüklük (örn: `clamp(1.5rem, 4vw, 3.5rem)`)
 - Spacing & Radius:
   - Spacing: 8px tabanlı (2,4,6,8,12,16,24,32,48,64)
   - Radius: `rounded-xl` (buton/kart), `rounded-2xl` (modal/kart büyük)
@@ -41,11 +42,12 @@ Tüm renkler ve tipografi Tailwind üzerinden yönetilir. Gerekirse `tailwind.co
   - Kart: `shadow-xl hover:shadow-2xl`
   - Vurgu: altın/glow `ring-amber-400/40` + hafif outer glow (TV hissi)
 
-## Layout Sistemi (1920×1080 Baz Çerçeve)
+## Layout Sistemi (Fully Responsive)
 
-- Güvenli Kenar Boşlukları: Dış çerçevede 24–48px “safe area”; projeksiyon kesimlerini tolere eder.
-- Grid: 12 sütun, 80–96px gutter; büyük ekran için rahat nefes.
-- Z-Index Katmanları:
+- **Güvenli Kenar Boşlukları:** Dış çerçevede responsive "safe area" (örn: `p-4 md:p-6 lg:p-8 xl:p-12`); projeksiyon kesimlerini tolere eder.
+- **Responsive Grid:** 12 sütun sistemi, viewport'a göre gutter (örn: `gap-4 md:gap-6 lg:gap-8`); küçük ekranlarda daha sıkı, büyük ekranlarda rahat nefes.
+- **Fluid Components:** Tüm bileşenler viewport'a göre ölçeklenir (width: %, max-width, min-width kullanımı)
+- **Z-Index Katmanları:**
   - z-0: İçerik
   - z-10: Tooltip, dropdown
   - z-20: Modallar
@@ -75,8 +77,9 @@ Tüm renkler ve tipografi Tailwind üzerinden yönetilir. Gerekirse `tailwind.co
   - Timer Ring (dairesel) veya Bar (üst).
   - Score Count-up (sayısal animasyon).
 - Letter Tile (Harf Kutusu):
-  - Kapalı: `bg-slate-700 border-2 border-slate-600 rounded-lg w-16 h-20 flex items-center justify-center text-4xl text-slate-400`
-  - Açık: `bg-amber-400 text-slate-900 rounded-lg w-16 h-20 flex items-center justify-center text-4xl font-extrabold`
+  - Kapalı: `bg-slate-700 border-2 border-slate-600 rounded-lg w-12 h-14 md:w-14 md:h-16 lg:w-16 lg:h-20 flex items-center justify-center text-2xl md:text-3xl lg:text-4xl text-slate-400`
+  - Açık: `bg-amber-400 text-slate-900 rounded-lg w-12 h-14 md:w-14 md:h-16 lg:w-16 lg:h-20 flex items-center justify-center text-2xl md:text-3xl lg:text-4xl font-extrabold`
+  - **Responsive Sizing:** Küçük ekranlarda daha kompakt, büyük ekranlarda daha belirgin
   - Durum glow: Doğru anında yeşil glow, yanlışta kırmızı kısa flash.
 - Team Chip: Renk/emoji ile takım kimliği; `rounded-full px-4 py-2`.
 
@@ -233,20 +236,24 @@ Aşağıdaki maddeler PRD Bölüm 4 ve docs/tasks 08–24 ile birebir hizalıdı
 
 <a id="responsive"></a>
 
-### 11) Responsive ve 4K Ölçekleme (docs/tasks/35)
+### 11) Tam Responsive Tasarım (docs/tasks/35)
 
-- 1366×768: Tipografiyi ve harf kutularını `scale-90~95` ile sıkıştır; grid sütunlarını azalt; kritik bilgiler görünür kalmalı.
-- 4K: `clamp()` ve `scale` ile büyüt; ikon ve hit target’ları artır.
-- Minimum pencere 1280×720, tam ekran mod önerilir.
+- **Küçük Ekranlar (< 768px):** Kompakt layout, tek sütun grid, küçük typography, daha sıkı spacing
+- **Orta Ekranlar (768px - 1024px):** Denge layout, 2-3 sütun grid, orta typography
+- **Büyük Ekranlar (> 1024px):** Geniş layout, tam grid (12 sütun), büyük typography, bol spacing
+- **Çok Büyük Ekranlar (> 1920px):** `max-width` container'lar, büyütülmüş typography (clamp ile), artırılmış hit targets
+- **Fluid Scaling:** `clamp()`, `vw`, `vh`, `%` kullanarak sürekli ölçekleme
+- **Tam ekran mod:** Herhangi bir viewport'ta önerilir
 
 ## Etkileşim ve Girdi Modeli
 
 <a id="interaction"></a>
 
-- Klavye: PRD 11’deki tüm kombinasyonlar; görsel ipuçları (buton altındaki harf).
-- Akıllı Tahta/Mouse: Büyük hedefler, hover alternatifleri (focus-visible stilleri).
-- “Yanlış tıklama koruması”: Tahmin sonrası Harf Aç butonu devre dışı; destructive aksiyonlarda onay gerekir.
-- Fokus Yönetimi: Modal açıldığında ilk interaktif öğeye; kapanınca tetikleyen kontrole geri.
+- **Klavye:** PRD 11'deki tüm kombinasyonlar; görsel ipuçları (buton altındaki harf).
+- **Touch/Mouse:** Viewport'a uygun büyük hedefler (min 44×44px küçük ekranlar, 48×48px+ büyük ekranlar), hover alternatifleri (focus-visible stilleri).
+- **Responsive Touch Targets:** Ekran boyutuna göre dinamik hit area (küçük ekranlarda daha kompakt ama dokunulabilir, büyük ekranlarda daha geniş)
+- **"Yanlış tıklama koruması":** Tahmin sonrası Harf Aç butonu devre dışı; destructive aksiyonlarda onay gerekir.
+- **Fokus Yönetimi:** Modal açıldığında ilk interaktif öğeye; kapanınca tetikleyen kontrole geri.
 
 ## Hata, Boş Durum ve Bildirim Dili
 
@@ -277,16 +284,19 @@ Aşağıdaki maddeler PRD Bölüm 4 ve docs/tasks 08–24 ile birebir hizalıdı
 
 <a id="qa-checklist"></a>
 
-- [ ] 1920×1080 ve 1366×768 görünürlük testi (uzaktan okunabilirlik)
-- [ ] Timer/Skor/İpucu her ekranda belirgin mi?
-- [ ] Harf kutuları mesafe ve kontrast testini geçiyor mu?
-- [ ] Tahmin sonrası harf açma blokajı net mi?
-- [ ] Erişilebilirlik: Tab sırası, focus ring, aria-live alanları
-- [ ] Reduce motion saygısı ve “pulse/flash” sınırlandırma
-- [ ] Ses ve görsel feedback eşleşmesi
-- [ ] Boş durumlar ve hata mesajları anlaşılır mı?
-- [ ] Çoklu/takım modunda ayrışan renk/kimlik
-- [ ] Sonuç ekranında sıralama ve eşitlik kuralları görünür
+- [ ] **Çoklu Viewport Testi:** Küçük (< 768px), Orta (768-1024px), Büyük (> 1024px), Çok Büyük (> 1920px) ekranlarda test
+- [ ] **Uzaktan Okunabilirlik:** Timer/Skor/İpucu her ekran boyutunda ve mesafeden belirgin mi?
+- [ ] **Responsive Scaling:** Harf kutuları, butonlar, typography tüm viewport'larda uygun mu?
+- [ ] **Fluid Layout:** Container'lar, grid'ler viewport'a göre doğru ölçekleniyor mu?
+- [ ] **Touch Targets:** Minimum 44×44px (küçük), 48×48px+ (büyük) hit area'lar sağlanıyor mu?
+- [ ] **Tahmin sonrası harf açma blokajı** net mi?
+- [ ] **Erişilebilirlik:** Tab sırası, focus ring, aria-live alanları tüm viewport'larda
+- [ ] **Reduce motion** saygısı ve "pulse/flash" sınırlandırma
+- [ ] **Ses ve görsel feedback** eşleşmesi
+- [ ] **Boş durumlar ve hata mesajları** tüm ekran boyutlarında anlaşılır mı?
+- [ ] **Çoklu/takım modunda** ayrışan renk/kimlik
+- [ ] **Sonuç ekranında** sıralama ve eşitlik kuralları görünür
+- [ ] **Breakpoint Consistency:** Tailwind breakpoints (sm, md, lg, xl, 2xl) tutarlı kullanılıyor mu?
 
 ## Referanslar ve İlişkilendirme
 

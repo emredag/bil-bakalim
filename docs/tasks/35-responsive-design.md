@@ -1,7 +1,7 @@
 # Responsive Design
 
 > PRD Reference: Section 8.5
-> See also: [UI/UX Design Spec](../ui-ux-design.md#responsive)
+> **Complete Responsive Spec:** [UI/UX Design Spec - Responsive & 4K Scaling](../ui-ux-design.md#responsive) - TV presentation optimizations
 > Category: Frontend
 > Status: Not Started
 > Priority: Medium
@@ -11,7 +11,7 @@
 
 ## 🎯 Objective
 
-Implement responsive design supporting 1920x1080 (optimal), 1366x768 (minimum), and 4K scaling as per PRD 8.5
+Implement **fully responsive design** that works perfectly on ANY screen size using fluid scaling, Tailwind responsive utilities (sm, md, lg, xl, 2xl), CSS `clamp()` for typography, flexible grids, and viewport-aware components. Ensure safe area margins, responsive touch targets (44px min on small, 48px+ on large), and fluid typography as per PRD 8.5 and ui-ux-design.md#responsive
 
 ---
 

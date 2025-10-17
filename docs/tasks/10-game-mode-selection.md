@@ -1,7 +1,7 @@
 # Game Mode Selection
 
 > PRD Reference: Section 4.3 - Game Mode Selection
-> See also: [UI/UX Design Spec](../ui-ux-design.md#game-mode-selection)
+> **Complete Design Spec:** [UI/UX Design Spec - Game Mode Selection](../ui-ux-design.md#game-mode-selection) - Three large mode cards with descriptions
 > Category: Frontend
 > Status: Not Started
 > Priority: High
@@ -11,7 +11,7 @@
 
 ## 🎯 Objective
 
-Implement game mode selection screen with 3 mode cards (Single, Multiplayer, Team) and validation based on category word count. Disable modes that don't have sufficient words as specified in PRD Section 4.3.
+Implement game mode selection screen with 3 large mode cards (Single 👤, Multiplayer 👥, Team 🏆) with short descriptions, requirement labels, and active/disabled states based on category eligibility. Validate word count and disable modes with insufficient words as specified in PRD Section 4.3 and ui-ux-design.md#game-mode-selection.
 
 ---
 

@@ -1,7 +1,7 @@
 # UI Design System
 
 > PRD Reference: Section 8 - UI/UX Design Requirements
-> See also: [UI/UX Design Spec](../ui-ux-design.md)
+> **Complete Design Specification:** [UI/UX Design Spec](../ui-ux-design.md) - TV show quality standards
 > Category: Frontend
 > Status: Not Started
 > Priority: High
@@ -11,16 +11,23 @@
 
 ## 🎯 Objective
 
-Implement a comprehensive design system with color palette, typography, component styles, and UI patterns as specified in the PRD. This task establishes the visual foundation and consistent styling for the entire application using Tailwind CSS.
+Implement a comprehensive design system with **TV show quality aesthetics** including color palette, typography (fluid/clamp), component styles, layout system, and UI patterns as specified in the PRD Section 8 and the complete design specification document. This task establishes the visual foundation and consistent styling for the entire application using Tailwind CSS.
 
-The design system must follow the modern dark theme aesthetic specified in PRD Section 8 and ensure all UI components maintain visual consistency.
+**Design Principles (from ui-ux-design.md):**
+1. **TV Show Aesthetics:** High energy, gold accents, bright highlights, dramatic animations (performance-friendly)
+2. **Remote Visibility:** Readable from 3-8 meters; minimum 48px touch targets
+3. **Clear Hierarchy:** Timer, score, active player, and word area are top priority
+4. **Accessibility:** WCAG 2.1 AA compliant
+
+The design system must follow the modern dark theme aesthetic with **fully responsive** TV presentation optimizations for classroom projection and displays of any size (from small laptops to large TVs, using fluid scaling).
 
 ---
 
 ## 🧾 Requirements
 
-All mandatory work items within this task, as defined in the PRD.
+All mandatory work items within this task, as defined in PRD and ui-ux-design.md.
 
+**Core Requirements (PRD 8.1-8.3):**
 - PRD 8.1: Implement modern dark theme color palette (Slate-based backgrounds)
 - PRD 8.1: Define all accent colors (Blue, Violet, Gold/Amber)
 - PRD 8.1: Define status colors (Success, Error, Warning, Info)
@@ -33,7 +40,16 @@ All mandatory work items within this task, as defined in the PRD.
 - PRD 8.3: Create card component styles with hover states
 - PRD 8.3: Create input field styles with focus states
 - PRD 8.3: Create modal/dialog styles
-- PRD 8.3: Create letter box styles (closed and open states)
+- PRD 8.3: Create letter box styles (closed and open states with glow effects)
+
+**TV Show Quality Enhancements (ui-ux-design.md):**
+- Design tokens: 8px-based spacing scale, rounded-xl/2xl radius, shadow & glow patterns
+- Layout system: 24-48px safe area margins, 12-column grid (80-96px gutter)
+- Z-index layers: Content (0), Tooltip (10), Modal (20), Confetti (30), Toast (40)
+- Typography enhancements: `tabular-nums` for timer/score, fluid clamp() for headings
+- Additional components: Toast, Tooltip, Badge, Tabs, Tables, Progress (timer ring/bar, count-up), Team Chip
+- Letter tile status glow: Green glow (correct), red flash (wrong)
+- Minimum interaction targets: 48×48px for remote/smartboard use
 
 ---
 
@@ -129,18 +145,32 @@ Technical scope of the task as per PRD.
 
 Step-by-step guide on how to implement this task.
 
-1. Configure Tailwind CSS with custom theme colors from PRD
-2. Import Inter and JetBrains Mono fonts from Google Fonts
-3. Create CSS custom properties for theme colors
-4. Define Tailwind theme extensions for custom colors and gradients
-5. Create base button component variants (Primary, Secondary, Destructive)
-6. Create Card component with hover states
-7. Create Input component with focus states
-8. Create Modal/Dialog component with overlay
-9. Create LetterBox component (closed/open states)
-10. Document all design tokens and component usage
-11. Create style guide documentation
-12. Test all components across different screen sizes
+1. Configure Tailwind CSS with custom theme colors from PRD and design spec
+2. **Extend Tailwind config with TV show enhancements:**
+   - 8px-based spacing scale (2, 4, 6, 8, 12, 16, 24, 32, 48, 64)
+   - Safe area utilities (24-48px margins)
+   - Z-index layer utilities
+   - Shadow & glow patterns (`ring-amber-400/40`)
+3. Import Inter and JetBrains Mono fonts from Google Fonts
+4. **Add typography enhancements:**
+   - CSS `font-variant-numeric: tabular-nums` for timer/score
+   - Fluid typography with `clamp()` for headings (1366-3840px range)
+5. Create CSS custom properties for theme colors
+6. Define Tailwind theme extensions for custom colors and gradients
+7. Create base button component variants (Primary, Secondary, Destructive) with min 48×48px
+8. Create Card component with hover states (scale 1.05, shadow transitions)
+9. Create Input component with focus states (blue ring)
+10. Create Modal/Dialog component with blur backdrop
+11. Create LetterBox component (closed/open states with status glow effects)
+12. **Create additional TV-quality components:**
+    - Toast (4s auto-dismiss, color strips)
+    - Tooltip, Badge, Tabs/Segmented
+    - Tables (zebra rows, sticky header, responsive stack)
+    - Progress (timer ring/bar, score count-up)
+    - Team Chip (rounded-full with color/emoji)
+13. Document all design tokens and component usage
+14. Create style guide documentation
+15. **Test all components across multiple viewport sizes:** Small (< 768px), Medium (768-1024px), Large (> 1024px), Extra Large (> 1536px)
 
 ---
 
@@ -197,15 +227,28 @@ Other tasks that must be completed before this task can start, or required syste
 
 List of concrete outputs that will be produced when task is completed.
 
-- `tailwind.config.js` with complete theme configuration
-- `src/styles/globals.css` with custom CSS and font imports
-- `src/components/ui/Button.tsx` - Button component
-- `src/components/ui/Card.tsx` - Card component
-- `src/components/ui/Input.tsx` - Input component
-- `src/components/ui/Modal.tsx` - Modal/Dialog component
-- `src/components/ui/LetterBox.tsx` - Letter box component
-- Design system documentation
-- Style guide with examples
+**Core Deliverables:**
+- `tailwind.config.js` with complete theme configuration (including TV enhancements)
+- `src/styles/globals.css` with custom CSS, font imports, and typography utilities
+- `src/components/ui/Button.tsx` - Button component (min 48×48px)
+- `src/components/ui/Card.tsx` - Card component with hover scale
+- `src/components/ui/Input.tsx` - Input component with focus ring
+- `src/components/ui/Modal.tsx` - Modal/Dialog component with blur backdrop
+- `src/components/ui/LetterBox.tsx` - Letter box component with status glow
+
+**TV Show Quality Components:**
+- `src/components/ui/Toast.tsx` - Toast notification component
+- `src/components/ui/Tooltip.tsx` - Tooltip component
+- `src/components/ui/Badge.tsx` - Badge/label component
+- `src/components/ui/Tabs.tsx` - Tabs/Segmented control component
+- `src/components/ui/Table.tsx` - Table component (zebra, sticky header, responsive)
+- `src/components/ui/Progress.tsx` - Progress (ring/bar, count-up animation)
+- `src/components/ui/TeamChip.tsx` - Team identifier chip
+
+**Documentation:**
+- Design system documentation with TV show quality guidelines
+- Style guide with examples and accessibility notes
+- Component usage guide with responsive behavior
 
 ---
 
@@ -213,23 +256,45 @@ List of concrete outputs that will be produced when task is completed.
 
 Information that helps understand the process but is not directly part of PRD.
 
+> **TV Presentation Optimization:** This design system is optimized for classroom projection, smartboards, and large TV displays. All components must be readable from 3-8 meters distance.
+
 > Use Tailwind's @apply directive sparingly - prefer utility classes for better tree-shaking.
 
-> Inter font provides excellent readability for the word game context.
+> Inter font provides excellent readability for the word game context. Use `tabular-nums` for timer and score to prevent layout shift.
 
-> The Amber-400 color for revealed letters creates strong visual contrast against the dark theme.
+> **Fluid Typography:** Use CSS `clamp()` for headings to ensure proper scaling from 1366×768 to 4K displays without breakpoints.
 
-> All hover states should use transition-all with 200ms duration for smooth animations.
+> The Amber-400 color for revealed letters creates strong visual contrast against the dark theme - perfect for TV visibility.
 
-> Consider creating a Storybook or similar component catalog for easy reference.
+> All hover states should use transition-all with 200ms duration for smooth animations. Use `transform/opacity` for performance.
+
+> **Safe Area Margins:** Always apply 24-48px margins on outer frames to account for projection edge cutoff.
+
+> **Accessibility First:** Minimum 48×48px touch targets for smartboard/remote use. All interactive elements must be keyboard accessible.
+
+> Consider creating a Storybook or similar component catalog for easy reference and testing across resolutions.
 
 ---
 
 ## 📚 References
 
-- [PRD Document - Section 8: UI/UX Design Requirements](../docs/PRD.md#8-uiux-tasarim-gereksinimleri)
-- [PRD Document - Section 8.1: Color Palette](../docs/PRD.md#81-renk-paleti)
-- [PRD Document - Section 8.2: Typography](../docs/PRD.md#82-tipografi)
-- [PRD Document - Section 8.3: Component Design](../docs/PRD.md#83-bileşen-tasarımı)
+**Primary Design Specifications:**
+- [UI/UX Design Spec - Complete Document](../ui-ux-design.md) - **TV show quality standards**
+- [UI/UX Design Spec - Design Principles](../ui-ux-design.md#tasarım-ilkeleri)
+- [UI/UX Design Spec - Visual Language & Tokens](../ui-ux-design.md#görsel-dil-ve-tasarım-tokenları)
+- [UI/UX Design Spec - Layout System](../ui-ux-design.md#layout-sistemi-1920×1080-baz-çerçeve)
+- [UI/UX Design Spec - Component Library](../ui-ux-design.md#components)
+- [UI/UX Design Spec - Accessibility](../ui-ux-design.md#a11y)
+- [UI/UX Design Spec - QA Checklist](../ui-ux-design.md#qa-checklist)
+
+**PRD References:**
+- [PRD Document - Section 8: UI/UX Design Requirements](../prd.md#8-uiux-tasarim-gereksinimleri)
+- [PRD Document - Section 8.1: Color Palette](../prd.md#81-renk-paleti)
+- [PRD Document - Section 8.2: Typography](../prd.md#82-tipografi)
+- [PRD Document - Section 8.3: Component Design](../prd.md#83-bileşen-tasarımı)
+
+**External Resources:**
 - [Tailwind CSS Documentation](https://tailwindcss.com/)
 - [Google Fonts - Inter](https://fonts.google.com/specimen/Inter)
+- [Framer Motion Documentation](https://www.framer.com/motion/)
+- [WCAG 2.1 Guidelines](https://www.w3.org/WAI/WCAG21/quickref/)

@@ -1,7 +1,8 @@
 # Accessibility (A11y)
 
 > PRD Reference: Section 8.6
-> See also: [UI/UX Design Spec](../ui-ux-design.md#a11y)
+> **Complete A11y Spec:** [UI/UX Design Spec - Accessibility](../ui-ux-design.md#a11y) - WCAG 2.1 AA compliance for TV/classroom use
+> **See also:** [Keyboard Shortcuts](../ui-ux-design.md#howto-shortcuts), [Interaction Model](../ui-ux-design.md#interaction), [QA Checklist](../ui-ux-design.md#qa-checklist)
 > Category: Frontend
 > Status: Not Started
 > Priority: Medium
@@ -11,7 +12,7 @@
 
 ## 🎯 Objective
 
-Implement accessibility features including keyboard navigation, ARIA labels, color contrast, and screen reader support as per PRD 8.6
+Implement **WCAG 2.1 Level AA** accessibility features including keyboard navigation (Tab/Shift+Tab, Space/Enter, ESC), ARIA labels, 4.5:1 minimum color contrast, screen reader support, 200% text scaling, "reduce motion" respect, and large touch targets (48×48px) for smartboard/remote use as per PRD 8.6 and ui-ux-design.md#a11y
 
 ---
 

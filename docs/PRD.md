@@ -214,11 +214,11 @@ Her kategori şunları içerir:
 
 ## 4. OYUN AKIŞI
 
-> See also: UI/UX implementation guidelines in `docs/ui-ux-design.md` (layout, motion, and component specs for all screens)
+> **UI/UX Implementation Guidelines:** All screens in this section must follow the TV show quality design standards defined in `docs/ui-ux-design.md`, including fully responsive layouts (works on any screen size), fluid typography and components, motion patterns, component styles, accessibility requirements, and viewport-aware scaling from small laptops to large TV displays.
 
 ### 4.1 Başlangıç Ekranı (Ana Menü)
 
-> Design reference: `docs/ui-ux-design.md#main-menu`
+> **Design Reference:** `docs/ui-ux-design.md#main-menu` - Includes hero layout, action card grid (2×3), safe area margins, gradient backgrounds, and subtle particle effects for TV presentation quality.
 
 **Bileşenler:**
 
@@ -240,6 +240,8 @@ Her kategori şunları içerir:
 - Modern, minimal tasarım
 
 ### 4.2 Kategori Seçim Ekranı
+
+> **Design Reference:** `docs/ui-ux-design.md#category-selection` - Card layout with emoji, word count badges, playability indicators, search/filter, and empty state illustrations.
 
 **Yarışma Başlat > Kategori Seç**
 
@@ -270,6 +272,8 @@ Her kategori şunları içerir:
 ```
 
 ### 4.3 Mod Seçimi
+
+> **Design Reference:** `docs/ui-ux-design.md#game-mode-selection` - Three large mode cards with descriptions, requirement labels, and active/disabled states based on category eligibility.
 
 **Kategori Seçildikten Sonra:**
 
@@ -316,6 +320,8 @@ Her kategori şunları içerir:
 - Geri ve İleri butonları
 
 ### 4.4 Yarışmacı/Takım Ayarlama
+
+> **Design Reference:** `docs/ui-ux-design.md#participant-team-setup` - Single mode: name input. Multi mode: 2-6 participants with add/remove and drag-drop ordering. Team mode: 2-4 teams with name, color/emoji, player lists, and eligibility summary.
 
 **Tek Yarışmacı Modu:**
 
@@ -367,31 +373,32 @@ Gerekli kelime: 28 | Mevcut: 42 ✓
 
 ### 4.5 Oyun Ekranı (Ana Oyun)
 
-> Design reference: `docs/ui-ux-design.md#game-screen` and mechanics: `docs/ui-ux-design.md#mechanics`
+> **Design Reference:** `docs/ui-ux-design.md#game-screen` - Complete TV-optimized **fully responsive** layout with header (timer, score, active player), word area (letter tiles with 3D flip), hint section, control panel (Reveal, Guess, Skip), and progress bar. All components scale fluidly across viewport sizes. See also `docs/ui-ux-design.md#mechanics` for interaction patterns and visual feedback.
 
-**Layout (1920x1080 optimize):**
+**Responsive Layout (Adapts to Any Viewport):**
 
-**Üst Header (120px):**
+**Üst Header (Responsive Height):**
 
 - Kategori adı ve emoji (sol)
 - Süre sayacı (ortada, büyük)
 - Puan ve ilerleme (sağ)
 - Yarışmacı adı (mod bazlı)
 
-**Kelime Alanı (500px, merkezi):**
+**Kelime Alanı (Responsive, Merkezi):**
 
-- Harf kutuları (büyük, eşit aralıklı)
+- Harf kutuları (viewport'a göre boyutlanır, eşit aralıklı)
 - Kapalı: Koyu arka plan, "?" işareti
 - Açık: Altın rengi arka plan, harf
 - Animasyon: 3D flip
+- **Fluid sizing:** Küçük ekranlarda kompakt, büyük ekranlarda belirgin
 
-**İpucu Bölgesi (100px):**
+**İpucu Bölgesi (Responsive):**
 
-- İpucu metni (büyük, okunabilir)
+- İpucu metni (viewport'a göre boyutlanır, her zaman okunabilir)
 - 💡 ikonu
 - Çerçeve ile vurgulanmış
 
-**Kontrol Paneli (280px):**
+**Kontrol Paneli (Responsive):**
 
 - 3 ana buton (yan yana):
   - 🔤 Harf Aç
@@ -406,10 +413,10 @@ Gerekli kelime: 28 | Mevcut: 42 ✓
   - 🔇 Ses
   - 🏠 Ana Menü
 
-**Alt Bar (60px):**
+**Alt Bar (Responsive):**
 
 - Kelime ilerlemesi: "6 / 14"
-- Kategori açıklaması (küçük)
+- Kategori açıklaması (responsive text size)
 
 ### 4.6 Oyun Mekanikleri
 
@@ -495,6 +502,8 @@ Gerekli kelime: 28 | Mevcut: 42 ✓
 
 ### 4.7 Sonuç Ekranı
 
+> **Design Reference:** `docs/ui-ux-design.md#results` - Single: total score, stats, detailed word list (accordion). Multi: podium/ranking table with tie-breaker display. Team: winner highlight with team colors/emoji and detailed breakdowns.
+
 **Otomatik Kayıt:**
 
 - Oyun bittiğinde tüm sonuçlar otomatik olarak veritabanına kaydedilir
@@ -545,6 +554,8 @@ Gerekli kelime: 28 | Mevcut: 42 ✓
 - Aksiyon butonları aynı
 
 ### 4.8 Geçmiş Yarışmalar Ekranı
+
+> **Design Reference:** `docs/ui-ux-design.md#history` - List view with date, category, mode, participant count, winner, duration. Includes filters (date, category, mode), sorting, pagination, and export/delete with confirmation dialogs.
 
 **Ana Menü > Geçmiş Yarışmalar**
 
@@ -603,6 +614,8 @@ Gerekli kelime: 28 | Mevcut: 42 ✓
 
 ### 4.9 Yarışma Detay Ekranı
 
+> **Design Reference:** `docs/ui-ux-design.md#history` - Header info, ranking table, participant accordions with word results (word, status, points, letters used, hint).
+
 **Geçmiş Yarışmalar > Detay**
 
 **Layout:**
@@ -655,6 +668,8 @@ Gerekli kelime: 28 | Mevcut: 42 ✓
 ---
 
 ## 5. KATEGORİ YÖNETİMİ
+
+> **Design Reference:** `docs/ui-ux-design.md#category-management` - Complete category and word management UI patterns including card views, modals, tables, validation displays, and JSON import/export flows.
 
 ### 5.1 Ana Kategori Yönetim Ekranı
 
@@ -867,6 +882,8 @@ Gerekli kelime: 28 | Mevcut: 42 ✓
 
 ## 7. NASIL OYNANIR? EKRANI
 
+> **Design Reference:** `docs/ui-ux-design.md#howto-shortcuts` - Visual mini-guide with illustrations, critical rules highlighted, keyboard shortcuts table, and optional "?" button overlay for quick help.
+
 **Oyun Kuralları (Resmi Kurallar):**
 
 **Temel Bilgiler:**
@@ -955,7 +972,23 @@ Gerekli kelime: 28 | Mevcut: 42 ✓
 
 ## 8. UI/UX TASARIM GEREKSİNİMLERİ
 
-> Detailed design tokens, components, motion/audio, accessibility and screen-by-screen guidelines: `docs/ui-ux-design.md`
+> **Complete Design Specification:** `docs/ui-ux-design.md` - This section provides an overview. For comprehensive TV show quality design standards including **fully responsive layouts**, design tokens, component library, motion patterns, sound design, accessibility (WCAG 2.1 AA), and screen-by-screen specifications optimized for classroom projection and displays of any size, see the full design document.
+
+**Design Principles (from ui-ux-design.md):**
+1. **TV Show Aesthetics:** High energy, gold accents, bright highlights, dramatic animations (performance-friendly)
+2. **Remote Visibility:** Readable typography and iconography from 3-8 meters; responsive touch targets (min 44px small screens, 48px+ large screens)
+3. **Clear Hierarchy:** Timer, score, active player, and word area are top priority
+4. **Consistency:** Unified component system, consistent motion and sound language
+5. **Accessibility:** WCAG 2.1 AA; color + icon/shape usage; keyboard support; "reduce motion" respect
+6. **Performance:** 60 FPS animations, low latency (transform/opacity), skeleton loading states
+7. **Offline & Reliable:** Clean error states, visible and understandable feedback
+8. **Fully Responsive:** Works perfectly on any viewport size with fluid scaling
+
+**Responsive Layout System:**
+- **Safe Area Margins:** Responsive spacing (`p-4 md:p-6 lg:p-8 xl:p-12`) for projection edge tolerance
+- **Fluid Grid:** 12 columns with viewport-aware gutters (`gap-4 md:gap-6 lg:gap-8`)
+- **Z-Index Layers:** Content (z-0), Tooltip/dropdown (z-10), Modals (z-20), Confetti/effects (z-30), Global toast/alert (z-40)
+- **Responsive Touch Targets:** Min 44×44px (small screens) to 48×48px+ (large screens); button padding adapts to viewport
 
 ### 8.1 Renk Paleti
 
@@ -998,19 +1031,25 @@ Gerekli kelime: 28 | Mevcut: 42 ✓
 - Ana Font: Inter (Google Fonts)
   - Modern, okunabilir, çok ağırlıklı
 - Monospace (kodlar için): JetBrains Mono
+- **Numerical Displays (timer/score):** `font-variant-numeric: tabular-nums;` for clean jump animations and alignment
+- **Fluid Typography:** Use CSS `clamp()` for headings to scale fluidly across all viewport sizes (e.g., `clamp(1.5rem, 4vw, 3.5rem)`)
 
-**Font Boyutları (Tailwind):**
+**Responsive Font Sizes (Tailwind with breakpoints):**
 
 - Başlıklar:
-  - H1: text-6xl (60px) font-bold
-  - H2: text-4xl (36px) font-semibold
-  - H3: text-2xl (24px) font-semibold
+  - H1: `text-4xl md:text-5xl lg:text-6xl` font-bold
+  - H2: `text-2xl md:text-3xl lg:text-4xl` font-semibold
+  - H3: `text-xl md:text-2xl` font-semibold
 - Gövde:
-  - Normal: text-base (16px)
-  - Büyük: text-lg (18px)
-  - Küçük: text-sm (14px)
-- Kelime Harfleri: text-5xl (48px) font-extrabold
-- Butonlar: text-lg (18px) font-semibold
+  - Normal: `text-sm md:text-base lg:text-lg`
+  - Küçük: `text-xs md:text-sm`
+- Kelime Harfleri: `text-3xl md:text-4xl lg:text-5xl` font-extrabold
+- Butonlar: `text-base md:text-lg` font-semibold
+
+**Spacing & Radius (from ui-ux-design.md):**
+- **Responsive Spacing:** 8px-based scale with breakpoints (e.g., `p-4 md:p-6 lg:p-8`)
+- **Radius:** `rounded-xl` (buttons/cards), `rounded-2xl` (modals/large cards)
+- **Shadow & Glow:** Card `shadow-xl hover:shadow-2xl`, Accent `ring-amber-400/40` + subtle outer glow for TV feel
 
 ### 8.3 Bileşen Tasarımı
 
@@ -1044,15 +1083,24 @@ Gerekli kelime: 28 | Mevcut: 42 ✓
 - Overlay: `bg-black/50 backdrop-blur-sm`
 - Content: `bg-slate-800 rounded-2xl p-8 shadow-2xl max-w-md`
 
-**Harf Kutuları:**
+**Harf Kutuları (Responsive):**
 
 - Kapalı:
-  - `bg-slate-700 border-2 border-slate-600 rounded-lg w-16 h-20`
-  - İçerik: "?" (text-4xl text-slate-400)
+  - `bg-slate-700 border-2 border-slate-600 rounded-lg w-12 h-14 md:w-14 md:h-16 lg:w-16 lg:h-20`
+  - İçerik: "?" (`text-2xl md:text-3xl lg:text-4xl text-slate-400`)
 - Açık:
-  - `bg-amber-400 text-slate-900 rounded-lg w-16 h-20`
-  - İçerik: Harf (text-4xl font-extrabold)
+  - `bg-amber-400 text-slate-900 rounded-lg w-12 h-14 md:w-14 md:h-16 lg:w-16 lg:h-20`
+  - İçerik: Harf (`text-2xl md:text-3xl lg:text-4xl font-extrabold`)
+- **Responsive Sizing:** Küçük ekranlarda kompakt, büyük ekranlarda belirgin
+- **Status Glow:** Correct answer = green glow; wrong = red flash
 - Animasyon: 3D flip (Framer Motion)
+
+**Additional Components (see ui-ux-design.md#components):**
+- Toast notifications (4s auto-dismiss, color strips)
+- Tooltips, Badges, Tabs/Segmented controls
+- Tables (zebra rows, sticky header, responsive stack at 1366px)
+- Progress (timer ring/bar, score count-up animation)
+- Team Chip (color/emoji team identity, `rounded-full px-4 py-2`)
 
 ### 8.4 Animasyonlar (Framer Motion)
 
@@ -1098,25 +1146,39 @@ Gerekli kelime: 28 | Mevcut: 42 ✓
 - Skeleton loaders (Tailwind animate-pulse)
 - Spinner (custom SVG animasyonu)
 
+**Motion Best Practices (see ui-ux-design.md#motion):**
+- Use `transform/opacity` for performance
+- "Reduce motion" preference: simplify or disable animations when active
+- Stagger children with small delays for batch state changes
+
 ### 8.5 Responsive Tasarım
 
-**Desteklenen Çözünürlükler:**
+**Fully Responsive Approach:**
 
-- **Full HD:** 1920x1080 (optimal)
-- **HD:** 1366x768 (desteklenen)
-- **4K:** 3840x2160 (ölçeklenebilir)
+- **Works on ANY screen size:** From small laptops to large TVs
+- **No fixed breakpoints:** Fluid scaling using `clamp()`, `vw`, `vh`, `%`, and Tailwind responsive utilities
+- **Minimum pencere:** 640px width (mobile landscape and above)
+- **Maximum pencere:** Unlimited (scales up infinitely)
+- **Tam ekran:** Recommended for optimal experience on any viewport
 
-**Breakpoint'ler (Tauri pencere boyutu):**
+**Responsive Breakpoints (Tailwind):**
 
-- Minimum pencere: 1280x720
-- Maksimum pencere: Sınırsız
-- Tam ekran: Destekleniyor
+- **sm** (640px+): Small tablets/large phones landscape
+- **md** (768px+): Tablets portrait
+- **lg** (1024px+): Tablets landscape/small laptops
+- **xl** (1280px+): Desktop monitors
+- **2xl** (1536px+): Large monitors/TVs
 
-**Responsive Davranış:**
+**Fluid Scaling Behavior:**
 
-- Harf kutuları: Ekran genişliğine göre scale
-- Grid layout'lar: Otomatik sütun ayarlaması
-- Font boyutları: Viewport birimlerine göre (vw, vh)
+- **Typography:** Responsive text sizes (`text-sm md:text-base lg:text-lg`) + `clamp()` for headings
+- **Letter Tiles:** Scale with viewport (`w-12 h-14 md:w-14 md:h-16 lg:w-16 lg:h-20`)
+- **Grid Layouts:** Auto-adjust columns (`grid-cols-1 md:grid-cols-2 lg:grid-cols-3`)
+- **Spacing:** Responsive padding/margin (`p-4 md:p-6 lg:p-8 xl:p-12`)
+- **Touch Targets:** Dynamic sizing (44×44px minimum on small, 48×48px+ on large)
+- **Containers:** Max-width constraints on very large screens for readability
+
+**Detailed Responsive Guidelines:** See `docs/ui-ux-design.md#responsive` (Task 35)
 
 ### 8.6 Erişilebilirlik (A11y)
 
@@ -1146,6 +1208,13 @@ Gerekli kelime: 28 | Mevcut: 42 ✓
 
 - 200%'e kadar zoom desteklenir
 - Tailwind responsive font boyutları
+- Fluid text with clamp for large displays
+
+**Responsive Touch Targets:**
+- Minimum 44×44px on small screens, 48×48px+ on large screens
+- Especially important for smartboard/remote control usage across different display sizes
+
+**Detailed Accessibility Checklist:** See `docs/ui-ux-design.md#a11y` and `docs/ui-ux-design.md#qa-checklist`
 
 ---
 
@@ -1214,6 +1283,8 @@ netPuan = max(0, basePuan - toplamCeza)
 ---
 
 ## 10. SES SİSTEMİ
+
+> **Sound Design Specification:** `docs/ui-ux-design.md#sound` - Complete sound palette using Web Audio API with event-sound mappings, volume controls, and accessibility (audio notifications with visual equivalents). All sounds provide low latency and clear feedback optimized for TV/classroom presentation.
 
 ### 10.1 Ses Efektleri (Web Audio API)
 
@@ -1284,6 +1355,8 @@ netPuan = max(0, basePuan - toplamCeza)
 ---
 
 ## 11. KLAVYE KISAYOLLARI
+
+> **Keyboard Shortcuts & Accessibility:** `docs/ui-ux-design.md#howto-shortcuts` and `docs/ui-ux-design.md#a11y` - Complete keyboard navigation patterns including Tab/Shift+Tab traversal, Space/Enter activation, ESC for modals, focus indicators (ring), and all game/dialog shortcuts. See also interaction model in `docs/ui-ux-design.md#interaction`.
 
 ### 11.1 Global Kısayollar
 

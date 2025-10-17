@@ -1,7 +1,7 @@
 # Category Selection Screen
 
 > PRD Reference: Section 4.2 - Category Selection Screen
-> See also: [UI/UX Design Spec](../ui-ux-design.md#category-selection)
+> **Complete Design Spec:** [UI/UX Design Spec - Category Selection](../ui-ux-design.md#category-selection) - Card layout and playability indicators
 > Category: Frontend
 > Status: Not Started
 > Priority: High
@@ -11,7 +11,7 @@
 
 ## 🎯 Objective
 
-Implement the category selection screen where users choose which word category to play with. Display category cards with validation status badges indicating playability for different game modes as specified in PRD Section 4.2.
+Implement the category selection screen where users choose which word category to play with. Display category cards with emoji, word count badges, playability indicators (✅ ⚠️ ❌), search/filter, and empty state illustrations as specified in PRD Section 4.2 and ui-ux-design.md#category-selection.
 
 ---
 

@@ -1,7 +1,7 @@
 # Sound System
 
 > PRD Reference: Section 10 - Sound System
-> See also: [UI/UX Design Spec](../ui-ux-design.md#ses-tasarımı)
+> **Complete Sound Spec:** [UI/UX Design Spec - Sound Design](../ui-ux-design.md#sound) - Event-sound mappings and TV presentation audio
 > Category: Frontend
 > Status: Not Started
 > Priority: Medium
@@ -11,7 +11,7 @@
 
 ## 🎯 Objective
 
-Implement a complete sound system using Web Audio API to provide audio feedback for all game actions. Create 7 distinct sound effects using synthesized audio (no external sound files) with volume control and mute functionality as specified in PRD Section 10.
+Implement a complete sound system using Web Audio API to provide **TV show quality** audio feedback for all game actions. Create 7 distinct sound effects using synthesized audio (no external sound files) with low latency, volume controls (master + mute toggle), and accessibility (audio notifications with visual equivalents) as specified in PRD Section 10 and ui-ux-design.md#sound.
 
 ---
 

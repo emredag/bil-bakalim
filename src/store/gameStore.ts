@@ -1,0 +1,368 @@
+/**
+ * Game Store - Global game state management using Zustand
+ * PRD Reference: Section 2.1 - State Management
+ * 
+ * Manages active game session state including:
+ * - Current game configuration and mode
+ * - Participants and their progress
+ * - Timer and scoring
+ * - Word selection and reveal state
+ */
+
+import { create } from 'zustand';
+import { devtools } from 'zustand/middleware';
+import type {
+  GameSession,
+  GameConfig,
+  GameWord,
+  ActiveParticipant,
+  GameState,
+  Letter,
+} from '../types';
+
+interface GameStore {
+  // Current game session (null when not playing)
+  session: GameSession | null;
+  
+  // Actions
+  startGame: (config: GameConfig, words: GameWord[][]) => void;
+  pauseGame: () => void;
+  resumeGame: () => void;
+  endGame: () => void;
+  resetGame: () => void;
+  
+  // Timer actions
+  tick: () => void; // Called every second
+  
+  // Word actions
+  revealLetter: (participantIndex: number, wordIndex: number, letterIndex: number) => void;
+  submitGuess: (participantIndex: number, wordIndex: number, isCorrect: boolean) => void;
+  skipWord: (participantIndex: number, wordIndex: number) => void;
+  
+  // Participant actions
+  nextParticipant: () => void;
+  updateScore: (participantIndex: number, points: number) => void;
+  
+  // Settings
+  toggleSound: () => void;
+}
+
+export const useGameStore = create<GameStore>()(
+  devtools(
+    (set) => ({
+      session: null,
+
+      startGame: (config: GameConfig, words: GameWord[][]) => {
+        const participants: ActiveParticipant[] = [];
+
+        // Create participants based on mode
+        if (config.mode === 'single') {
+          const setup = config.setup as any;
+          participants.push({
+            name: setup.playerName,
+            type: 'player',
+            score: 0,
+            wordsFound: 0,
+            wordsSkipped: 0,
+            lettersRevealed: 0,
+            currentWordIndex: 0,
+            words: words[0],
+            isActive: true,
+          });
+        } else if (config.mode === 'multi') {
+          const setup = config.setup as any;
+          setup.players.forEach((playerName: string, index: number) => {
+            participants.push({
+              name: playerName,
+              type: 'player',
+              score: 0,
+              wordsFound: 0,
+              wordsSkipped: 0,
+              lettersRevealed: 0,
+              currentWordIndex: 0,
+              words: words[index],
+              isActive: index === 0, // First player starts
+            });
+          });
+        } else if (config.mode === 'team') {
+          const setup = config.setup as any;
+          setup.teams.forEach((team: any, index: number) => {
+            participants.push({
+              name: team.name,
+              type: 'team',
+              score: 0,
+              wordsFound: 0,
+              wordsSkipped: 0,
+              lettersRevealed: 0,
+              currentWordIndex: 0,
+              words: words[index],
+              isActive: index === 0, // First team starts
+            });
+          });
+        }
+
+        const session: GameSession = {
+          id: crypto.randomUUID(),
+          categoryId: config.categoryId,
+          categoryName: '', // Will be set by caller
+          categoryEmoji: '', // Will be set by caller
+          mode: config.mode,
+          state: 'playing',
+          participants,
+          activeParticipantIndex: 0,
+          totalTimeSeconds: 300, // PRD: 5 minutes for all words
+          elapsedTimeSeconds: 0,
+          isPaused: false,
+          soundEnabled: true,
+          startedAt: new Date().toISOString(),
+          finishedAt: null,
+        };
+
+        set({ session });
+      },
+
+      pauseGame: () => {
+        set((state) => {
+          if (!state.session) return state;
+          return {
+            session: {
+              ...state.session,
+              isPaused: true,
+              state: 'paused' as GameState,
+            },
+          };
+        });
+      },
+
+      resumeGame: () => {
+        set((state) => {
+          if (!state.session) return state;
+          return {
+            session: {
+              ...state.session,
+              isPaused: false,
+              state: 'playing' as GameState,
+            },
+          };
+        });
+      },
+
+      endGame: () => {
+        set((state) => {
+          if (!state.session) return state;
+          return {
+            session: {
+              ...state.session,
+              state: 'finished' as GameState,
+              finishedAt: new Date().toISOString(),
+            },
+          };
+        });
+      },
+
+      resetGame: () => {
+        set({ session: null });
+      },
+
+      tick: () => {
+        set((state) => {
+          if (!state.session || state.session.isPaused) return state;
+
+          const elapsedTimeSeconds = state.session.elapsedTimeSeconds + 1;
+          
+          // Check if time is up
+          if (elapsedTimeSeconds >= state.session.totalTimeSeconds) {
+            return {
+              session: {
+                ...state.session,
+                elapsedTimeSeconds,
+                state: 'finished' as GameState,
+                finishedAt: new Date().toISOString(),
+              },
+            };
+          }
+
+          return {
+            session: {
+              ...state.session,
+              elapsedTimeSeconds,
+            },
+          };
+        });
+      },
+
+      revealLetter: (participantIndex: number, wordIndex: number, letterIndex: number) => {
+        set((state) => {
+          if (!state.session) return state;
+
+          const participants = [...state.session.participants];
+          const participant = { ...participants[participantIndex] };
+          const words = [...participant.words];
+          const word = { ...words[wordIndex] };
+
+          // PRD Rule: Cannot reveal letters after making a guess
+          if (word.hasMadeGuess) {
+            console.warn('Cannot reveal letters after making a guess');
+            return state;
+          }
+
+          // Reveal the letter
+          const letters = [...word.letters];
+          letters[letterIndex] = { ...letters[letterIndex], status: 'revealed' };
+
+          word.letters = letters;
+          word.lettersRevealed += 1;
+
+          // Deduct 100 points per letter (PRD: -100 per letter)
+          participant.score = Math.max(0, participant.score - 100);
+          participant.lettersRevealed += 1;
+
+          words[wordIndex] = word;
+          participant.words = words;
+          participants[participantIndex] = participant;
+
+          return {
+            session: {
+              ...state.session,
+              participants,
+            },
+          };
+        });
+      },
+
+      submitGuess: (participantIndex: number, wordIndex: number, isCorrect: boolean) => {
+        set((state) => {
+          if (!state.session) return state;
+
+          const participants = [...state.session.participants];
+          const participant = { ...participants[participantIndex] };
+          const words = [...participant.words];
+          const word = { ...words[wordIndex] };
+
+          // Mark that a guess has been made
+          word.hasMadeGuess = true;
+          word.remainingGuesses -= 1;
+
+          if (isCorrect) {
+            // Reveal all letters
+            word.letters = word.letters.map((letter: Letter) => ({ ...letter, status: 'revealed' as const }));
+            word.result = 'found';
+
+            // Calculate points: Base points - (letters revealed × 100)
+            const basePoints = word.letterCount * 100; // Example: 4 letter = 400 points
+            const penalty = word.lettersRevealed * 100;
+            const earnedPoints = Math.max(0, basePoints - penalty);
+
+            word.pointsEarned = earnedPoints;
+            participant.score += earnedPoints;
+            participant.wordsFound += 1;
+
+            // Move to next word
+            participant.currentWordIndex += 1;
+          } else {
+            // Wrong guess
+            if (word.remainingGuesses === 0) {
+              // Auto-skip if no guesses left
+              word.result = 'skipped';
+              participant.wordsSkipped += 1;
+              participant.currentWordIndex += 1;
+            }
+          }
+
+          words[wordIndex] = word;
+          participant.words = words;
+          participants[participantIndex] = participant;
+
+          return {
+            session: {
+              ...state.session,
+              participants,
+            },
+          };
+        });
+      },
+
+      skipWord: (participantIndex: number, wordIndex: number) => {
+        set((state) => {
+          if (!state.session) return state;
+
+          const participants = [...state.session.participants];
+          const participant = { ...participants[participantIndex] };
+          const words = [...participant.words];
+          const word = { ...words[wordIndex] };
+
+          word.result = 'skipped';
+          word.pointsEarned = 0;
+          participant.wordsSkipped += 1;
+          participant.currentWordIndex += 1;
+
+          words[wordIndex] = word;
+          participant.words = words;
+          participants[participantIndex] = participant;
+
+          return {
+            session: {
+              ...state.session,
+              participants,
+            },
+          };
+        });
+      },
+
+      nextParticipant: () => {
+        set((state) => {
+          if (!state.session || state.session.mode === 'single') return state;
+
+          const participants = [...state.session.participants];
+          const currentIndex = state.session.activeParticipantIndex;
+          const nextIndex = (currentIndex + 1) % participants.length;
+
+          // Deactivate current
+          participants[currentIndex] = { ...participants[currentIndex], isActive: false };
+          // Activate next
+          participants[nextIndex] = { ...participants[nextIndex], isActive: true };
+
+          return {
+            session: {
+              ...state.session,
+              participants,
+              activeParticipantIndex: nextIndex,
+            },
+          };
+        });
+      },
+
+      updateScore: (participantIndex: number, points: number) => {
+        set((state) => {
+          if (!state.session) return state;
+
+          const participants = [...state.session.participants];
+          participants[participantIndex] = {
+            ...participants[participantIndex],
+            score: participants[participantIndex].score + points,
+          };
+
+          return {
+            session: {
+              ...state.session,
+              participants,
+            },
+          };
+        });
+      },
+
+      toggleSound: () => {
+        set((state) => {
+          if (!state.session) return state;
+          return {
+            session: {
+              ...state.session,
+              soundEnabled: !state.session.soundEnabled,
+            },
+          };
+        });
+      },
+    }),
+    { name: 'GameStore' }
+  )
+);

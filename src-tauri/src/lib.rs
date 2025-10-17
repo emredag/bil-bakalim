@@ -1,11 +1,8 @@
-// Database module
-mod db;
-
-// Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-#[tauri::command]
-fn greet(name: &str) -> String {
-    format!("Hello, {}! You've been greeted from Rust!", name)
-}
+// Modules
+pub mod commands;
+pub mod db;
+pub mod errors;
+pub mod models;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -19,7 +16,25 @@ pub fn run() {
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_fs::init())
         .plugin(tauri_plugin_dialog::init())
-        .invoke_handler(tauri::generate_handler![greet])
+        .invoke_handler(tauri::generate_handler![
+            // Category commands
+            commands::get_all_categories,
+            commands::get_category_by_id,
+            commands::create_category,
+            commands::update_category,
+            commands::delete_category,
+            commands::validate_category,
+            // Word commands
+            commands::get_words_by_category,
+            commands::add_word,
+            commands::update_word,
+            commands::delete_word,
+            commands::get_random_words,
+            commands::validate_category_for_mode,
+            // Settings commands
+            commands::get_settings,
+            commands::update_setting,
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

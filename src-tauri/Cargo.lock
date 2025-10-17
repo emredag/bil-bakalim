@@ -1874,6 +1874,7 @@ name = "kelime-oyunu"
 version = "0.1.0"
 dependencies = [
  "dirs",
+ "rand 0.8.5",
  "rusqlite",
  "serde",
  "serde_json",

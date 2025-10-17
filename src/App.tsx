@@ -1,26 +1,14 @@
-import { DesignSystemDemo } from './components/DesignSystemDemo';
-import { runStoreTests } from './test-stores';
+import { RouterProvider } from 'react-router-dom';
+import { router } from './routes';
 
 /**
  * Main App Component
- *
- * Currently showing Design System Demo (Task 05)
- * This will be replaced with actual app routing in Task 37
+ * 
+ * Now with React Router navigation (Task 37)
+ * Replaces Design System Demo with actual app routing
  */
 function App() {
-  return (
-    <div>
-      <div className="fixed top-4 right-4 z-50">
-        <button
-          onClick={() => runStoreTests()}
-          className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow-lg hover:bg-blue-700 transition-colors"
-        >
-          🧪 Test Stores
-        </button>
-      </div>
-      <DesignSystemDemo />
-    </div>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;

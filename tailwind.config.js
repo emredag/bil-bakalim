@@ -7,18 +7,39 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: {
-          50: '#f0f9ff',
-          100: '#e0f2fe',
-          200: '#bae6fd',
-          300: '#7dd3fc',
-          400: '#38bdf8',
-          500: '#0ea5e9',
-          600: '#0284c7',
-          700: '#0369a1',
-          800: '#075985',
-          900: '#0c4a6e',
+        background: {
+          primary: '#0f172a',
+          secondary: '#1e293b',
+          tertiary: '#334155',
         },
+        accent: {
+          primary: '#3b82f6',
+          secondary: '#8b5cf6',
+          gold: '#fbbf24',
+        },
+        status: {
+          success: '#10b981',
+          error: '#ef4444',
+          warning: '#f59e0b',
+          info: '#3b82f6',
+        },
+        text: {
+          primary: '#f1f5f9',
+          secondary: '#cbd5e1',
+          tertiary: '#94a3b8',
+        },
+      },
+      boxShadow: {
+        'glow-amber': '0 0 20px rgba(251, 191, 36, 0.4)',
+        'glow-green': '0 0 20px rgba(16, 185, 129, 0.5)',
+        'glow-red': '0 0 20px rgba(239, 68, 68, 0.5)',
+        'glow-blue': '0 0 20px rgba(59, 130, 246, 0.4)',
+      },
+      zIndex: {
+        'tooltip': '10',
+        'modal': '20',
+        'confetti': '30',
+        'toast': '40',
       },
     },
   },

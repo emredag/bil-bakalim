@@ -1871,7 +1871,7 @@ dependencies = [
 
 [[package]]
 name = "kelime-oyunu"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
  "dirs",
  "rand 0.8.5",

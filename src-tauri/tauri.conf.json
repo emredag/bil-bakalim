@@ -1,7 +1,7 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "kelime-oyunu",
-  "version": "0.1.0",
+  "productName": "Kelime Oyunu",
+  "version": "1.0.0",
   "identifier": "com.kelimeoyunu.app",
   "build": {
     "beforeDevCommand": "npm run dev",
@@ -14,18 +14,23 @@
       {
         "label": "main",
         "title": "Kelime Oyunu",
-        "width": 1280,
-        "height": 720,
-        "minWidth": 1024,
-        "minHeight": 600,
-        "resizable": true,
-        "fullscreen": false
+        "width": 1920,
+        "height": 1080,
+        "minWidth": 1280,
+        "minHeight": 720,
+  "resizable": true,
+  "fullscreen": true,
+  "maximized": true,
+        "decorations": true,
+        "transparent": false,
+        "center": true
       }
     ],
     "security": {
-      "csp": null,
+      "csp": "default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self' data:",
       "capabilities": ["default"]
-    }
+    },
+    "withGlobalTauri": false
   },
   "plugins": {},
   "bundle": {
@@ -37,6 +42,30 @@
       "icons/128x128@2x.png",
       "icons/icon.icns",
       "icons/icon.ico"
-    ]
+    ],
+    "windows": {
+      "wix": {
+        "language": "tr-TR"
+      },
+      "nsis": {
+        "displayLanguageSelector": false,
+        "languages": ["Turkish"],
+        "installerIcon": "icons/icon.ico",
+        "installMode": "currentUser"
+      }
+    },
+    "macOS": {
+      "minimumSystemVersion": "10.15",
+      "entitlements": null,
+      "exceptionDomain": null,
+      "frameworks": [],
+      "providerShortName": null,
+      "signingIdentity": null
+    },
+    "linux": {
+      "deb": {
+        "depends": []
+      }
+    }
   }
 }

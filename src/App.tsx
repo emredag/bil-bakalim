@@ -1,14 +1,20 @@
 import { RouterProvider } from 'react-router-dom';
 import { router } from './routes';
+import { ErrorBoundary } from './components/ErrorBoundary';
 
 /**
  * Main App Component
- * 
- * Now with React Router navigation (Task 37)
- * Replaces Design System Demo with actual app routing
+ *
+ * Features:
+ * - React Router navigation (Task 37)
+ * - Error Boundary for error handling (Task 39)
  */
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <ErrorBoundary>
+      <RouterProvider router={router} />
+    </ErrorBoundary>
+  );
 }
 
 export default App;

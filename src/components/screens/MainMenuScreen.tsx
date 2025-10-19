@@ -63,6 +63,13 @@ export function MainMenuScreen() {
       onClick: () => navigate('/sound-demo'),
       variant: 'secondary' as const,
     },
+    {
+      icon: Play,
+      title: '🚨 Error Demo',
+      description: 'Test all Task 39 error handling',
+      onClick: () => navigate('/error-demo'),
+      variant: 'secondary' as const,
+    },
   ];
 
   return (

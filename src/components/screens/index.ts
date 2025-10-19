@@ -6,6 +6,7 @@
 export { MainMenuScreen } from './MainMenuScreen';
 export { AnimationDemo } from './AnimationDemo';
 export { SoundDemo } from './SoundDemo';
+export { ErrorDemo } from './ErrorDemo';
 
 export {
   CategorySelectScreen,

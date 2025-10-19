@@ -70,6 +70,13 @@ export function MainMenuScreen() {
       onClick: () => navigate('/error-demo'),
       variant: 'secondary' as const,
     },
+    {
+      icon: Play,
+      title: '♿ A11y Demo',
+      description: 'Test all Task 34 accessibility features',
+      onClick: () => navigate('/a11y-demo'),
+      variant: 'secondary' as const,
+    },
   ];
 
   return (

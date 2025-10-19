@@ -13,6 +13,7 @@ import {
   AnimationDemo,
   SoundDemo,
   ErrorDemo,
+  A11yDemo,
   CategorySelectScreen,
   ModeSelectScreen,
   ParticipantSetupScreen,
@@ -40,7 +41,7 @@ export const router = createBrowserRouter([
         path: ROUTES.HOME,
         element: <MainMenuScreen />,
       },
-      // Demo Pages (Task 06, 07, 39 Testing)
+      // Demo Pages (Task 06, 07, 34, 39 Testing)
       {
         path: '/animation-demo',
         element: <AnimationDemo />,
@@ -52,6 +53,10 @@ export const router = createBrowserRouter([
       {
         path: '/error-demo',
         element: <ErrorDemo />,
+      },
+      {
+        path: '/a11y-demo',
+        element: <A11yDemo />,
       },
       // Game Flow
       {

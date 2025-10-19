@@ -1,6 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
+import { useFocusTrap } from '../../hooks/useFocusTrap';
 
 export interface ModalProps {
   isOpen: boolean;
@@ -37,8 +38,7 @@ export const Modal: React.FC<ModalProps> = ({
   closeOnOverlayClick = true,
   closeOnEscape = true,
 }) => {
-  const modalRef = useRef<HTMLDivElement>(null);
-  const previousActiveElement = useRef<HTMLElement | null>(null);
+  const trapRef = useFocusTrap<HTMLDivElement>({ active: isOpen });
 
   // Size variants
   const sizeStyles = {
@@ -62,21 +62,6 @@ export const Modal: React.FC<ModalProps> = ({
     return () => document.removeEventListener('keydown', handleEscape);
   }, [isOpen, closeOnEscape, onClose]);
 
-  // Focus management (accessibility)
-  useEffect(() => {
-    if (isOpen) {
-      // Store the currently focused element
-      previousActiveElement.current = document.activeElement as HTMLElement;
-
-      // Focus the modal
-      setTimeout(() => {
-        modalRef.current?.focus();
-      }, 100);
-    } else {
-      // Restore focus when modal closes
-      previousActiveElement.current?.focus();
-    }
-  }, [isOpen]);
 
   // Prevent body scroll when modal is open
   useEffect(() => {
@@ -141,7 +126,7 @@ export const Modal: React.FC<ModalProps> = ({
 
           {/* Modal Content - PRD 8.3 */}
           <motion.div
-            ref={modalRef}
+            ref={trapRef}
             className={`
               relative bg-slate-800 rounded-2xl p-8 shadow-2xl
               w-full ${sizeStyles[size]}

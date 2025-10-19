@@ -4,6 +4,7 @@
  */
 
 export { MainMenuScreen } from './MainMenuScreen';
+export { AnimationDemo } from './AnimationDemo';
 
 export {
   CategorySelectScreen,

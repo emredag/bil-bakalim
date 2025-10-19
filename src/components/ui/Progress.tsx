@@ -218,6 +218,9 @@ CountUp.displayName = 'CountUp';
  * - Shows time remaining
  * - Color changes based on urgency
  * - Warning state when time is low
+ * - Pulse animations (PRD 8.4):
+ *   - Last 30s: Soft pulse (scale 1→1.05)
+ *   - Last 10s: Fast pulse (scale 1→1.08) + color red
  */
 export interface TimerProps {
   seconds: number;
@@ -250,24 +253,56 @@ export const Timer: React.FC<TimerProps> = ({
     return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
   };
 
+  // Determine pulse animation state
+  const getPulseState = (): 'idle' | 'soft' | 'fast' => {
+    if (seconds <= criticalThreshold) return 'fast';
+    if (seconds <= warningThreshold) return 'soft';
+    return 'idle';
+  };
+
   return (
-    <ProgressRing
-      value={seconds}
-      max={totalSeconds}
-      size={size}
-      strokeWidth={8}
-      variant={getVariant()}
-      className={className}
+    <motion.div
+      animate={
+        getPulseState() === 'fast'
+          ? {
+              scale: [1, 1.08, 1],
+              transition: {
+                duration: 0.5,
+                repeat: Number.POSITIVE_INFINITY,
+                ease: 'easeInOut',
+              },
+            }
+          : getPulseState() === 'soft'
+            ? {
+                scale: [1, 1.05, 1],
+                transition: {
+                  duration: 1,
+                  repeat: Number.POSITIVE_INFINITY,
+                  ease: 'easeInOut',
+                },
+              }
+            : { scale: 1 }
+      }
+      style={{ display: 'inline-flex' }}
     >
-      <div className="text-center">
-        <div className="text-2xl md:text-3xl font-bold text-text-primary tabular-nums">
-          {formatTime(seconds)}
+      <ProgressRing
+        value={seconds}
+        max={totalSeconds}
+        size={size}
+        strokeWidth={8}
+        variant={getVariant()}
+        className={className}
+      >
+        <div className="text-center">
+          <div className="text-2xl md:text-3xl font-bold text-text-primary tabular-nums">
+            {formatTime(seconds)}
+          </div>
+          <div className="text-xs text-text-tertiary uppercase tracking-wide">
+            Time
+          </div>
         </div>
-        <div className="text-xs text-text-tertiary uppercase tracking-wide">
-          Time
-        </div>
-      </div>
-    </ProgressRing>
+      </ProgressRing>
+    </motion.div>
   );
 };
 

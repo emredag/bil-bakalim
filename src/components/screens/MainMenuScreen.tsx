@@ -49,6 +49,13 @@ export function MainMenuScreen() {
       onClick: () => navigate(ROUTES.HOW_TO_PLAY),
       variant: 'secondary' as const,
     },
+    {
+      icon: Play,
+      title: '🎬 Animation Demo',
+      description: 'Test all Task 06 animations',
+      onClick: () => navigate('/animation-demo'),
+      variant: 'secondary' as const,
+    },
   ];
 
   return (

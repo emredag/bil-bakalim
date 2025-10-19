@@ -34,9 +34,9 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
     },
     ref
   ) => {
-    // Base styles (PRD 8.3)
+    // Base styles (PRD 8.3 + responsive padding PRD 8.5)
     const baseStyles = `
-      rounded-2xl p-6 shadow-xl border border-slate-700
+      rounded-2xl p-4 md:p-6 lg:p-8 shadow-xl border border-slate-700
       transition-all duration-200
       will-change-transform
     `;

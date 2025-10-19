@@ -38,13 +38,14 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     // Generate unique ID if not provided
     const inputId = id || `input-${React.useId()}`;
 
-    // Base styles (PRD 8.3)
+    // Base styles (PRD 8.3 + responsive padding PRD 8.5)
     const baseStyles = `
-      bg-slate-900 border-2 rounded-lg px-4 py-2
+      bg-slate-900 border-2 rounded-lg px-3 py-2 md:px-4 md:py-2.5
       text-text-primary placeholder-text-tertiary
       transition-all duration-200
       focus:outline-none focus:ring-2 focus:ring-blue-500
       disabled:opacity-60 disabled:cursor-not-allowed
+      text-sm md:text-base
     `;
 
     // Border color (error state)

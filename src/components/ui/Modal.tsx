@@ -124,11 +124,11 @@ export const Modal: React.FC<ModalProps> = ({
             onClick={handleOverlayClick}
           />
 
-          {/* Modal Content - PRD 8.3 */}
+          {/* Modal Content - PRD 8.3 + responsive padding PRD 8.5 */}
           <motion.div
             ref={trapRef}
             className={`
-              relative bg-slate-800 rounded-2xl p-8 shadow-2xl
+              relative bg-slate-800 rounded-2xl p-4 md:p-6 lg:p-8 shadow-2xl
               w-full ${sizeStyles[size]}
               border border-slate-700
               max-h-[90vh] overflow-y-auto scrollbar-dark

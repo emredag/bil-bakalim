@@ -80,32 +80,32 @@ export function MainMenuScreen() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-8">
-      <div className="max-w-6xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+      <div className="safe-container max-w-7xl mx-auto">
         {/* Logo and Title */}
-        <div className="text-center mb-12">
-          <h1 className="text-6xl font-bold text-white mb-4">
+        <div className="text-center mb-8 md:mb-12">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
             🎯 Kelime Oyunu
           </h1>
-          <p className="text-xl text-slate-300">
+          <p className="text-base md:text-lg lg:text-xl text-slate-300">
             Eğlenceli Kelime Tahmin Yarışması
           </p>
         </div>
 
         {/* Action Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-6 md:mb-8">
           {actionCards.map((card, index) => (
             <Card
               key={index}
               onClick={card.onClick}
-              className="p-6 cursor-pointer hover:scale-105 transition-transform"
+              className="cursor-pointer hover:scale-105 transition-transform"
             >
-              <div className="flex flex-col items-center text-center gap-4">
-                <card.icon className="w-12 h-12 text-blue-400" />
-                <h2 className="text-xl font-semibold text-white">
+              <div className="flex flex-col items-center text-center gap-3 md:gap-4">
+                <card.icon className="w-10 h-10 md:w-12 md:h-12 text-blue-400" />
+                <h2 className="text-lg md:text-xl font-semibold text-white">
                   {card.title}
                 </h2>
-                <p className="text-slate-400">{card.description}</p>
+                <p className="text-sm md:text-base text-slate-400">{card.description}</p>
               </div>
             </Card>
           ))}

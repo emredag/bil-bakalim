@@ -138,12 +138,12 @@ export const ErrorDemo: React.FC = () => {
     <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900">
       <div className="safe-container max-w-7xl mx-auto py-8">
         {/* Header */}
-        <div className="mb-8 flex items-center justify-between">
+        <div className="mb-6 md:mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="text-4xl font-bold text-text-primary mb-2">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-text-primary mb-2">
               🚨 Error Handling Demo
             </h1>
-            <p className="text-text-secondary">
+            <p className="text-sm md:text-base text-text-secondary">
               Task 39 - Test error types and ErrorBoundary
             </p>
           </div>

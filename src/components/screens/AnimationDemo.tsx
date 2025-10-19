@@ -136,12 +136,12 @@ export const AnimationDemo: React.FC = () => {
 
       <div className="safe-container max-w-7xl mx-auto py-8">
         {/* Header */}
-        <div className="mb-8 flex items-center justify-between">
+        <div className="mb-6 md:mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="text-4xl font-bold text-text-primary mb-2">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-text-primary mb-2">
               🎬 Animation Demo
             </h1>
-            <p className="text-text-secondary">
+            <p className="text-sm md:text-base text-text-secondary">
               Task 06 - All animations in one place
               {shouldReduceMotion && (
                 <span className="ml-2 px-2 py-1 bg-amber-500/20 text-amber-400 text-sm rounded">

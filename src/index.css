@@ -105,10 +105,17 @@
     }
   }
 
-  /* Touch target enforcement (min 48×48px) */
+  /* Touch target enforcement (PRD 8.5: 44×44px small, 48×48px+ large) */
   .touch-target {
-    min-width: 3rem;
-    min-height: 3rem;
+    min-width: 2.75rem; /* 44px for small screens */
+    min-height: 2.75rem;
+  }
+
+  @media (min-width: 768px) {
+    .touch-target {
+      min-width: 3rem; /* 48px for medium+ screens */
+      min-height: 3rem;
+    }
   }
 
   /* Glow effects for status feedback */

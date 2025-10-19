@@ -30,12 +30,12 @@ export const A11yDemo: React.FC = () => {
 
       <div className="safe-container max-w-7xl mx-auto py-8">
         {/* Header */}
-        <header className="mb-8 flex items-center justify-between">
+        <header className="mb-6 md:mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="text-4xl font-bold text-text-primary mb-2">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-text-primary mb-2">
               ♿ Accessibility Demo
             </h1>
-            <p className="text-text-secondary">
+            <p className="text-sm md:text-base text-text-secondary">
               Task 34 - WCAG 2.1 Level AA Features
             </p>
           </div>
@@ -51,7 +51,7 @@ export const A11yDemo: React.FC = () => {
 
         <main id="main-content">
           {/* Features Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-6 md:mb-8">
             {/* Keyboard Navigation */}
             <Card>
               <CardHeader>

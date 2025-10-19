@@ -11,6 +11,7 @@ import { ROUTES } from './constants';
 import {
   MainMenuScreen,
   AnimationDemo,
+  SoundDemo,
   CategorySelectScreen,
   ModeSelectScreen,
   ParticipantSetupScreen,
@@ -38,10 +39,14 @@ export const router = createBrowserRouter([
         path: ROUTES.HOME,
         element: <MainMenuScreen />,
       },
-      // Animation Demo (Task 06 Testing)
+      // Demo Pages (Task 06 & 07 Testing)
       {
         path: '/animation-demo',
         element: <AnimationDemo />,
+      },
+      {
+        path: '/sound-demo',
+        element: <SoundDemo />,
       },
       // Game Flow
       {

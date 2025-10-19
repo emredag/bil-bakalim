@@ -56,6 +56,13 @@ export function MainMenuScreen() {
       onClick: () => navigate('/animation-demo'),
       variant: 'secondary' as const,
     },
+    {
+      icon: Play,
+      title: '🎵 Sound Demo',
+      description: 'Test all Task 07 sounds',
+      onClick: () => navigate('/sound-demo'),
+      variant: 'secondary' as const,
+    },
   ];
 
   return (

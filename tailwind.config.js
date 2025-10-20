@@ -35,6 +35,9 @@ export default {
         'glow-red': '0 0 20px rgba(239, 68, 68, 0.5)',
         'glow-blue': '0 0 20px rgba(59, 130, 246, 0.4)',
       },
+      dropShadow: {
+        'glow': '0 0 8px rgba(59, 130, 246, 0.5)',
+      },
       zIndex: {
         'tooltip': '10',
         'modal': '20',
@@ -43,5 +46,23 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function({ addUtilities }) {
+      const newUtilities = {
+        '.safe-container': {
+          padding: '1rem', // 16px - mobile
+          '@screen md': {
+            padding: '1.5rem', // 24px
+          },
+          '@screen lg': {
+            padding: '2rem', // 32px
+          },
+          '@screen xl': {
+            padding: '3rem', // 48px
+          },
+        },
+      }
+      addUtilities(newUtilities)
+    },
+  ],
 }

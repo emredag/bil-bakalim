@@ -135,12 +135,11 @@ export function MainMenuScreen() {
   };
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 overflow-hidden">
-      {/* Particle Background Layer - Subtle TV show effect */}
+    <div className="relative h-screen overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+      {/* Particle Background */}
       <ParticleBackground />
 
-      {/* Safe Container - Responsive padding for TV/projection edge tolerance */}
-      <div className="relative safe-container max-w-[1600px] mx-auto min-h-screen flex flex-col">
+      <div className="relative safe-container max-w-[1600px] mx-auto h-full flex flex-col py-6 md:py-8">
         {/* Hero Section - Logo and Title */}
         <motion.header
           className="text-center py-8 md:py-12 lg:py-16 xl:py-20"

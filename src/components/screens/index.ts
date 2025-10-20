@@ -22,8 +22,11 @@ export { GameModeSelectionScreen as ModeSelectScreen } from './GameModeSelection
 // Task 11: Participant/Team Setup Screen
 export { ParticipantSetupScreen } from './ParticipantSetupScreen';
 
+// Task 12: Game Screen Layout
+export { GameScreen } from './GameScreen';
+export { GameScreenTest } from './GameScreenTest';
+
 export {
-  GameScreen,
   ResultsScreen,
   HistoryScreen,
   HistoryDetailScreen,

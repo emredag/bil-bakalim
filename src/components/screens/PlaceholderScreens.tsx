@@ -65,17 +65,6 @@ export function ModeSelectScreen() {
   );
 }
 
-// Game Screen - Task 12
-export function GameScreen() {
-  return (
-    <PlaceholderScreen
-      title="🎯 Oyun Ekranı"
-      description="Kelime tahmin oyunu burada oynanacak"
-      taskNumber="Task 12"
-    />
-  );
-}
-
 // Results Screen - Task 20-22
 export function ResultsScreen() {
   return (

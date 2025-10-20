@@ -19,6 +19,7 @@ import {
   ModeSelectScreen,
   ParticipantSetupScreen,
   GameScreen,
+  GameScreenTest,
   ResultsScreen,
   HistoryScreen,
   HistoryDetailScreen,
@@ -70,6 +71,11 @@ export const router = createBrowserRouter([
       {
         path: '/first-launch-test',
         element: <FirstLaunchTest />,
+      },
+      // Task 12: Game Screen Test
+      {
+        path: '/game-screen-test',
+        element: <GameScreenTest />,
       },
       // Game Flow
       {

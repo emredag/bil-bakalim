@@ -108,8 +108,8 @@ export function GameModeSelectionScreen() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-      <div className="safe-container max-w-[1600px] mx-auto min-h-screen flex flex-col py-8 md:py-12">
+    <div className="h-screen overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+      <div className="safe-container max-w-[1600px] mx-auto h-full flex flex-col py-6 md:py-8">
         {/* Header */}
         <header className="space-y-6 md:space-y-8 mb-8 md:mb-12">
           {/* Title Row */}

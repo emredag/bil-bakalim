@@ -9,8 +9,10 @@ export { SoundDemo } from './SoundDemo';
 export { ErrorDemo } from './ErrorDemo';
 export { A11yDemo } from './A11yDemo';
 
+// Task 09: Category Selection Screen
+export { CategorySelectionScreen as CategorySelectScreen } from './CategorySelectionScreen';
+
 export {
-  CategorySelectScreen,
   ModeSelectScreen,
   ParticipantSetupScreen,
   GameScreen,

@@ -15,8 +15,9 @@ interface CategoryStore {
   categories: Category[];
   categoriesLoading: boolean;
   categoriesError: string | null;
-  
+
   // Selected category and its words
+  selectedCategory: Category | null;
   selectedCategoryId: number | null;
   selectedCategoryWords: Word[];
   wordsLoading: boolean;
@@ -33,8 +34,11 @@ interface CategoryStore {
   setCategoriesLoading: (loading: boolean) => void;
   setCategoriesError: (error: string | null) => void;
   
-  // Actions - Words
+  // Actions - Selection
+  setSelectedCategory: (category: Category | null) => void;
   selectCategory: (categoryId: number) => void;
+
+  // Actions - Words
   setWords: (words: Word[]) => void;
   addWord: (word: Word) => void;
   updateWord: (word: Word) => void;
@@ -55,6 +59,7 @@ const initialState = {
   categories: [],
   categoriesLoading: false,
   categoriesError: null,
+  selectedCategory: null,
   selectedCategoryId: null,
   selectedCategoryWords: [],
   wordsLoading: false,
@@ -95,6 +100,10 @@ export const useCategoryStore = create<CategoryStore>()(
             return newCache;
           })(),
           // Clear selected category if it was removed
+          selectedCategory:
+            state.selectedCategoryId === categoryId
+              ? null
+              : state.selectedCategory,
           selectedCategoryId:
             state.selectedCategoryId === categoryId
               ? null
@@ -114,8 +123,19 @@ export const useCategoryStore = create<CategoryStore>()(
         set({ categoriesError: error });
       },
 
-      selectCategory: (categoryId: number) => {
+      setSelectedCategory: (category: Category | null) => {
         set({
+          selectedCategory: category,
+          selectedCategoryId: category?.id || null,
+          selectedCategoryWords: [],
+          wordsError: null,
+        });
+      },
+
+      selectCategory: (categoryId: number) => {
+        const category = get().categories.find((c) => c.id === categoryId);
+        set({
+          selectedCategory: category || null,
           selectedCategoryId: categoryId,
           selectedCategoryWords: [],
           wordsError: null,

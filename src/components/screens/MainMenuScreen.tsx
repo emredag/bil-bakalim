@@ -76,6 +76,12 @@ export function MainMenuScreen() {
     ? [
         {
           emoji: '🧪',
+          title: 'Tauri Word Test',
+          description: 'Task 13 - Word Selection Test',
+          onClick: () => navigate('/tauri-test'),
+        },
+        {
+          emoji: '🧪',
           title: 'First Launch Test',
           description: 'Test first launch experience',
           onClick: () => navigate('/first-launch-test'),
@@ -135,11 +141,11 @@ export function MainMenuScreen() {
   };
 
   return (
-    <div className="relative h-screen overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+    <div className="relative min-h-screen overflow-y-auto bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       {/* Particle Background */}
       <ParticleBackground />
 
-      <div className="relative safe-container max-w-[1600px] mx-auto h-full flex flex-col py-6 md:py-8">
+      <div className="relative safe-container max-w-[1600px] mx-auto min-h-screen flex flex-col py-6 md:py-8">
         {/* Hero Section - Logo and Title */}
         <motion.header
           className="text-center py-8 md:py-12 lg:py-16 xl:py-20"
@@ -167,7 +173,7 @@ export function MainMenuScreen() {
 
         {/* Action Cards Grid - 12-column system with TV-optimized spacing */}
         <motion.main
-          className="flex-1 flex items-center pb-8 md:pb-12 lg:pb-16"
+          className="flex-1 pb-8 md:pb-12 lg:pb-16"
           variants={containerVariants}
           initial="hidden"
           animate="visible"

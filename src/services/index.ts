@@ -7,3 +7,13 @@ export {
   markFirstLaunchCompleted,
   resetFirstLaunch,
 } from './firstLaunch';
+
+export {
+  getWordsByCategory,
+  addWord,
+  updateWord,
+  deleteWord,
+  getRandomWords,
+  validateCategoryForMode,
+  selectWordsForGame,
+} from './wordService';

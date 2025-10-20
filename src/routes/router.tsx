@@ -30,6 +30,8 @@ import {
 } from '../components/screens';
 import { PageLayout } from '../components/layouts/PageLayout';
 import { HomeRouteGuard } from './HomeRouteGuard';
+import WordSelectionTestRunner from '../components/WordSelectionTestRunner';
+import SimpleTauriTest from '../components/SimpleTauriTest';
 
 /**
  * Main application router
@@ -76,6 +78,15 @@ export const router = createBrowserRouter([
       {
         path: '/game-screen-test',
         element: <GameScreenTest />,
+      },
+      // Task 13: Word Selection Algorithm Test
+      {
+        path: '/word-selection-test',
+        element: <WordSelectionTestRunner />,
+      },
+      {
+        path: '/tauri-test',
+        element: <SimpleTauriTest />,
       },
       // Game Flow
       {

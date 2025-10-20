@@ -12,8 +12,10 @@ export { A11yDemo } from './A11yDemo';
 // Task 09: Category Selection Screen
 export { CategorySelectionScreen as CategorySelectScreen } from './CategorySelectionScreen';
 
+// Task 10: Game Mode Selection Screen
+export { GameModeSelectionScreen as ModeSelectScreen } from './GameModeSelectionScreen';
+
 export {
-  ModeSelectScreen,
   ParticipantSetupScreen,
   GameScreen,
   ResultsScreen,

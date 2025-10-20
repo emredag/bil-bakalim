@@ -38,6 +38,7 @@ export function CategorySelectionScreen() {
   const navigate = useNavigate();
   const { categories, loading, error } = useCategories();
   const setSelectedCategory = useCategoryStore((state) => state.setSelectedCategory);
+  const setValidation = useCategoryStore((state) => state.setValidation);
 
   // Search state
   const [searchQuery, setSearchQuery] = useState('');
@@ -47,6 +48,8 @@ export function CategorySelectionScreen() {
     const selected = categories.find((c) => c.category.id === categoryId);
     if (selected) {
       setSelectedCategory(selected.category);
+      // Store validation data for mode selection screen
+      setValidation(selected.category.id, selected.validation);
       navigate(ROUTES.MODE_SELECT);
     }
   };

@@ -22,9 +22,12 @@ interface CategoryStore {
   selectedCategoryWords: Word[];
   wordsLoading: boolean;
   wordsError: string | null;
-  
+
   // Validation cache
   validationCache: Map<number, ValidationResult>;
+
+  // Game setup flow (Task 10: Mode Selection)
+  selectedMode: 'single' | 'multi' | 'team' | null;
   
   // Actions - Categories
   setCategories: (categories: Category[]) => void;
@@ -49,7 +52,10 @@ interface CategoryStore {
   // Actions - Validation
   setValidation: (categoryId: number, validation: ValidationResult) => void;
   getValidation: (categoryId: number) => ValidationResult | undefined;
-  
+
+  // Actions - Mode Selection (Task 10)
+  setSelectedMode: (mode: 'single' | 'multi' | 'team' | null) => void;
+
   // Utility
   clearCache: () => void;
   reset: () => void;
@@ -65,6 +71,7 @@ const initialState = {
   wordsLoading: false,
   wordsError: null,
   validationCache: new Map<number, ValidationResult>(),
+  selectedMode: null,
 };
 
 export const useCategoryStore = create<CategoryStore>()(
@@ -211,6 +218,10 @@ export const useCategoryStore = create<CategoryStore>()(
 
       getValidation: (categoryId: number) => {
         return get().validationCache.get(categoryId);
+      },
+
+      setSelectedMode: (mode: 'single' | 'multi' | 'team' | null) => {
+        set({ selectedMode: mode });
       },
 
       clearCache: () => {

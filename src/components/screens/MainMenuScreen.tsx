@@ -34,6 +34,9 @@ import { ParticleBackground } from '../ParticleBackground';
 export function MainMenuScreen() {
   const navigate = useNavigate();
 
+  // Check if in development mode
+  const isDev = import.meta.env.DEV;
+
   // Action cards configuration (PRD 4.1)
   const actionCards = [
     {
@@ -67,6 +70,45 @@ export function MainMenuScreen() {
       onClick: () => navigate(ROUTES.HOW_TO_PLAY),
     },
   ];
+
+  // Test/Demo cards (only in development mode)
+  const testCards = isDev
+    ? [
+        {
+          emoji: '🧪',
+          title: 'First Launch Test',
+          description: 'Test first launch experience',
+          onClick: () => navigate('/first-launch-test'),
+        },
+        {
+          emoji: '🎬',
+          title: 'Animation Demo',
+          description: 'View animation examples',
+          onClick: () => navigate('/animation-demo'),
+        },
+        {
+          emoji: '🔊',
+          title: 'Sound Demo',
+          description: 'Test sound effects',
+          onClick: () => navigate('/sound-demo'),
+        },
+        {
+          emoji: '♿',
+          title: 'A11y Demo',
+          description: 'Accessibility features',
+          onClick: () => navigate('/a11y-demo'),
+        },
+        {
+          emoji: '❌',
+          title: 'Error Demo',
+          description: 'Test error handling',
+          onClick: () => navigate('/error-demo'),
+        },
+      ]
+    : [];
+
+  // Combine all cards
+  const allCards = [...actionCards, ...testCards];
 
   // Container animation variants (stagger children)
   const containerVariants = {
@@ -134,7 +176,7 @@ export function MainMenuScreen() {
         >
           {/* 12-column grid with 80-96px gutters (gap-20 = 80px, gap-24 = 96px) */}
           <div className="w-full grid grid-cols-12 gap-6 md:gap-12 lg:gap-20 xl:gap-24">
-            {actionCards.map((card, index) => (
+            {allCards.map((card, index) => (
               <motion.div
                 key={index}
                 className="col-span-12 md:col-span-6 lg:col-span-4"

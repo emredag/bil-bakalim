@@ -9,6 +9,10 @@ export { SoundDemo } from './SoundDemo';
 export { ErrorDemo } from './ErrorDemo';
 export { A11yDemo } from './A11yDemo';
 
+// Task 38: First Launch Experience
+export { WelcomeScreen } from './WelcomeScreen';
+export { FirstLaunchTest } from './FirstLaunchTest';
+
 // Task 09: Category Selection Screen
 export { CategorySelectionScreen as CategorySelectScreen } from './CategorySelectionScreen';
 

@@ -9,11 +9,12 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { ROUTES } from './constants';
 import {
-  MainMenuScreen,
   AnimationDemo,
   SoundDemo,
   ErrorDemo,
   A11yDemo,
+  WelcomeScreen,
+  FirstLaunchTest,
   CategorySelectScreen,
   ModeSelectScreen,
   ParticipantSetupScreen,
@@ -27,11 +28,14 @@ import {
   HowToPlayScreen,
 } from '../components/screens';
 import { PageLayout } from '../components/layouts/PageLayout';
+import { HomeRouteGuard } from './HomeRouteGuard';
 
 /**
  * Main application router
  * Uses React Router v7 createBrowserRouter with PageLayout wrapper
  * All routes include fade + slide transitions (PRD 8.4)
+ * 
+ * First launch detection: HomeRouteGuard checks on every render
  */
 export const router = createBrowserRouter([
   {
@@ -39,9 +43,14 @@ export const router = createBrowserRouter([
     children: [
       {
         path: ROUTES.HOME,
-        element: <MainMenuScreen />,
+        element: <HomeRouteGuard />,
       },
-      // Demo Pages (Task 06, 07, 34, 39 Testing)
+      // Task 38: First Launch Experience
+      {
+        path: ROUTES.WELCOME,
+        element: <WelcomeScreen />,
+      },
+      // Demo Pages (Task 06, 07, 34, 38, 39 Testing)
       {
         path: '/animation-demo',
         element: <AnimationDemo />,
@@ -57,6 +66,10 @@ export const router = createBrowserRouter([
       {
         path: '/a11y-demo',
         element: <A11yDemo />,
+      },
+      {
+        path: '/first-launch-test',
+        element: <FirstLaunchTest />,
       },
       // Game Flow
       {

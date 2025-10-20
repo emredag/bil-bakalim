@@ -8,6 +8,7 @@
 export const ROUTES = {
   // Main navigation
   HOME: '/',
+  WELCOME: '/welcome',
   
   // Game flow
   CATEGORY_SELECT: '/category-select',
@@ -42,6 +43,7 @@ export const buildRoute = {
  */
 export const ROUTE_TITLES: Record<string, string> = {
   [ROUTES.HOME]: 'Ana Menü',
+  [ROUTES.WELCOME]: 'Hoş Geldiniz',
   [ROUTES.CATEGORY_SELECT]: 'Kategori Seçin',
   [ROUTES.MODE_SELECT]: 'Oyun Modu Seçin',
   [ROUTES.PARTICIPANT_SETUP]: 'Yarışmacı Ayarları',

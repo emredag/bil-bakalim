@@ -1,0 +1,305 @@
+/**
+ * ParticipantSetupScreen
+ * Task 11: Participant/Team Setup
+ * PRD Reference: Section 4.4 - Participant/Team Configuration
+ * Design Reference: ui-ux-design.md#participant-team-setup
+ *
+ * Main screen for configuring participants based on selected game mode:
+ * - Single Player: Name input
+ * - Multiplayer: 2-6 players with add/remove and reordering
+ * - Team: 2-4 teams with members and team configuration
+ *
+ * Shows word count validation and enables Start button only when valid
+ */
+
+import { useState, useEffect, useMemo, useCallback } from 'react';
+import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
+import { ArrowLeft, Play } from 'lucide-react';
+import { Button } from '../ui/Button';
+import { useCategoryStore } from '../../store/categoryStore';
+import { ROUTES } from '../../routes/constants';
+import { SinglePlayerForm } from '../forms/SinglePlayerForm';
+import { MultiPlayerForm } from '../forms/MultiPlayerForm';
+import { TeamForm } from '../forms/TeamForm';
+import { ValidationSummary } from '../ValidationSummary';
+import type { SinglePlayerSetup, MultiPlayerSetup, TeamModeSetup } from '../../types';
+import type { ValidationResult } from '../../utils/participantValidation';
+import { canStartGame } from '../../utils/participantValidation';
+
+/**
+ * ParticipantSetupScreen Component
+ *
+ * Features:
+ * - Mode-based form rendering (single/multi/team)
+ * - Real-time validation
+ * - Word count requirement display
+ * - Start button (enabled only when valid)
+ * - Back navigation to mode selection
+ * - Responsive layout
+ * - Accessible navigation
+ */
+export function ParticipantSetupScreen() {
+  const navigate = useNavigate();
+
+  // Store state
+  const selectedCategory = useCategoryStore((state) => state.selectedCategory);
+  const selectedMode = useCategoryStore((state) => state.selectedMode);
+  const gameSetup = useCategoryStore((state) => state.gameSetup);
+  const setGameSetup = useCategoryStore((state) => state.setGameSetup);
+  const setSelectedMode = useCategoryStore((state) => state.setSelectedMode);
+  const getValidation = useCategoryStore((state) => state.getValidation);
+
+  // Initialize default setup based on mode
+  const initializeSetup = (): SinglePlayerSetup | MultiPlayerSetup | TeamModeSetup | null => {
+    if (!selectedMode) return null;
+    
+    if (gameSetup) return gameSetup;
+    
+    // Return default setup for each mode
+    switch (selectedMode) {
+      case 'single':
+        return { playerName: '' } as SinglePlayerSetup;
+      case 'multi':
+        return { players: ['', ''] } as MultiPlayerSetup;
+      case 'team':
+        return { 
+          teams: [
+            { 
+              name: '', 
+              emoji: '🔴', 
+              color: '#ef4444',
+              members: [{ name: '', order: 1 }, { name: '', order: 2 }]
+            },
+            { 
+              name: '', 
+              emoji: '🔵', 
+              color: '#3b82f6',
+              members: [{ name: '', order: 1 }, { name: '', order: 2 }]
+            }
+          ] 
+        } as TeamModeSetup;
+      default:
+        return null;
+    }
+  };
+
+  // Local validation state
+  const [validation, setValidation] = useState<ValidationResult | null>(null);
+  const [currentSetup, setCurrentSetup] = useState<
+    SinglePlayerSetup | MultiPlayerSetup | TeamModeSetup | null
+  >(initializeSetup);
+
+  // Redirect if no category or mode selected
+  useEffect(() => {
+    if (!selectedCategory) {
+      console.warn('No category selected, redirecting to category selection');
+      navigate(ROUTES.CATEGORY_SELECT);
+      return;
+    }
+
+    if (!selectedMode) {
+      console.warn('No mode selected, redirecting to mode selection');
+      navigate(ROUTES.MODE_SELECT);
+      return;
+    }
+  }, [selectedCategory, selectedMode, navigate]);
+
+  // Get available word count
+  const availableWords = useMemo(() => {
+    if (!selectedCategory) return 0;
+    const categoryValidation = getValidation(selectedCategory.id);
+    return categoryValidation?.total_words || 0;
+  }, [selectedCategory, getValidation]);
+
+  // Handle form changes (memoized to prevent infinite loops)
+  const handleSetupChange = useCallback((
+    setup: SinglePlayerSetup | MultiPlayerSetup | TeamModeSetup,
+    newValidation: ValidationResult
+  ) => {
+    setCurrentSetup(setup);
+    setValidation(newValidation);
+    setGameSetup(setup);
+  }, [setGameSetup]);
+
+  // Handle back navigation
+  const handleBack = () => {
+    setSelectedMode(null);
+    navigate(ROUTES.MODE_SELECT);
+  };
+
+  // Handle start game
+  const handleStartGame = () => {
+    if (!selectedCategory || !selectedMode || !currentSetup) {
+      console.error('Missing required data for starting game');
+      return;
+    }
+
+    // Final validation check
+    if (!canStartGame(selectedMode, currentSetup, availableWords)) {
+      console.error('Cannot start game: validation failed');
+      return;
+    }
+
+    // Save setup and navigate to game screen
+    setGameSetup(currentSetup);
+    navigate(ROUTES.GAME);
+  };
+
+  // Check if can start
+  const isValid = useMemo(() => {
+    if (!selectedMode || !currentSetup || !validation) return false;
+    return validation.isValid && canStartGame(selectedMode, currentSetup, availableWords);
+  }, [selectedMode, currentSetup, availableWords, validation]);
+
+  // Don't render if missing required data
+  if (!selectedCategory || !selectedMode) {
+    return null;
+  }
+
+  // Mode title mapping
+  const modeTitles = {
+    single: 'Tek Yarışmacı',
+    multi: 'Çoklu Yarışmacı',
+    team: 'Takım Modu',
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+      <div className="safe-container max-w-[1400px] mx-auto min-h-screen flex flex-col py-8 md:py-12">
+        {/* Header */}
+        <header className="space-y-6 md:space-y-8 mb-8 md:mb-12">
+          {/* Title Row */}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <Button
+                variant="secondary"
+                onClick={handleBack}
+                className="flex items-center gap-2"
+                aria-label="Mod seçimine dön"
+              >
+                <ArrowLeft className="w-5 h-5" />
+                <span className="hidden md:inline">Geri</span>
+              </Button>
+              <div>
+                <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white">
+                  Yarışmacı Ayarları
+                </h1>
+                <p className="text-lg md:text-xl text-slate-400 mt-2">
+                  {selectedCategory.emoji} {selectedCategory.name} • {modeTitles[selectedMode]}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Info Text */}
+          <p className="text-base md:text-lg text-slate-300 max-w-3xl">
+            Yarışmacı bilgilerini girin. Tüm bilgiler doğru girildikten sonra oyunu başlatabilirsiniz.
+          </p>
+        </header>
+
+        {/* Main Content */}
+        <main className="flex-1 grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-10">
+          {/* Left: Form */}
+          <div className="lg:col-span-2">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              {/* Render appropriate form based on mode */}
+              {selectedMode === 'single' && (
+                <SinglePlayerForm
+                  initialSetup={currentSetup as SinglePlayerSetup}
+                  availableWords={availableWords}
+                  onChange={handleSetupChange}
+                />
+              )}
+
+              {selectedMode === 'multi' && (
+                <MultiPlayerForm
+                  initialSetup={currentSetup as MultiPlayerSetup}
+                  availableWords={availableWords}
+                  onChange={handleSetupChange}
+                />
+              )}
+
+              {selectedMode === 'team' && (
+                <TeamForm
+                  initialSetup={currentSetup as TeamModeSetup}
+                  availableWords={availableWords}
+                  onChange={handleSetupChange}
+                />
+              )}
+            </motion.div>
+          </div>
+
+          {/* Right: Validation Summary & Actions */}
+          <div className="lg:col-span-1">
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.3, delay: 0.1 }}
+              className="space-y-6 lg:sticky lg:top-8"
+            >
+              {/* Validation Summary */}
+              {validation && (
+                <ValidationSummary
+                  requiredWords={validation.requiredWords}
+                  availableWords={validation.availableWords}
+                  showDetails
+                />
+              )}
+
+              {/* Error Messages */}
+              {validation && validation.errors.length > 0 && (
+                <div className="bg-red-500/20 border-2 border-red-500/40 rounded-xl p-4">
+                  <h4 className="text-red-300 font-semibold mb-2">
+                    Düzeltilmesi Gerekenler:
+                  </h4>
+                  <ul className="space-y-1 text-sm text-red-200">
+                    {validation.errors.map((error, index) => (
+                      <li key={index} className="flex items-start gap-2">
+                        <span className="text-red-400">•</span>
+                        <span>{error}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {/* Start Button */}
+              <Button
+                variant="primary"
+                onClick={handleStartGame}
+                disabled={!isValid}
+                className="w-full flex items-center justify-center gap-3 !py-4 text-lg font-bold"
+                aria-label="Oyunu başlat"
+              >
+                <Play className="w-6 h-6" />
+                <span>Oyunu Başlat</span>
+              </Button>
+
+              {/* Help Text */}
+              {!isValid && (
+                <p className="text-sm text-slate-400 text-center">
+                  Oyunu başlatmak için tüm bilgileri eksiksiz doldurun
+                </p>
+              )}
+            </motion.div>
+          </div>
+        </main>
+
+        {/* Footer */}
+        <footer className="mt-8 md:mt-12 pt-6 border-t border-slate-700">
+          <div className="flex items-center justify-between text-sm text-slate-400">
+            <p>Bilgileri girin veya geri dönün</p>
+            <p className="hidden md:block">
+              Klavye: <kbd className="px-2 py-1 bg-slate-800 rounded">Tab</kbd> ile gezin
+            </p>
+          </div>
+        </footer>
+      </div>
+    </div>
+  );
+}

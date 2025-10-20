@@ -65,17 +65,6 @@ export function ModeSelectScreen() {
   );
 }
 
-// Participant Setup - Task 11
-export function ParticipantSetupScreen() {
-  return (
-    <PlaceholderScreen
-      title="👥 Yarışmacı Ayarları"
-      description="Yarışmacı veya takım bilgilerini girin"
-      taskNumber="Task 11"
-    />
-  );
-}
-
 // Game Screen - Task 12
 export function GameScreen() {
   return (

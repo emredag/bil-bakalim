@@ -8,7 +8,7 @@
 
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-import type { Category, Word, ValidationResult } from '../types';
+import type { Category, Word, ValidationResult, SinglePlayerSetup, MultiPlayerSetup, TeamModeSetup } from '../types';
 
 interface CategoryStore {
   // Cache state
@@ -26,8 +26,9 @@ interface CategoryStore {
   // Validation cache
   validationCache: Map<number, ValidationResult>;
 
-  // Game setup flow (Task 10: Mode Selection)
+  // Game setup flow (Task 10: Mode Selection, Task 11: Participant Setup)
   selectedMode: 'single' | 'multi' | 'team' | null;
+  gameSetup: SinglePlayerSetup | MultiPlayerSetup | TeamModeSetup | null;
   
   // Actions - Categories
   setCategories: (categories: Category[]) => void;
@@ -56,6 +57,10 @@ interface CategoryStore {
   // Actions - Mode Selection (Task 10)
   setSelectedMode: (mode: 'single' | 'multi' | 'team' | null) => void;
 
+  // Actions - Game Setup (Task 11: Participant Setup)
+  setGameSetup: (setup: SinglePlayerSetup | MultiPlayerSetup | TeamModeSetup | null) => void;
+  clearGameSetup: () => void;
+
   // Utility
   clearCache: () => void;
   reset: () => void;
@@ -72,6 +77,7 @@ const initialState = {
   wordsError: null,
   validationCache: new Map<number, ValidationResult>(),
   selectedMode: null,
+  gameSetup: null,
 };
 
 export const useCategoryStore = create<CategoryStore>()(
@@ -222,6 +228,14 @@ export const useCategoryStore = create<CategoryStore>()(
 
       setSelectedMode: (mode: 'single' | 'multi' | 'team' | null) => {
         set({ selectedMode: mode });
+      },
+
+      setGameSetup: (setup: SinglePlayerSetup | MultiPlayerSetup | TeamModeSetup | null) => {
+        set({ gameSetup: setup });
+      },
+
+      clearGameSetup: () => {
+        set({ gameSetup: null });
       },
 
       clearCache: () => {

@@ -15,8 +15,10 @@ export { CategorySelectionScreen as CategorySelectScreen } from './CategorySelec
 // Task 10: Game Mode Selection Screen
 export { GameModeSelectionScreen as ModeSelectScreen } from './GameModeSelectionScreen';
 
+// Task 11: Participant/Team Setup Screen
+export { ParticipantSetupScreen } from './ParticipantSetupScreen';
+
 export {
-  ParticipantSetupScreen,
   GameScreen,
   ResultsScreen,
   HistoryScreen,

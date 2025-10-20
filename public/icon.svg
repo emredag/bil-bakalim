@@ -1,0 +1,44 @@
+<!--
+  Kelime Oyunu - Application Icon
+  PRD 17.3: Blue/Violet gradient, word/letter theme, modern minimal
+  Design: "K" letter + 4 letter boxes (game theme)
+-->
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background gradient (Blue to Violet - PRD colors) -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="letterGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#fbbf24;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f59e0b;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Rounded rectangle background -->
+  <rect width="512" height="512" rx="80" fill="url(#bgGradient)"/>
+
+  <!-- 4 Letter boxes in corners (game theme) -->
+  <!-- Top-left box -->
+  <rect x="40" y="40" width="80" height="80" rx="12" fill="#1e293b" opacity="0.8"/>
+  <text x="80" y="100" font-family="Inter, sans-serif" font-size="56" font-weight="800" fill="#fbbf24" text-anchor="middle">K</text>
+
+  <!-- Top-right box -->
+  <rect x="392" y="40" width="80" height="80" rx="12" fill="#1e293b" opacity="0.8"/>
+  <circle cx="432" cy="80" r="12" fill="#94a3b8"/>
+
+  <!-- Bottom-left box -->
+  <rect x="40" y="392" width="80" height="80" rx="12" fill="#1e293b" opacity="0.8"/>
+  <circle cx="80" cy="432" r="12" fill="#94a3b8"/>
+
+  <!-- Bottom-right box -->
+  <rect x="392" y="392" width="80" height="80" rx="12" fill="#1e293b" opacity="0.8"/>
+  <circle cx="432" cy="432" r="12" fill="#94a3b8"/>
+
+  <!-- Central large "K" letter (main focus) -->
+  <text x="256" y="340" font-family="Inter, sans-serif" font-size="280" font-weight="900" fill="url(#letterGradient)" text-anchor="middle">K</text>
+
+  <!-- Subtle glow effect -->
+  <circle cx="256" cy="256" r="180" fill="white" opacity="0.05"/>
+</svg>

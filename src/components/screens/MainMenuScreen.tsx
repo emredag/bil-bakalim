@@ -14,7 +14,7 @@
  * - Version info and GitHub link
  */
 
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../routes/constants';
 import { ActionCard } from '../ActionCard';
@@ -111,7 +111,7 @@ export function MainMenuScreen() {
   const allCards = [...actionCards, ...testCards];
 
   // Container animation variants (stagger children)
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -123,14 +123,13 @@ export function MainMenuScreen() {
   };
 
   // Card animation variants
-  const cardVariants = {
+  const cardVariants: Variants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
         duration: 0.4,
-        ease: 'easeOut',
       },
     },
   };

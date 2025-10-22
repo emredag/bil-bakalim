@@ -32,6 +32,7 @@ import { PageLayout } from '../components/layouts/PageLayout';
 import { HomeRouteGuard } from './HomeRouteGuard';
 import WordSelectionTestRunner from '../components/WordSelectionTestRunner';
 import SimpleTauriTest from '../components/SimpleTauriTest';
+import { CategoryValidationDemo } from '../components/CategoryValidationDemo';
 
 /**
  * Main application router
@@ -87,6 +88,11 @@ export const router = createBrowserRouter([
       {
         path: '/tauri-test',
         element: <SimpleTauriTest />,
+      },
+      // Task 29: Category Validation Demo
+      {
+        path: '/validation-demo',
+        element: <CategoryValidationDemo />,
       },
       // Game Flow
       {

@@ -110,6 +110,12 @@ export function MainMenuScreen() {
           description: 'Test error handling',
           onClick: () => navigate('/error-demo'),
         },
+        {
+          emoji: '✅',
+          title: 'Validation Demo',
+          description: 'Task 29 - Category Validation',
+          onClick: () => navigate('/validation-demo'),
+        },
       ]
     : [];
 

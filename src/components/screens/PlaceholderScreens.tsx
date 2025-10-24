@@ -7,6 +7,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { Card } from '../ui/Card';
+import { useGameStore } from '../../store/gameStore';
+import { ResultsSinglePlayer } from './ResultsSinglePlayer';
+import { ROUTES } from '../../routes/constants';
 
 interface PlaceholderScreenProps {
   title: string;
@@ -67,6 +70,33 @@ export function ModeSelectScreen() {
 
 // Results Screen - Task 20-22
 export function ResultsScreen() {
+  const session = useGameStore((state) => state.session);
+  const resetGame = useGameStore((state) => state.resetGame);
+  const navigate = useNavigate();
+
+  // If there's an active session that's finished, show results
+  if (session && session.state === 'finished') {
+    // Single player mode
+    if (session.mode === 'single') {
+      const handlePlayAgain = () => {
+        resetGame();
+        navigate(ROUTES.CATEGORY_SELECT);
+      };
+
+      return <ResultsSinglePlayer session={session} onPlayAgain={handlePlayAgain} />;
+    }
+
+    // Multi and team modes - TODO: Task 21-22
+    return (
+      <PlaceholderScreen
+        title="🏆 Sonuçlar"
+        description={`${session.mode === 'multi' ? 'Çoklu Yarışmacı' : 'Takım Modu'} sonuç ekranı`}
+        taskNumber={session.mode === 'multi' ? 'Task 21' : 'Task 22'}
+      />
+    );
+  }
+
+  // No session - show placeholder
   return (
     <PlaceholderScreen
       title="🏆 Sonuçlar"

@@ -33,6 +33,7 @@ import { HomeRouteGuard } from './HomeRouteGuard';
 import WordSelectionTestRunner from '../components/WordSelectionTestRunner';
 import SimpleTauriTest from '../components/SimpleTauriTest';
 import { CategoryValidationDemo } from '../components/CategoryValidationDemo';
+import { ResultsTestSingle } from '../components/screens/ResultsTestSingle';
 
 /**
  * Main application router
@@ -93,6 +94,11 @@ export const router = createBrowserRouter([
       {
         path: '/validation-demo',
         element: <CategoryValidationDemo />,
+      },
+      // Task 20: Results Screen Test
+      {
+        path: '/results-test-single',
+        element: <ResultsTestSingle />,
       },
       // Game Flow
       {

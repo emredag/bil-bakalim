@@ -26,6 +26,9 @@ export { ParticipantSetupScreen } from './ParticipantSetupScreen';
 export { GameScreen } from './GameScreen';
 export { GameScreenTest } from './GameScreenTest';
 
+// Task 20: Results Screen - Single Player
+export { ResultsSinglePlayer } from './ResultsSinglePlayer';
+
 export {
   ResultsScreen,
   HistoryScreen,

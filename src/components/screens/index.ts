@@ -29,6 +29,9 @@ export { GameScreenTest } from './GameScreenTest';
 // Task 20: Results Screen - Single Player
 export { ResultsSinglePlayer } from './ResultsSinglePlayer';
 
+// Task 21: Results Screen - Multiplayer
+export { ResultsMultiplayer } from './ResultsMultiplayer';
+
 export {
   ResultsScreen,
   HistoryScreen,

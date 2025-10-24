@@ -9,6 +9,7 @@ import { Button } from '../ui/Button';
 import { Card } from '../ui/Card';
 import { useGameStore } from '../../store/gameStore';
 import { ResultsSinglePlayer } from './ResultsSinglePlayer';
+import { ResultsMultiplayer } from './ResultsMultiplayer';
 import { ROUTES } from '../../routes/constants';
 
 interface PlaceholderScreenProps {
@@ -86,12 +87,22 @@ export function ResultsScreen() {
       return <ResultsSinglePlayer session={session} onPlayAgain={handlePlayAgain} />;
     }
 
-    // Multi and team modes - TODO: Task 21-22
+    // Multiplayer mode
+    if (session.mode === 'multi') {
+      const handlePlayAgain = () => {
+        resetGame();
+        navigate(ROUTES.CATEGORY_SELECT);
+      };
+
+      return <ResultsMultiplayer session={session} onPlayAgain={handlePlayAgain} />;
+    }
+
+    // Team mode - TODO: Task 22
     return (
       <PlaceholderScreen
         title="🏆 Sonuçlar"
-        description={`${session.mode === 'multi' ? 'Çoklu Yarışmacı' : 'Takım Modu'} sonuç ekranı`}
-        taskNumber={session.mode === 'multi' ? 'Task 21' : 'Task 22'}
+        description="Takım Modu sonuç ekranı"
+        taskNumber="Task 22"
       />
     );
   }

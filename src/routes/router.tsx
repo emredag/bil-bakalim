@@ -34,6 +34,7 @@ import WordSelectionTestRunner from '../components/WordSelectionTestRunner';
 import SimpleTauriTest from '../components/SimpleTauriTest';
 import { CategoryValidationDemo } from '../components/CategoryValidationDemo';
 import { ResultsTestSingle } from '../components/screens/ResultsTestSingle';
+import ResultsTestMulti from '../components/screens/ResultsTestMulti';
 
 /**
  * Main application router
@@ -99,6 +100,11 @@ export const router = createBrowserRouter([
       {
         path: '/results-test-single',
         element: <ResultsTestSingle />,
+      },
+      // Task 21: Results Screen Test - Multiplayer
+      {
+        path: '/results-test-multi',
+        element: <ResultsTestMulti />,
       },
       // Game Flow
       {

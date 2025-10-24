@@ -273,10 +273,18 @@ export const useGameStore = create<GameStore>()(
           participant.words = words;
           participants[participantIndex] = participant;
 
+          // Check if all words are completed (found, skipped, or timeout)
+          const allWordsCompleted = participant.words.every(w => w.result !== null);
+          
+          // If all words completed, end the game
+          const newState: GameState = allWordsCompleted ? 'finished' : state.session.state;
+
           return {
             session: {
               ...state.session,
               participants,
+              state: newState,
+              finishedAt: allWordsCompleted ? new Date().toISOString() : state.session.finishedAt,
             },
           };
         });
@@ -300,10 +308,18 @@ export const useGameStore = create<GameStore>()(
           participant.words = words;
           participants[participantIndex] = participant;
 
+          // Check if all words are completed (found, skipped, or timeout)
+          const allWordsCompleted = participant.words.every(w => w.result !== null);
+          
+          // If all words completed, end the game
+          const newState: GameState = allWordsCompleted ? 'finished' : state.session.state;
+
           return {
             session: {
               ...state.session,
               participants,
+              state: newState,
+              finishedAt: allWordsCompleted ? new Date().toISOString() : state.session.finishedAt,
             },
           };
         });

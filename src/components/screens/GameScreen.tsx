@@ -124,8 +124,19 @@ export const GameScreen: React.FC = () => {
     return null;
   }
 
+  // If game is finished, don't render (will redirect to results)
+  if (session.state === 'finished') {
+    return null;
+  }
+
   const activeParticipant = session.participants[session.activeParticipantIndex];
   const currentWord = activeParticipant.words[activeParticipant.currentWordIndex];
+  
+  // If no current word (all words completed), don't render
+  if (!currentWord) {
+    return null;
+  }
+
   const remainingSeconds = session.totalTimeSeconds - session.elapsedTimeSeconds;
 
   // Calculate remaining points for current word

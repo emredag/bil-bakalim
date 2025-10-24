@@ -66,6 +66,12 @@ export const GameScreen: React.FC = () => {
 
     const interval = setInterval(() => {
       tick();
+      
+      // PRD 4.6: Play tick sound in last 10 seconds
+      const remaining = session.totalTimeSeconds - session.elapsedTimeSeconds - 1;
+      if (remaining <= 10 && remaining > 0) {
+        soundService.playTick();
+      }
     }, 1000);
 
     return () => clearInterval(interval);

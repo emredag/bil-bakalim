@@ -120,14 +120,24 @@ export const GameHeader: React.FC<GameHeaderProps> = ({
               Süre
             </span>
           </div>
-          <div
+          <motion.div
             className={`text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold tabular-nums ${timerColor}`}
             role="timer"
             aria-label={`Kalan süre ${formatTime(remainingSeconds)}`}
             aria-live="polite"
+            animate={
+              isCritical
+                ? { opacity: [1, 0.5, 1] }
+                : {}
+            }
+            transition={
+              isCritical
+                ? { duration: 0.5, repeat: Infinity, ease: 'easeInOut' }
+                : {}
+            }
           >
             {formatTime(remainingSeconds)}
-          </div>
+          </motion.div>
           {/* Progress ring visual indicator */}
           <div className="mt-2 w-full max-w-[150px] h-1 bg-slate-700 rounded-full overflow-hidden">
             <motion.div

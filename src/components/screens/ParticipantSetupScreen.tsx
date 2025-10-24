@@ -18,6 +18,8 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Play } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { useCategoryStore } from '../../store/categoryStore';
+import { useGameStore } from '../../store/gameStore';
+import { selectWordsForGame } from '../../services';
 import { ROUTES } from '../../routes/constants';
 import { SinglePlayerForm } from '../forms/SinglePlayerForm';
 import { MultiPlayerForm } from '../forms/MultiPlayerForm';
@@ -48,6 +50,7 @@ export function ParticipantSetupScreen() {
   const gameSetup = useCategoryStore((state) => state.gameSetup);
   const setGameSetup = useCategoryStore((state) => state.setGameSetup);
   const setSelectedMode = useCategoryStore((state) => state.setSelectedMode);
+  const startGame = useGameStore((state) => state.startGame);
   const getValidation = useCategoryStore((state) => state.getValidation);
 
   // Initialize default setup based on mode
@@ -129,7 +132,7 @@ export function ParticipantSetupScreen() {
   };
 
   // Handle start game
-  const handleStartGame = () => {
+  const handleStartGame = async () => {
     if (!selectedCategory || !selectedMode || !currentSetup) {
       console.error('Missing required data for starting game');
       return;
@@ -141,9 +144,73 @@ export function ParticipantSetupScreen() {
       return;
     }
 
-    // Save setup and navigate to game screen
-    setGameSetup(currentSetup);
-    navigate(ROUTES.GAME);
+    try {
+      // Calculate participant count based on mode
+      const participantCount = 
+        selectedMode === 'single' ? 1 :
+        selectedMode === 'multi' ? (currentSetup as MultiPlayerSetup).players.length :
+        (currentSetup as TeamModeSetup).teams.length;
+
+      // Select words for the game (Task 13)
+      const wordSets = await selectWordsForGame(
+        selectedCategory.id,
+        selectedMode,
+        participantCount
+      );
+
+      // Transform words to GameWord format for gameStore
+      const gameWords = wordSets.map(wordSet => 
+        wordSet.map(word => ({
+          id: word.id,
+          word: word.word,
+          letterCount: word.letterCount,
+          hint: word.hint,
+          letters: word.word.split('').map((char, index) => ({
+            char,
+            index,
+            status: 'hidden' as const,
+          })),
+          lettersRevealed: 0,
+          remainingGuesses: 3,
+          hasMadeGuess: false,
+          result: null,
+          pointsEarned: 0,
+        }))
+      );
+
+      // Create game config
+      const gameConfig = {
+        categoryId: selectedCategory.id,
+        mode: selectedMode,
+        setup: currentSetup,
+      };
+
+      // Start game in gameStore
+      startGame(gameConfig, gameWords);
+
+      // Update session with category info
+      const session = useGameStore.getState().session;
+      if (session) {
+        useGameStore.setState({
+          session: {
+            ...session,
+            categoryName: selectedCategory.name,
+            categoryEmoji: selectedCategory.emoji,
+          },
+        });
+      }
+
+      // Save setup and navigate to game screen
+      setGameSetup(currentSetup);
+      navigate(ROUTES.GAME);
+    } catch (error: any) {
+      console.error('Failed to start game:', error);
+      // Log full error for debugging in DevTools
+      console.debug('[ParticipantSetup] startGame error object:', error);
+      // Show detailed error to the user for debugging (will include Tauri invoke errors)
+      const message = error?.message || String(error) || 'Bilinmeyen hata';
+      alert(`Oyun başlatılamadı: ${message}`);
+    }
   };
 
   // Check if can start

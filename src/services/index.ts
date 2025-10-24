@@ -17,3 +17,5 @@ export {
   validateCategoryForMode,
   selectWordsForGame,
 } from './wordService';
+
+export { soundService } from './soundService';

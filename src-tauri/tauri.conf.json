@@ -30,7 +30,7 @@
       "csp": "default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self' data:",
       "capabilities": ["default"]
     },
-    "withGlobalTauri": false
+    "withGlobalTauri": true
   },
   "plugins": {},
   "bundle": {

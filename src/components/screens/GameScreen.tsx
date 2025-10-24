@@ -25,6 +25,7 @@ import { ProgressBar } from '../game/ProgressBar';
 import { Confetti } from '../game/Confetti';
 import { PauseOverlay } from '../game/PauseOverlay';
 import { useGameStore } from '../../store/gameStore';
+import { soundService } from '../../services';
 import { Modal } from '../ui/Modal';
 import { Button } from '../ui/Button';
 
@@ -139,7 +140,9 @@ export const GameScreen: React.FC = () => {
     if (hiddenIndices.length > 0 && !currentWord.hasMadeGuess) {
       const randomIndex = hiddenIndices[Math.floor(Math.random() * hiddenIndices.length)];
       revealLetter(session.activeParticipantIndex, activeParticipant.currentWordIndex, randomIndex);
-      // TODO: Play pop sound
+      
+      // Play pop sound (PRD 4.6)
+      soundService.playPop();
     }
   };
 
@@ -149,16 +152,19 @@ export const GameScreen: React.FC = () => {
     
     if (isCorrect) {
       setShowConfetti(true);
-      // TODO: Play success sound
+      // Play success sound (PRD 4.6)
+      soundService.playSuccess();
     } else {
-      // TODO: Play error sound
+      // Play error sound (PRD 4.6)
+      soundService.playError();
     }
   };
 
   const handleSkip = () => {
     setShowSkipModal(false);
     skipWord(session.activeParticipantIndex, activeParticipant.currentWordIndex);
-    // TODO: Play whoosh sound
+    // Play whoosh sound (PRD 4.6)
+    soundService.playWhoosh();
   };
 
   const handlePause = () => {

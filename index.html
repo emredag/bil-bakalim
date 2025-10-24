@@ -28,6 +28,15 @@
 
   <body>
     <div id="root"></div>
+    <!-- Tauri IPC initialization - must load before app -->
+    <script type="module">
+      // Tauri API initialization for desktop mode
+      if (window.__TAURI_INTERNALS__) {
+        window.__TAURI_INTERNALS__.postMessage = (message) => {
+          window.ipc.postMessage(JSON.stringify(message));
+        };
+      }
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

@@ -8,9 +8,12 @@ import { ArrowLeft } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { Card } from '../ui/Card';
 import { useGameStore } from '../../store/gameStore';
+import { useCategoryStore } from '../../store/categoryStore';
 import { ResultsSinglePlayer } from './ResultsSinglePlayer';
 import { ResultsMultiplayer } from './ResultsMultiplayer';
+import { ResultsTeamMode } from './ResultsTeamMode';
 import { ROUTES } from '../../routes/constants';
+import type { TeamModeSetup } from '../../types';
 
 interface PlaceholderScreenProps {
   title: string;
@@ -73,6 +76,7 @@ export function ModeSelectScreen() {
 export function ResultsScreen() {
   const session = useGameStore((state) => state.session);
   const resetGame = useGameStore((state) => state.resetGame);
+  const gameSetup = useCategoryStore((state) => state.gameSetup);
   const navigate = useNavigate();
 
   // If there's an active session that's finished, show results
@@ -97,14 +101,24 @@ export function ResultsScreen() {
       return <ResultsMultiplayer session={session} onPlayAgain={handlePlayAgain} />;
     }
 
-    // Team mode - TODO: Task 22
-    return (
-      <PlaceholderScreen
-        title="🏆 Sonuçlar"
-        description="Takım Modu sonuç ekranı"
-        taskNumber="Task 22"
-      />
-    );
+    // Team mode
+    if (session.mode === 'team') {
+      const handlePlayAgain = () => {
+        resetGame();
+        navigate(ROUTES.CATEGORY_SELECT);
+      };
+
+      // Get team info from gameSetup
+      const teams = (gameSetup as TeamModeSetup)?.teams || [];
+
+      return (
+        <ResultsTeamMode
+          session={session}
+          teams={teams}
+          onPlayAgain={handlePlayAgain}
+        />
+      );
+    }
   }
 
   // No session - show placeholder

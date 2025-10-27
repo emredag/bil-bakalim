@@ -32,6 +32,10 @@ export { ResultsSinglePlayer } from './ResultsSinglePlayer';
 // Task 21: Results Screen - Multiplayer
 export { ResultsMultiplayer } from './ResultsMultiplayer';
 
+// Task 22: Results Screen - Team Mode
+export { ResultsTeamMode } from './ResultsTeamMode';
+export { ResultsTestTeam } from './ResultsTestTeam';
+
 export {
   ResultsScreen,
   HistoryScreen,

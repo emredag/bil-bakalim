@@ -35,6 +35,7 @@ import SimpleTauriTest from '../components/SimpleTauriTest';
 import { CategoryValidationDemo } from '../components/CategoryValidationDemo';
 import { ResultsTestSingle } from '../components/screens/ResultsTestSingle';
 import ResultsTestMulti from '../components/screens/ResultsTestMulti';
+import { ResultsTestTeam } from '../components/screens/ResultsTestTeam';
 
 /**
  * Main application router
@@ -105,6 +106,11 @@ export const router = createBrowserRouter([
       {
         path: '/results-test-multi',
         element: <ResultsTestMulti />,
+      },
+      // Task 22: Results Screen Test - Team Mode
+      {
+        path: '/results-test-team',
+        element: <ResultsTestTeam />,
       },
       // Game Flow
       {

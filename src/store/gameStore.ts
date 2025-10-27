@@ -18,7 +18,8 @@ import type {
   ActiveParticipant,
   GameState,
   Letter,
-} from '../types';
+  WordResult,
+} from '../types/game';
 
 interface GameStore {
   // Current game session (null when not playing)
@@ -68,6 +69,8 @@ export const useGameStore = create<GameStore>()(
             currentWordIndex: 0,
             words: words[0],
             isActive: true,
+            elapsedTimeSeconds: 0,
+            totalTimeSeconds: 300,
           });
         } else if (config.mode === 'multi') {
           const setup = config.setup as any;
@@ -81,7 +84,9 @@ export const useGameStore = create<GameStore>()(
               lettersRevealed: 0,
               currentWordIndex: 0,
               words: words[index],
-              isActive: index === 0, // First player starts
+              isActive: index === 0, // First player/team starts
+              elapsedTimeSeconds: 0, // Each participant starts with 0
+              totalTimeSeconds: 300, // Each participant gets 5 minutes
             });
           });
         } else if (config.mode === 'team') {
@@ -97,6 +102,8 @@ export const useGameStore = create<GameStore>()(
               currentWordIndex: 0,
               words: words[index],
               isActive: index === 0, // First team starts
+              elapsedTimeSeconds: 0, // Each team starts with 0
+              totalTimeSeconds: 300, // Each team gets 5 minutes
             });
           });
         }
@@ -168,24 +175,58 @@ export const useGameStore = create<GameStore>()(
         set((state) => {
           if (!state.session || state.session.isPaused) return state;
 
-          const elapsedTimeSeconds = state.session.elapsedTimeSeconds + 1;
+          // Get active participant
+          const participants = [...state.session.participants];
+          const activeIndex = state.session.activeParticipantIndex;
+          const activeParticipant = { ...participants[activeIndex] };
           
-          // Check if time is up
-          if (elapsedTimeSeconds >= state.session.totalTimeSeconds) {
-            return {
-              session: {
-                ...state.session,
-                elapsedTimeSeconds,
-                state: 'finished' as GameState,
-                finishedAt: new Date().toISOString(),
-              },
-            };
+          // Update ACTIVE participant's timer
+          activeParticipant.elapsedTimeSeconds += 1;
+          
+          // Check if ACTIVE participant's time is up
+          if (activeParticipant.elapsedTimeSeconds >= activeParticipant.totalTimeSeconds) {
+            // Mark all remaining words as timeout
+            activeParticipant.words = activeParticipant.words.map(w => 
+              w.result === null ? { ...w, result: 'timeout' as WordResult } : w
+            );
+            
+            participants[activeIndex] = activeParticipant;
+            
+            // Check if all participants finished
+            const allParticipantsCompleted = participants.every(p => 
+              p.words.every(w => w.result !== null)
+            );
+            
+            if (allParticipantsCompleted) {
+              // All done - end game
+              return {
+                session: {
+                  ...state.session,
+                  participants,
+                  state: 'finished' as GameState,
+                  finishedAt: new Date().toISOString(),
+                },
+              };
+            } else if (state.session.mode === 'multi' || state.session.mode === 'team') {
+              // Wait for host to start next participant
+              participants[activeIndex] = { ...participants[activeIndex], isActive: false };
+              
+              return {
+                session: {
+                  ...state.session,
+                  participants,
+                  state: 'waiting_next_turn' as GameState,
+                },
+              };
+            }
           }
+
+          participants[activeIndex] = activeParticipant;
 
           return {
             session: {
               ...state.session,
-              elapsedTimeSeconds,
+              participants,
             },
           };
         });
@@ -273,18 +314,36 @@ export const useGameStore = create<GameStore>()(
           participant.words = words;
           participants[participantIndex] = participant;
 
-          // Check if all words are completed (found, skipped, or timeout)
-          const allWordsCompleted = participant.words.every(w => w.result !== null);
+          // Check if current participant completed all words
+          const participantCompleted = participant.words.every(w => w.result !== null);
           
-          // If all words completed, end the game
-          const newState: GameState = allWordsCompleted ? 'finished' : state.session.state;
+          // Check if ALL participants completed their words
+          const allParticipantsCompleted = participants.every(p => p.words.every(w => w.result !== null));
+          
+          // Determine next state and actions
+          let newState: GameState = state.session.state;
+          let newActiveIndex = state.session.activeParticipantIndex;
+          let finishedAt = state.session.finishedAt;
+          let updatedParticipants = participants;
+          
+          if (allParticipantsCompleted) {
+            // ALL participants finished → End game
+            newState = 'finished';
+            finishedAt = new Date().toISOString();
+          } else if (participantCompleted && (state.session.mode === 'multi' || state.session.mode === 'team')) {
+            // Current participant finished in multi/team mode → Wait for host to start next turn
+            newState = 'waiting_next_turn';
+            updatedParticipants = [...participants];
+            updatedParticipants[participantIndex] = { ...updatedParticipants[participantIndex], isActive: false };
+          }
 
           return {
             session: {
               ...state.session,
-              participants,
+              participants: updatedParticipants,
+              activeParticipantIndex: newActiveIndex,
               state: newState,
-              finishedAt: allWordsCompleted ? new Date().toISOString() : state.session.finishedAt,
+              finishedAt,
             },
           };
         });
@@ -308,34 +367,51 @@ export const useGameStore = create<GameStore>()(
           participant.words = words;
           participants[participantIndex] = participant;
 
-          // Check if all words are completed (found, skipped, or timeout)
-          const allWordsCompleted = participant.words.every(w => w.result !== null);
+          // Check if current participant completed all words
+          const participantCompleted = participant.words.every(w => w.result !== null);
           
-          // If all words completed, end the game
-          const newState: GameState = allWordsCompleted ? 'finished' : state.session.state;
+          // Check if ALL participants completed their words
+          const allParticipantsCompleted = participants.every(p => p.words.every(w => w.result !== null));
+          
+          // Determine next state and actions
+          let newState: GameState = state.session.state;
+          let newActiveIndex = state.session.activeParticipantIndex;
+          let finishedAt = state.session.finishedAt;
+          let updatedParticipants = participants;
+          
+          if (allParticipantsCompleted) {
+            // ALL participants finished → End game
+            newState = 'finished';
+            finishedAt = new Date().toISOString();
+          } else if (participantCompleted && (state.session.mode === 'multi' || state.session.mode === 'team')) {
+            // Current participant finished in multi/team mode → Wait for host to start next turn
+            newState = 'waiting_next_turn';
+            updatedParticipants = [...participants];
+            updatedParticipants[participantIndex] = { ...updatedParticipants[participantIndex], isActive: false };
+          }
 
           return {
             session: {
               ...state.session,
-              participants,
+              participants: updatedParticipants,
+              activeParticipantIndex: newActiveIndex,
               state: newState,
-              finishedAt: allWordsCompleted ? new Date().toISOString() : state.session.finishedAt,
+              finishedAt,
             },
           };
         });
       },
 
-      nextParticipant: () => {
+      nextParticipant:() => {
         set((state) => {
           if (!state.session || state.session.mode === 'single') return state;
+          if (state.session.state !== 'waiting_next_turn') return state;
 
           const participants = [...state.session.participants];
           const currentIndex = state.session.activeParticipantIndex;
           const nextIndex = (currentIndex + 1) % participants.length;
 
-          // Deactivate current
-          participants[currentIndex] = { ...participants[currentIndex], isActive: false };
-          // Activate next
+          // Activate next participant
           participants[nextIndex] = { ...participants[nextIndex], isActive: true };
 
           return {
@@ -343,6 +419,7 @@ export const useGameStore = create<GameStore>()(
               ...state.session,
               participants,
               activeParticipantIndex: nextIndex,
+              state: 'playing', // Resume playing state
             },
           };
         });

@@ -15,10 +15,11 @@ export type ParticipantType = 'player' | 'team';
  * Game state phases
  */
 export type GameState = 
-  | 'setup'      // Selecting category, mode, participants
-  | 'playing'    // Active game
-  | 'paused'     // Game paused
-  | 'finished';  // Game completed
+  | 'setup'              // Selecting category, mode, participants
+  | 'playing'            // Active game
+  | 'paused'             // Game paused
+  | 'waiting_next_turn'  // Waiting for host to start next participant's turn
+  | 'finished';          // Game completed
 
 /**
  * Word reveal status
@@ -112,6 +113,9 @@ export interface ActiveParticipant {
   currentWordIndex: number;
   words: GameWord[]; // 14 words per participant/team
   isActive: boolean; // Currently playing
+  // Multi/Team mode: Each participant gets their OWN 5-minute timer
+  elapsedTimeSeconds: number; // Participant's individual time
+  totalTimeSeconds: number; // Always 300 (5 minutes per participant)
 }
 
 /**

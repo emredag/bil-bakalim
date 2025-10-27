@@ -27,6 +27,8 @@ export function ResultsTestSingle() {
         lettersRevealed: 12,
         currentWordIndex: 11,
         isActive: true,
+        elapsedTimeSeconds: 180, // 3 minutes used
+        totalTimeSeconds: 300, // 5 minutes total
         words: [
           {
             id: 1,

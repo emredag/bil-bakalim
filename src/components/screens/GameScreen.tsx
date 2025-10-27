@@ -24,6 +24,7 @@ import { ControlPanel } from '../game/ControlPanel';
 import { ProgressBar } from '../game/ProgressBar';
 import { Confetti } from '../game/Confetti';
 import { PauseOverlay } from '../game/PauseOverlay';
+import { TurnTransition } from './TurnTransition';
 import { useGameStore } from '../../store/gameStore';
 import { soundService } from '../../services';
 import { Modal } from '../ui/Modal';
@@ -68,7 +69,8 @@ export const GameScreen: React.FC = () => {
       tick();
       
       // PRD 4.6: Play tick sound in last 10 seconds
-      const remaining = session.totalTimeSeconds - session.elapsedTimeSeconds - 1;
+      const activeParticipant = session.participants[session.activeParticipantIndex];
+      const remaining = activeParticipant.totalTimeSeconds - activeParticipant.elapsedTimeSeconds - 1;
       if (remaining <= 10 && remaining > 0) {
         soundService.playTick();
       }
@@ -124,6 +126,11 @@ export const GameScreen: React.FC = () => {
     return null;
   }
 
+  // Show turn transition screen if waiting for next turn
+  if (session.state === 'waiting_next_turn') {
+    return <TurnTransition />;
+  }
+
   // If game is finished, don't render (will redirect to results)
   if (session.state === 'finished') {
     return null;
@@ -137,7 +144,8 @@ export const GameScreen: React.FC = () => {
     return null;
   }
 
-  const remainingSeconds = session.totalTimeSeconds - session.elapsedTimeSeconds;
+  // Get active participant's remaining time
+  const remainingSeconds = activeParticipant.totalTimeSeconds - activeParticipant.elapsedTimeSeconds;
 
   // Calculate remaining points for current word
   const calculateRemainingPoints = (): number => {

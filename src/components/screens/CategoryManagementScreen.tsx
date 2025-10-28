@@ -108,6 +108,11 @@ export function CategoryManagementScreen() {
     loadCategories(); // Reload to get fresh data
   };
 
+  const handleCreateAndAddWords = (category: Category) => {
+    // Navigate directly to word management screen
+    navigate(buildRoute.wordManagement(category.id));
+  };
+
   const handleEditSuccess = () => {
     loadCategories(); // Reload to get fresh data
   };
@@ -293,6 +298,7 @@ export function CategoryManagementScreen() {
         isOpen={showCreateModal}
         onClose={() => setShowCreateModal(false)}
         onSuccess={handleCreateSuccess}
+        onSuccessAndAddWords={handleCreateAndAddWords}
       />
 
       <EditCategoryModal

@@ -19,13 +19,14 @@ import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import { EmojiPicker, EmojiButton } from '../EmojiPicker';
 import { useToast } from '../ui/Toast';
-import { createCategory } from '../../api/category';
+import { createCategory, getAllCategories } from '../../api/category';
 import { Category } from '../../types/database';
 
 export interface CreateCategoryModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSuccess: (category: Category) => void;
+  onSuccessAndAddWords?: (category: Category) => void;
 }
 
 /**
@@ -38,13 +39,14 @@ export interface CreateCategoryModalProps {
  * - Emoji picker integration
  * - Success/error toast notifications
  */
-export function CreateCategoryModal({ isOpen, onClose, onSuccess }: CreateCategoryModalProps) {
+export function CreateCategoryModal({ isOpen, onClose, onSuccess, onSuccessAndAddWords }: CreateCategoryModalProps) {
   const { showToast } = useToast();
   const [name, setName] = useState('');
   const [emoji, setEmoji] = useState('');
   const [description, setDescription] = useState('');
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [existingCategories, setExistingCategories] = useState<Category[]>([]);
   const [errors, setErrors] = useState<{
     name?: string;
     emoji?: string;
@@ -58,8 +60,20 @@ export function CreateCategoryModal({ isOpen, onClose, onSuccess }: CreateCatego
       setDescription('');
       setErrors({});
       setShowEmojiPicker(false);
+      // Load existing categories for uniqueness validation
+      loadExistingCategories();
     }
   }, [isOpen]);
+
+  // Load existing categories
+  const loadExistingCategories = async () => {
+    try {
+      const categories = await getAllCategories();
+      setExistingCategories(categories);
+    } catch (error) {
+      console.error('Failed to load categories:', error);
+    }
+  };
 
   // Validation
   const validate = (): boolean => {
@@ -69,6 +83,14 @@ export function CreateCategoryModal({ isOpen, onClose, onSuccess }: CreateCatego
       newErrors.name = 'Kategori adı gereklidir';
     } else if (name.length > 50) {
       newErrors.name = 'Kategori adı en fazla 50 karakter olabilir';
+    } else {
+      // Check for duplicate category name (case-insensitive)
+      const isDuplicate = existingCategories.some(
+        (cat) => cat.name.toLowerCase() === name.trim().toLowerCase()
+      );
+      if (isDuplicate) {
+        newErrors.name = 'Bu kategori adı zaten kullanılıyor';
+      }
     }
 
     if (!emoji) {
@@ -79,7 +101,7 @@ export function CreateCategoryModal({ isOpen, onClose, onSuccess }: CreateCatego
     return Object.keys(newErrors).length === 0;
   };
 
-  // Handle form submit
+  // Handle form submit (just save)
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -99,6 +121,38 @@ export function CreateCategoryModal({ isOpen, onClose, onSuccess }: CreateCatego
       showToast(`${category.name} kategorisi oluşturuldu`, 'success');
 
       onSuccess(category);
+      onClose();
+    } catch (error) {
+      console.error('Category creation error:', error);
+      showToast('Kategori oluşturulurken hata oluştu', 'error');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  // Handle form submit (save and navigate to word management)
+  const handleSubmitAndAddWords = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!validate()) {
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const category = await createCategory(
+        name.trim(),
+        emoji,
+        description.trim() || undefined
+      );
+
+      showToast(`${category.name} kategorisi oluşturuldu`, 'success');
+
+      // Navigate to word management
+      if (onSuccessAndAddWords) {
+        onSuccessAndAddWords(category);
+      }
       onClose();
     } catch (error) {
       console.error('Category creation error:', error);
@@ -259,10 +313,11 @@ export function CreateCategoryModal({ isOpen, onClose, onSuccess }: CreateCatego
             <Button
               type="submit"
               variant="primary"
+              onClick={handleSubmitAndAddWords}
               disabled={isSubmitting || !name.trim() || !emoji}
             >
               <Plus className="w-5 h-5 mr-2" />
-              {isSubmitting ? 'Oluşturuluyor...' : 'Oluştur'}
+              {isSubmitting ? 'Oluşturuluyor...' : 'Oluştur ve Kelime Ekle'}
             </Button>
           </div>
         </form>

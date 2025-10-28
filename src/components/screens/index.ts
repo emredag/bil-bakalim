@@ -39,6 +39,9 @@ export { ResultsTestTeam } from './ResultsTestTeam';
 // Task 23: Game History List
 export { GameHistoryScreen } from './GameHistoryScreen';
 
+// Task 24: Game History Detail
+export { GameHistoryDetailScreen } from './GameHistoryDetailScreen';
+
 export {
   ResultsScreen,
   HistoryDetailScreen,

@@ -22,7 +22,7 @@ import {
   GameScreenTest,
   ResultsScreen,
   GameHistoryScreen,
-  HistoryDetailScreen,
+  GameHistoryDetailScreen,
   CategoryManagementScreen,
   WordManagementScreen,
   SettingsScreen,
@@ -140,7 +140,7 @@ export const router = createBrowserRouter([
       },
       {
         path: ROUTES.HISTORY_DETAIL,
-        element: <HistoryDetailScreen />,
+        element: <GameHistoryDetailScreen />,
       },
       // Management
       {

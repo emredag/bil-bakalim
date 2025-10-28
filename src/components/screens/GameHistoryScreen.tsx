@@ -193,7 +193,7 @@ export function GameHistoryScreen() {
   };
 
   const handleViewDetail = (gameId: number) => {
-    navigate(`${ROUTES.HISTORY}/${gameId}`);
+    navigate(`/history/${gameId}`);
   };
 
   const clearFilters = () => {

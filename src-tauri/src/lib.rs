@@ -49,6 +49,8 @@ pub fn run() {
             commands::update_category,
             commands::delete_category,
             commands::validate_category,
+            commands::export_category_json,
+            commands::import_category_json,
             // Word commands
             commands::get_words_by_category,
             commands::add_word,

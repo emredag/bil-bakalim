@@ -15,7 +15,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Plus, Search, ArrowLeft, Upload, Download, Edit2, Trash2, Loader2 } from 'lucide-react';
+import { Plus, Search, ArrowLeft, Upload, Download, Edit2, Trash2, Loader2, AlertCircle, X } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import { Badge } from '../ui/Badge';
@@ -23,10 +23,10 @@ import { Table, Column } from '../ui/Table';
 import { AddWordModal, EditWordModal, DeleteWordDialog } from '../modals';
 import { WordDistributionSidebar } from '../WordDistributionSidebar';
 import { getWordsByCategory } from '../../api/word';
-import { getCategoryById, validateCategory } from '../../api/category';
+import { getCategoryById, validateCategory, exportCategoryToJson, importCategoryFromJson } from '../../api/category';
 import { Category, Word, ValidationResult } from '../../types/database';
 import { ROUTES } from '../../routes/constants';
-import { useToast } from '../ui/Toast';
+import { useToast, ToastContainer } from '../ui/Toast';
 
 /**
  * WordManagementScreen Component
@@ -41,7 +41,7 @@ import { useToast } from '../ui/Toast';
 export function WordManagementScreen() {
   const { categoryId } = useParams<{ categoryId: string }>();
   const navigate = useNavigate();
-  const { showToast } = useToast();
+  const { toasts, showToast } = useToast();
 
   // State
   const [category, setCategory] = useState<Category | null>(null);
@@ -55,6 +55,9 @@ export function WordManagementScreen() {
   const [showAddModal, setShowAddModal] = useState(false);
   const [editingWord, setEditingWord] = useState<Word | null>(null);
   const [deletingWord, setDeletingWord] = useState<Word | null>(null);
+
+  // Import/Export error state
+  const [importExportError, setImportExportError] = useState<string | null>(null);
 
   // Sort state
   const [sortKey, setSortKey] = useState<string>('word');
@@ -163,14 +166,54 @@ export function WordManagementScreen() {
     loadData(); // Reload to refresh validation
   };
 
-  // Handle JSON Import (placeholder for Task 30)
-  const handleImport = () => {
-    showToast('JSON içe aktarma özelliği Task 30\'da implement edilecek', 'info');
+  // Handle JSON Import
+  const handleImport = async () => {
+    if (!categoryId || !category) return;
+
+    // Clear previous errors
+    setImportExportError(null);
+
+    try {
+      const result = await importCategoryFromJson(parseInt(categoryId, 10));
+      showToast(result.message, 'success');
+      // Reload data to show newly imported words
+      await loadData();
+    } catch (error) {
+      console.error('Import failed:', error);
+      const errorMessage = error instanceof Error ? error.message : 'JSON içe aktarma başarısız';
+
+      // Don't show error for user cancellation
+      if (errorMessage.includes('iptal edildi')) {
+        return;
+      }
+
+      // Show error below the button
+      setImportExportError(errorMessage);
+    }
   };
 
-  // Handle JSON Export (placeholder for Task 30)
-  const handleExport = () => {
-    showToast('JSON dışa aktarma özelliği Task 30\'da implement edilecek', 'info');
+  // Handle JSON Export
+  const handleExport = async () => {
+    if (!categoryId || !category) return;
+
+    // Clear previous errors
+    setImportExportError(null);
+
+    try {
+      await exportCategoryToJson(parseInt(categoryId, 10), category.name);
+      showToast(`${category.name} kategorisi başarıyla dışa aktarıldı`, 'success');
+    } catch (error) {
+      console.error('Export failed:', error);
+      const errorMessage = error instanceof Error ? error.message : 'JSON dışa aktarma başarısız';
+
+      // Don't show error for user cancellation
+      if (errorMessage.includes('iptal edildi')) {
+        return;
+      }
+
+      // Show error below the button
+      setImportExportError(errorMessage);
+    }
   };
 
   // Table columns
@@ -263,6 +306,9 @@ export function WordManagementScreen() {
 
   return (
     <div className="min-h-screen bg-slate-900">
+      {/* Toast Container */}
+      <ToastContainer toasts={toasts} position="top-right" />
+
       {/* Main Content Container */}
       <div className="flex flex-col lg:flex-row min-h-screen">
         {/* Main Content Area */}
@@ -305,39 +351,66 @@ export function WordManagementScreen() {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="flex flex-col sm:flex-row gap-3 mb-6"
+            className="mb-6"
           >
-            {/* Add Word Button */}
-            <Button
-              variant="primary"
-              onClick={() => setShowAddModal(true)}
-              className="sm:w-auto"
-            >
-              <Plus className="w-4 h-4 mr-2" />
-              Yeni Kelime Ekle
-            </Button>
+            <div className="flex flex-col sm:flex-row gap-3">
+              {/* Add Word Button */}
+              <Button
+                variant="primary"
+                onClick={() => setShowAddModal(true)}
+                className="sm:w-auto"
+              >
+                <Plus className="w-4 h-4 mr-2" />
+                Yeni Kelime Ekle
+              </Button>
 
-            {/* Import JSON Button (Task 30) */}
-            <Button
-              variant="secondary"
-              onClick={handleImport}
-              className="sm:w-auto"
-            >
-              <Upload className="w-4 h-4 mr-2" />
-              JSON'dan İçe Aktar
-            </Button>
+              {/* Import JSON Button (Task 30) */}
+              <Button
+                variant="secondary"
+                onClick={handleImport}
+                className="sm:w-auto"
+              >
+                <Upload className="w-4 h-4 mr-2" />
+                JSON'dan İçe Aktar
+              </Button>
 
-            {/* Search Input */}
-            <div className="flex-1 sm:max-w-md ml-auto">
-              <Input
-                type="text"
-                placeholder="Kelime veya ipucu ara..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                icon={<Search className="w-5 h-5" />}
-                className="w-full"
-              />
+              {/* Search Input */}
+              <div className="flex-1 sm:max-w-md ml-auto">
+                <Input
+                  type="text"
+                  placeholder="Kelime veya ipucu ara..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  icon={<Search className="w-5 h-5" />}
+                  className="w-full"
+                />
+              </div>
             </div>
+
+            {/* Import/Export Error Display */}
+            {importExportError && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                className="mt-4 bg-red-900/20 border-l-4 border-red-500 rounded-lg p-4"
+              >
+                <div className="flex items-start gap-3">
+                  <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+                  <div className="flex-1">
+                    <h4 className="text-red-400 font-semibold mb-1">Hata</h4>
+                    <p className="text-red-300 text-sm whitespace-pre-line">{importExportError}</p>
+                  </div>
+                  <button
+                    onClick={() => setImportExportError(null)}
+                    className="text-red-400 hover:text-red-300 transition-colors"
+                    aria-label="Hatayı kapat"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              </motion.div>
+            )}
           </motion.div>
 
           {/* Word Table */}

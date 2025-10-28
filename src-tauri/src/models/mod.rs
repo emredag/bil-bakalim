@@ -87,3 +87,36 @@ pub struct GameWordResult {
 
 /// Settings map (key-value pairs)
 pub type Settings = std::collections::HashMap<String, String>;
+
+/// JSON Import/Export models
+
+/// Category information for export (without DB-specific fields)
+#[derive(Debug, Serialize, Deserialize)]
+pub struct CategoryExportInfo {
+    pub name: String,
+    pub emoji: String,
+    pub description: Option<String>,
+}
+
+/// Word information for export (without DB-specific fields)
+#[derive(Debug, Serialize, Deserialize)]
+pub struct WordExportInfo {
+    pub word: String,
+    pub letter_count: i32,
+    pub hint: String,
+}
+
+/// Complete category export data
+#[derive(Debug, Serialize, Deserialize)]
+pub struct CategoryExportData {
+    pub category: CategoryExportInfo,
+    pub words: Vec<WordExportInfo>,
+}
+
+/// Import result statistics
+#[derive(Debug, Serialize, Deserialize)]
+pub struct ImportResult {
+    pub words_added: i32,
+    pub words_skipped: i32,
+    pub message: String,
+}

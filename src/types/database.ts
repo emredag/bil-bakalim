@@ -96,3 +96,43 @@ export interface GameWordResult {
   letters_used: number;
   created_at: string;
 }
+
+/**
+ * JSON Import/Export types
+ * PRD Reference: Section 5.7 - JSON Import/Export
+ */
+
+/**
+ * Category information for export (without DB-specific fields)
+ */
+export interface CategoryExportInfo {
+  name: string;
+  emoji: string;
+  description: string | null;
+}
+
+/**
+ * Word information for export (without DB-specific fields)
+ */
+export interface WordExportInfo {
+  word: string;
+  letter_count: number;
+  hint: string;
+}
+
+/**
+ * Complete category export data
+ */
+export interface CategoryExportData {
+  category: CategoryExportInfo;
+  words: WordExportInfo[];
+}
+
+/**
+ * Import result statistics
+ */
+export interface ImportResult {
+  words_added: number;
+  words_skipped: number;
+  message: string;
+}

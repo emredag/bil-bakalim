@@ -46,7 +46,8 @@ import {
   type GameParticipant,
   type GameWordResult,
 } from '../../api/gameHistory';
-import { getAllCategories, type Category } from '../../api/category';
+import { getAllCategories } from '../../api/category';
+import { Category } from '../../types/database';
 import { Button } from '../ui/Button';
 import { Card } from '../ui/Card';
 import { Modal } from '../ui/Modal';

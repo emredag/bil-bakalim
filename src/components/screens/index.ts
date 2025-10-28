@@ -45,10 +45,12 @@ export { GameHistoryDetailScreen } from './GameHistoryDetailScreen';
 // Task 25: Category Management Screen
 export { CategoryManagementScreen } from './CategoryManagementScreen';
 
+// Task 27: Word Management Screen
+export { WordManagementScreen } from './WordManagementScreen';
+
 export {
   ResultsScreen,
   HistoryDetailScreen,
-  WordManagementScreen,
   SettingsScreen,
   HowToPlayScreen,
 } from './PlaceholderScreens';

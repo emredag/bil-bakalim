@@ -42,10 +42,12 @@ export { GameHistoryScreen } from './GameHistoryScreen';
 // Task 24: Game History Detail
 export { GameHistoryDetailScreen } from './GameHistoryDetailScreen';
 
+// Task 25: Category Management Screen
+export { CategoryManagementScreen } from './CategoryManagementScreen';
+
 export {
   ResultsScreen,
   HistoryDetailScreen,
-  CategoryManagementScreen,
   WordManagementScreen,
   SettingsScreen,
   HowToPlayScreen,

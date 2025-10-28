@@ -147,15 +147,7 @@ export function HistoryDetailScreen() {
 }
 
 // Category Management - Task 25
-export function CategoryManagementScreen() {
-  return (
-    <PlaceholderScreen
-      title="📚 Kategori Yönetimi"
-      description="Kategorileri ekle, düzenle, sil"
-      taskNumber="Task 25"
-    />
-  );
-}
+// MOVED TO: src/components/screens/CategoryManagementScreen.tsx
 
 // Word Management - Task 27
 export function WordManagementScreen() {

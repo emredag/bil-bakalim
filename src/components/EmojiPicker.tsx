@@ -1,9 +1,10 @@
 /**
  * EmojiPicker Component
  * Task 11: Participant/Team Setup
+ * Task 25: Category Management (extended)
  * Design Reference: ui-ux-design.md#participant-team-setup
  *
- * Simple emoji picker for team identification
+ * Simple emoji picker for team identification and category icons
  * Shows a grid of common emojis for quick selection
  */
 
@@ -25,6 +26,25 @@ export const TEAM_EMOJI_OPTIONS = [
   '🌈', '☀️', '🌙', '⛰️', '🌊', '🌸',
 ];
 
+/**
+ * Category emojis for category management
+ * PRD Reference: Section 5.2 - Popular category emojis (8x6 grid = 48 emojis)
+ */
+export const CATEGORY_EMOJI_OPTIONS = [
+  // Row 1: Sports & Activities
+  '⚽', '🏀', '🏈', '⚾', '🎾', '🏐', '🏓', '🏸',
+  // Row 2: Food & Drink
+  '🍕', '🍔', '🍟', '🍎', '🍌', '🍇', '🍰', '☕',
+  // Row 3: Technology & Devices
+  '💻', '📱', '⌨️', '🖱️', '🎮', '🎧', '📷', '🖨️',
+  // Row 4: Education & Books
+  '📚', '📖', '✏️', '📝', '🎓', '🏫', '🔬', '🧪',
+  // Row 5: Buildings & Places
+  '🏠', '🏢', '🏥', '🏪', '🏰', '⛪', '🕌', '🗼',
+  // Row 6: Nature & Environment
+  '🌍', '🌎', '🌏', '🌳', '🌲', '🌴', '🌵', '🌺',
+];
+
 export interface EmojiPickerProps {
   /** Currently selected emoji */
   selectedEmoji?: string;
@@ -34,6 +54,8 @@ export interface EmojiPickerProps {
   onClose?: () => void;
   /** Show as modal (full overlay) or inline */
   variant?: 'modal' | 'inline';
+  /** Emoji set to use: team or category */
+  type?: 'team' | 'category';
   /** Custom className */
   className?: string;
 }
@@ -42,7 +64,7 @@ export interface EmojiPickerProps {
  * EmojiPicker Component
  *
  * Features:
- * - Grid of common emojis
+ * - Grid of common emojis (team or category)
  * - Click to select
  * - Modal or inline display
  * - Keyboard navigation (Tab, Enter)
@@ -53,9 +75,18 @@ export const EmojiPicker: React.FC<EmojiPickerProps> = ({
   onSelect,
   onClose,
   variant = 'modal',
+  type = 'team',
   className = '',
 }) => {
   const [hoveredEmoji, setHoveredEmoji] = useState<string | null>(null);
+
+  // Select emoji set based on type
+  const emojiOptions = type === 'category' ? CATEGORY_EMOJI_OPTIONS : TEAM_EMOJI_OPTIONS;
+  const title = type === 'category' ? 'Kategori Emoji Seç' : 'Takım Emoji Seç';
+  const gridCols = type === 'category' ? 'grid-cols-8' : 'grid-cols-6';
+  const hint = type === 'category' 
+    ? 'Kategoriyi temsil edecek bir emoji seçin'
+    : 'Takımınızı temsil edecek bir emoji seçin';
 
   const handleSelect = (emoji: string) => {
     onSelect(emoji);
@@ -77,7 +108,7 @@ export const EmojiPicker: React.FC<EmojiPickerProps> = ({
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-xl md:text-2xl font-bold text-white">
-          Takım Emoji Seç
+          {title}
         </h3>
         {onClose && (
           <button
@@ -91,8 +122,8 @@ export const EmojiPicker: React.FC<EmojiPickerProps> = ({
       </div>
 
       {/* Emoji Grid */}
-      <div className="grid grid-cols-6 gap-2 md:gap-3 max-w-md mx-auto">
-        {TEAM_EMOJI_OPTIONS.map((emoji) => {
+      <div className={`grid ${gridCols} gap-2 md:gap-3 max-w-2xl mx-auto`}>
+        {emojiOptions.map((emoji) => {
           const isSelected = emoji === selectedEmoji;
           const isHovered = emoji === hoveredEmoji;
 
@@ -142,7 +173,7 @@ export const EmojiPicker: React.FC<EmojiPickerProps> = ({
 
       {/* Footer hint */}
       <p className="text-sm text-slate-400 mt-6 text-center">
-        Takımınızı temsil edecek bir emoji seçin
+        {hint}
       </p>
     </div>
   );

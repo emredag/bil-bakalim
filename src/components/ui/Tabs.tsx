@@ -92,15 +92,9 @@ export const Tabs: React.FC<TabsProps> = ({
       )}
 
       {/* Tab Content */}
-      <motion.div
-        key={activeTab}
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.2 }}
-        className="mt-4"
-      >
+      <div className="mt-4">
         {activeTabContent}
-      </motion.div>
+      </div>
     </div>
   );
 };

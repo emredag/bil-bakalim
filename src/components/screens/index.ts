@@ -51,8 +51,10 @@ export { WordManagementScreen } from './WordManagementScreen';
 // Task 31: Settings Screen
 export { SettingsScreen } from './SettingsScreen';
 
+// Task 32: How to Play Screen
+export { HowToPlayScreen } from './HowToPlayScreen';
+
 export {
   ResultsScreen,
   HistoryDetailScreen,
-  HowToPlayScreen,
 } from './PlaceholderScreens';

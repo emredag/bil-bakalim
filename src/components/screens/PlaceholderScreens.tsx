@@ -162,23 +162,7 @@ export function WordManagementScreen() {
 }
 
 // Settings - Task 31
-export function SettingsScreen() {
-  return (
-    <PlaceholderScreen
-      title="⚙️ Ayarlar"
-      description="Uygulama ayarları: ses, tema, dil"
-      taskNumber="Task 31"
-    />
-  );
-}
+// MOVED TO: src/components/screens/SettingsScreen.tsx
 
 // How to Play - Task 32
-export function HowToPlayScreen() {
-  return (
-    <PlaceholderScreen
-      title="ℹ️ Nasıl Oynanır?"
-      description="Oyun kuralları ve kullanım kılavuzu"
-      taskNumber="Task 32"
-    />
-  );
-}
+// MOVED TO: src/components/screens/HowToPlayScreen.tsx

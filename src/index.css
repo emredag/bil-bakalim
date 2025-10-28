@@ -137,6 +137,16 @@
 }
 
 @layer utilities {
+  /* Keyframes for animations */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
   /* Performance-optimized transform utilities */
   .will-change-transform {
     will-change: transform;

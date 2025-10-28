@@ -15,7 +15,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLocation } from 'react-router-dom';
-import { pageTransition } from './variants';
 import { useReducedMotion } from './useReducedMotion';
 
 export interface PageTransitionProps {
@@ -38,30 +37,21 @@ export const PageTransition: React.FC<PageTransitionProps> = ({
   className = '',
 }) => {
   const location = useLocation();
-  const shouldReduceMotion = useReducedMotion();
 
-  // If reduce motion, skip animations
-  const variants = shouldReduceMotion
-    ? undefined
-    : pageTransition;
-
+  // Simple fade transition without complex animations
+  // This prevents the opacity:0 stuck issue
   return (
-    <AnimatePresence mode="wait">
-      <motion.div
-        key={location.pathname}
-        initial={shouldReduceMotion ? undefined : 'initial'}
-        animate={shouldReduceMotion ? undefined : 'animate'}
-        exit={shouldReduceMotion ? undefined : 'exit'}
-        variants={variants}
-        className={className}
-        style={{
-          width: '100%',
-          minHeight: '100vh',
-        }}
-      >
-        {children}
-      </motion.div>
-    </AnimatePresence>
+    <div 
+      key={location.pathname}
+      className={`${className} animate-fadeIn`}
+      style={{
+        width: '100%',
+        minHeight: '100vh',
+        animation: 'fadeIn 0.3s ease-out'
+      }}
+    >
+      {children}
+    </div>
   );
 };
 

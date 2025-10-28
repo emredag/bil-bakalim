@@ -13,23 +13,23 @@ import { DEFAULT_SETTINGS } from '../types';
 interface SettingsStore {
   // Settings state
   soundEnabled: boolean;
-  musicVolume: number;
-  sfxVolume: number;
+  effectsVolume: number; // 0-100
   theme: 'dark' | 'light';
   language: 'tr' | 'en';
+  animationSpeed: 'slow' | 'normal' | 'fast';
   showHints: boolean;
   showTutorial: boolean;
-  
+
   // Actions
   setSoundEnabled: (enabled: boolean) => void;
-  setMusicVolume: (volume: number) => void;
-  setSfxVolume: (volume: number) => void;
+  setEffectsVolume: (volume: number) => void;
   setTheme: (theme: 'dark' | 'light') => void;
   setLanguage: (language: 'tr' | 'en') => void;
+  setAnimationSpeed: (speed: 'slow' | 'normal' | 'fast') => void;
   setShowHints: (show: boolean) => void;
   setShowTutorial: (show: boolean) => void;
   resetToDefaults: () => void;
-  
+
   // Batch update
   updateSettings: (settings: Partial<ParsedSettings>) => void;
 }
@@ -45,12 +45,8 @@ export const useSettingsStore = create<SettingsStore>()(
           set({ soundEnabled: enabled });
         },
 
-        setMusicVolume: (volume: number) => {
-          set({ musicVolume: Math.max(0, Math.min(100, volume)) });
-        },
-
-        setSfxVolume: (volume: number) => {
-          set({ sfxVolume: Math.max(0, Math.min(100, volume)) });
+        setEffectsVolume: (volume: number) => {
+          set({ effectsVolume: Math.max(0, Math.min(100, volume)) });
         },
 
         setTheme: (theme: 'dark' | 'light') => {
@@ -59,6 +55,10 @@ export const useSettingsStore = create<SettingsStore>()(
 
         setLanguage: (language: 'tr' | 'en') => {
           set({ language });
+        },
+
+        setAnimationSpeed: (speed: 'slow' | 'normal' | 'fast') => {
+          set({ animationSpeed: speed });
         },
 
         setShowHints: (show: boolean) => {

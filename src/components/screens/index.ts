@@ -48,9 +48,11 @@ export { CategoryManagementScreen } from './CategoryManagementScreen';
 // Task 27: Word Management Screen
 export { WordManagementScreen } from './WordManagementScreen';
 
+// Task 31: Settings Screen
+export { SettingsScreen } from './SettingsScreen';
+
 export {
   ResultsScreen,
   HistoryDetailScreen,
-  SettingsScreen,
   HowToPlayScreen,
 } from './PlaceholderScreens';

@@ -61,6 +61,11 @@ pub fn run() {
             // Settings commands
             commands::get_settings,
             commands::update_setting,
+            // Database commands (Task 31)
+            commands::backup_database,
+            commands::restore_database,
+            commands::reset_all_data,
+            commands::get_database_size,
             // Game history commands
             commands::get_all_game_history,
             commands::get_game_history_by_id,

@@ -139,10 +139,7 @@ export interface GameSession {
   totalTimeSeconds: number; // 300
   elapsedTimeSeconds: number;
   isPaused: boolean;
-  
-  // Settings
-  soundEnabled: boolean;
-  
+
   // Timestamps
   startedAt: string | null;
   finishedAt: string | null;

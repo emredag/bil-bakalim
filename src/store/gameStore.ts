@@ -43,9 +43,6 @@ interface GameStore {
   // Participant actions
   nextParticipant: () => void;
   updateScore: (participantIndex: number, points: number) => void;
-  
-  // Settings
-  toggleSound: () => void;
 }
 
 export const useGameStore = create<GameStore>()(
@@ -120,7 +117,6 @@ export const useGameStore = create<GameStore>()(
           totalTimeSeconds: 300, // PRD: 5 minutes for all words
           elapsedTimeSeconds: 0,
           isPaused: false,
-          soundEnabled: true,
           startedAt: new Date().toISOString(),
           finishedAt: null,
         };
@@ -439,18 +435,6 @@ export const useGameStore = create<GameStore>()(
             session: {
               ...state.session,
               participants,
-            },
-          };
-        });
-      },
-
-      toggleSound: () => {
-        set((state) => {
-          if (!state.session) return state;
-          return {
-            session: {
-              ...state.session,
-              soundEnabled: !state.session.soundEnabled,
             },
           };
         });

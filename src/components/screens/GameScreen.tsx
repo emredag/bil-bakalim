@@ -26,6 +26,7 @@ import { Confetti } from '../game/Confetti';
 import { PauseOverlay } from '../game/PauseOverlay';
 import { TurnTransition } from './TurnTransition';
 import { useGameStore } from '../../store/gameStore';
+import { useSettingsStore } from '../../store/settingsStore';
 import { soundService } from '../../services';
 import { Modal } from '../ui/Modal';
 import { Button } from '../ui/Button';
@@ -36,11 +37,13 @@ export const GameScreen: React.FC = () => {
   const tick = useGameStore((state) => state.tick);
   const pauseGame = useGameStore((state) => state.pauseGame);
   const resumeGame = useGameStore((state) => state.resumeGame);
-  const toggleSound = useGameStore((state) => state.toggleSound);
   const revealLetter = useGameStore((state) => state.revealLetter);
   const submitGuess = useGameStore((state) => state.submitGuess);
   const skipWord = useGameStore((state) => state.skipWord);
   const endGame = useGameStore((state) => state.endGame);
+
+  // Settings
+  const soundEnabled = useSettingsStore((state) => state.soundEnabled);
 
   const [showConfetti, setShowConfetti] = useState(false);
   const [showGuessModal, setShowGuessModal] = useState(false);
@@ -201,7 +204,7 @@ export const GameScreen: React.FC = () => {
   };
 
   const handleToggleSound = () => {
-    toggleSound();
+    soundService.toggle();
   };
 
   const handleHome = () => {
@@ -256,7 +259,7 @@ export const GameScreen: React.FC = () => {
         canRevealLetter={!currentWord.hasMadeGuess && currentWord.letters.some((l) => l.status === 'hidden')}
         canGuess={currentWord.remainingGuesses > 0}
         canSkip={true}
-        soundEnabled={session.soundEnabled}
+        soundEnabled={soundEnabled}
         remainingGuesses={currentWord.remainingGuesses}
         lettersRevealed={currentWord.lettersRevealed}
         remainingPoints={calculateRemainingPoints()}

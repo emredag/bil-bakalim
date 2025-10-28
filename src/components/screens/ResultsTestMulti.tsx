@@ -118,7 +118,6 @@ export default function ResultsTestMulti() {
     totalTimeSeconds: 120,
     elapsedTimeSeconds: 240,
     isPaused: false,
-    soundEnabled: true,
     startedAt: new Date(Date.now() - 240000).toISOString(), // 4 minutes ago
     finishedAt: new Date().toISOString(),
   };

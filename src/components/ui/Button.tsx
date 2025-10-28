@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { soundService } from '../../services';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'destructive';
@@ -34,10 +35,18 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       children,
       className = '',
       disabled,
+      onClick,
       ...props
     },
     ref
   ) => {
+    // Handle click with sound
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+      if (!disabled && !loading) {
+        soundService.playClick();
+      }
+      onClick?.(e);
+    };
     // Base styles (PRD 8.3 + ui-ux-design.md)
     const baseStyles = `
       touch-target
@@ -97,6 +106,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         className={combinedClassName}
         disabled={disabled || loading}
+        onClick={handleClick}
         {...motionProps}
         {...(props as any)}
       >

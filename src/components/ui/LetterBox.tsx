@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { HelpCircle } from 'lucide-react';
+import { soundService } from '../../services';
 
 export interface LetterBoxProps {
   letter?: string;
@@ -34,6 +35,17 @@ export const LetterBox: React.FC<LetterBoxProps> = ({
   size = 'md',
   className = '',
 }) => {
+  // Track previous revealed state to only play sound on transitions
+  const prevRevealedRef = useRef(isRevealed);
+
+  // Play sound when letter is revealed
+  useEffect(() => {
+    if (isRevealed && !prevRevealedRef.current) {
+      soundService.playPop();
+    }
+    prevRevealedRef.current = isRevealed;
+  }, [isRevealed]);
+
   // Size variants (responsive - PRD 8.3)
   const sizeStyles = {
     sm: 'w-10 h-12 md:w-12 md:h-14 text-xl md:text-2xl',

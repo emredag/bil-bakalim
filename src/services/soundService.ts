@@ -1,7 +1,7 @@
 /**
  * Sound Service - Web Audio API based sound system
  * PRD Reference: Section 10.1 - Sound System
- * 
+ *
  * Generates sound effects using Web Audio API:
  * - Pop (letter reveal)
  * - Success jingle (correct guess)
@@ -10,23 +10,25 @@
  * - Tick (timer warning)
  * - Fanfare (game win)
  * - Click (button clicks)
- * 
+ *
  * Features:
  * - Master volume control
  * - Mute/unmute toggle
  * - Low latency audio context
- * - Settings persistence in localStorage
+ * - Settings synced with settingsStore
  */
+
+import { useSettingsStore } from '../store/settingsStore';
 
 class SoundService {
   private audioContext: AudioContext | null = null;
   private masterGainNode: GainNode | null = null;
   private isEnabled: boolean = true;
-  private masterVolume: number = 0.7; // 0.0 to 1.0
+  private masterVolume: number = 0.8; // 0.0 to 1.0
+  private initialized: boolean = false;
 
   constructor() {
     this.initAudioContext();
-    this.loadSettings();
   }
 
   /**
@@ -44,37 +46,36 @@ class SoundService {
   }
 
   /**
-   * Load settings from localStorage
+   * Initialize and sync with settingsStore
+   * MUST be called on app startup (e.g., in App.tsx useEffect)
    */
-  private loadSettings(): void {
-    try {
-      const savedEnabled = localStorage.getItem('sound_enabled');
-      const savedVolume = localStorage.getItem('sound_volume');
+  init(): void {
+    if (this.initialized) return;
 
-      if (savedEnabled !== null) {
-        this.isEnabled = savedEnabled === 'true';
+    try {
+      // Get initial values from settings store
+      const store = useSettingsStore.getState();
+      this.isEnabled = store.soundEnabled;
+      this.masterVolume = store.effectsVolume / 100; // Convert 0-100 to 0-1
+
+      // Update audio context
+      if (this.masterGainNode) {
+        this.masterGainNode.gain.value = this.masterVolume;
       }
 
-      if (savedVolume !== null) {
-        this.masterVolume = parseFloat(savedVolume);
+      // Subscribe to settings changes
+      useSettingsStore.subscribe((state) => {
+        this.isEnabled = state.soundEnabled;
+        this.masterVolume = state.effectsVolume / 100;
+
         if (this.masterGainNode) {
           this.masterGainNode.gain.value = this.masterVolume;
         }
-      }
-    } catch (error) {
-      console.error('Failed to load sound settings:', error);
-    }
-  }
+      });
 
-  /**
-   * Save settings to localStorage
-   */
-  private saveSettings(): void {
-    try {
-      localStorage.setItem('sound_enabled', String(this.isEnabled));
-      localStorage.setItem('sound_volume', String(this.masterVolume));
+      this.initialized = true;
     } catch (error) {
-      console.error('Failed to save sound settings:', error);
+      console.error('Failed to initialize sound service:', error);
     }
   }
 
@@ -281,10 +282,11 @@ class SoundService {
 
   /**
    * Enable/disable sound
+   * Updates settingsStore which will trigger sync via subscription
    */
   setEnabled(enabled: boolean): void {
-    this.isEnabled = enabled;
-    this.saveSettings();
+    const store = useSettingsStore.getState();
+    store.setSoundEnabled(enabled);
   }
 
   /**
@@ -302,21 +304,20 @@ class SoundService {
   }
 
   /**
-   * Set master volume (0.0 to 1.0)
+   * Set master volume (0-100)
+   * Updates settingsStore which will trigger sync via subscription
    */
   setVolume(volume: number): void {
-    this.masterVolume = Math.max(0, Math.min(1, volume));
-    if (this.masterGainNode) {
-      this.masterGainNode.gain.value = this.masterVolume;
-    }
-    this.saveSettings();
+    const store = useSettingsStore.getState();
+    const clampedVolume = Math.max(0, Math.min(100, volume));
+    store.setEffectsVolume(clampedVolume);
   }
 
   /**
-   * Get current volume
+   * Get current volume (0-100)
    */
   getVolume(): number {
-    return this.masterVolume;
+    return Math.round(this.masterVolume * 100);
   }
 
   /**

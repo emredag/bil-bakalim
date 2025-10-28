@@ -152,7 +152,6 @@ export function ResultsTestTeam() {
     totalTimeSeconds: 300,
     elapsedTimeSeconds: 280,
     isPaused: false,
-    soundEnabled: true,
     startedAt: new Date(Date.now() - 280000).toISOString(),
     finishedAt: new Date().toISOString(),
   };

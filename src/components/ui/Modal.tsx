@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 import { useFocusTrap } from '../../hooks/useFocusTrap';
+import { soundService } from '../../services';
 
 export interface ModalProps {
   isOpen: boolean;
@@ -47,6 +48,15 @@ export const Modal: React.FC<ModalProps> = ({
     lg: 'max-w-2xl',
     xl: 'max-w-4xl',
   };
+
+  // Play sound when modal opens/closes
+  useEffect(() => {
+    if (isOpen) {
+      soundService.playPop(); // Play pop sound when opening
+    }
+    // Note: We don't play whoosh on close because it would play during cleanup
+    // The sound is more natural when only playing on open
+  }, [isOpen]);
 
   // Handle ESC key
   useEffect(() => {

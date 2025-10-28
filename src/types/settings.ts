@@ -6,10 +6,10 @@
  */
 export interface Settings {
   sound_enabled: string; // "true" | "false"
-  music_volume: string; // "0" to "100"
-  sfx_volume: string; // "0" to "100"
+  effects_volume: string; // "0" to "100" - sound effects volume
   theme: string; // "dark" | "light" (currently only dark)
   language: string; // "tr" | "en"
+  animation_speed: string; // "slow" | "normal" | "fast"
   show_hints: string; // "true" | "false"
   show_tutorial: string; // "true" | "false" - first launch
 }
@@ -19,10 +19,10 @@ export interface Settings {
  */
 export interface ParsedSettings {
   soundEnabled: boolean;
-  musicVolume: number; // 0-100
-  sfxVolume: number; // 0-100
+  effectsVolume: number; // 0-100 - sound effects volume
   theme: 'dark' | 'light';
   language: 'tr' | 'en';
+  animationSpeed: 'slow' | 'normal' | 'fast';
   showHints: boolean;
   showTutorial: boolean;
 }
@@ -32,10 +32,10 @@ export interface ParsedSettings {
  */
 export const DEFAULT_SETTINGS: ParsedSettings = {
   soundEnabled: true,
-  musicVolume: 70,
-  sfxVolume: 80,
+  effectsVolume: 80,
   theme: 'dark',
   language: 'tr',
+  animationSpeed: 'normal',
   showHints: true,
   showTutorial: true,
 };

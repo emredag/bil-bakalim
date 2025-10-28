@@ -242,7 +242,6 @@ export function ResultsTestSingle() {
     totalTimeSeconds: 300,
     elapsedTimeSeconds: 243, // 4:03 elapsed
     isPaused: false,
-    soundEnabled: true,
     startedAt: new Date(Date.now() - 243000).toISOString(),
     finishedAt: new Date().toISOString(),
   };

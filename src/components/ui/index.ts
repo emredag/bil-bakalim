@@ -24,6 +24,12 @@ export type { InputProps, TextareaProps } from './Input';
 export { Modal, ModalFooter } from './Modal';
 export type { ModalProps, ModalFooterProps } from './Modal';
 
+export { Toggle } from './Toggle';
+export type { ToggleProps } from './Toggle';
+
+export { Select } from './Select';
+export type { SelectProps, SelectOption } from './Select';
+
 export { LetterBox, LetterBoxRow } from './LetterBox';
 export type { LetterBoxProps, LetterBoxRowProps } from './LetterBox';
 

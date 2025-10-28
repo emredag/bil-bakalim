@@ -23,20 +23,20 @@ export function testSettingsStore() {
   
   // Test updates
   store.setSoundEnabled(false);
-  store.setMusicVolume(50);
+  store.setEffectsVolume(50);
   store.setTheme('light');
-  
+
   console.log('After updates:', {
     soundEnabled: useSettingsStore.getState().soundEnabled,
-    musicVolume: useSettingsStore.getState().musicVolume,
+    effectsVolume: useSettingsStore.getState().effectsVolume,
     theme: useSettingsStore.getState().theme,
   });
-  
+
   // Reset
   store.resetToDefaults();
   console.log('After reset:', {
     soundEnabled: useSettingsStore.getState().soundEnabled,
-    musicVolume: useSettingsStore.getState().musicVolume,
+    effectsVolume: useSettingsStore.getState().effectsVolume,
   });
   
   console.log('✅ Settings Store test passed\n');

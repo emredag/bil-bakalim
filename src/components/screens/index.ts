@@ -36,9 +36,11 @@ export { ResultsMultiplayer } from './ResultsMultiplayer';
 export { ResultsTeamMode } from './ResultsTeamMode';
 export { ResultsTestTeam } from './ResultsTestTeam';
 
+// Task 23: Game History List
+export { GameHistoryScreen } from './GameHistoryScreen';
+
 export {
   ResultsScreen,
-  HistoryScreen,
   HistoryDetailScreen,
   CategoryManagementScreen,
   WordManagementScreen,

@@ -11,7 +11,7 @@
  * - Action buttons: Home, Play Again, View History
  */
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ChevronDown, Home, RefreshCw, History, Trophy } from 'lucide-react';
@@ -20,6 +20,10 @@ import { Button } from '../ui/Button';
 import { Card } from '../ui/Card';
 import { ROUTES } from '../../routes/constants';
 import { fadeVariant, pageTransition } from '../../animations/variants';
+import { saveGameToHistory, type GameSessionData } from '../../api/gameHistory';
+
+// Global set to track saved session IDs (prevents duplicate saves in Strict Mode)
+const savedSessionIds = new Set<string>();
 
 interface ResultsMultiplayerProps {
   session: GameSession;
@@ -56,6 +60,52 @@ export function ResultsMultiplayer({ session, onPlayAgain }: ResultsMultiplayerP
       current.rank = prev.rank;
     }
   }
+
+  // Save game to history on mount (ONCE ONLY per session)
+  useEffect(() => {
+    // Check if this session was already saved
+    if (savedSessionIds.has(session.id)) {
+      console.log('⏭️ Multiplayer session already saved, skipping:', session.id);
+      return;
+    }
+    
+    // Mark as saved immediately
+    savedSessionIds.add(session.id);
+
+    const gameData: GameSessionData = {
+      category_id: session.categoryId,
+      category_name: session.categoryName,
+      game_mode: session.mode,
+      played_at: new Date().toISOString(),
+      total_time_seconds: session.elapsedTimeSeconds,
+      participants: participantsWithRank.map((p) => ({
+        name: p.name,
+        participant_type: p.type,
+        score: p.score,
+        words_found: p.wordsFound,
+        words_skipped: p.wordsSkipped,
+        letters_revealed: p.lettersRevealed,
+        rank: p.rank,
+        word_results: p.words.map((word) => ({
+          word: word.word,
+          word_hint: word.hint,
+          result: word.result || 'skipped',
+          points_earned: word.pointsEarned,
+          letters_used: word.lettersRevealed,
+        })),
+      })),
+    };
+
+    saveGameToHistory(gameData)
+      .then(() => {
+        console.log('✅ Multiplayer game saved successfully!');
+      })
+      .catch((err) => {
+        console.error('❌ Failed to save game to history:', err);
+        // Remove from set on error so it can be retried
+        savedSessionIds.delete(session.id);
+      });
+  }, []); // Empty dependency array - run ONCE
 
   // Get medal emoji
   const getMedal = (rank: number): string => {

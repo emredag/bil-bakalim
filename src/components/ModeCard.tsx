@@ -11,7 +11,6 @@
  * - Enabled/disabled states based on category word count
  */
 
-import { motion } from 'framer-motion';
 import { Card } from './ui/Card';
 import { Tooltip } from './ui/Tooltip';
 import { User, Users, Trophy, AlertCircle } from 'lucide-react';

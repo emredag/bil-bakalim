@@ -132,15 +132,7 @@ export function ResultsScreen() {
 }
 
 // History List - Task 23
-export function HistoryScreen() {
-  return (
-    <PlaceholderScreen
-      title="📊 Geçmiş Yarışmalar"
-      description="Önceki yarışmaların listesi"
-      taskNumber="Task 23"
-    />
-  );
-}
+// History Screen - Task 23 - IMPLEMENTED (see GameHistoryScreen.tsx)
 
 // History Detail - Task 24
 export function HistoryDetailScreen() {

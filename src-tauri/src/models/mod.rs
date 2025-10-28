@@ -44,5 +44,46 @@ pub struct WordCountByLength {
     pub count: i32,
 }
 
+/// Game history entry
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct GameHistory {
+    pub id: i32,
+    pub category_id: i32,
+    pub category_name: String,
+    pub game_mode: String,
+    pub played_at: String,
+    pub total_time_seconds: Option<i32>,
+    pub created_at: String,
+}
+
+/// Game participant/team
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct GameParticipant {
+    pub id: i32,
+    pub game_history_id: i32,
+    pub participant_name: String,
+    pub participant_type: String, // 'player' or 'team'
+    pub score: i32,
+    pub words_found: i32,
+    pub words_skipped: i32,
+    pub letters_revealed: i32,
+    pub rank: Option<i32>,
+    pub created_at: String,
+}
+
+/// Word result from a game
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct GameWordResult {
+    pub id: i32,
+    pub game_history_id: i32,
+    pub participant_id: i32,
+    pub word: String,
+    pub word_hint: Option<String>,
+    pub result: String, // 'found', 'skipped', or 'timeout'
+    pub points_earned: i32,
+    pub letters_used: i32,
+    pub created_at: String,
+}
+
 /// Settings map (key-value pairs)
 pub type Settings = std::collections::HashMap<String, String>;

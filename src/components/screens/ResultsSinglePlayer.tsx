@@ -13,7 +13,7 @@
  * - Action buttons: Home, Play Again, View History
  */
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ChevronDown, Home, RefreshCw, History } from 'lucide-react';
@@ -22,6 +22,10 @@ import { Button } from '../ui/Button';
 import { Card } from '../ui/Card';
 import { ROUTES } from '../../routes/constants';
 import { fadeVariant, pageTransition } from '../../animations/variants';
+import { saveGameToHistory, type GameSessionData } from '../../api/gameHistory';
+
+// Global set to track saved session IDs (prevents duplicate saves in Strict Mode)
+const savedSessionIds = new Set<string>();
 
 interface ResultsSinglePlayerProps {
   session: GameSession;
@@ -34,6 +38,59 @@ export function ResultsSinglePlayer({ session, onPlayAgain }: ResultsSinglePlaye
 
   const participant = session.participants[0];
   const words = participant.words;
+
+  // Save game to history on mount (ONCE ONLY per session)
+  useEffect(() => {
+    // Check if this session was already saved
+    if (savedSessionIds.has(session.id)) {
+      console.log('⏭️ Session already saved, skipping:', session.id);
+      return;
+    }
+    
+    // Mark as saved immediately
+    savedSessionIds.add(session.id);
+
+    console.log('🎮 Saving game to history...');
+    console.log('Session:', session);
+
+    const gameData: GameSessionData = {
+      category_id: session.categoryId,
+      category_name: session.categoryName,
+      game_mode: session.mode,
+      played_at: new Date().toISOString(),
+      total_time_seconds: session.elapsedTimeSeconds,
+      participants: [
+        {
+          name: participant.name,
+          participant_type: participant.type,
+          score: participant.score,
+          words_found: participant.wordsFound,
+          words_skipped: participant.wordsSkipped,
+          letters_revealed: participant.lettersRevealed,
+          rank: 1,
+          word_results: participant.words.map((word) => ({
+            word: word.word,
+            word_hint: word.hint,
+            result: word.result || 'skipped',
+            points_earned: word.pointsEarned,
+            letters_used: word.lettersRevealed,
+          })),
+        },
+      ],
+    };
+
+    console.log('Game data to save:', gameData);
+
+    saveGameToHistory(gameData)
+      .then((gameId) => {
+        console.log('✅ Game saved successfully! ID:', gameId);
+      })
+      .catch((err) => {
+        console.error('❌ Failed to save game to history:', err);
+        // Remove from set on error so it can be retried
+        savedSessionIds.delete(session.id);
+      });
+  }, []); // Empty dependency array - run ONCE
 
   // Calculate stats
   const totalWords = words.length;

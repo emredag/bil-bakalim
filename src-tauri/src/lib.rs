@@ -59,6 +59,15 @@ pub fn run() {
             // Settings commands
             commands::get_settings,
             commands::update_setting,
+            // Game history commands
+            commands::get_all_game_history,
+            commands::get_game_history_by_id,
+            commands::get_game_participants,
+            commands::get_participant_word_results,
+            commands::get_game_history_stats,
+            commands::delete_game_history,
+            commands::delete_all_game_history,
+            commands::save_game_to_history,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

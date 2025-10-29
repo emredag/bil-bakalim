@@ -26,13 +26,13 @@ export interface BadgeProps {
  * - Icon support
  * - Status colors from design system
  */
-export const Badge: React.FC<BadgeProps> = ({
+export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(({
   children,
   variant = 'default',
   size = 'md',
   icon,
   className = '',
-}) => {
+}, ref) => {
   // Base styles
   const baseStyles = `
     inline-flex items-center justify-center gap-1.5
@@ -72,7 +72,7 @@ export const Badge: React.FC<BadgeProps> = ({
   `.trim().replace(/\s+/g, ' ');
 
   return (
-    <span className={combinedClassName}>
+    <span ref={ref} className={combinedClassName}>
       {icon && (
         <span className={iconSizeStyles[size]} aria-hidden="true">
           {icon}
@@ -81,7 +81,7 @@ export const Badge: React.FC<BadgeProps> = ({
       <span>{children}</span>
     </span>
   );
-};
+});
 
 Badge.displayName = 'Badge';
 

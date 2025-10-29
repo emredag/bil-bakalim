@@ -1,9 +1,11 @@
 /**
  * Router Configuration
  * PRD Reference: Section 4 - OYUN AKIŞI
+ * Task 40 - Performance Optimization: Build-time code splitting via Vite
  *
  * Defines all routes and their components
  * Includes PageTransition wrapper for smooth page transitions (Task 06)
+ * Performance: Code splitting handled by Vite's automatic chunking
  */
 
 import { createBrowserRouter, Navigate } from 'react-router-dom';

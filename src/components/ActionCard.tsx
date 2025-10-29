@@ -1,6 +1,7 @@
 /**
  * Action Card Component
  * Task 08: Main Menu Screen
+ * Task 40: Performance Optimization - React.memo added
  * PRD Reference: Section 4.1 - Main Menu Action Cards
  *
  * TV Show Quality action card with:
@@ -10,8 +11,10 @@
  * - Hover animations (scale 1.05)
  * - Keyboard navigation support
  * - ARIA labels for accessibility
+ * - Memoized for performance
  */
 
+import { memo } from 'react';
 import { motion } from 'framer-motion';
 import { LucideIcon } from 'lucide-react';
 import { Card } from './ui/Card';
@@ -40,15 +43,16 @@ export interface ActionCardProps {
  * - Keyboard accessible (Tab, Enter, Space)
  * - ARIA labels for screen readers
  * - Responsive typography (PRD 8.3)
+ * - Memoized for better performance (Task 40)
  */
-export function ActionCard({
+const ActionCardComponent = ({
   emoji,
   icon: Icon,
   title,
   description,
   onClick,
   className = '',
-}: ActionCardProps) {
+}: ActionCardProps) => {
   // Handle keyboard events (Enter/Space)
   const handleKeyDown = (event: React.KeyboardEvent) => {
     if (event.key === 'Enter' || event.key === ' ') {
@@ -110,4 +114,7 @@ export function ActionCard({
       </div>
     </Card>
   );
-}
+};
+
+// Memoize component to prevent unnecessary re-renders (Task 40)
+export const ActionCard = memo(ActionCardComponent);

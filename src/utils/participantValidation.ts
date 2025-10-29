@@ -120,10 +120,10 @@ export function validateMultiPlayerSetup(
   }
 
   // Check player names - filter out undefined/null values first
-  const validPlayers = setup.players.filter((name): name is string => 
-    name !== null && name !== undefined
+  const validPlayers = setup.players.filter(
+    (name): name is string => name !== null && name !== undefined
   );
-  
+
   const emptyNames = validPlayers.filter((name) => !validatePlayerName(name));
   if (emptyNames.length > 0 || validPlayers.length !== setup.players.length) {
     errors.push('Tüm oyuncu adları doldurulmalıdır');
@@ -183,10 +183,10 @@ export function validateTeam(team: Team, teamIndex: number): string[] {
   }
 
   // Check member names - filter valid members first
-  const validMembers = team.members.filter((member) => 
-    member && member.name !== null && member.name !== undefined
+  const validMembers = team.members.filter(
+    (member) => member && member.name !== null && member.name !== undefined
   );
-  
+
   const emptyMemberNames = validMembers.filter((member) => !validatePlayerName(member.name));
   if (emptyMemberNames.length > 0 || validMembers.length !== team.members.length) {
     errors.push(`${teamLabel}: Tüm oyuncu adları doldurulmalıdır`);

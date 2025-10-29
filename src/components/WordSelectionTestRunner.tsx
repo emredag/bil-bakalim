@@ -13,16 +13,16 @@ export default function WordSelectionTestRunner() {
   const handleRunTests = async () => {
     setIsRunning(true);
     console.clear();
-    
+
     console.log('🚀 Starting Word Selection Algorithm Tests...\n');
     console.log(`Using Category ID: ${categoryId}\n`);
-    
+
     try {
       await runWordSelectionTests(categoryId);
     } catch (error) {
       console.error('Test execution failed:', error);
     }
-    
+
     console.log('\n✨ Tests completed! Check the console for detailed results.\n');
     setIsRunning(false);
   };
@@ -31,12 +31,8 @@ export default function WordSelectionTestRunner() {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8">
       <div className="max-w-2xl mx-auto">
         <div className="bg-white rounded-2xl shadow-xl p-8">
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">
-            Word Selection Algorithm Tests
-          </h1>
-          <p className="text-gray-600 mb-6">
-            Task 13 - PRD Reference: Section 4.6
-          </p>
+          <h1 className="text-3xl font-bold text-gray-800 mb-2">Word Selection Algorithm Tests</h1>
+          <p className="text-gray-600 mb-6">Task 13 - PRD Reference: Section 4.6</p>
 
           <div className="space-y-4">
             <div>
@@ -52,7 +48,8 @@ export default function WordSelectionTestRunner() {
                 disabled={isRunning}
               />
               <p className="text-sm text-gray-500 mt-1">
-                Make sure this category has enough words (minimum 14, each length 4-10 needs at least 2 words)
+                Make sure this category has enough words (minimum 14, each length 4-10 needs at
+                least 2 words)
               </p>
             </div>
 
@@ -96,40 +93,51 @@ export default function WordSelectionTestRunner() {
           </div>
 
           <div className="mt-8 p-4 bg-gray-50 rounded-lg">
-            <h2 className="text-lg font-semibold text-gray-800 mb-3">
-              Test Coverage:
-            </h2>
+            <h2 className="text-lg font-semibold text-gray-800 mb-3">Test Coverage:</h2>
             <ul className="space-y-2 text-sm text-gray-600">
               <li className="flex items-start">
                 <span className="mr-2">✅</span>
-                <span><strong>Test 1:</strong> Single player - 14 words, 2 per length (4-10)</span>
+                <span>
+                  <strong>Test 1:</strong> Single player - 14 words, 2 per length (4-10)
+                </span>
               </li>
               <li className="flex items-start">
                 <span className="mr-2">✅</span>
-                <span><strong>Test 2:</strong> Multi player - unique words per player, no duplicates</span>
+                <span>
+                  <strong>Test 2:</strong> Multi player - unique words per player, no duplicates
+                </span>
               </li>
               <li className="flex items-start">
                 <span className="mr-2">✅</span>
-                <span><strong>Test 3:</strong> Team mode - unique words per team</span>
+                <span>
+                  <strong>Test 3:</strong> Team mode - unique words per team
+                </span>
               </li>
               <li className="flex items-start">
                 <span className="mr-2">✅</span>
-                <span><strong>Test 4:</strong> Category validation for different modes</span>
+                <span>
+                  <strong>Test 4:</strong> Category validation for different modes
+                </span>
               </li>
               <li className="flex items-start">
                 <span className="mr-2">✅</span>
-                <span><strong>Test 5:</strong> Error handling for insufficient words</span>
+                <span>
+                  <strong>Test 5:</strong> Error handling for insufficient words
+                </span>
               </li>
               <li className="flex items-start">
                 <span className="mr-2">✅</span>
-                <span><strong>Test 6:</strong> Word randomization</span>
+                <span>
+                  <strong>Test 6:</strong> Word randomization
+                </span>
               </li>
             </ul>
           </div>
 
           <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
             <p className="text-sm text-blue-800">
-              <strong>📋 Note:</strong> Open the browser console (F12) to see detailed test results with color-coded output.
+              <strong>📋 Note:</strong> Open the browser console (F12) to see detailed test results
+              with color-coded output.
             </p>
           </div>
         </div>

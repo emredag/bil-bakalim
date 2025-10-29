@@ -29,11 +29,7 @@ export interface UseFocusTrapOptions {
 export function useFocusTrap<T extends HTMLElement = HTMLElement>(
   options: UseFocusTrapOptions = {}
 ): React.RefObject<T> {
-  const {
-    active = true,
-    initialFocus,
-    returnFocusOnDeactivate = true,
-  } = options;
+  const { active = true, initialFocus, returnFocusOnDeactivate = true } = options;
 
   const containerRef = useRef<T>(null);
   const previouslyFocusedElement = useRef<HTMLElement | null>(null);

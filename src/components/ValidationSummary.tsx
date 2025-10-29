@@ -82,9 +82,7 @@ export const ValidationSummary: React.FC<ValidationSummaryProps> = ({
               {isValid ? (
                 <p className="text-sm md:text-base text-emerald-300 flex items-start gap-2">
                   <CheckCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
-                  <span>
-                    Yeterli kelime mevcut. Oyunu başlatabilirsiniz!
-                  </span>
+                  <span>Yeterli kelime mevcut. Oyunu başlatabilirsiniz!</span>
                 </p>
               ) : (
                 <p className="text-sm md:text-base text-red-300 flex items-start gap-2">
@@ -99,9 +97,7 @@ export const ValidationSummary: React.FC<ValidationSummaryProps> = ({
               {/* Info note */}
               <div className="flex items-start gap-2 text-xs md:text-sm text-slate-400 pt-2 border-t border-slate-700">
                 <Info className="w-4 h-4 flex-shrink-0 mt-0.5" />
-                <span>
-                  Her yarışmacı/takım için 14 kelime gereklidir.
-                </span>
+                <span>Her yarışmacı/takım için 14 kelime gereklidir.</span>
               </div>
             </motion.div>
           )}

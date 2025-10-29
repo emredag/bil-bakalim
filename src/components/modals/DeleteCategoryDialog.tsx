@@ -58,7 +58,7 @@ export function DeleteCategoryDialog({
       onClose();
     } catch (error: any) {
       console.error('Category deletion error:', error);
-      
+
       // Check if it's a validation error (default category)
       const errorMessage = error?.message || 'Kategori silinirken hata oluştu';
       showToast(errorMessage, 'error');
@@ -82,9 +82,7 @@ export function DeleteCategoryDialog({
             <AlertTriangle className="w-6 h-6 text-red-500" />
           </div>
           <div className="flex-1">
-            <h2 className="text-xl md:text-2xl font-bold text-white mb-2">
-              Kategoriyi Sil
-            </h2>
+            <h2 className="text-xl md:text-2xl font-bold text-white mb-2">Kategoriyi Sil</h2>
             <button
               type="button"
               onClick={onClose}
@@ -100,7 +98,9 @@ export function DeleteCategoryDialog({
         {/* Warning Message */}
         <div className="space-y-4">
           <p className="text-slate-300 text-base md:text-lg">
-            <span className="font-bold text-white">{category.emoji} {category.name}</span>{' '}
+            <span className="font-bold text-white">
+              {category.emoji} {category.name}
+            </span>{' '}
             kategorisini silmek istediğinizden emin misiniz?
           </p>
 
@@ -120,19 +120,12 @@ export function DeleteCategoryDialog({
             </div>
           )}
 
-          <p className="text-slate-400 text-sm">
-            Silinen kategori ve kelimeleri geri getirilemez.
-          </p>
+          <p className="text-slate-400 text-sm">Silinen kategori ve kelimeleri geri getirilemez.</p>
         </div>
 
         {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-3 pt-4 border-t border-slate-700">
-          <Button
-            type="button"
-            variant="secondary"
-            onClick={onClose}
-            disabled={isDeleting}
-          >
+          <Button type="button" variant="secondary" onClick={onClose} disabled={isDeleting}>
             İptal
           </Button>
           <Button

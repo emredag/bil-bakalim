@@ -26,13 +26,13 @@ pub fn run() {
                     // macOS: Use native fullscreen mode
                     let _ = window.set_fullscreen(true);
                 }
-                
+
                 #[cfg(target_os = "windows")]
                 {
                     // Windows: Set fullscreen
                     let _ = window.set_fullscreen(true);
                 }
-                
+
                 #[cfg(target_os = "linux")]
                 {
                     // Linux: Set fullscreen

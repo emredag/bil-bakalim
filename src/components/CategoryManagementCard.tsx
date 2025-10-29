@@ -47,10 +47,7 @@ export function CategoryManagementCard({
   const isDefault = category.is_default;
 
   return (
-    <Card
-      hoverable
-      className="flex flex-col justify-between h-full min-h-[320px] md:min-h-[360px]"
-    >
+    <Card hoverable className="flex flex-col justify-between h-full min-h-[320px] md:min-h-[360px]">
       {/* Category Info */}
       <div className="flex flex-col space-y-4 md:space-y-5">
         {/* Emoji Icon */}
@@ -127,9 +124,7 @@ export function CategoryManagementCard({
             disabled={isDefault}
             className="w-full"
             aria-label={
-              isDefault
-                ? 'Varsayılan kategori silinemez'
-                : `${category.name} kategorisini sil`
+              isDefault ? 'Varsayılan kategori silinemez' : `${category.name} kategorisini sil`
             }
           >
             <Trash2 className="w-4 h-4 md:w-5 md:h-5 mr-1 md:mr-2" />

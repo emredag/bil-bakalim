@@ -1,7 +1,7 @@
 /**
  * Settings Store - Application settings management using Zustand
  * PRD Reference: Section 2.1 - State Management, Section 2.4 - settings table
- * 
+ *
  * Manages application settings with persistence via Tauri backend
  */
 

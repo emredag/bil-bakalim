@@ -74,14 +74,9 @@ const SortableMemberItem: React.FC<SortableMemberItemProps> = ({
   onRemove,
   canRemove,
 }) => {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({ id });
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+    id,
+  });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -197,20 +192,13 @@ const TeamCard: React.FC<TeamCardProps> = ({
   const canRemoveMember = team.members.length > CONSTRAINTS.TEAM.MIN_PLAYERS_PER_TEAM;
 
   return (
-    <Card
-      className="p-4 md:p-6 border-2"
-      style={{ borderColor: team.color }}
-    >
+    <Card className="p-4 md:p-6 border-2" style={{ borderColor: team.color }}>
       {/* Team Header */}
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center gap-3">
           {/* Emoji Picker */}
           <div className="relative">
-            <EmojiButton
-              emoji={team.emoji}
-              onClick={() => setShowEmojiPicker(true)}
-              size="md"
-            />
+            <EmojiButton emoji={team.emoji} onClick={() => setShowEmojiPicker(true)} size="md" />
             {showEmojiPicker && (
               <div className="absolute top-full left-0 mt-2 z-50">
                 <EmojiPicker
@@ -252,9 +240,7 @@ const TeamCard: React.FC<TeamCardProps> = ({
 
       {/* Color Picker */}
       <div className="mb-4">
-        <label className="block text-sm font-medium text-slate-300 mb-2">
-          Takım Rengi
-        </label>
+        <label className="block text-sm font-medium text-slate-300 mb-2">Takım Rengi</label>
         <div className="flex flex-wrap gap-2">
           {TEAM_COLORS.map((color) => (
             <button
@@ -292,11 +278,7 @@ const TeamCard: React.FC<TeamCardProps> = ({
           </Button>
         </div>
 
-        <DndContext
-          sensors={sensors}
-          collisionDetection={closestCenter}
-          onDragEnd={handleDragEnd}
-        >
+        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
           <SortableContext
             items={team.members.map((_, i) => `member-${teamIndex}-${i}`)}
             strategy={verticalListSortingStrategy}
@@ -486,9 +468,7 @@ export const TeamForm: React.FC<TeamFormProps> = ({
             <Users className="w-6 h-6 md:w-8 md:h-8 text-amber-400" />
           </div>
         </div>
-        <h3 className="text-xl md:text-2xl font-bold text-white">
-          Takım Modu
-        </h3>
+        <h3 className="text-xl md:text-2xl font-bold text-white">Takım Modu</h3>
         <p className="text-sm md:text-base text-slate-400">
           2-4 takım oluşturun, her takıma 2-4 oyuncu ekleyin
         </p>
@@ -538,9 +518,7 @@ export const TeamForm: React.FC<TeamFormProps> = ({
 
       {/* Info text */}
       <div className="text-center space-y-2">
-        <p className="text-sm text-slate-400">
-          Her takım sırayla 14 kelime tahmin edecek
-        </p>
+        <p className="text-sm text-slate-400">Her takım sırayla 14 kelime tahmin edecek</p>
         <p className="text-xs text-slate-500">
           💡 İpucu: Takım içinde oyuncuları sürükleyerek sırasını değiştirebilirsiniz
         </p>

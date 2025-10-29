@@ -71,10 +71,7 @@ export function useReducedMotion(): boolean {
  * @param reducedVariants - Simplified variants (optional, defaults to no animation)
  * @returns Appropriate variants based on user preference
  */
-export function getMotionVariants<T>(
-  normalVariants: T,
-  reducedVariants?: Partial<T>
-): T {
+export function getMotionVariants<T>(normalVariants: T, reducedVariants?: Partial<T>): T {
   // This is meant to be used with the hook
   // For static usage, check window.matchMedia directly
   if (typeof window !== 'undefined' && window.matchMedia) {
@@ -95,10 +92,7 @@ export function getMotionVariants<T>(
  * @param reducedDuration - Reduced duration (optional, defaults to 0.01)
  * @returns Appropriate duration
  */
-export function getMotionDuration(
-  normalDuration: number,
-  reducedDuration: number = 0.01
-): number {
+export function getMotionDuration(normalDuration: number, reducedDuration: number = 0.01): number {
   if (typeof window !== 'undefined' && window.matchMedia) {
     const shouldReduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     return shouldReduce ? reducedDuration : normalDuration;

@@ -26,10 +26,7 @@ export interface ModeValidation {
  * @param participantCount - Number of participants/teams (for multi/team modes)
  * @returns Required word count
  */
-export function calculateRequiredWords(
-  mode: GameMode,
-  participantCount: number = 1
-): number {
+export function calculateRequiredWords(mode: GameMode, participantCount: number = 1): number {
   const wordsPerParticipant = 14; // PRD: Each participant/team gets 14 words
 
   switch (mode) {
@@ -94,7 +91,7 @@ export function validateAllModes(availableWords: number): ModeValidation[] {
   return [
     validateMode('single', availableWords, 1),
     validateMode('multi', availableWords, 2), // Minimum participants
-    validateMode('team', availableWords, 2),  // Minimum teams
+    validateMode('team', availableWords, 2), // Minimum teams
   ];
 }
 
@@ -105,10 +102,7 @@ export function validateAllModes(availableWords: number): ModeValidation[] {
  * @param availableWords - Number of words in the category
  * @returns Maximum number of participants/teams
  */
-export function getMaxParticipants(
-  mode: GameMode,
-  availableWords: number
-): number {
+export function getMaxParticipants(mode: GameMode, availableWords: number): number {
   const wordsPerParticipant = 14;
 
   switch (mode) {

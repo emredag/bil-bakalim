@@ -80,7 +80,7 @@ export interface GameHistoryQueryOptions {
   category_id?: number;
   game_mode?: string;
   start_date?: string; // ISO date string
-  end_date?: string;   // ISO date string
+  end_date?: string; // ISO date string
   sort_by?: 'date_desc' | 'date_asc' | 'score_desc';
   limit?: number;
   offset?: number;
@@ -104,7 +104,7 @@ export async function getAllGameHistory(
   if (options.sort_by !== undefined) invokeOptions.sortBy = options.sort_by;
   if (options.limit !== undefined) invokeOptions.limit = options.limit;
   if (options.offset !== undefined) invokeOptions.offset = options.offset;
-  
+
   return invoke<GameHistory[]>('get_all_game_history', invokeOptions);
 }
 
@@ -222,7 +222,7 @@ export async function exportGameHistoryToJson(games: GameHistory[]): Promise<voi
   // Create JSON blob
   const jsonStr = JSON.stringify(detailedGames, null, 2);
   const blob = new Blob([jsonStr], { type: 'application/json' });
-  
+
   // Create download link
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');

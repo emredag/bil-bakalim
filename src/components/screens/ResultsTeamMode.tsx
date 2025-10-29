@@ -73,7 +73,7 @@ export function ResultsTeamMode({ session, teams, onPlayAgain }: ResultsTeamMode
       console.log('⏭️ Team session already saved, skipping:', session.id);
       return;
     }
-    
+
     // Mark as saved immediately
     savedSessionIds.add(session.id);
 
@@ -160,17 +160,13 @@ export function ResultsTeamMode({ session, teams, onPlayAgain }: ResultsTeamMode
         >
           <div className="flex items-center justify-center gap-4 mb-4">
             <Trophy className="w-12 h-12 md:w-16 md:h-16 text-amber-400" />
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white">
-              Kazanan Takım
-            </h1>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white">Kazanan Takım</h1>
             <Trophy className="w-12 h-12 md:w-16 md:h-16 text-amber-400" />
           </div>
           <p className="text-xl md:text-2xl text-slate-300 mb-2">
             {session.categoryEmoji} {session.categoryName}
           </p>
-          <p className="text-base md:text-lg text-slate-400">
-            {session.participants.length} Takım
-          </p>
+          <p className="text-base md:text-lg text-slate-400">{session.participants.length} Takım</p>
         </motion.div>
 
         {/* Winner Team Card */}
@@ -226,9 +222,7 @@ export function ResultsTeamMode({ session, teams, onPlayAgain }: ResultsTeamMode
           transition={{ delay: 0.1 }}
         >
           <Card className="p-6 md:p-8">
-            <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">
-              Takım Sıralaması
-            </h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">Takım Sıralaması</h2>
 
             <div className="space-y-4">
               {participantsWithRank.map((participant, index) => {
@@ -258,7 +252,9 @@ export function ResultsTeamMode({ session, teams, onPlayAgain }: ResultsTeamMode
                             {participant.rank}
                           </span>
                           {getMedal(participant.rank) && (
-                            <span className="text-2xl md:text-3xl">{getMedal(participant.rank)}</span>
+                            <span className="text-2xl md:text-3xl">
+                              {getMedal(participant.rank)}
+                            </span>
                           )}
                         </div>
 
@@ -286,13 +282,16 @@ export function ResultsTeamMode({ session, teams, onPlayAgain }: ResultsTeamMode
                           {/* Quick stats (hidden on mobile) */}
                           <div className="hidden lg:flex items-center gap-4 text-sm text-slate-400">
                             <span>
-                              Bulunan: <span className="text-emerald-400">{participant.wordsFound}</span>
+                              Bulunan:{' '}
+                              <span className="text-emerald-400">{participant.wordsFound}</span>
                             </span>
                             <span>
-                              Pas: <span className="text-amber-400">{participant.wordsSkipped}</span>
+                              Pas:{' '}
+                              <span className="text-amber-400">{participant.wordsSkipped}</span>
                             </span>
                             <span>
-                              Harf: <span className="text-blue-400">{participant.lettersRevealed}</span>
+                              Harf:{' '}
+                              <span className="text-blue-400">{participant.lettersRevealed}</span>
                             </span>
                           </div>
 
@@ -389,14 +388,14 @@ export function ResultsTeamMode({ session, teams, onPlayAgain }: ResultsTeamMode
                                 word.result === 'found'
                                   ? '✅'
                                   : word.result === 'skipped'
-                                  ? '⏭'
-                                  : '⏱️';
+                                    ? '⏭'
+                                    : '⏱️';
                               const statusColor =
                                 word.result === 'found'
                                   ? 'text-emerald-400'
                                   : word.result === 'skipped'
-                                  ? 'text-amber-400'
-                                  : 'text-red-400';
+                                    ? 'text-amber-400'
+                                    : 'text-red-400';
 
                               return (
                                 <div
@@ -419,8 +418,8 @@ export function ResultsTeamMode({ session, teams, onPlayAgain }: ResultsTeamMode
                                         {word.result === 'found'
                                           ? 'Bulundu'
                                           : word.result === 'skipped'
-                                          ? 'Pas'
-                                          : 'Süre Doldu'}
+                                            ? 'Pas'
+                                            : 'Süre Doldu'}
                                       </p>
                                     </div>
                                   </div>

@@ -34,13 +34,15 @@ const modeConfig = {
   multi: {
     icon: Users,
     title: '👥 Çoklu Yarışmacı',
-    description: 'Sırayla oynarlar. Her yarışmacıya farklı 14 kelime verilir. Puan sıralaması yapılır.',
+    description:
+      'Sırayla oynarlar. Her yarışmacıya farklı 14 kelime verilir. Puan sıralaması yapılır.',
     baseRequirement: 14, // per player
   },
   team: {
     icon: Trophy,
     title: '🏆 Takım Yarışması',
-    description: 'Takımlar sırayla oynar. Her takıma farklı 14 kelime verilir. Takım puanları toplanır.',
+    description:
+      'Takımlar sırayla oynar. Her takıma farklı 14 kelime verilir. Takım puanları toplanır.',
     baseRequirement: 14, // per team
   },
 };
@@ -57,7 +59,13 @@ const modeConfig = {
  * - Hover animation when enabled
  * - WCAG AA compliant (contrast, focus states, keyboard support)
  */
-export function ModeCard({ mode, enabled, requiredWords, availableWords, onSelect }: ModeCardProps) {
+export function ModeCard({
+  mode,
+  enabled,
+  requiredWords,
+  availableWords,
+  onSelect,
+}: ModeCardProps) {
   const config = modeConfig[mode];
   const Icon = config.icon;
 
@@ -73,9 +81,10 @@ export function ModeCard({ mode, enabled, requiredWords, availableWords, onSelec
       className={`
         relative overflow-hidden
         transition-all duration-300
-        ${enabled
-          ? 'cursor-pointer border-slate-600 hover:border-blue-500/50 hover:ring-2 hover:ring-blue-500/20'
-          : 'opacity-60 cursor-not-allowed border-slate-700/50'
+        ${
+          enabled
+            ? 'cursor-pointer border-slate-600 hover:border-blue-500/50 hover:ring-2 hover:ring-blue-500/20'
+            : 'opacity-60 cursor-not-allowed border-slate-700/50'
         }
       `}
       role="button"
@@ -98,58 +107,64 @@ export function ModeCard({ mode, enabled, requiredWords, availableWords, onSelec
 
       {/* Icon and Title */}
       <div className="flex items-center gap-4 mb-4 md:mb-6">
-        <div className={`
+        <div
+          className={`
           p-3 md:p-4 rounded-xl
           ${enabled ? 'bg-blue-500/20 text-blue-400' : 'bg-slate-700 text-slate-500'}
           transition-colors duration-300
-        `}>
+        `}
+        >
           <Icon className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12" />
         </div>
-        <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-white">
-          {config.title}
-        </h3>
+        <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-white">{config.title}</h3>
       </div>
 
       {/* Description */}
-      <p className={`
+      <p
+        className={`
         text-base md:text-lg lg:text-xl mb-4 md:mb-6
         ${enabled ? 'text-slate-300' : 'text-slate-500'}
         leading-relaxed
-      `}>
+      `}
+      >
         {config.description}
       </p>
 
       {/* Requirement Badge */}
       <div className="flex items-center justify-between mt-auto pt-4 border-t border-slate-700">
-        <div className={`
+        <div
+          className={`
           inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm md:text-base font-medium
-          ${enabled
-            ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
-            : 'bg-slate-700/50 text-slate-400 border border-slate-600/50'
+          ${
+            enabled
+              ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
+              : 'bg-slate-700/50 text-slate-400 border border-slate-600/50'
           }
-        `}>
+        `}
+        >
           <span>Gerekli:</span>
           <span className="font-bold">{requiredWords} kelime</span>
         </div>
 
         {/* Available/Not Available indicator */}
-        <div className={`
+        <div
+          className={`
           px-3 py-1 rounded-full text-sm font-medium
-          ${enabled
-            ? 'bg-emerald-500/20 text-emerald-400'
-            : 'bg-red-500/20 text-red-400'
-          }
-        `}>
+          ${enabled ? 'bg-emerald-500/20 text-emerald-400' : 'bg-red-500/20 text-red-400'}
+        `}
+        >
           {enabled ? '✓ Kullanılabilir' : '✗ Yetersiz Kelime'}
         </div>
       </div>
 
       {/* Focus ring for accessibility */}
-      <div className={`
+      <div
+        className={`
         absolute inset-0 rounded-2xl pointer-events-none
         ${enabled ? 'ring-2 ring-transparent focus-within:ring-blue-500' : ''}
         transition-all duration-200
-      `} />
+      `}
+      />
     </Card>
   );
 

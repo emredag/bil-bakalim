@@ -33,12 +33,7 @@ export interface DeleteWordDialogProps {
  * - Destructive action confirmation
  * - Toast notification on success
  */
-export function DeleteWordDialog({
-  isOpen,
-  onClose,
-  onSuccess,
-  word,
-}: DeleteWordDialogProps) {
+export function DeleteWordDialog({ isOpen, onClose, onSuccess, word }: DeleteWordDialogProps) {
   const { showToast } = useToast();
   const [isDeleting, setIsDeleting] = useState(false);
 
@@ -49,10 +44,7 @@ export function DeleteWordDialog({
     try {
       await deleteWord(word.id);
 
-      showToast(
-        `"${word.word}" kelimesi silindi`,
-        'success'
-      );
+      showToast(`"${word.word}" kelimesi silindi`, 'success');
 
       onSuccess(word.id);
       onClose();
@@ -65,12 +57,7 @@ export function DeleteWordDialog({
   };
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onClose={onClose}
-      title="Kelime Sil"
-      size="md"
-    >
+    <Modal isOpen={isOpen} onClose={onClose} title="Kelime Sil" size="md">
       <div className="space-y-6">
         {/* Warning Icon and Message */}
         <div className="flex items-start gap-4 p-4 bg-red-500/10 border-2 border-red-500/30 rounded-lg">
@@ -79,10 +66,8 @@ export function DeleteWordDialog({
             <h3 className="text-lg font-semibold text-red-400 mb-2">
               Bu kelimeyi silmek istediğinizden emin misiniz?
             </h3>
-            <p className="text-sm text-slate-300 mb-3">
-              Bu işlem geri alınamaz.
-            </p>
-            
+            <p className="text-sm text-slate-300 mb-3">Bu işlem geri alınamaz.</p>
+
             {/* Word Being Deleted */}
             <div className="bg-slate-900/50 rounded-lg p-3 border border-slate-700">
               <p className="text-xs text-slate-400 mb-1">Silinecek Kelime:</p>
@@ -92,9 +77,7 @@ export function DeleteWordDialog({
               <p className="text-sm text-slate-300">
                 <span className="text-slate-400">İpucu:</span> {word.hint}
               </p>
-              <p className="text-xs text-slate-400 mt-2">
-                Harf sayısı: {word.letter_count}
-              </p>
+              <p className="text-xs text-slate-400 mt-2">Harf sayısı: {word.letter_count}</p>
             </div>
           </div>
         </div>

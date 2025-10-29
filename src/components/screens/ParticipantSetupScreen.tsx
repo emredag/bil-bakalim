@@ -56,9 +56,9 @@ export function ParticipantSetupScreen() {
   // Initialize default setup based on mode
   const initializeSetup = (): SinglePlayerSetup | MultiPlayerSetup | TeamModeSetup | null => {
     if (!selectedMode) return null;
-    
+
     if (gameSetup) return gameSetup;
-    
+
     // Return default setup for each mode
     switch (selectedMode) {
       case 'single':
@@ -66,21 +66,27 @@ export function ParticipantSetupScreen() {
       case 'multi':
         return { players: ['', ''] } as MultiPlayerSetup;
       case 'team':
-        return { 
+        return {
           teams: [
-            { 
-              name: '', 
-              emoji: '🔴', 
+            {
+              name: '',
+              emoji: '🔴',
               color: '#ef4444',
-              members: [{ name: '', order: 1 }, { name: '', order: 2 }]
+              members: [
+                { name: '', order: 1 },
+                { name: '', order: 2 },
+              ],
             },
-            { 
-              name: '', 
-              emoji: '🔵', 
+            {
+              name: '',
+              emoji: '🔵',
               color: '#3b82f6',
-              members: [{ name: '', order: 1 }, { name: '', order: 2 }]
-            }
-          ] 
+              members: [
+                { name: '', order: 1 },
+                { name: '', order: 2 },
+              ],
+            },
+          ],
         } as TeamModeSetup;
       default:
         return null;
@@ -116,14 +122,17 @@ export function ParticipantSetupScreen() {
   }, [selectedCategory, getValidation]);
 
   // Handle form changes (memoized to prevent infinite loops)
-  const handleSetupChange = useCallback((
-    setup: SinglePlayerSetup | MultiPlayerSetup | TeamModeSetup,
-    newValidation: ValidationResult
-  ) => {
-    setCurrentSetup(setup);
-    setValidation(newValidation);
-    setGameSetup(setup);
-  }, [setGameSetup]);
+  const handleSetupChange = useCallback(
+    (
+      setup: SinglePlayerSetup | MultiPlayerSetup | TeamModeSetup,
+      newValidation: ValidationResult
+    ) => {
+      setCurrentSetup(setup);
+      setValidation(newValidation);
+      setGameSetup(setup);
+    },
+    [setGameSetup]
+  );
 
   // Handle back navigation
   const handleBack = () => {
@@ -146,10 +155,12 @@ export function ParticipantSetupScreen() {
 
     try {
       // Calculate participant count based on mode
-      const participantCount = 
-        selectedMode === 'single' ? 1 :
-        selectedMode === 'multi' ? (currentSetup as MultiPlayerSetup).players.length :
-        (currentSetup as TeamModeSetup).teams.length;
+      const participantCount =
+        selectedMode === 'single'
+          ? 1
+          : selectedMode === 'multi'
+            ? (currentSetup as MultiPlayerSetup).players.length
+            : (currentSetup as TeamModeSetup).teams.length;
 
       // Select words for the game (Task 13)
       const wordSets = await selectWordsForGame(
@@ -159,8 +170,8 @@ export function ParticipantSetupScreen() {
       );
 
       // Transform words to GameWord format for gameStore
-      const gameWords = wordSets.map(wordSet => 
-        wordSet.map(word => ({
+      const gameWords = wordSets.map((wordSet) =>
+        wordSet.map((word) => ({
           id: word.id,
           word: word.word,
           letterCount: word.letterCount,
@@ -261,7 +272,8 @@ export function ParticipantSetupScreen() {
 
           {/* Info Text */}
           <p className="text-base md:text-lg text-slate-300 max-w-3xl">
-            Yarışmacı bilgilerini girin. Tüm bilgiler doğru girildikten sonra oyunu başlatabilirsiniz.
+            Yarışmacı bilgilerini girin. Tüm bilgiler doğru girildikten sonra oyunu
+            başlatabilirsiniz.
           </p>
         </header>
 
@@ -321,9 +333,7 @@ export function ParticipantSetupScreen() {
               {/* Error Messages */}
               {validation && validation.errors.length > 0 && (
                 <div className="bg-red-500/20 border-2 border-red-500/40 rounded-xl p-4">
-                  <h4 className="text-red-300 font-semibold mb-2">
-                    Düzeltilmesi Gerekenler:
-                  </h4>
+                  <h4 className="text-red-300 font-semibold mb-2">Düzeltilmesi Gerekenler:</h4>
                   <ul className="space-y-1 text-sm text-red-200">
                     {validation.errors.map((error, index) => (
                       <li key={index} className="flex items-start gap-2">

@@ -1,10 +1,10 @@
 //! Database module for Kelime Oyunu
-//! 
+//!
 //! This module handles all SQLite database operations including:
 //! - Database initialization and migrations
 //! - Connection management
 //! - Schema definitions
-//! 
+//!
 //! Database Schema:
 //! - categories: Word categories with emoji and metadata
 //! - words: Words associated with categories (4-10 letters)

@@ -32,22 +32,19 @@ export interface PageTransitionProps {
  * </PageTransition>
  * ```
  */
-export const PageTransition: React.FC<PageTransitionProps> = ({
-  children,
-  className = '',
-}) => {
+export const PageTransition: React.FC<PageTransitionProps> = ({ children, className = '' }) => {
   const location = useLocation();
 
   // Simple fade transition without complex animations
   // This prevents the opacity:0 stuck issue
   return (
-    <div 
+    <div
       key={location.pathname}
       className={`${className} animate-fadeIn`}
       style={{
         width: '100%',
         minHeight: '100vh',
-        animation: 'fadeIn 0.3s ease-out'
+        animation: 'fadeIn 0.3s ease-out',
       }}
     >
       {children}

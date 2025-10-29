@@ -1,0 +1,8 @@
+# Clippy configuration for strict linting
+msrv = "1.70"
+
+# Warn on all wildcard imports
+warn-on-all-wildcard-imports = true
+
+# Additional strictness
+cognitive-complexity-threshold = 30

@@ -23,9 +23,7 @@ interface ScreenReaderAnnouncerProps {
  *
  * Creates aria-live regions for screen reader announcements
  */
-export const ScreenReaderAnnouncer: React.FC<ScreenReaderAnnouncerProps> = ({
-  messages = [],
-}) => {
+export const ScreenReaderAnnouncer: React.FC<ScreenReaderAnnouncerProps> = ({ messages = [] }) => {
   const [politeMessages, setPoliteMessages] = useState<string[]>([]);
   const [assertiveMessages, setAssertiveMessages] = useState<string[]>([]);
 
@@ -51,24 +49,14 @@ export const ScreenReaderAnnouncer: React.FC<ScreenReaderAnnouncerProps> = ({
   return (
     <>
       {/* Polite announcements */}
-      <div
-        role="status"
-        aria-live="polite"
-        aria-atomic="true"
-        className="sr-only"
-      >
+      <div role="status" aria-live="polite" aria-atomic="true" className="sr-only">
         {politeMessages.map((message, index) => (
           <p key={index}>{message}</p>
         ))}
       </div>
 
       {/* Assertive announcements (urgent) */}
-      <div
-        role="alert"
-        aria-live="assertive"
-        aria-atomic="true"
-        className="sr-only"
-      >
+      <div role="alert" aria-live="assertive" aria-atomic="true" className="sr-only">
         {assertiveMessages.map((message, index) => (
           <p key={index}>{message}</p>
         ))}

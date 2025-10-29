@@ -27,11 +27,7 @@ function PlaceholderScreen({ title, description, taskNumber }: PlaceholderScreen
   return (
     <div className="min-h-screen bg-slate-900 p-8">
       <div className="max-w-4xl mx-auto">
-        <Button
-          variant="secondary"
-          onClick={() => navigate(-1)}
-          className="mb-6"
-        >
+        <Button variant="secondary" onClick={() => navigate(-1)} className="mb-6">
           <ArrowLeft className="w-4 h-4 mr-2" />
           Geri
         </Button>
@@ -111,13 +107,7 @@ export function ResultsScreen() {
       // Get team info from gameSetup
       const teams = (gameSetup as TeamModeSetup)?.teams || [];
 
-      return (
-        <ResultsTeamMode
-          session={session}
-          teams={teams}
-          onPlayAgain={handlePlayAgain}
-        />
-      );
+      return <ResultsTeamMode session={session} teams={teams} onPlayAgain={handlePlayAgain} />;
     }
   }
 

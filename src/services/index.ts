@@ -2,11 +2,7 @@
  * Services Module Exports
  */
 
-export {
-  isFirstLaunch,
-  markFirstLaunchCompleted,
-  resetFirstLaunch,
-} from './firstLaunch';
+export { isFirstLaunch, markFirstLaunchCompleted, resetFirstLaunch } from './firstLaunch';
 
 export {
   getWordsByCategory,

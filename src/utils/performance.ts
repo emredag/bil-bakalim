@@ -11,8 +11,9 @@
 export function measureRenderTime(componentName: string, startTime: number): void {
   const endTime = performance.now();
   const renderTime = endTime - startTime;
-  
-  if (renderTime > 16) { // Log if slower than 60fps (16ms per frame)
+
+  if (renderTime > 16) {
+    // Log if slower than 60fps (16ms per frame)
     console.warn(`[Performance] ${componentName} render took ${renderTime.toFixed(2)}ms`);
   }
 }
@@ -147,9 +148,9 @@ export function logPerformanceMetrics(): void {
 
   if (memory.usedJSHeapSize) {
     console.log('Memory Usage:', {
-      'Used': `${memory.usedJSHeapSize.toFixed(2)} MB`,
-      'Total': `${memory.totalJSHeapSize?.toFixed(2)} MB`,
-      'Limit': `${memory.jsHeapSizeLimit?.toFixed(2)} MB`,
+      Used: `${memory.usedJSHeapSize.toFixed(2)} MB`,
+      Total: `${memory.totalJSHeapSize?.toFixed(2)} MB`,
+      Limit: `${memory.jsHeapSizeLimit?.toFixed(2)} MB`,
       'Usage %': `${((memory.usedJSHeapSize / (memory.jsHeapSizeLimit || 1)) * 100).toFixed(2)}%`,
     });
   }
@@ -163,7 +164,7 @@ export function logPerformanceMetrics(): void {
 export function batchUpdates(updates: (() => void)[]): void {
   // In React 18, updates are automatically batched
   // This is a utility for explicit batching if needed
-  updates.forEach(update => update());
+  updates.forEach((update) => update());
 }
 
 /**
@@ -174,7 +175,7 @@ export function memoize<T extends (...args: any[]) => any>(fn: T): T {
 
   return ((...args: Parameters<T>): ReturnType<T> => {
     const key = JSON.stringify(args);
-    
+
     if (cache.has(key)) {
       return cache.get(key)!;
     }
@@ -192,17 +193,20 @@ export function createLazyObserver(
   callback: (entry: IntersectionObserverEntry) => void,
   options?: IntersectionObserverInit
 ): IntersectionObserver {
-  return new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        callback(entry);
-      }
-    });
-  }, {
-    rootMargin: '50px',
-    threshold: 0.01,
-    ...options,
-  });
+  return new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          callback(entry);
+        }
+      });
+    },
+    {
+      rootMargin: '50px',
+      threshold: 0.01,
+      ...options,
+    }
+  );
 }
 
 /**

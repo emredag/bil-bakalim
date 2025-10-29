@@ -72,7 +72,10 @@ export async function validateCategory(id: number): Promise<ValidationResult> {
  * Opens a save dialog and writes category data to selected file
  * Default filename: [category-name].json
  */
-export async function exportCategoryToJson(categoryId: number, categoryName: string): Promise<void> {
+export async function exportCategoryToJson(
+  categoryId: number,
+  categoryName: string
+): Promise<void> {
   // Get category data from backend
   let exportData: CategoryExportData;
   try {
@@ -114,7 +117,9 @@ export async function exportCategoryToJson(categoryId: number, categoryName: str
     if (error instanceof Error) {
       throw new Error(`Dosya kaydedilemedi: ${error.message}`);
     }
-    throw new Error('Dosya kaydedilirken beklenmeyen bir hata oluştu. Lütfen farklı bir konum seçin.');
+    throw new Error(
+      'Dosya kaydedilirken beklenmeyen bir hata oluştu. Lütfen farklı bir konum seçin.'
+    );
   }
 }
 
@@ -144,7 +149,7 @@ export async function importCategoryFromJson(categoryId: number): Promise<Import
   // Read file content
   let fileContent: string;
   try {
-    fileContent = await readTextFile(filePath as string);
+    fileContent = await readTextFile(filePath);
   } catch (error) {
     throw new Error('Dosya okunamadı. Lütfen geçerli bir dosya seçtiğinizden emin olun.');
   }

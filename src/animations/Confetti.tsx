@@ -164,12 +164,7 @@ export const Confetti: React.FC<ConfettiProps> = ({
         ctx.rotate(particle.rotation);
         ctx.globalAlpha = particle.opacity;
         ctx.fillStyle = particle.color;
-        ctx.fillRect(
-          -particle.width / 2,
-          -particle.height / 2,
-          particle.width,
-          particle.height
-        );
+        ctx.fillRect(-particle.width / 2, -particle.height / 2, particle.width, particle.height);
         ctx.restore();
       });
 

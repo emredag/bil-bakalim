@@ -15,7 +15,18 @@
 import { useState, useEffect, useMemo, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Plus, Search, ArrowLeft, Upload, Download, Edit2, Trash2, Loader2, AlertCircle, X } from 'lucide-react';
+import {
+  Plus,
+  Search,
+  ArrowLeft,
+  Upload,
+  Download,
+  Edit2,
+  Trash2,
+  Loader2,
+  AlertCircle,
+  X,
+} from 'lucide-react';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import { Badge } from '../ui/Badge';
@@ -23,7 +34,12 @@ import { Table, Column } from '../ui/Table';
 import { AddWordModal, EditWordModal, DeleteWordDialog } from '../modals';
 import { WordDistributionSidebar } from '../WordDistributionSidebar';
 import { getWordsByCategory } from '../../api/word';
-import { getCategoryById, validateCategory, exportCategoryToJson, importCategoryFromJson } from '../../api/category';
+import {
+  getCategoryById,
+  validateCategory,
+  exportCategoryToJson,
+  importCategoryFromJson,
+} from '../../api/category';
 import { Category, Word, ValidationResult } from '../../types/database';
 import { ROUTES } from '../../routes/constants';
 import { useToast, ToastContainer } from '../ui/Toast';
@@ -92,7 +108,7 @@ export function WordManagementScreen() {
 
     try {
       const categoryIdNum = parseInt(categoryId, 10);
-      
+
       // Load category, words, and validation in parallel
       const [fetchedCategory, fetchedWords, fetchedValidation] = await Promise.all([
         getCategoryById(categoryIdNum),
@@ -120,9 +136,7 @@ export function WordManagementScreen() {
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
       filtered = words.filter(
-        (word) =>
-          word.word.toLowerCase().includes(query) ||
-          word.hint.toLowerCase().includes(query)
+        (word) => word.word.toLowerCase().includes(query) || word.hint.toLowerCase().includes(query)
       );
     }
 
@@ -164,9 +178,7 @@ export function WordManagementScreen() {
 
   // Handle edit word success
   const handleEditSuccess = (updatedWord: Word) => {
-    setWords((prev) =>
-      prev.map((word) => (word.id === updatedWord.id ? updatedWord : word))
-    );
+    setWords((prev) => prev.map((word) => (word.id === updatedWord.id ? updatedWord : word)));
     loadData(); // Reload to refresh validation
   };
 
@@ -232,9 +244,7 @@ export function WordManagementScreen() {
       key: 'word',
       header: 'Kelime',
       accessor: (word) => (
-        <span className="font-bold text-lg text-white uppercase tracking-wide">
-          {word.word}
-        </span>
+        <span className="font-bold text-lg text-white uppercase tracking-wide">{word.word}</span>
       ),
       sortable: true,
       width: 'w-1/4',
@@ -253,9 +263,7 @@ export function WordManagementScreen() {
     {
       key: 'hint',
       header: 'İpucu',
-      accessor: (word) => (
-        <span className="text-slate-300">{word.hint}</span>
-      ),
+      accessor: (word) => <span className="text-slate-300">{word.hint}</span>,
       sortable: true,
       width: 'w-1/2',
     },
@@ -348,9 +356,7 @@ export function WordManagementScreen() {
                 {category.emoji}
               </motion.div>
               <div>
-                <h1 className="text-3xl md:text-4xl font-bold text-white">
-                  {category.name}
-                </h1>
+                <h1 className="text-3xl md:text-4xl font-bold text-white">{category.name}</h1>
                 <p className="text-lg text-slate-400 mt-1">Kelime Yönetimi</p>
               </div>
             </div>
@@ -365,21 +371,13 @@ export function WordManagementScreen() {
           >
             <div className="flex flex-col sm:flex-row gap-3">
               {/* Add Word Button */}
-              <Button
-                variant="primary"
-                onClick={() => setShowAddModal(true)}
-                className="sm:w-auto"
-              >
+              <Button variant="primary" onClick={() => setShowAddModal(true)} className="sm:w-auto">
                 <Plus className="w-4 h-4 mr-2" />
                 Yeni Kelime Ekle
               </Button>
 
               {/* Import JSON Button (Task 30) */}
-              <Button
-                variant="secondary"
-                onClick={handleImport}
-                className="sm:w-auto"
-              >
+              <Button variant="secondary" onClick={handleImport} className="sm:w-auto">
                 <Upload className="w-4 h-4 mr-2" />
                 JSON'dan İçe Aktar
               </Button>
@@ -456,11 +454,7 @@ export function WordManagementScreen() {
             className="flex flex-col sm:flex-row gap-3 mt-6"
           >
             {/* Export JSON Button (Task 30) */}
-            <Button
-              variant="secondary"
-              onClick={handleExport}
-              disabled={words.length === 0}
-            >
+            <Button variant="secondary" onClick={handleExport} disabled={words.length === 0}>
               <Download className="w-4 h-4 mr-2" />
               JSON Dışa Aktar
             </Button>
@@ -469,10 +463,7 @@ export function WordManagementScreen() {
             <div className="flex-1" />
 
             {/* Back Button */}
-            <Button
-              variant="secondary"
-              onClick={() => navigate(ROUTES.CATEGORY_MANAGEMENT)}
-            >
+            <Button variant="secondary" onClick={() => navigate(ROUTES.CATEGORY_MANAGEMENT)}>
               <ArrowLeft className="w-4 h-4 mr-2" />
               Kategori Yönetimine Dön
             </Button>
@@ -480,9 +471,7 @@ export function WordManagementScreen() {
         </div>
 
         {/* Right Sidebar: Word Distribution */}
-        {validation && (
-          <WordDistributionSidebar validation={validation} />
-        )}
+        {validation && <WordDistributionSidebar validation={validation} />}
       </div>
 
       {/* Modals */}

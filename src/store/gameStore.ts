@@ -1,7 +1,7 @@
 /**
  * Game Store - Global game state management using Zustand
  * PRD Reference: Section 2.1 - State Management
- * 
+ *
  * Manages active game session state including:
  * - Current game configuration and mode
  * - Participants and their progress
@@ -24,22 +24,22 @@ import type {
 interface GameStore {
   // Current game session (null when not playing)
   session: GameSession | null;
-  
+
   // Actions
   startGame: (config: GameConfig, words: GameWord[][]) => void;
   pauseGame: () => void;
   resumeGame: () => void;
   endGame: () => void;
   resetGame: () => void;
-  
+
   // Timer actions
   tick: () => void; // Called every second
-  
+
   // Word actions
   revealLetter: (participantIndex: number, wordIndex: number, letterIndex: number) => void;
   submitGuess: (participantIndex: number, wordIndex: number, isCorrect: boolean) => void;
   skipWord: (participantIndex: number, wordIndex: number) => void;
-  
+
   // Participant actions
   nextParticipant: () => void;
   updateScore: (participantIndex: number, points: number) => void;
@@ -175,24 +175,24 @@ export const useGameStore = create<GameStore>()(
           const participants = [...state.session.participants];
           const activeIndex = state.session.activeParticipantIndex;
           const activeParticipant = { ...participants[activeIndex] };
-          
+
           // Update ACTIVE participant's timer
           activeParticipant.elapsedTimeSeconds += 1;
-          
+
           // Check if ACTIVE participant's time is up
           if (activeParticipant.elapsedTimeSeconds >= activeParticipant.totalTimeSeconds) {
             // Mark all remaining words as timeout
-            activeParticipant.words = activeParticipant.words.map(w => 
+            activeParticipant.words = activeParticipant.words.map((w) =>
               w.result === null ? { ...w, result: 'timeout' as WordResult } : w
             );
-            
+
             participants[activeIndex] = activeParticipant;
-            
+
             // Check if all participants finished
-            const allParticipantsCompleted = participants.every(p => 
-              p.words.every(w => w.result !== null)
+            const allParticipantsCompleted = participants.every((p) =>
+              p.words.every((w) => w.result !== null)
             );
-            
+
             if (allParticipantsCompleted) {
               // All done - end game
               return {
@@ -206,7 +206,7 @@ export const useGameStore = create<GameStore>()(
             } else if (state.session.mode === 'multi' || state.session.mode === 'team') {
               // Wait for host to start next participant
               participants[activeIndex] = { ...participants[activeIndex], isActive: false };
-              
+
               return {
                 session: {
                   ...state.session,
@@ -282,7 +282,10 @@ export const useGameStore = create<GameStore>()(
 
           if (isCorrect) {
             // Reveal all letters
-            word.letters = word.letters.map((letter: Letter) => ({ ...letter, status: 'revealed' as const }));
+            word.letters = word.letters.map((letter: Letter) => ({
+              ...letter,
+              status: 'revealed' as const,
+            }));
             word.result = 'found';
 
             // Calculate points: Base points - (letters revealed × 100)
@@ -311,26 +314,34 @@ export const useGameStore = create<GameStore>()(
           participants[participantIndex] = participant;
 
           // Check if current participant completed all words
-          const participantCompleted = participant.words.every(w => w.result !== null);
-          
+          const participantCompleted = participant.words.every((w) => w.result !== null);
+
           // Check if ALL participants completed their words
-          const allParticipantsCompleted = participants.every(p => p.words.every(w => w.result !== null));
-          
+          const allParticipantsCompleted = participants.every((p) =>
+            p.words.every((w) => w.result !== null)
+          );
+
           // Determine next state and actions
           let newState: GameState = state.session.state;
-          let newActiveIndex = state.session.activeParticipantIndex;
+          const newActiveIndex = state.session.activeParticipantIndex;
           let finishedAt = state.session.finishedAt;
           let updatedParticipants = participants;
-          
+
           if (allParticipantsCompleted) {
             // ALL participants finished → End game
             newState = 'finished';
             finishedAt = new Date().toISOString();
-          } else if (participantCompleted && (state.session.mode === 'multi' || state.session.mode === 'team')) {
+          } else if (
+            participantCompleted &&
+            (state.session.mode === 'multi' || state.session.mode === 'team')
+          ) {
             // Current participant finished in multi/team mode → Wait for host to start next turn
             newState = 'waiting_next_turn';
             updatedParticipants = [...participants];
-            updatedParticipants[participantIndex] = { ...updatedParticipants[participantIndex], isActive: false };
+            updatedParticipants[participantIndex] = {
+              ...updatedParticipants[participantIndex],
+              isActive: false,
+            };
           }
 
           return {
@@ -364,26 +375,34 @@ export const useGameStore = create<GameStore>()(
           participants[participantIndex] = participant;
 
           // Check if current participant completed all words
-          const participantCompleted = participant.words.every(w => w.result !== null);
-          
+          const participantCompleted = participant.words.every((w) => w.result !== null);
+
           // Check if ALL participants completed their words
-          const allParticipantsCompleted = participants.every(p => p.words.every(w => w.result !== null));
-          
+          const allParticipantsCompleted = participants.every((p) =>
+            p.words.every((w) => w.result !== null)
+          );
+
           // Determine next state and actions
           let newState: GameState = state.session.state;
-          let newActiveIndex = state.session.activeParticipantIndex;
+          const newActiveIndex = state.session.activeParticipantIndex;
           let finishedAt = state.session.finishedAt;
           let updatedParticipants = participants;
-          
+
           if (allParticipantsCompleted) {
             // ALL participants finished → End game
             newState = 'finished';
             finishedAt = new Date().toISOString();
-          } else if (participantCompleted && (state.session.mode === 'multi' || state.session.mode === 'team')) {
+          } else if (
+            participantCompleted &&
+            (state.session.mode === 'multi' || state.session.mode === 'team')
+          ) {
             // Current participant finished in multi/team mode → Wait for host to start next turn
             newState = 'waiting_next_turn';
             updatedParticipants = [...participants];
-            updatedParticipants[participantIndex] = { ...updatedParticipants[participantIndex], isActive: false };
+            updatedParticipants[participantIndex] = {
+              ...updatedParticipants[participantIndex],
+              isActive: false,
+            };
           }
 
           return {
@@ -398,7 +417,7 @@ export const useGameStore = create<GameStore>()(
         });
       },
 
-      nextParticipant:() => {
+      nextParticipant: () => {
         set((state) => {
           if (!state.session || state.session.mode === 'single') return state;
           if (state.session.state !== 'waiting_next_turn') return state;

@@ -14,7 +14,7 @@ pub fn get_words_by_category(category_id: i32) -> Result<Vec<Word>, AppError> {
         "SELECT id, category_id, word, letter_count, hint, created_at
          FROM words
          WHERE category_id = ?1
-         ORDER BY letter_count ASC, word ASC"
+         ORDER BY letter_count ASC, word ASC",
     )?;
 
     let words = stmt
@@ -153,10 +153,7 @@ pub fn delete_word(id: i32) -> Result<(), AppError> {
 /// # Returns
 /// * Vector of exactly 14 random words (2 per letter length 4-10)
 #[tauri::command]
-pub fn get_random_words(
-    category_id: i32,
-    exclude_ids: Vec<i32>,
-) -> Result<Vec<Word>, AppError> {
+pub fn get_random_words(category_id: i32, exclude_ids: Vec<i32>) -> Result<Vec<Word>, AppError> {
     let conn = db::get_connection()?;
     let mut selected_words = Vec::new();
     let mut rng = rand::thread_rng();

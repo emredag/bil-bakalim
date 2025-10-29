@@ -92,9 +92,7 @@ export const Tabs: React.FC<TabsProps> = ({
       )}
 
       {/* Tab Content */}
-      <div className="mt-4">
-        {activeTabContent}
-      </div>
+      <div className="mt-4">{activeTabContent}</div>
     </div>
   );
 };
@@ -120,11 +118,7 @@ const DefaultTabList: React.FC<TabListProps> = ({
   fullWidth,
 }) => {
   return (
-    <div
-      className="flex border-b border-slate-700"
-      role="tablist"
-      aria-label="Tabs"
-    >
+    <div className="flex border-b border-slate-700" role="tablist" aria-label="Tabs">
       {tabs.map((tab, index) => {
         const isActive = tab.id === activeTab;
 

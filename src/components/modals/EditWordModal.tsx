@@ -92,18 +92,18 @@ export function EditWordModal({
   // Handle word input - auto-uppercase and filter non-letters
   const handleWordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value;
-    
+
     // Convert to uppercase
     value = value.toUpperCase();
-    
+
     // Allow only Turkish letters (A-Z, Ç, Ğ, İ, Ö, Ş, Ü)
     value = value.replace(/[^A-ZÇĞİÖŞÜ]/g, '');
-    
+
     // Limit to 10 characters
     value = value.slice(0, 10);
-    
+
     setWord(value);
-    
+
     // Clear word error when typing
     if (errors.word) {
       setErrors((prev) => ({ ...prev, word: undefined }));
@@ -114,7 +114,7 @@ export function EditWordModal({
   const handleHintChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.slice(0, 100); // Max 100 chars
     setHint(value);
-    
+
     // Clear hint error when typing
     if (errors.hint) {
       setErrors((prev) => ({ ...prev, hint: undefined }));
@@ -124,9 +124,7 @@ export function EditWordModal({
   // Get current count for this letter length
   const getCurrentCount = (): number => {
     if (!validation || word.length === 0) return 0;
-    const item = validation.words_by_length.find(
-      (w) => w.letter_count === word.length
-    );
+    const item = validation.words_by_length.find((w) => w.letter_count === word.length);
     return item ? item.count : 0;
   };
 
@@ -150,9 +148,7 @@ export function EditWordModal({
     } else {
       // Check for duplicate (excluding current word)
       const isDuplicate = existingWords.some(
-        (w) => 
-          w.id !== currentWord.id && 
-          w.word.toLowerCase() === word.toLowerCase()
+        (w) => w.id !== currentWord.id && w.word.toLowerCase() === word.toLowerCase()
       );
       if (isDuplicate) {
         newErrors.word = 'Bu kelime kategoride zaten mevcut';
@@ -181,16 +177,9 @@ export function EditWordModal({
     setIsSubmitting(true);
 
     try {
-      const updatedWord = await updateWord(
-        currentWord.id,
-        word.trim(),
-        hint.trim()
-      );
+      const updatedWord = await updateWord(currentWord.id, word.trim(), hint.trim());
 
-      showToast(
-        `"${updatedWord.word}" kelimesi güncellendi`,
-        'success'
-      );
+      showToast(`"${updatedWord.word}" kelimesi güncellendi`, 'success');
 
       onSuccess(updatedWord);
       onClose();
@@ -203,22 +192,16 @@ export function EditWordModal({
   };
 
   // Check if anything changed
-  const hasChanges = 
-    word !== currentWord.word || 
-    hint !== currentWord.hint;
+  const hasChanges = word !== currentWord.word || hint !== currentWord.hint;
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onClose={onClose}
-      title="Kelime Düzenle"
-      size="lg"
-    >
+    <Modal isOpen={isOpen} onClose={onClose} title="Kelime Düzenle" size="lg">
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Category Info */}
         <div className="bg-slate-700/30 rounded-lg p-4">
           <p className="text-sm text-slate-400">
-            <strong className="text-white">{categoryName}</strong> kategorisinde kelime düzenliyorsunuz
+            <strong className="text-white">{categoryName}</strong> kategorisinde kelime
+            düzenliyorsunuz
           </p>
         </div>
 
@@ -252,16 +235,14 @@ export function EditWordModal({
           />
           {/* Real-time letter count */}
           <div className="flex items-center justify-between mt-2">
-            <p className="text-sm text-slate-400">
-              Sadece harf (A-Z), 4-10 karakter
-            </p>
+            <p className="text-sm text-slate-400">Sadece harf (A-Z), 4-10 karakter</p>
             <Badge
               variant={
                 word.length === 0
                   ? 'neutral'
                   : word.length >= 4 && word.length <= 10
-                  ? 'success'
-                  : 'error'
+                    ? 'success'
+                    : 'error'
               }
               size="sm"
             >
@@ -283,9 +264,7 @@ export function EditWordModal({
             placeholder="Örn: 11 kişiyle oynanan takım sporu"
             error={errors.hint}
           />
-          <p className="text-sm text-slate-400 mt-2">
-            {hint.length}/100 karakter
-          </p>
+          <p className="text-sm text-slate-400 mt-2">{hint.length}/100 karakter</p>
         </div>
 
         {/* Distribution Info */}
@@ -318,9 +297,7 @@ export function EditWordModal({
                 Bu kategoride {word.length} harfli {getCurrentCount()} kelime var
               </p>
               <p className="text-xs text-slate-400">
-                {isSufficient()
-                  ? 'Yeterli kelime sayısı mevcut'
-                  : 'Minimum 2 kelime gerekli'}
+                {isSufficient() ? 'Yeterli kelime sayısı mevcut' : 'Minimum 2 kelime gerekli'}
               </p>
             </div>
           </motion.div>

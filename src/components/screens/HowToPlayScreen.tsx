@@ -3,17 +3,17 @@
  * PRD Reference: Section 7 - NASIL OYNANIR? EKRANI
  * Design Reference: docs/ui-ux-design.md#howto-shortcuts
  * Task: 32
- * 
+ *
  * Interactive tutorial explaining game rules, modes, scoring, keyboard shortcuts, and tiebreaker rules
  */
 
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { 
-  ArrowLeft, 
-  Lightbulb, 
-  Trophy, 
-  Users, 
+import {
+  ArrowLeft,
+  Lightbulb,
+  Trophy,
+  Users,
   Grid3x3,
   AlertCircle,
   Keyboard,
@@ -53,7 +53,8 @@ const TUTORIAL_STEPS = [
     id: 3,
     title: 'Yarışmacıları/Takımları Ayarlayın',
     icon: Users,
-    description: 'Tek mod: İsim girin\nÇoklu mod: Yarışmacı sayısı seçin\nTakım mod: Takımları ve oyuncuları oluşturun',
+    description:
+      'Tek mod: İsim girin\nÇoklu mod: Yarışmacı sayısı seçin\nTakım mod: Takımları ve oyuncuları oluşturun',
     note: 'Her yarışmacı farklı 14 kelime alır',
     color: 'emerald',
   },
@@ -103,17 +104,17 @@ const SCORING_TABLE = [
 const KEYBOARD_SHORTCUTS = {
   game: [
     { key: 'H', action: 'Harf Aç', description: 'Rastgele harf açar' },
-    { key: 'T', action: 'Tahmin Et', description: 'Tahmin popup\'ı açar' },
+    { key: 'T', action: 'Tahmin Et', description: "Tahmin popup'ı açar" },
     { key: 'P', action: 'Pas Geç', description: 'Pas geçme onayı ister' },
     { key: 'Space', action: 'Duraklat/Devam', description: 'Oyunu duraklat' },
     { key: 'M', action: 'Ses Aç/Kapat', description: 'Ses toggle' },
     { key: 'Esc', action: 'Ana Menü', description: 'Onaylı çıkış' },
   ],
   dialog: [
-    { key: 'D / Enter', action: 'Doğru', description: 'Tahmin popup\'ında' },
-    { key: 'Y / N', action: 'Yanlış', description: 'Tahmin popup\'ında' },
-    { key: 'Enter', action: 'Onayla', description: 'Tüm onay dialog\'larında' },
-    { key: 'Esc', action: 'İptal', description: 'Tüm dialog\'larda' },
+    { key: 'D / Enter', action: 'Doğru', description: "Tahmin popup'ında" },
+    { key: 'Y / N', action: 'Yanlış', description: "Tahmin popup'ında" },
+    { key: 'Enter', action: 'Onayla', description: "Tüm onay dialog'larında" },
+    { key: 'Esc', action: 'İptal', description: "Tüm dialog'larda" },
   ],
   global: [
     { key: 'F11', action: 'Tam ekran aç/kapat', description: 'Tüm ekranlar' },
@@ -165,13 +166,7 @@ export function HowToPlayScreen() {
       id: 'tutorial',
       label: 'İnteraktif Rehber',
       icon: <PlayCircle className="w-4 h-4" />,
-      content: (
-        <TutorialTab
-          currentStep={currentStep}
-          nextStep={nextStep}
-          prevStep={prevStep}
-        />
-      ),
+      content: <TutorialTab currentStep={currentStep} nextStep={nextStep} prevStep={prevStep} />,
     },
     {
       id: 'scoring',
@@ -192,17 +187,11 @@ export function HowToPlayScreen() {
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="flex items-center justify-between mb-6 md:mb-8">
-          <Button
-            variant="secondary"
-            onClick={() => navigate(ROUTES.HOME)}
-            className="gap-2"
-          >
+          <Button variant="secondary" onClick={() => navigate(ROUTES.HOME)} className="gap-2">
             <ArrowLeft className="w-4 h-4" />
             Ana Menü
           </Button>
-          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white">
-            Nasıl Oynanır?
-          </h1>
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white">Nasıl Oynanır?</h1>
           <div className="w-32" /> {/* Spacer for alignment */}
         </div>
 
@@ -211,11 +200,7 @@ export function HowToPlayScreen() {
 
         {/* Footer */}
         <div className="mt-8 text-center">
-          <Button
-            size="lg"
-            onClick={() => navigate(ROUTES.CATEGORY_SELECT)}
-            className="gap-2"
-          >
+          <Button size="lg" onClick={() => navigate(ROUTES.CATEGORY_SELECT)} className="gap-2">
             <PlayCircle className="w-5 h-5" />
             Hemen Oyna
           </Button>
@@ -242,8 +227,8 @@ function RuleItem({ icon, text, warning, highlight }: RuleItemProps) {
         warning
           ? 'bg-red-500/10 border border-red-500/20'
           : highlight
-          ? 'bg-amber-500/10 border border-amber-500/20'
-          : 'bg-slate-700/30'
+            ? 'bg-amber-500/10 border border-amber-500/20'
+            : 'bg-slate-700/30'
       }`}
     >
       <span className="text-2xl flex-shrink-0">{icon}</span>
@@ -277,11 +262,7 @@ function RulesTab() {
               <RuleItem icon="⏱️" text="Toplam süre: 5 dakika (300 saniye) - tüm kelimeler için" />
               <RuleItem icon="🎯" text="Her kelime için maksimum 3 tahmin hakkı" />
               <RuleItem icon="💯" text="Her harf açma -100 puan ceza" />
-              <RuleItem
-                icon="⚠️"
-                text="Tahmin yaptıktan sonra harf alınamaz"
-                warning
-              />
+              <RuleItem icon="⚠️" text="Tahmin yaptıktan sonra harf alınamaz" warning />
             </div>
           </div>
 
@@ -293,10 +274,7 @@ function RulesTab() {
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               {[4, 5, 6, 7, 8, 9, 10].map((num) => (
-                <div
-                  key={num}
-                  className="bg-slate-700/50 rounded-lg p-3 text-center"
-                >
+                <div key={num} className="bg-slate-700/50 rounded-lg p-3 text-center">
                   <div className="text-2xl font-bold text-amber-400 mb-1">2</div>
                   <div className="text-sm text-slate-300">{num} harfli kelime</div>
                 </div>
@@ -370,8 +348,8 @@ function TutorialTab({ currentStep, nextStep, prevStep }: TutorialTabProps) {
                 index === currentStep
                   ? 'bg-blue-500 w-8'
                   : index < currentStep
-                  ? 'bg-emerald-500'
-                  : 'bg-slate-600'
+                    ? 'bg-emerald-500'
+                    : 'bg-slate-600'
               }`}
               aria-label={`Adım ${step.id}`}
             />
@@ -415,7 +393,7 @@ function TutorialTab({ currentStep, nextStep, prevStep }: TutorialTabProps) {
  * TutorialStep Component
  */
 interface TutorialStepProps {
-  step: typeof TUTORIAL_STEPS[0];
+  step: (typeof TUTORIAL_STEPS)[0];
 }
 
 function TutorialStep({ step }: TutorialStepProps) {
@@ -430,10 +408,7 @@ function TutorialStep({ step }: TutorialStepProps) {
   };
 
   return (
-    <div
-      key={step.id}
-      className="space-y-6"
-    >
+    <div key={step.id} className="space-y-6">
       {/* Icon & Title */}
       <div className="flex items-center gap-4">
         <div
@@ -557,8 +532,8 @@ function ScoringTab() {
                             points === row.base
                               ? 'text-emerald-400'
                               : points === 0
-                              ? 'text-red-400'
-                              : 'text-amber-400'
+                                ? 'text-red-400'
+                                : 'text-amber-400'
                           }`}
                         >
                           {points}

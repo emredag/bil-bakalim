@@ -26,7 +26,7 @@ pub fn get_all_game_history(
                 gh.played_at, gh.total_time_seconds, gh.created_at
          FROM game_history gh
          JOIN categories c ON gh.category_id = c.id
-         WHERE 1=1"
+         WHERE 1=1",
     );
 
     // Add filters
@@ -58,7 +58,7 @@ pub fn get_all_game_history(
 
     // Prepare statement and bind parameters
     let mut stmt = conn.prepare(&query)?;
-    
+
     // Build params vector dynamically
     let mut param_values: Vec<Box<dyn rusqlite::ToSql>> = Vec::new();
     if let Some(cat_id) = category_id {
@@ -131,7 +131,7 @@ pub fn get_game_participants(game_history_id: i32) -> Result<Vec<GameParticipant
                 score, words_found, words_skipped, letters_revealed, rank, created_at
          FROM game_participants
          WHERE game_history_id = ?1
-         ORDER BY rank ASC, score DESC"
+         ORDER BY rank ASC, score DESC",
     )?;
 
     let participants = stmt
@@ -164,7 +164,7 @@ pub fn get_participant_word_results(participant_id: i32) -> Result<Vec<GameWordR
                 result, points_earned, letters_used, created_at
          FROM game_word_results
          WHERE participant_id = ?1
-         ORDER BY id ASC"
+         ORDER BY id ASC",
     )?;
 
     let results = stmt
@@ -192,11 +192,8 @@ pub fn get_game_history_stats() -> Result<GameHistoryStats, AppError> {
     let conn = db::get_connection()?;
 
     // Total games
-    let total_games: i32 = conn.query_row(
-        "SELECT COUNT(*) FROM game_history",
-        [],
-        |row| row.get(0)
-    )?;
+    let total_games: i32 =
+        conn.query_row("SELECT COUNT(*) FROM game_history", [], |row| row.get(0))?;
 
     // Most played category
     let most_played_category = if total_games > 0 {
@@ -208,8 +205,9 @@ pub fn get_game_history_stats() -> Result<GameHistoryStats, AppError> {
              ORDER BY play_count DESC
              LIMIT 1",
             [],
-            |row| Ok((row.get::<_, String>(0)?, row.get::<_, String>(1)?))
-        ).ok()
+            |row| Ok((row.get::<_, String>(0)?, row.get::<_, String>(1)?)),
+        )
+        .ok()
     } else {
         None
     };
@@ -218,7 +216,7 @@ pub fn get_game_history_stats() -> Result<GameHistoryStats, AppError> {
     let highest_score: i32 = conn.query_row(
         "SELECT COALESCE(MAX(score), 0) FROM game_participants",
         [],
-        |row| row.get(0)
+        |row| row.get(0),
     )?;
 
     // Total play time (in seconds)

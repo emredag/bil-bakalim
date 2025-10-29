@@ -1,7 +1,7 @@
 /**
  * GameScreen Test Page
  * For testing Task 12 - Game Screen Layout
- * 
+ *
  * This page creates a dummy game session to test the GameScreen component
  */
 

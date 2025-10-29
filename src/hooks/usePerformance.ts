@@ -7,7 +7,7 @@
  * Usage:
  * ```tsx
  * const { logRender, metrics } = usePerformance('MyComponent');
- * 
+ *
  * useEffect(() => {
  *   logRender();
  * });
@@ -39,7 +39,7 @@ export interface UsePerformanceReturn {
 export function usePerformance(componentName: string): UsePerformanceReturn {
   const renderStartTime = useRef<number>(performance.now());
   const renderTimes = useRef<number[]>([]);
-  
+
   const [metrics, setMetrics] = useState<PerformanceMetrics>({
     componentName,
     renderCount: 0,
@@ -51,28 +51,25 @@ export function usePerformance(componentName: string): UsePerformanceReturn {
   const logRender = useCallback(() => {
     const endTime = performance.now();
     const renderTime = endTime - renderStartTime.current;
-    
+
     // Store render time
     renderTimes.current.push(renderTime);
-    
+
     // Keep only last 50 renders
     if (renderTimes.current.length > 50) {
       renderTimes.current.shift();
     }
-    
+
     // Calculate metrics
     const renderCount = renderTimes.current.length;
-    const avgRenderTime =
-      renderTimes.current.reduce((sum, time) => sum + time, 0) / renderCount;
+    const avgRenderTime = renderTimes.current.reduce((sum, time) => sum + time, 0) / renderCount;
     const slowRenders = renderTimes.current.filter((time) => time > 16).length;
-    
+
     // Warn if render is slow
     if (renderTime > 16) {
-      console.warn(
-        `[Performance] ${componentName} slow render: ${renderTime.toFixed(2)}ms`
-      );
+      console.warn(`[Performance] ${componentName} slow render: ${renderTime.toFixed(2)}ms`);
     }
-    
+
     // Update metrics
     setMetrics({
       componentName,
@@ -81,7 +78,7 @@ export function usePerformance(componentName: string): UsePerformanceReturn {
       lastRenderTime: Number(renderTime.toFixed(2)),
       slowRenders,
     });
-    
+
     // Reset start time for next render
     renderStartTime.current = performance.now();
   }, [componentName]);
@@ -100,7 +97,7 @@ export function usePerformance(componentName: string): UsePerformanceReturn {
   // Track component mount/unmount
   useEffect(() => {
     console.log(`[Performance] ${componentName} mounted`);
-    
+
     return () => {
       const finalMetrics = metrics;
       if (finalMetrics.renderCount > 0) {
@@ -126,27 +123,22 @@ export function usePerformance(componentName: string): UsePerformanceReturn {
  */
 export function useRenderCount(componentName: string): number {
   const renderCount = useRef(0);
-  
+
   useEffect(() => {
     renderCount.current += 1;
-    
+
     if (renderCount.current > 10) {
-      console.warn(
-        `[Performance] ${componentName} has rendered ${renderCount.current} times`
-      );
+      console.warn(`[Performance] ${componentName} has rendered ${renderCount.current} times`);
     }
   });
-  
+
   return renderCount.current;
 }
 
 /**
  * useWhyDidYouUpdate - Debug hook to see which props changed
  */
-export function useWhyDidYouUpdate(
-  componentName: string,
-  props: Record<string, any>
-): void {
+export function useWhyDidYouUpdate(componentName: string, props: Record<string, any>): void {
   const previousProps = useRef<Record<string, any>>();
 
   useEffect(() => {

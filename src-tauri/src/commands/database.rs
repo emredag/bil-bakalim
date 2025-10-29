@@ -7,7 +7,6 @@
  * - Restore database from file
  * - Reset all data to defaults
  */
-
 use crate::db;
 use crate::errors::AppError;
 use std::fs;
@@ -34,11 +33,13 @@ pub fn backup_database(backup_path: String) -> Result<String, AppError> {
     }
 
     // Copy database file to backup location
-    fs::copy(&db_path, &backup_path).map_err(|e| {
-        AppError::DatabaseError(format!("Failed to backup database: {}", e))
-    })?;
+    fs::copy(&db_path, &backup_path)
+        .map_err(|e| AppError::DatabaseError(format!("Failed to backup database: {}", e)))?;
 
-    Ok(format!("Database backed up successfully to: {}", backup_path))
+    Ok(format!(
+        "Database backed up successfully to: {}",
+        backup_path
+    ))
 }
 
 /**
@@ -55,9 +56,7 @@ pub fn restore_database(restore_path: String) -> Result<String, AppError> {
     // Check if backup file exists
     let backup_path = Path::new(&restore_path);
     if !backup_path.exists() {
-        return Err(AppError::DatabaseError(
-            "Backup file not found".to_string(),
-        ));
+        return Err(AppError::DatabaseError("Backup file not found".to_string()));
     }
 
     // Get the current database path
@@ -73,9 +72,8 @@ pub fn restore_database(restore_path: String) -> Result<String, AppError> {
     }
 
     // Copy backup file to database location
-    fs::copy(&backup_path, &db_path).map_err(|e| {
-        AppError::DatabaseError(format!("Failed to restore database: {}", e))
-    })?;
+    fs::copy(&backup_path, &db_path)
+        .map_err(|e| AppError::DatabaseError(format!("Failed to restore database: {}", e)))?;
 
     Ok("Database restored successfully. Please restart the application.".to_string())
 }
@@ -94,10 +92,14 @@ pub fn reset_all_data() -> Result<String, AppError> {
 
     // Delete all data from tables (in reverse dependency order)
     conn.execute("DELETE FROM game_history_words", [])
-        .map_err(|e| AppError::DatabaseError(format!("Failed to delete game history words: {}", e)))?;
+        .map_err(|e| {
+            AppError::DatabaseError(format!("Failed to delete game history words: {}", e))
+        })?;
 
     conn.execute("DELETE FROM game_history_participants", [])
-        .map_err(|e| AppError::DatabaseError(format!("Failed to delete game history participants: {}", e)))?;
+        .map_err(|e| {
+            AppError::DatabaseError(format!("Failed to delete game history participants: {}", e))
+        })?;
 
     conn.execute("DELETE FROM game_history", [])
         .map_err(|e| AppError::DatabaseError(format!("Failed to delete game history: {}", e)))?;
@@ -133,7 +135,10 @@ pub fn reset_all_data() -> Result<String, AppError> {
     )
     .map_err(|e| AppError::DatabaseError(format!("Failed to reset default category: {}", e)))?;
 
-    Ok("All data has been reset to defaults. The default 'Genel' category is ready for new words.".to_string())
+    Ok(
+        "All data has been reset to defaults. The default 'Genel' category is ready for new words."
+            .to_string(),
+    )
 }
 
 /**
@@ -150,9 +155,8 @@ pub fn get_database_size() -> Result<u64, AppError> {
         return Ok(0);
     }
 
-    let metadata = fs::metadata(&db_path).map_err(|e| {
-        AppError::DatabaseError(format!("Failed to get database size: {}", e))
-    })?;
+    let metadata = fs::metadata(&db_path)
+        .map_err(|e| AppError::DatabaseError(format!("Failed to get database size: {}", e)))?;
 
     Ok(metadata.len())
 }

@@ -79,7 +79,9 @@ export const Skeleton: React.FC<SkeletonProps> = ({
         ${finalHeight}
         ${animationClass}
         ${className}
-      `.trim().replace(/\s+/g, ' ')}
+      `
+        .trim()
+        .replace(/\s+/g, ' ')}
       style={style}
       aria-hidden="true"
     />
@@ -173,10 +175,7 @@ export interface SkeletonGridProps {
   className?: string;
 }
 
-export const SkeletonGrid: React.FC<SkeletonGridProps> = ({
-  count = 6,
-  className = '',
-}) => {
+export const SkeletonGrid: React.FC<SkeletonGridProps> = ({ count = 6, className = '' }) => {
   return (
     <div
       className={`grid gap-6 ${className}`}
@@ -201,10 +200,7 @@ export interface SkeletonTextProps {
   className?: string;
 }
 
-export const SkeletonText: React.FC<SkeletonTextProps> = ({
-  lines = 3,
-  className = '',
-}) => {
+export const SkeletonText: React.FC<SkeletonTextProps> = ({ lines = 3, className = '' }) => {
   return (
     <div className={`space-y-2 ${className}`}>
       {Array.from({ length: lines }).map((_, i) => {
@@ -226,10 +222,7 @@ export interface SkeletonButtonProps {
   className?: string;
 }
 
-export const SkeletonButton: React.FC<SkeletonButtonProps> = ({
-  size = 'md',
-  className = '',
-}) => {
+export const SkeletonButton: React.FC<SkeletonButtonProps> = ({ size = 'md', className = '' }) => {
   const sizeStyles = {
     sm: 'w-20 h-8',
     md: 'w-32 h-10',
@@ -256,10 +249,7 @@ export interface SkeletonAvatarProps {
   className?: string;
 }
 
-export const SkeletonAvatar: React.FC<SkeletonAvatarProps> = ({
-  size = 48,
-  className = '',
-}) => {
+export const SkeletonAvatar: React.FC<SkeletonAvatarProps> = ({ size = 48, className = '' }) => {
   return (
     <Skeleton
       variant="circle"

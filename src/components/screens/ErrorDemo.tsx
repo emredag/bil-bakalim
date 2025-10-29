@@ -57,10 +57,7 @@ export const ErrorDemo: React.FC = () => {
       icon: AlertTriangle,
       description: 'Simulates invalid user input or data validation error',
       trigger: () => {
-        const error = new ValidationError(
-          'Invalid email format',
-          'Geçersiz e-posta formatı'
-        );
+        const error = new ValidationError('Invalid email format', 'Geçersiz e-posta formatı');
         handleError(error, {
           location: 'ErrorDemo.testValidationError',
         });
@@ -73,10 +70,7 @@ export const ErrorDemo: React.FC = () => {
       icon: FileX,
       description: 'Simulates a resource not found error (404)',
       trigger: () => {
-        const error = new NotFoundError(
-          'Category not found',
-          'Kategori bulunamadı'
-        );
+        const error = new NotFoundError('Category not found', 'Kategori bulunamadı');
         handleError(error, {
           location: 'ErrorDemo.testNotFoundError',
         });
@@ -89,10 +83,7 @@ export const ErrorDemo: React.FC = () => {
       icon: Copy,
       description: 'Simulates a duplicate entry error',
       trigger: () => {
-        const error = new DuplicateError(
-          'Category already exists',
-          'Bu kategori zaten mevcut'
-        );
+        const error = new DuplicateError('Category already exists', 'Bu kategori zaten mevcut');
         handleError(error, {
           location: 'ErrorDemo.testDuplicateError',
         });
@@ -105,10 +96,7 @@ export const ErrorDemo: React.FC = () => {
       icon: FileX,
       description: 'Simulates a file operation error',
       trigger: () => {
-        const error = new FileSystemError(
-          'Failed to read file',
-          'Dosya okunurken hata oluştu'
-        );
+        const error = new FileSystemError('Failed to read file', 'Dosya okunurken hata oluştu');
         handleError(error, {
           location: 'ErrorDemo.testFileSystemError',
         });
@@ -164,8 +152,8 @@ export const ErrorDemo: React.FC = () => {
           <CardContent>
             <div className="space-y-4">
               <p className="text-text-secondary">
-                This will throw an error in the component, triggering the ErrorBoundary. The
-                entire app will show a fallback UI instead of crashing.
+                This will throw an error in the component, triggering the ErrorBoundary. The entire
+                app will show a fallback UI instead of crashing.
               </p>
               <Button
                 variant="destructive"
@@ -183,12 +171,10 @@ export const ErrorDemo: React.FC = () => {
 
         {/* Error Type Tests */}
         <div>
-          <h2 className="text-2xl font-semibold text-text-primary mb-4">
-            Error Type Tests
-          </h2>
+          <h2 className="text-2xl font-semibold text-text-primary mb-4">Error Type Tests</h2>
           <p className="text-text-secondary mb-6">
-            Click each button to test different error types. Errors will be logged to console
-            (check DevTools).
+            Click each button to test different error types. Errors will be logged to console (check
+            DevTools).
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -199,15 +185,11 @@ export const ErrorDemo: React.FC = () => {
                     {/* Icon & Label */}
                     <div className="text-center">
                       <div className="text-5xl mb-3">{test.emoji}</div>
-                      <h3 className="text-lg font-semibold text-text-primary">
-                        {test.label}
-                      </h3>
+                      <h3 className="text-lg font-semibold text-text-primary">{test.label}</h3>
                     </div>
 
                     {/* Description */}
-                    <p className="text-sm text-text-secondary text-center">
-                      {test.description}
-                    </p>
+                    <p className="text-sm text-text-secondary text-center">{test.description}</p>
 
                     {/* Trigger Button */}
                     <Button
@@ -231,17 +213,15 @@ export const ErrorDemo: React.FC = () => {
             <div className="flex items-start gap-3">
               <div className="text-3xl">ℹ️</div>
               <div className="space-y-3">
-                <h3 className="font-semibold text-text-primary mb-2">
-                  Testing Instructions
-                </h3>
+                <h3 className="font-semibold text-text-primary mb-2">Testing Instructions</h3>
                 <ul className="text-sm text-text-secondary space-y-1">
                   <li>
                     • <strong>Error Types:</strong> Click each "Test Error" button to trigger
                     different error types
                   </li>
                   <li>
-                    • <strong>Console Logging:</strong> Open DevTools (F12) → Console to see
-                    error logs
+                    • <strong>Console Logging:</strong> Open DevTools (F12) → Console to see error
+                    logs
                   </li>
                   <li>
                     • <strong>User Messages:</strong> Each error type has a user-friendly Turkish
@@ -260,11 +240,21 @@ export const ErrorDemo: React.FC = () => {
                 <div className="pt-3 border-t border-slate-700">
                   <h4 className="font-medium text-text-primary mb-2">Error Types (PRD 14.2):</h4>
                   <ul className="text-xs text-text-tertiary space-y-1">
-                    <li>• <strong>DatabaseError:</strong> Veritabanı hataları</li>
-                    <li>• <strong>ValidationError:</strong> Validasyon hataları</li>
-                    <li>• <strong>NotFoundError:</strong> Kayıt bulunamadı (404)</li>
-                    <li>• <strong>DuplicateError:</strong> Tekrar kayıt</li>
-                    <li>• <strong>FileSystemError:</strong> Dosya işlem hataları</li>
+                    <li>
+                      • <strong>DatabaseError:</strong> Veritabanı hataları
+                    </li>
+                    <li>
+                      • <strong>ValidationError:</strong> Validasyon hataları
+                    </li>
+                    <li>
+                      • <strong>NotFoundError:</strong> Kayıt bulunamadı (404)
+                    </li>
+                    <li>
+                      • <strong>DuplicateError:</strong> Tekrar kayıt
+                    </li>
+                    <li>
+                      • <strong>FileSystemError:</strong> Dosya işlem hataları
+                    </li>
                   </ul>
                 </div>
               </div>

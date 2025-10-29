@@ -14,20 +14,10 @@
  * - Sound pooling for performance
  */
 
-import type {
-  SoundType,
-  SoundDefinition,
-  SoundManagerConfig,
-  Note,
-} from './types';
+import type { SoundType, SoundDefinition, SoundManagerConfig, Note } from './types';
 import { STORAGE_KEYS, DEFAULT_SOUND_SETTINGS } from './types';
 import { SOUND_DEFINITIONS } from './sounds';
-import {
-  createOscillator,
-  createWhiteNoise,
-  createFilter,
-  createGainNode,
-} from './oscillators';
+import { createOscillator, createWhiteNoise, createFilter, createGainNode } from './oscillators';
 import { applyEnvelope } from './envelopes';
 
 /**
@@ -67,8 +57,11 @@ export class SoundManager {
 
     try {
       // Create AudioContext
-      this.audioContext = new (window.AudioContext ||
-        (window as any).webkitAudioContext)();
+      const AudioContextConstructor = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContextConstructor) {
+        throw new Error('Web Audio API is not supported in this browser');
+      }
+      this.audioContext = new AudioContextConstructor();
 
       // Create master gain node for volume control
       this.masterGainNode = createGainNode(
@@ -192,11 +185,7 @@ export class SoundManager {
   /**
    * Play a melody (sequence of notes)
    */
-  private playMelody(
-    definition: SoundDefinition,
-    notes: Note[],
-    startTime: number
-  ): void {
+  private playMelody(definition: SoundDefinition, notes: Note[], startTime: number): void {
     if (!this.audioContext || !this.masterGainNode) return;
 
     const ctx = this.audioContext;
@@ -205,11 +194,7 @@ export class SoundManager {
       const noteStartTime = startTime + (note.delay || 0);
 
       // Create oscillator for this note
-      const oscillator = createOscillator(
-        ctx,
-        definition.waveform,
-        note.frequency
-      );
+      const oscillator = createOscillator(ctx, definition.waveform, note.frequency);
 
       // Create gain node for envelope
       const gainNode = createGainNode(ctx, 0);
@@ -273,10 +258,7 @@ export class SoundManager {
 
     // Sweep filter frequency for "whoosh" effect
     if (definition.filter.endFrequency) {
-      filter.frequency.setValueAtTime(
-        definition.filter.startFrequency,
-        startTime
-      );
+      filter.frequency.setValueAtTime(definition.filter.startFrequency, startTime);
       filter.frequency.exponentialRampToValueAtTime(
         definition.filter.endFrequency,
         startTime + definition.duration
@@ -355,10 +337,7 @@ export class SoundManager {
    */
   private saveSettings(): void {
     try {
-      localStorage.setItem(
-        STORAGE_KEYS.VOLUME,
-        this.config.masterVolume.toString()
-      );
+      localStorage.setItem(STORAGE_KEYS.VOLUME, this.config.masterVolume.toString());
       localStorage.setItem(STORAGE_KEYS.MUTED, this.config.muted.toString());
     } catch (error) {
       console.error('[SoundManager] Failed to save settings:', error);
@@ -374,12 +353,8 @@ export class SoundManager {
       const savedMuted = localStorage.getItem(STORAGE_KEYS.MUTED);
 
       return {
-        masterVolume: savedVolume
-          ? parseFloat(savedVolume)
-          : DEFAULT_SOUND_SETTINGS.masterVolume,
-        muted: savedMuted
-          ? savedMuted === 'true'
-          : DEFAULT_SOUND_SETTINGS.muted,
+        masterVolume: savedVolume ? parseFloat(savedVolume) : DEFAULT_SOUND_SETTINGS.masterVolume,
+        muted: savedMuted ? savedMuted === 'true' : DEFAULT_SOUND_SETTINGS.muted,
       };
     } catch (error) {
       console.error('[SoundManager] Failed to load settings:', error);

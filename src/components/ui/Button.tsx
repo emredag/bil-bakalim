@@ -94,7 +94,9 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       ${variantStyles[variant]}
       ${sizeStyles[size]}
       ${className}
-    `.trim().replace(/\s+/g, ' ');
+    `
+      .trim()
+      .replace(/\s+/g, ' ');
 
     const motionProps = {
       whileHover: !disabled && !loading ? { scale: 1.05 } : undefined,

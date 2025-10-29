@@ -16,13 +16,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import {
-  Play,
-  Sparkles,
-  Grid3x3,
-  Loader2,
-  ArrowLeft,
-} from 'lucide-react';
+import { Play, Sparkles, Grid3x3, Loader2, ArrowLeft } from 'lucide-react';
 
 // Animation components
 import { Confetti } from '../../animations/Confetti';
@@ -32,12 +26,7 @@ import {
   SkeletonText,
   SkeletonTable,
 } from '../../animations/SkeletonLoader';
-import {
-  shakeVariant,
-  pulseVariant,
-  scaleVariant,
-  fadeVariant,
-} from '../../animations/variants';
+import { shakeVariant, pulseVariant, scaleVariant, fadeVariant } from '../../animations/variants';
 import { useReducedMotion } from '../../animations/useReducedMotion';
 
 // UI components
@@ -263,9 +252,7 @@ export const AnimationDemo: React.FC = () => {
                   </div>
                 </Card>
               </div>
-              <p className="text-xs text-text-tertiary mt-3">
-                Hover: scale 1→1.05, shadow-xl→2xl
-              </p>
+              <p className="text-xs text-text-tertiary mt-3">Hover: scale 1→1.05, shadow-xl→2xl</p>
             </CardContent>
           </Card>
 
@@ -401,9 +388,7 @@ export const AnimationDemo: React.FC = () => {
                             ✨
                           </div>
                           <div>
-                            <h4 className="font-semibold text-text-primary">
-                              Actual Content
-                            </h4>
+                            <h4 className="font-semibold text-text-primary">Actual Content</h4>
                             <p className="text-text-secondary text-sm">
                               This is what shows when loading is complete
                             </p>
@@ -473,25 +458,21 @@ export const AnimationDemo: React.FC = () => {
             <div className="flex items-start gap-3">
               <div className="text-3xl">ℹ️</div>
               <div>
-                <h3 className="font-semibold text-text-primary mb-2">
-                  Testing Instructions
-                </h3>
+                <h3 className="font-semibold text-text-primary mb-2">Testing Instructions</h3>
                 <ul className="text-sm text-text-secondary space-y-1">
                   <li>
-                    • <strong>Page Transitions:</strong> Navigate to different pages to see
-                    fade + slide
+                    • <strong>Page Transitions:</strong> Navigate to different pages to see fade +
+                    slide
                   </li>
                   <li>
-                    • <strong>Performance:</strong> All animations use transform/opacity for
-                    60 FPS
+                    • <strong>Performance:</strong> All animations use transform/opacity for 60 FPS
                   </li>
                   <li>
                     • <strong>Reduce Motion:</strong> Enable in system settings to test
                     accessibility
                   </li>
                   <li>
-                    • <strong>Chrome DevTools:</strong> Performance tab → Record to verify 60
-                    FPS
+                    • <strong>Chrome DevTools:</strong> Performance tab → Record to verify 60 FPS
                   </li>
                 </ul>
               </div>

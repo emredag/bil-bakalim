@@ -2,7 +2,7 @@
  * GameScreen - Main Game Screen Layout
  * PRD Reference: Section 4.5 - Game Screen Layout
  * Design Reference: ui-ux-design.md#game-screen
- * 
+ *
  * TV Show Quality Game Screen with:
  * - Header (120px): Timer, score, active player
  * - Word Area (500px): Letter tiles with 3D flip
@@ -10,7 +10,7 @@
  * - Control Panel (280px): Action buttons, info bar, side controls
  * - Progress Bar (60px): Word progress and category description
  * - TV Effects: Confetti, light reflections, timer warnings
- * 
+ *
  * Fully responsive and accessible design
  */
 
@@ -71,10 +71,11 @@ export const GameScreen: React.FC = () => {
 
     const interval = setInterval(() => {
       tick();
-      
+
       // PRD 4.6: Play tick sound in last 10 seconds
       const activeParticipant = session.participants[session.activeParticipantIndex];
-      const remaining = activeParticipant.totalTimeSeconds - activeParticipant.elapsedTimeSeconds - 1;
+      const remaining =
+        activeParticipant.totalTimeSeconds - activeParticipant.elapsedTimeSeconds - 1;
       if (remaining <= 10 && remaining > 0) {
         soundService.playTick();
       }
@@ -202,14 +203,15 @@ export const GameScreen: React.FC = () => {
 
   const activeParticipant = session.participants[session.activeParticipantIndex];
   const currentWord = activeParticipant.words[activeParticipant.currentWordIndex];
-  
+
   // If no current word (all words completed), don't render
   if (!currentWord) {
     return null;
   }
 
   // Get active participant's remaining time
-  const remainingSeconds = activeParticipant.totalTimeSeconds - activeParticipant.elapsedTimeSeconds;
+  const remainingSeconds =
+    activeParticipant.totalTimeSeconds - activeParticipant.elapsedTimeSeconds;
 
   // Calculate remaining points for current word
   const calculateRemainingPoints = (): number => {
@@ -224,12 +226,12 @@ export const GameScreen: React.FC = () => {
     const hiddenIndices = currentWord.letters
       .map((letter, index) => (letter.status === 'hidden' ? index : -1))
       .filter((index) => index !== -1);
-    
+
     // Pick a random hidden letter
     if (hiddenIndices.length > 0 && !currentWord.hasMadeGuess) {
       const randomIndex = hiddenIndices[Math.floor(Math.random() * hiddenIndices.length)];
       revealLetter(session.activeParticipantIndex, activeParticipant.currentWordIndex, randomIndex);
-      
+
       // Play pop sound (PRD 4.6)
       soundService.playPop();
     }
@@ -238,7 +240,7 @@ export const GameScreen: React.FC = () => {
   const handleGuess = (isCorrect: boolean) => {
     setShowGuessModal(false);
     submitGuess(session.activeParticipantIndex, activeParticipant.currentWordIndex, isCorrect);
-    
+
     if (isCorrect) {
       setShowConfetti(true);
       // Play success sound (PRD 4.6)
@@ -317,7 +319,9 @@ export const GameScreen: React.FC = () => {
         onPause={handlePause}
         onToggleSound={handleToggleSound}
         onHome={handleHome}
-        canRevealLetter={!currentWord.hasMadeGuess && currentWord.letters.some((l) => l.status === 'hidden')}
+        canRevealLetter={
+          !currentWord.hasMadeGuess && currentWord.letters.some((l) => l.status === 'hidden')
+        }
         canGuess={currentWord.remainingGuesses > 0}
         canSkip={true}
         soundEnabled={soundEnabled}
@@ -355,12 +359,7 @@ export const GameScreen: React.FC = () => {
             ⚠️ Yanlış tahmin yaparsanız 1 hak kaybedersiniz
           </p>
           <div className="grid grid-cols-2 gap-4">
-            <Button
-              onClick={() => handleGuess(true)}
-              variant="primary"
-              size="lg"
-              className="h-16"
-            >
+            <Button onClick={() => handleGuess(true)} variant="primary" size="lg" className="h-16">
               ✓ Doğru
             </Button>
             <Button
@@ -393,16 +392,9 @@ export const GameScreen: React.FC = () => {
           <p className="text-lg text-slate-300 text-center">
             Bu kelimeyi geçmek istediğinizden emin misiniz?
           </p>
-          <p className="text-sm text-slate-400 text-center">
-            Kelimeyi geçerseniz puan alamazsınız
-          </p>
+          <p className="text-sm text-slate-400 text-center">Kelimeyi geçerseniz puan alamazsınız</p>
           <div className="grid grid-cols-2 gap-4">
-            <Button
-              onClick={handleSkip}
-              variant="destructive"
-              size="lg"
-              className="h-16"
-            >
+            <Button onClick={handleSkip} variant="destructive" size="lg" className="h-16">
               Evet, Geç
             </Button>
             <Button
@@ -418,25 +410,14 @@ export const GameScreen: React.FC = () => {
       </Modal>
 
       {/* Home Confirmation Modal */}
-      <Modal
-        isOpen={showHomeModal}
-        onClose={() => setShowHomeModal(false)}
-        title="Ana Menüye Dön"
-      >
+      <Modal isOpen={showHomeModal} onClose={() => setShowHomeModal(false)} title="Ana Menüye Dön">
         <div className="space-y-6">
           <p className="text-lg text-slate-300 text-center">
             Ana menüye dönmek istediğinizden emin misiniz?
           </p>
-          <p className="text-sm text-red-400 text-center">
-            ⚠️ Oyun ilerlemesi kaydedilmeyecek
-          </p>
+          <p className="text-sm text-red-400 text-center">⚠️ Oyun ilerlemesi kaydedilmeyecek</p>
           <div className="grid grid-cols-2 gap-4">
-            <Button
-              onClick={confirmHome}
-              variant="destructive"
-              size="lg"
-              className="h-16"
-            >
+            <Button onClick={confirmHome} variant="destructive" size="lg" className="h-16">
               Evet, Çık
             </Button>
             <Button

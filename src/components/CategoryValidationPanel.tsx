@@ -80,14 +80,10 @@ export const CategoryValidationPanel: React.FC<CategoryValidationPanelProps> = (
       {/* Header */}
       <div className="flex items-start justify-between gap-4">
         <div>
-          <h3 className="text-xl md:text-2xl font-bold text-white mb-2">
-            Kategori Durumu
-          </h3>
-          <p className="text-base md:text-lg text-slate-300">
-            {enriched.message}
-          </p>
+          <h3 className="text-xl md:text-2xl font-bold text-white mb-2">Kategori Durumu</h3>
+          <p className="text-base md:text-lg text-slate-300">{enriched.message}</p>
         </div>
-        
+
         {/* Status Icon */}
         <div className={`p-3 rounded-lg ${getStatusBg(enriched.totalWords, 14)}`}>
           {enriched.indicatorType === 'success' && (
@@ -96,9 +92,7 @@ export const CategoryValidationPanel: React.FC<CategoryValidationPanelProps> = (
           {enriched.indicatorType === 'warning' && (
             <AlertTriangle className="w-8 h-8 text-yellow-400" />
           )}
-          {enriched.indicatorType === 'error' && (
-            <XCircle className="w-8 h-8 text-red-400" />
-          )}
+          {enriched.indicatorType === 'error' && <XCircle className="w-8 h-8 text-red-400" />}
         </div>
       </div>
 
@@ -106,7 +100,9 @@ export const CategoryValidationPanel: React.FC<CategoryValidationPanelProps> = (
       <div className="bg-slate-900/60 rounded-lg p-4 border border-slate-700">
         <div className="flex items-center justify-between">
           <span className="text-base md:text-lg text-slate-300">Toplam Kelime</span>
-          <span className={`text-2xl md:text-3xl font-bold ${getStatusColor(enriched.totalWords, 14)}`}>
+          <span
+            className={`text-2xl md:text-3xl font-bold ${getStatusColor(enriched.totalWords, 14)}`}
+          >
             {enriched.totalWords}
           </span>
         </div>
@@ -121,7 +117,7 @@ export const CategoryValidationPanel: React.FC<CategoryValidationPanelProps> = (
           {enriched.wordsByLength.map((wbl) => {
             const isValid = wbl.count >= 2;
             const isPartial = wbl.count >= 1 && wbl.count < 2;
-            
+
             return (
               <motion.div
                 key={wbl.letter_count}
@@ -139,7 +135,7 @@ export const CategoryValidationPanel: React.FC<CategoryValidationPanelProps> = (
                     {wbl.letter_count} Harf
                   </span>
                 </div>
-                
+
                 <div className="flex items-center gap-3">
                   <span className={`text-lg md:text-xl font-bold ${getStatusColor(wbl.count, 2)}`}>
                     {wbl.count}
@@ -152,7 +148,7 @@ export const CategoryValidationPanel: React.FC<CategoryValidationPanelProps> = (
             );
           })}
         </div>
-        
+
         {/* Insufficient Lengths Warning */}
         {enriched.insufficientLengths.length > 0 && (
           <motion.div
@@ -164,9 +160,7 @@ export const CategoryValidationPanel: React.FC<CategoryValidationPanelProps> = (
             <div className="flex items-start gap-2">
               <AlertTriangle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
               <div>
-                <p className="text-sm md:text-base text-red-300 font-medium">
-                  Eksik Uzunluklar
-                </p>
+                <p className="text-sm md:text-base text-red-300 font-medium">Eksik Uzunluklar</p>
                 <p className="text-sm text-red-200 mt-1">
                   {formatInsufficientLengths(enriched.insufficientLengths)}
                 </p>
@@ -179,10 +173,8 @@ export const CategoryValidationPanel: React.FC<CategoryValidationPanelProps> = (
       {/* Mode Support Details */}
       {showModeDetails && enriched.isValid && (
         <div className="space-y-3 pt-4 border-t border-slate-700">
-          <h4 className="text-lg md:text-xl font-semibold text-white">
-            Desteklenen Modlar
-          </h4>
-          
+          <h4 className="text-lg md:text-xl font-semibold text-white">Desteklenen Modlar</h4>
+
           <div className="space-y-2">
             {/* Single Player */}
             <div className="flex items-center justify-between p-3 bg-slate-900/60 rounded-lg border border-slate-700">
@@ -201,11 +193,10 @@ export const CategoryValidationPanel: React.FC<CategoryValidationPanelProps> = (
                 <UsersRound className="w-5 h-5 text-blue-400" />
                 <span className="text-base text-slate-200">Çoklu Yarışmacı</span>
               </div>
-              <span className={enriched.maxPlayersMulti > 1 ? 'text-emerald-400' : 'text-slate-500'}>
-                {enriched.maxPlayersMulti > 1 
-                  ? `${enriched.maxPlayersMulti} kişiye kadar` 
-                  : '✗'
-                }
+              <span
+                className={enriched.maxPlayersMulti > 1 ? 'text-emerald-400' : 'text-slate-500'}
+              >
+                {enriched.maxPlayersMulti > 1 ? `${enriched.maxPlayersMulti} kişiye kadar` : '✗'}
               </span>
             </div>
 
@@ -216,10 +207,7 @@ export const CategoryValidationPanel: React.FC<CategoryValidationPanelProps> = (
                 <span className="text-base text-slate-200">Takım Modu</span>
               </div>
               <span className={enriched.maxTeams > 1 ? 'text-emerald-400' : 'text-slate-500'}>
-                {enriched.maxTeams > 1 
-                  ? `${enriched.maxTeams} takıma kadar` 
-                  : '✗'
-                }
+                {enriched.maxTeams > 1 ? `${enriched.maxTeams} takıma kadar` : '✗'}
               </span>
             </div>
           </div>
@@ -252,11 +240,10 @@ export const CategoryValidationPanel: React.FC<CategoryValidationPanelProps> = (
           <div className="flex items-start gap-3">
             <XCircle className="w-6 h-6 text-red-400 flex-shrink-0" />
             <div>
-              <h5 className="text-red-300 font-semibold mb-1">
-                Kategori Oynanamaz
-              </h5>
+              <h5 className="text-red-300 font-semibold mb-1">Kategori Oynanamaz</h5>
               <p className="text-sm text-red-200">
-                Bu kategoriyle oyun başlatmak için en az 14 kelime ve her harf uzunluğundan en az 2 kelime eklemelisiniz.
+                Bu kategoriyle oyun başlatmak için en az 14 kelime ve her harf uzunluğundan en az 2
+                kelime eklemelisiniz.
               </p>
             </div>
           </div>

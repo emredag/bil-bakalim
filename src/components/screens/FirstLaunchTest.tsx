@@ -1,7 +1,7 @@
 /**
  * First Launch Experience Test Page
  * Task 38 - Testing first launch detection and welcome screen
- * 
+ *
  * This page helps test the first launch experience by providing
  * controls to reset the first launch state
  */
@@ -10,7 +10,11 @@ import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { RotateCcw, CheckCircle, XCircle, Home } from 'lucide-react';
-import { isFirstLaunch, resetFirstLaunch, markFirstLaunchCompleted } from '../../services/firstLaunch';
+import {
+  isFirstLaunch,
+  resetFirstLaunch,
+  markFirstLaunchCompleted,
+} from '../../services/firstLaunch';
 import { ROUTES } from '../../routes/constants';
 
 export function FirstLaunchTest() {
@@ -28,57 +32,66 @@ export function FirstLaunchTest() {
     setCurrentState(isFirst);
   }, []);
 
-  const handleResetFirstLaunch = useCallback((e?: React.MouseEvent<HTMLButtonElement>) => {
-    if (e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-    
-    try {
-      resetFirstLaunch();
-      setStatus('success');
-      setMessage('First launch state reset! Navigate to home to see welcome screen.');
-      checkCurrentState();
-    } catch (error) {
-      setStatus('error');
-      setMessage('Failed to reset first launch state');
-    }
+  const handleResetFirstLaunch = useCallback(
+    (e?: React.MouseEvent<HTMLButtonElement>) => {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
 
-    setTimeout(() => {
-      setStatus('idle');
-      setMessage('');
-    }, 3000);
-  }, [checkCurrentState]);
+      try {
+        resetFirstLaunch();
+        setStatus('success');
+        setMessage('First launch state reset! Navigate to home to see welcome screen.');
+        checkCurrentState();
+      } catch (error) {
+        setStatus('error');
+        setMessage('Failed to reset first launch state');
+      }
 
-  const handleMarkCompleted = useCallback((e?: React.MouseEvent<HTMLButtonElement>) => {
-    if (e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-    
-    try {
-      markFirstLaunchCompleted();
-      setStatus('success');
-      setMessage('First launch marked as completed!');
-      checkCurrentState();
-    } catch (error) {
-      setStatus('error');
-      setMessage('Failed to mark first launch as completed');
-    }
+      setTimeout(() => {
+        setStatus('idle');
+        setMessage('');
+      }, 3000);
+    },
+    [checkCurrentState]
+  );
 
-    setTimeout(() => {
-      setStatus('idle');
-      setMessage('');
-    }, 3000);
-  }, [checkCurrentState]);
+  const handleMarkCompleted = useCallback(
+    (e?: React.MouseEvent<HTMLButtonElement>) => {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
 
-  const handleNavigateHome = useCallback((e?: React.MouseEvent<HTMLButtonElement>) => {
-    if (e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-    navigate(ROUTES.HOME);
-  }, [navigate]);
+      try {
+        markFirstLaunchCompleted();
+        setStatus('success');
+        setMessage('First launch marked as completed!');
+        checkCurrentState();
+      } catch (error) {
+        setStatus('error');
+        setMessage('Failed to mark first launch as completed');
+      }
+
+      setTimeout(() => {
+        setStatus('idle');
+        setMessage('');
+      }, 3000);
+    },
+    [checkCurrentState]
+  );
+
+  const handleNavigateHome = useCallback(
+    (e?: React.MouseEvent<HTMLButtonElement>) => {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      navigate(ROUTES.HOME);
+    },
+    [navigate]
+  );
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-8">
@@ -97,23 +110,17 @@ export function FirstLaunchTest() {
 
           {/* Current State */}
           <div className="bg-slate-900 rounded-xl p-6 mb-6">
-            <h2 className="text-lg font-semibold text-white mb-3">
-              Current State
-            </h2>
+            <h2 className="text-lg font-semibold text-white mb-3">Current State</h2>
             <div className="flex items-center gap-3">
               {currentState ? (
                 <>
                   <CheckCircle className="w-6 h-6 text-emerald-400" />
-                  <span className="text-emerald-400 font-semibold">
-                    First Launch State Active
-                  </span>
+                  <span className="text-emerald-400 font-semibold">First Launch State Active</span>
                 </>
               ) : (
                 <>
                   <XCircle className="w-6 h-6 text-slate-400" />
-                  <span className="text-slate-400">
-                    First Launch Already Completed
-                  </span>
+                  <span className="text-slate-400">First Launch Already Completed</span>
                 </>
               )}
             </div>
@@ -166,9 +173,7 @@ export function FirstLaunchTest() {
 
           {/* Test Scenarios */}
           <div className="mt-8 pt-8 border-t border-slate-700">
-            <h2 className="text-lg font-semibold text-white mb-4">
-              Test Scenarios
-            </h2>
+            <h2 className="text-lg font-semibold text-white mb-4">Test Scenarios</h2>
             <div className="space-y-3 text-sm">
               <TestScenario
                 number="T-001"

@@ -35,19 +35,22 @@ export function WelcomeScreen() {
     return () => clearTimeout(timer);
   }, []);
 
-  const handleGetStarted = useCallback((e?: React.MouseEvent<HTMLButtonElement>) => {
-    // Prevent any default behavior and stop propagation
-    if (e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-    
-    // Mark first launch as completed
-    markFirstLaunchCompleted();
-    
-    // Navigate to main menu with replace to prevent back navigation
-    navigate(ROUTES.HOME, { replace: true });
-  }, [navigate]);
+  const handleGetStarted = useCallback(
+    (e?: React.MouseEvent<HTMLButtonElement>) => {
+      // Prevent any default behavior and stop propagation
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+
+      // Mark first launch as completed
+      markFirstLaunchCompleted();
+
+      // Navigate to main menu with replace to prevent back navigation
+      navigate(ROUTES.HOME, { replace: true });
+    },
+    [navigate]
+  );
 
   return (
     <div className="h-screen overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-4 md:p-6 lg:p-8">
@@ -88,8 +91,8 @@ export function WelcomeScreen() {
             </h1>
 
             <p className="text-lg md:text-xl text-slate-300 max-w-xl mx-auto">
-              Eğitim kurumları ve sınıf içi yarışmalar için tasarlanmış
-              interaktif kelime tahmin oyunu
+              Eğitim kurumları ve sınıf içi yarışmalar için tasarlanmış interaktif kelime tahmin
+              oyunu
             </p>
           </motion.div>
 
@@ -136,9 +139,7 @@ export function WelcomeScreen() {
                     <Check className="w-6 h-6 text-emerald-400" />
                   </div>
                   <div className="flex-1">
-                    <p className="text-emerald-400 font-semibold">
-                      Veritabanı Hazır
-                    </p>
+                    <p className="text-emerald-400 font-semibold">Veritabanı Hazır</p>
                     <p className="text-slate-400 text-sm">
                       Varsayılan kategori ve 70 kelime yüklendi
                     </p>
@@ -150,12 +151,8 @@ export function WelcomeScreen() {
                     <Database className="w-6 h-6 text-blue-400 animate-pulse" />
                   </div>
                   <div className="flex-1">
-                    <p className="text-blue-400 font-semibold">
-                      Veritabanı Hazırlanıyor...
-                    </p>
-                    <p className="text-slate-400 text-sm">
-                      İlk kurulum işlemleri tamamlanıyor
-                    </p>
+                    <p className="text-blue-400 font-semibold">Veritabanı Hazırlanıyor...</p>
+                    <p className="text-slate-400 text-sm">İlk kurulum işlemleri tamamlanıyor</p>
                   </div>
                 </>
               )}

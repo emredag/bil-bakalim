@@ -1,5 +1,5 @@
 /* PRD 8.1 - Theme Configuration for Tailwind v4 */
-@import "tailwindcss/theme" layer(theme);
+@import 'tailwindcss/theme' layer(theme);
 
 @layer theme {
   /* Background Colors */

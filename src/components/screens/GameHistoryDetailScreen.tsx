@@ -13,15 +13,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import {
-  ArrowLeft,
-  Calendar,
-  Clock,
-  Trophy,
-  ChevronDown,
-  Home,
-  RefreshCw,
-} from 'lucide-react';
+import { ArrowLeft, Calendar, Clock, Trophy, ChevronDown, Home, RefreshCw } from 'lucide-react';
 import {
   getGameHistoryById,
   getGameParticipants,
@@ -174,9 +166,9 @@ export function GameHistoryDetailScreen() {
     if (game) {
       try {
         // Load and select the same category
-        const category = await getCategoryById(game.category_id) as unknown as Category;
+        const category = (await getCategoryById(game.category_id)) as unknown as Category;
         setSelectedCategory(category);
-        
+
         // Navigate to mode selection
         navigate(ROUTES.MODE_SELECT);
       } catch (err) {
@@ -247,8 +239,18 @@ export function GameHistoryDetailScreen() {
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <svg className="w-6 h-6 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+              <svg
+                className="w-6 h-6 text-purple-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                />
               </svg>
               <div>
                 <p className="text-xs text-slate-400">Mod</p>
@@ -276,11 +278,21 @@ export function GameHistoryDetailScreen() {
                 <tr className="border-b border-slate-700">
                   <th className="text-left py-3 px-4 text-sm font-semibold text-slate-400">Sıra</th>
                   <th className="text-left py-3 px-4 text-sm font-semibold text-slate-400">İsim</th>
-                  <th className="text-center py-3 px-4 text-sm font-semibold text-slate-400">Puan</th>
-                  <th className="text-center py-3 px-4 text-sm font-semibold text-slate-400">Bulunan</th>
-                  <th className="text-center py-3 px-4 text-sm font-semibold text-slate-400">Pas</th>
-                  <th className="text-center py-3 px-4 text-sm font-semibold text-slate-400">Harf</th>
-                  <th className="text-right py-3 px-4 text-sm font-semibold text-slate-400">Detay</th>
+                  <th className="text-center py-3 px-4 text-sm font-semibold text-slate-400">
+                    Puan
+                  </th>
+                  <th className="text-center py-3 px-4 text-sm font-semibold text-slate-400">
+                    Bulunan
+                  </th>
+                  <th className="text-center py-3 px-4 text-sm font-semibold text-slate-400">
+                    Pas
+                  </th>
+                  <th className="text-center py-3 px-4 text-sm font-semibold text-slate-400">
+                    Harf
+                  </th>
+                  <th className="text-right py-3 px-4 text-sm font-semibold text-slate-400">
+                    Detay
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -298,10 +310,14 @@ export function GameHistoryDetailScreen() {
                           </div>
                         </td>
                         <td className="py-4 px-4">
-                          <span className="text-white font-semibold">{participant.participant_name}</span>
+                          <span className="text-white font-semibold">
+                            {participant.participant_name}
+                          </span>
                         </td>
                         <td className="py-4 px-4 text-center">
-                          <span className="text-amber-400 font-bold text-lg">{participant.score}</span>
+                          <span className="text-amber-400 font-bold text-lg">
+                            {participant.score}
+                          </span>
                         </td>
                         <td className="py-4 px-4 text-center">
                           <span className="text-green-400 font-semibold">
@@ -355,7 +371,9 @@ export function GameHistoryDetailScreen() {
                                   >
                                     <div className="flex items-start justify-between mb-2">
                                       <div>
-                                        <span className="text-white font-semibold">{word.word}</span>
+                                        <span className="text-white font-semibold">
+                                          {word.word}
+                                        </span>
                                         <span className="text-slate-400 text-sm ml-2">
                                           ({word.word.length} harf)
                                         </span>

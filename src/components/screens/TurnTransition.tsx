@@ -44,9 +44,7 @@ export const TurnTransition = () => {
           </h2>
           <div className="grid grid-cols-3 gap-4 mt-6">
             <div className="bg-white/10 rounded-xl p-4">
-              <div className="text-4xl font-bold text-yellow-400">
-                {completedParticipant.score}
-              </div>
+              <div className="text-4xl font-bold text-yellow-400">{completedParticipant.score}</div>
               <div className="text-sm text-white/70 mt-1">Puan</div>
             </div>
             <div className="bg-white/10 rounded-xl p-4">
@@ -57,7 +55,8 @@ export const TurnTransition = () => {
             </div>
             <div className="bg-white/10 rounded-xl p-4">
               <div className="text-4xl font-bold text-blue-400">
-                {Math.floor(completedParticipant.elapsedTimeSeconds / 60)}:{String(completedParticipant.elapsedTimeSeconds % 60).padStart(2, '0')}
+                {Math.floor(completedParticipant.elapsedTimeSeconds / 60)}:
+                {String(completedParticipant.elapsedTimeSeconds % 60).padStart(2, '0')}
               </div>
               <div className="text-sm text-white/70 mt-1">Süre</div>
             </div>
@@ -73,9 +72,7 @@ export const TurnTransition = () => {
         >
           <div className="text-5xl mb-4">🎯</div>
           <h3 className="text-2xl font-bold text-white mb-2">Sırada</h3>
-          <div className="text-5xl font-bold text-white mb-6">
-            {upcomingParticipant.name}
-          </div>
+          <div className="text-5xl font-bold text-white mb-6">{upcomingParticipant.name}</div>
           <div className="bg-white/10 rounded-xl p-4 inline-block">
             <div className="text-lg text-white/90">
               <span className="font-bold text-yellow-400">14 Kelime</span>

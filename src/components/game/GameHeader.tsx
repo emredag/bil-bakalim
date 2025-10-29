@@ -1,13 +1,13 @@
 /**
  * GameHeader Component - PRD 4.5, ui-ux-design.md#game-screen
- * 
+ *
  * TV Show Quality Game Header (120px height)
- * 
+ *
  * Layout:
  * - Left: Category name + emoji
  * - Center: LARGE timer (dominant focal point, tabular-nums)
  * - Right: Score + progress indicator + active player badge
- * 
+ *
  * Features:
  * - Fully responsive (adapts to all viewport sizes)
  * - Timer pulse animations (last 30s/10s)
@@ -68,11 +68,7 @@ export const GameHeader: React.FC<GameHeaderProps> = ({
   const isCritical = remainingSeconds <= 10;
 
   // Timer color and animation
-  const timerColor = isCritical
-    ? 'text-red-500'
-    : isWarning
-    ? 'text-amber-500'
-    : 'text-slate-100';
+  const timerColor = isCritical ? 'text-red-500' : isWarning ? 'text-amber-500' : 'text-slate-100';
 
   return (
     <header className="h-[120px] bg-slate-800/90 backdrop-blur-sm border-b-2 border-slate-700 px-4 md:px-6 lg:px-8">
@@ -86,9 +82,7 @@ export const GameHeader: React.FC<GameHeaderProps> = ({
             <h2 className="text-base md:text-lg lg:text-xl font-bold text-slate-100 truncate">
               {categoryName}
             </h2>
-            <p className="text-xs md:text-sm text-slate-400 truncate">
-              Kelime Oyunu
-            </p>
+            <p className="text-xs md:text-sm text-slate-400 truncate">Kelime Oyunu</p>
           </div>
         </div>
 
@@ -97,44 +91,27 @@ export const GameHeader: React.FC<GameHeaderProps> = ({
           <div className="flex items-center gap-2 mb-1">
             <motion.div
               animate={
-                isCritical
-                  ? { scale: [1, 1.1, 1] }
-                  : isWarning
-                  ? { scale: [1, 1.05, 1] }
-                  : {}
+                isCritical ? { scale: [1, 1.1, 1] } : isWarning ? { scale: [1, 1.05, 1] } : {}
               }
               transition={
                 isCritical
                   ? { duration: 0.5, repeat: Infinity, ease: 'easeInOut' }
                   : isWarning
-                  ? { duration: 1, repeat: Infinity, ease: 'easeInOut' }
-                  : {}
+                    ? { duration: 1, repeat: Infinity, ease: 'easeInOut' }
+                    : {}
               }
             >
-              <Clock
-                className={`w-5 h-5 md:w-6 md:h-6 ${timerColor}`}
-                aria-hidden="true"
-              />
+              <Clock className={`w-5 h-5 md:w-6 md:h-6 ${timerColor}`} aria-hidden="true" />
             </motion.div>
-            <span className="text-xs md:text-sm text-slate-400 uppercase tracking-wide">
-              Süre
-            </span>
+            <span className="text-xs md:text-sm text-slate-400 uppercase tracking-wide">Süre</span>
           </div>
           <motion.div
             className={`text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold tabular-nums ${timerColor}`}
             role="timer"
             aria-label={`Kalan süre ${formatTime(remainingSeconds)}`}
             aria-live="polite"
-            animate={
-              isCritical
-                ? { opacity: [1, 0.5, 1] }
-                : {}
-            }
-            transition={
-              isCritical
-                ? { duration: 0.5, repeat: Infinity, ease: 'easeInOut' }
-                : {}
-            }
+            animate={isCritical ? { opacity: [1, 0.5, 1] } : {}}
+            transition={isCritical ? { duration: 0.5, repeat: Infinity, ease: 'easeInOut' } : {}}
           >
             {formatTime(remainingSeconds)}
           </motion.div>
@@ -142,11 +119,7 @@ export const GameHeader: React.FC<GameHeaderProps> = ({
           <div className="mt-2 w-full max-w-[150px] h-1 bg-slate-700 rounded-full overflow-hidden">
             <motion.div
               className={`h-full ${
-                isCritical
-                  ? 'bg-red-500'
-                  : isWarning
-                  ? 'bg-amber-500'
-                  : 'bg-blue-500'
+                isCritical ? 'bg-red-500' : isWarning ? 'bg-amber-500' : 'bg-blue-500'
               }`}
               initial={{ width: '100%' }}
               animate={{
@@ -163,9 +136,7 @@ export const GameHeader: React.FC<GameHeaderProps> = ({
           <div className="flex items-center gap-2">
             <TrendingUp className="w-4 h-4 md:w-5 md:h-5 text-emerald-400" aria-hidden="true" />
             <div className="text-right">
-              <div className="text-xs md:text-sm text-slate-400 uppercase tracking-wide">
-                Puan
-              </div>
+              <div className="text-xs md:text-sm text-slate-400 uppercase tracking-wide">Puan</div>
               <motion.div
                 className="text-2xl md:text-3xl lg:text-4xl font-bold text-emerald-400 tabular-nums"
                 key={currentScore}
@@ -182,9 +153,7 @@ export const GameHeader: React.FC<GameHeaderProps> = ({
 
           {/* Progress */}
           <div className="text-right">
-            <div className="text-xs md:text-sm text-slate-400">
-              Kelime İlerlemesi
-            </div>
+            <div className="text-xs md:text-sm text-slate-400">Kelime İlerlemesi</div>
             <div className="text-base md:text-lg lg:text-xl font-bold text-slate-100 tabular-nums">
               {wordsCompleted}/{totalWords}
             </div>

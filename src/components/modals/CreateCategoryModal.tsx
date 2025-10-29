@@ -40,7 +40,12 @@ export interface CreateCategoryModalProps {
  * - Emoji picker integration
  * - Success/error toast notifications
  */
-export function CreateCategoryModal({ isOpen, onClose, onSuccess, onSuccessAndAddWords }: CreateCategoryModalProps) {
+export function CreateCategoryModal({
+  isOpen,
+  onClose,
+  onSuccess,
+  onSuccessAndAddWords,
+}: CreateCategoryModalProps) {
   const { showToast } = useToast();
   const [name, setName] = useState('');
   const [emoji, setEmoji] = useState('');
@@ -123,11 +128,7 @@ export function CreateCategoryModal({ isOpen, onClose, onSuccess, onSuccessAndAd
     setIsSubmitting(true);
 
     try {
-      const category = await createCategory(
-        name.trim(),
-        emoji,
-        description.trim() || undefined
-      );
+      const category = await createCategory(name.trim(), emoji, description.trim() || undefined);
 
       showToast(`${category.name} kategorisi oluşturuldu`, 'success');
 
@@ -152,11 +153,7 @@ export function CreateCategoryModal({ isOpen, onClose, onSuccess, onSuccessAndAd
     setIsSubmitting(true);
 
     try {
-      const category = await createCategory(
-        name.trim(),
-        emoji,
-        description.trim() || undefined
-      );
+      const category = await createCategory(name.trim(), emoji, description.trim() || undefined);
 
       showToast(`${category.name} kategorisi oluşturuldu`, 'success');
 
@@ -186,9 +183,7 @@ export function CreateCategoryModal({ isOpen, onClose, onSuccess, onSuccessAndAd
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Header */}
           <div className="flex items-center justify-between">
-            <h2 className="text-2xl md:text-3xl font-bold text-white">
-              Yeni Kategori Oluştur
-            </h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-white">Yeni Kategori Oluştur</h2>
             <button
               type="button"
               onClick={onClose}
@@ -222,9 +217,7 @@ export function CreateCategoryModal({ isOpen, onClose, onSuccess, onSuccessAndAd
                   error={errors.name}
                   disabled={isSubmitting}
                 />
-                <p className="text-xs text-slate-400 mt-1">
-                  {name.length}/50 karakter
-                </p>
+                <p className="text-xs text-slate-400 mt-1">{name.length}/50 karakter</p>
               </div>
 
               {/* Emoji Picker */}
@@ -233,18 +226,12 @@ export function CreateCategoryModal({ isOpen, onClose, onSuccess, onSuccessAndAd
                   Emoji <span className="text-red-400">*</span>
                 </label>
                 <div className="flex items-start space-x-3">
-                  <EmojiButton
-                    emoji={emoji}
-                    onClick={() => setShowEmojiPicker(true)}
-                    size="lg"
-                  />
+                  <EmojiButton emoji={emoji} onClick={() => setShowEmojiPicker(true)} size="lg" />
                   <div className="flex-1">
                     <p className="text-sm text-slate-400">
                       Kategoriyi temsil edecek bir emoji seçin
                     </p>
-                    {errors.emoji && (
-                      <p className="text-sm text-red-400 mt-1">{errors.emoji}</p>
-                    )}
+                    {errors.emoji && <p className="text-sm text-red-400 mt-1">{errors.emoji}</p>}
                   </div>
                 </div>
               </div>
@@ -267,17 +254,13 @@ export function CreateCategoryModal({ isOpen, onClose, onSuccess, onSuccessAndAd
                   disabled={isSubmitting}
                   className="w-full px-4 py-2 bg-slate-900 border-2 border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-colors disabled:opacity-50 disabled:cursor-not-allowed resize-none"
                 />
-                <p className="text-xs text-slate-400 mt-1">
-                  {description.length}/200 karakter
-                </p>
+                <p className="text-xs text-slate-400 mt-1">{description.length}/200 karakter</p>
               </div>
             </div>
 
             {/* Right Column: Preview */}
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">
-                Önizleme
-              </label>
+              <label className="block text-sm font-medium text-slate-300 mb-2">Önizleme</label>
               <motion.div
                 className="bg-slate-900 rounded-2xl p-6 border-2 border-slate-700 h-full min-h-[300px] flex flex-col items-center justify-center space-y-4"
                 initial={{ opacity: 0, scale: 0.95 }}
@@ -285,9 +268,7 @@ export function CreateCategoryModal({ isOpen, onClose, onSuccess, onSuccessAndAd
                 transition={{ duration: 0.2 }}
               >
                 {/* Preview Emoji */}
-                <div className="text-6xl md:text-7xl">
-                  {emoji || '❓'}
-                </div>
+                <div className="text-6xl md:text-7xl">{emoji || '❓'}</div>
 
                 {/* Preview Name */}
                 <h3 className="text-xl md:text-2xl font-bold text-white text-center">
@@ -296,9 +277,7 @@ export function CreateCategoryModal({ isOpen, onClose, onSuccess, onSuccessAndAd
 
                 {/* Preview Description */}
                 {description && (
-                  <p className="text-sm text-slate-400 text-center line-clamp-3">
-                    {description}
-                  </p>
+                  <p className="text-sm text-slate-400 text-center line-clamp-3">{description}</p>
                 )}
 
                 {/* Preview Placeholder */}
@@ -313,12 +292,7 @@ export function CreateCategoryModal({ isOpen, onClose, onSuccess, onSuccessAndAd
 
           {/* Footer Buttons */}
           <div className="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-3 pt-4 border-t border-slate-700">
-            <Button
-              type="button"
-              variant="secondary"
-              onClick={onClose}
-              disabled={isSubmitting}
-            >
+            <Button type="button" variant="secondary" onClick={onClose} disabled={isSubmitting}>
               İptal
             </Button>
             <Button

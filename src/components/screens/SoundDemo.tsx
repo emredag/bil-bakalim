@@ -121,12 +121,7 @@ export const SoundDemo: React.FC = () => {
                 <label className="block text-sm font-medium text-text-secondary mb-3">
                   Master Volume
                 </label>
-                <VolumeControl
-                  volume={volume}
-                  onVolumeChange={setVolume}
-                  muted={muted}
-                  showLabel
-                />
+                <VolumeControl volume={volume} onVolumeChange={setVolume} muted={muted} showLabel />
               </div>
 
               {/* Mute Toggle */}
@@ -159,9 +154,7 @@ export const SoundDemo: React.FC = () => {
                   {/* Icon & Label */}
                   <div className="text-center">
                     <div className="text-5xl mb-3">{sound.emoji}</div>
-                    <h3 className="text-lg font-semibold text-text-primary">
-                      {sound.label}
-                    </h3>
+                    <h3 className="text-lg font-semibold text-text-primary">{sound.label}</h3>
                   </div>
 
                   {/* Description */}
@@ -195,13 +188,17 @@ export const SoundDemo: React.FC = () => {
             <div className="flex items-start gap-3">
               <div className="text-3xl">ℹ️</div>
               <div className="space-y-3">
-                <h3 className="font-semibold text-text-primary mb-2">
-                  Testing Instructions
-                </h3>
+                <h3 className="font-semibold text-text-primary mb-2">Testing Instructions</h3>
                 <ul className="text-sm text-text-secondary space-y-1">
-                  <li>• <strong>All Sounds:</strong> Click "Play Sound" on each card to test</li>
-                  <li>• <strong>Volume Control:</strong> Drag slider to adjust (0-100%)</li>
-                  <li>• <strong>Mute Toggle:</strong> Use button to mute/unmute all sounds</li>
+                  <li>
+                    • <strong>All Sounds:</strong> Click "Play Sound" on each card to test
+                  </li>
+                  <li>
+                    • <strong>Volume Control:</strong> Drag slider to adjust (0-100%)
+                  </li>
+                  <li>
+                    • <strong>Mute Toggle:</strong> Use button to mute/unmute all sounds
+                  </li>
                   <li>
                     • <strong>Persistence:</strong> Reload page to verify settings are saved
                   </li>
@@ -217,11 +214,21 @@ export const SoundDemo: React.FC = () => {
                 <div className="pt-3 border-t border-slate-700">
                   <h4 className="font-medium text-text-primary mb-2">Technical Details:</h4>
                   <ul className="text-xs text-text-tertiary space-y-1">
-                    <li>• <strong>Web Audio API:</strong> AudioContext + OscillatorNode</li>
-                    <li>• <strong>Waveforms:</strong> Sine, Square, Sawtooth, Triangle, White Noise</li>
-                    <li>• <strong>ADSR Envelope:</strong> Natural volume curves</li>
-                    <li>• <strong>Latency:</strong> &lt;50ms (optimized for gameplay)</li>
-                    <li>• <strong>localStorage:</strong> Volume and mute persistence</li>
+                    <li>
+                      • <strong>Web Audio API:</strong> AudioContext + OscillatorNode
+                    </li>
+                    <li>
+                      • <strong>Waveforms:</strong> Sine, Square, Sawtooth, Triangle, White Noise
+                    </li>
+                    <li>
+                      • <strong>ADSR Envelope:</strong> Natural volume curves
+                    </li>
+                    <li>
+                      • <strong>Latency:</strong> &lt;50ms (optimized for gameplay)
+                    </li>
+                    <li>
+                      • <strong>localStorage:</strong> Volume and mute persistence
+                    </li>
                   </ul>
                 </div>
               </div>

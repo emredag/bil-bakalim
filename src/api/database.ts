@@ -19,10 +19,7 @@ import { save, open } from '@tauri-apps/plugin-dialog';
  */
 export async function backupDatabase(): Promise<string> {
   // Generate timestamp-based filename
-  const timestamp = new Date()
-    .toISOString()
-    .replace(/[:.]/g, '-')
-    .slice(0, -5); // Remove milliseconds and 'Z'
+  const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, -5); // Remove milliseconds and 'Z'
 
   const defaultFilename = `word-game-backup-${timestamp}.db`;
 
@@ -76,7 +73,7 @@ export async function restoreDatabase(): Promise<string> {
 
   // Call Tauri command
   const result = await invoke<string>('restore_database', {
-    restorePath: filePath as string,
+    restorePath: filePath,
   });
 
   return result;

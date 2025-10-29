@@ -1,0 +1,70 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "project": "./tsconfig.json"
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:jsx-a11y/recommended",
+    "prettier"
+  ],
+  "plugins": [
+    "@typescript-eslint",
+    "react",
+    "react-hooks",
+    "jsx-a11y"
+  ],
+  "rules": {
+    "@typescript-eslint/no-explicit-any": "warn",
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_"
+      }
+    ],
+    "@typescript-eslint/no-unsafe-assignment": "warn",
+    "@typescript-eslint/no-unsafe-member-access": "warn",
+    "@typescript-eslint/no-unsafe-argument": "warn",
+    "@typescript-eslint/no-unsafe-call": "warn",
+    "@typescript-eslint/no-unsafe-return": "warn",
+    "@typescript-eslint/no-floating-promises": "warn",
+    "@typescript-eslint/no-misused-promises": "warn",
+    "@typescript-eslint/no-unnecessary-type-assertion": "warn",
+    "@typescript-eslint/restrict-template-expressions": "warn",
+    "@typescript-eslint/ban-ts-comment": "warn",
+    "@typescript-eslint/require-await": "warn",
+    "react/react-in-jsx-scope": "off",
+    "react/prop-types": "off",
+    "react/no-unescaped-entities": "warn",
+    "react-hooks/rules-of-hooks": "warn",
+    "jsx-a11y/click-events-have-key-events": "warn",
+    "jsx-a11y/no-static-element-interactions": "warn",
+    "jsx-a11y/label-has-associated-control": "warn",
+    "jsx-a11y/no-autofocus": "warn"
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "ignorePatterns": [
+    "dist",
+    "build",
+    "node_modules",
+    "src-tauri/target",
+    "*.config.js",
+    "*.config.ts",
+    "vite-env.d.ts"
+  ]
+}

@@ -95,18 +95,18 @@ export function AddWordModal({
   // Handle word input - auto-uppercase and filter non-letters
   const handleWordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value;
-    
+
     // Convert to uppercase
     value = value.toUpperCase();
-    
+
     // Allow only Turkish letters (A-Z, Ç, Ğ, İ, Ö, Ş, Ü)
     value = value.replace(/[^A-ZÇĞİÖŞÜ]/g, '');
-    
+
     // Limit to 10 characters
     value = value.slice(0, 10);
-    
+
     setWord(value);
-    
+
     // Clear word error when typing
     if (errors.word) {
       setErrors((prev) => ({ ...prev, word: undefined }));
@@ -117,7 +117,7 @@ export function AddWordModal({
   const handleHintChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.slice(0, 100); // Max 100 chars
     setHint(value);
-    
+
     // Clear hint error when typing
     if (errors.hint) {
       setErrors((prev) => ({ ...prev, hint: undefined }));
@@ -127,9 +127,7 @@ export function AddWordModal({
   // Get current count for this letter length
   const getCurrentCount = (): number => {
     if (!validation || word.length === 0) return 0;
-    const item = validation.words_by_length.find(
-      (w) => w.letter_count === word.length
-    );
+    const item = validation.words_by_length.find((w) => w.letter_count === word.length);
     return item ? item.count : 0;
   };
 
@@ -152,9 +150,7 @@ export function AddWordModal({
       newErrors.word = 'Kelime en fazla 10 harf olabilir';
     } else {
       // Check for duplicate (case-insensitive)
-      const isDuplicate = existingWords.some(
-        (w) => w.word.toLowerCase() === word.toLowerCase()
-      );
+      const isDuplicate = existingWords.some((w) => w.word.toLowerCase() === word.toLowerCase());
       if (isDuplicate) {
         newErrors.word = 'Bu kelime kategoride zaten mevcut';
       }
@@ -184,10 +180,7 @@ export function AddWordModal({
     try {
       const newWord = await addWord(categoryId, word.trim(), hint.trim());
 
-      showToast(
-        `"${newWord.word}" kelimesi eklendi`,
-        'success'
-      );
+      showToast(`"${newWord.word}" kelimesi eklendi`, 'success');
 
       onSuccess(newWord);
       onClose();
@@ -200,12 +193,7 @@ export function AddWordModal({
   };
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onClose={onClose}
-      title="Yeni Kelime Ekle"
-      size="lg"
-    >
+    <Modal isOpen={isOpen} onClose={onClose} title="Yeni Kelime Ekle" size="lg">
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Category Info */}
         <div className="bg-slate-700/30 rounded-lg p-4">
@@ -231,16 +219,14 @@ export function AddWordModal({
           />
           {/* Real-time letter count */}
           <div className="flex items-center justify-between mt-2">
-            <p className="text-sm text-slate-400">
-              Sadece harf (A-Z), 4-10 karakter
-            </p>
+            <p className="text-sm text-slate-400">Sadece harf (A-Z), 4-10 karakter</p>
             <Badge
               variant={
                 word.length === 0
                   ? 'neutral'
                   : word.length >= 4 && word.length <= 10
-                  ? 'success'
-                  : 'error'
+                    ? 'success'
+                    : 'error'
               }
               size="sm"
             >
@@ -262,9 +248,7 @@ export function AddWordModal({
             placeholder="Örn: 11 kişiyle oynanan takım sporu"
             error={errors.hint}
           />
-          <p className="text-sm text-slate-400 mt-2">
-            {hint.length}/100 karakter
-          </p>
+          <p className="text-sm text-slate-400 mt-2">{hint.length}/100 karakter</p>
         </div>
 
         {/* Distribution Info */}
@@ -302,8 +286,8 @@ export function AddWordModal({
                 {isSufficient()
                   ? `${getCurrentCount() + 1}. kelime eklenecek (yeterli)`
                   : getCurrentCount() === 0
-                  ? 'İlk kelime eklenecek (minimum 2 gerekli)'
-                  : '2. kelime eklenecek (minimum gereklilik sağlanacak)'}
+                    ? 'İlk kelime eklenecek (minimum 2 gerekli)'
+                    : '2. kelime eklenecek (minimum gereklilik sağlanacak)'}
               </p>
             </div>
           </motion.div>

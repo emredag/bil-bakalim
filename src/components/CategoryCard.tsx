@@ -61,9 +61,7 @@ export function CategoryCard({ category, validation, onPlay }: CategoryCardProps
 
         {/* Description (if exists) */}
         {category.description && (
-          <p className="text-sm md:text-base text-slate-400 line-clamp-2">
-            {category.description}
-          </p>
+          <p className="text-sm md:text-base text-slate-400 line-clamp-2">{category.description}</p>
         )}
 
         {/* Word Count */}

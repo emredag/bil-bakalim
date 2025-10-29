@@ -26,62 +26,60 @@ export interface BadgeProps {
  * - Icon support
  * - Status colors from design system
  */
-export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(({
-  children,
-  variant = 'default',
-  size = 'md',
-  icon,
-  className = '',
-}, ref) => {
-  // Base styles
-  const baseStyles = `
+export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
+  ({ children, variant = 'default', size = 'md', icon, className = '' }, ref) => {
+    // Base styles
+    const baseStyles = `
     inline-flex items-center justify-center gap-1.5
     font-medium rounded-full
     transition-colors duration-200
   `;
 
-  // Variant styles (using PRD status colors)
-  const variantStyles = {
-    default: 'bg-accent-primary/20 text-accent-primary border border-accent-primary/30',
-    success: 'bg-status-success/20 text-status-success border border-status-success/30',
-    error: 'bg-status-error/20 text-status-error border border-status-error/30',
-    warning: 'bg-status-warning/20 text-status-warning border border-status-warning/30',
-    info: 'bg-status-info/20 text-status-info border border-status-info/30',
-    neutral: 'bg-slate-700/50 text-text-secondary border border-slate-600',
-  };
+    // Variant styles (using PRD status colors)
+    const variantStyles = {
+      default: 'bg-accent-primary/20 text-accent-primary border border-accent-primary/30',
+      success: 'bg-status-success/20 text-status-success border border-status-success/30',
+      error: 'bg-status-error/20 text-status-error border border-status-error/30',
+      warning: 'bg-status-warning/20 text-status-warning border border-status-warning/30',
+      info: 'bg-status-info/20 text-status-info border border-status-info/30',
+      neutral: 'bg-slate-700/50 text-text-secondary border border-slate-600',
+    };
 
-  // Size styles
-  const sizeStyles = {
-    sm: 'px-2 py-0.5 text-xs',
-    md: 'px-3 py-1 text-sm',
-    lg: 'px-4 py-1.5 text-base',
-  };
+    // Size styles
+    const sizeStyles = {
+      sm: 'px-2 py-0.5 text-xs',
+      md: 'px-3 py-1 text-sm',
+      lg: 'px-4 py-1.5 text-base',
+    };
 
-  // Icon size
-  const iconSizeStyles = {
-    sm: 'w-3 h-3',
-    md: 'w-4 h-4',
-    lg: 'w-5 h-5',
-  };
+    // Icon size
+    const iconSizeStyles = {
+      sm: 'w-3 h-3',
+      md: 'w-4 h-4',
+      lg: 'w-5 h-5',
+    };
 
-  const combinedClassName = `
+    const combinedClassName = `
     ${baseStyles}
     ${variantStyles[variant]}
     ${sizeStyles[size]}
     ${className}
-  `.trim().replace(/\s+/g, ' ');
+  `
+      .trim()
+      .replace(/\s+/g, ' ');
 
-  return (
-    <span ref={ref} className={combinedClassName}>
-      {icon && (
-        <span className={iconSizeStyles[size]} aria-hidden="true">
-          {icon}
-        </span>
-      )}
-      <span>{children}</span>
-    </span>
-  );
-});
+    return (
+      <span ref={ref} className={combinedClassName}>
+        {icon && (
+          <span className={iconSizeStyles[size]} aria-hidden="true">
+            {icon}
+          </span>
+        )}
+        <span>{children}</span>
+      </span>
+    );
+  }
+);
 
 Badge.displayName = 'Badge';
 
@@ -93,10 +91,7 @@ export interface StatusBadgeProps {
   className?: string;
 }
 
-export const StatusBadge: React.FC<StatusBadgeProps> = ({
-  status,
-  className = '',
-}) => {
+export const StatusBadge: React.FC<StatusBadgeProps> = ({ status, className = '' }) => {
   const statusConfig = {
     active: { variant: 'success' as const, label: 'Active' },
     inactive: { variant: 'neutral' as const, label: 'Inactive' },

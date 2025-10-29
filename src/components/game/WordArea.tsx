@@ -1,8 +1,8 @@
 /**
  * WordArea Component - PRD 4.5, ui-ux-design.md#game-screen
- * 
+ *
  * TV Show Quality Word Display Area (500px target height)
- * 
+ *
  * Features:
  * - Dynamic letter tile grid with responsive spacing
  * - Letter tiles with 3D flip animations
@@ -10,7 +10,7 @@
  * - Closed state: Slate bg with "?" icon
  * - Open state: Amber bg with letter (extrabold)
  * - Fully responsive tile sizing
- * 
+ *
  * Uses the existing LetterBox component
  */
 

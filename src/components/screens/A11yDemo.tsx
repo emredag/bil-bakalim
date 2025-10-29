@@ -84,9 +84,7 @@ export const A11yDemo: React.FC = () => {
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  <p className="text-sm text-text-secondary">
-                    ARIA labels and live regions
-                  </p>
+                  <p className="text-sm text-text-secondary">ARIA labels and live regions</p>
                   <ul className="text-xs text-text-tertiary space-y-1">
                     <li>• Semantic HTML</li>
                     <li>• aria-label attributes</li>
@@ -114,9 +112,7 @@ export const A11yDemo: React.FC = () => {
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  <p className="text-sm text-text-secondary">
-                    Focus trap and restore
-                  </p>
+                  <p className="text-sm text-text-secondary">Focus trap and restore</p>
                   <ul className="text-xs text-text-tertiary space-y-1">
                     <li>• Focus trap in modals</li>
                     <li>• Auto-focus on open</li>
@@ -134,9 +130,7 @@ export const A11yDemo: React.FC = () => {
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  <p className="text-sm text-text-secondary">
-                    WCAG AA contrast ratio 4.5:1
-                  </p>
+                  <p className="text-sm text-text-secondary">WCAG AA contrast ratio 4.5:1</p>
                   <ul className="text-xs text-text-tertiary space-y-1">
                     <li>• All text meets AA standard</li>
                     <li>• Status colors + icons</li>
@@ -153,9 +147,7 @@ export const A11yDemo: React.FC = () => {
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  <p className="text-sm text-text-secondary">
-                    Minimum 48×48px hit areas
-                  </p>
+                  <p className="text-sm text-text-secondary">Minimum 48×48px hit areas</p>
                   <ul className="text-xs text-text-tertiary space-y-1">
                     <li>• Large buttons</li>
                     <li>• Generous padding</li>
@@ -172,9 +164,7 @@ export const A11yDemo: React.FC = () => {
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  <p className="text-sm text-text-secondary">
-                    Respects motion preferences
-                  </p>
+                  <p className="text-sm text-text-secondary">Respects motion preferences</p>
                   <ul className="text-xs text-text-tertiary space-y-1">
                     <li>• System preference detection</li>
                     <li>• Reduced animations</li>
@@ -195,12 +185,24 @@ export const A11yDemo: React.FC = () => {
                     WCAG 2.1 Level AA Compliance
                   </h3>
                   <ul className="text-sm text-text-secondary space-y-1">
-                    <li>• <strong>Keyboard:</strong> Tab/Shift+Tab, Space/Enter, ESC navigation</li>
-                    <li>• <strong>Screen Reader:</strong> ARIA labels, live regions, semantic HTML</li>
-                    <li>• <strong>Contrast:</strong> Minimum 4.5:1 ratio for all text</li>
-                    <li>• <strong>Focus:</strong> Visible indicators, focus trap, skip links</li>
-                    <li>• <strong>Touch:</strong> 48×48px minimum target size</li>
-                    <li>• <strong>Motion:</strong> Reduced motion preference support</li>
+                    <li>
+                      • <strong>Keyboard:</strong> Tab/Shift+Tab, Space/Enter, ESC navigation
+                    </li>
+                    <li>
+                      • <strong>Screen Reader:</strong> ARIA labels, live regions, semantic HTML
+                    </li>
+                    <li>
+                      • <strong>Contrast:</strong> Minimum 4.5:1 ratio for all text
+                    </li>
+                    <li>
+                      • <strong>Focus:</strong> Visible indicators, focus trap, skip links
+                    </li>
+                    <li>
+                      • <strong>Touch:</strong> 48×48px minimum target size
+                    </li>
+                    <li>
+                      • <strong>Motion:</strong> Reduced motion preference support
+                    </li>
                   </ul>
                 </div>
               </div>

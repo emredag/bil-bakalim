@@ -1,8 +1,8 @@
 /**
  * ControlPanel Component - PRD 4.5, ui-ux-design.md#game-screen
- * 
+ *
  * TV Show Quality Control Panel (280px target height)
- * 
+ *
  * Features:
  * - 3 main action buttons: Harf Aç (H), Tahmin Et (T), Pas Geç (P)
  * - Info bar: Remaining guesses, letters revealed, remaining points
@@ -170,12 +170,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
             <span className="ml-2">{soundEnabled ? 'Ses Açık' : 'Ses Kapalı'}</span>
           </Button>
 
-          <Button
-            onClick={onHome}
-            variant="secondary"
-            size="md"
-            aria-label="Ana menüye dön"
-          >
+          <Button onClick={onHome} variant="secondary" size="md" aria-label="Ana menüye dön">
             <Home className="w-5 h-5" aria-hidden="true" />
             <span className="ml-2">Ana Menü</span>
           </Button>

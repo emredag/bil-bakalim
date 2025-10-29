@@ -11,11 +11,7 @@
  * - Toast notification integration
  */
 
-import type {
-  ErrorContext,
-  ErrorHandlerResult,
-  ErrorSeverity,
-} from '../types/errors';
+import type { ErrorContext, ErrorHandlerResult, ErrorSeverity } from '../types/errors';
 import {
   AppError,
   DatabaseError,
@@ -213,10 +209,7 @@ export const errorHandler = ErrorHandler.getInstance();
  * }
  * ```
  */
-export function handleErrorWithToast(
-  error: unknown,
-  context?: ErrorContext
-): ErrorHandlerResult {
+export function handleErrorWithToast(error: unknown, context?: ErrorContext): ErrorHandlerResult {
   return errorHandler.handle(error, context);
 }
 
@@ -231,18 +224,12 @@ export function createValidationError(message: string): ValidationError {
  * Utility to create a not found error
  */
 export function createNotFoundError(resource: string): NotFoundError {
-  return new NotFoundError(
-    `${resource} not found`,
-    `${resource} bulunamadı`
-  );
+  return new NotFoundError(`${resource} not found`, `${resource} bulunamadı`);
 }
 
 /**
  * Utility to create a duplicate error
  */
 export function createDuplicateError(resource: string): DuplicateError {
-  return new DuplicateError(
-    `${resource} already exists`,
-    `Bu ${resource} zaten mevcut`
-  );
+  return new DuplicateError(`${resource} already exists`, `Bu ${resource} zaten mevcut`);
 }

@@ -68,10 +68,11 @@ export function CategorySelectionScreen() {
     if (!searchQuery.trim()) return categories;
 
     const query = searchQuery.toLowerCase();
-    return categories.filter(({ category }) =>
-      category.name.toLowerCase().includes(query) ||
-      category.emoji.includes(query) ||
-      category.description?.toLowerCase().includes(query)
+    return categories.filter(
+      ({ category }) =>
+        category.name.toLowerCase().includes(query) ||
+        category.emoji.includes(query) ||
+        category.description?.toLowerCase().includes(query)
     );
   }, [categories, searchQuery]);
 
@@ -232,7 +233,10 @@ export function CategorySelectionScreen() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5 }}
                 >
-                  <Search className="w-24 h-24 md:w-32 md:h-32 text-slate-600 mb-6" strokeWidth={1.5} />
+                  <Search
+                    className="w-24 h-24 md:w-32 md:h-32 text-slate-600 mb-6"
+                    strokeWidth={1.5}
+                  />
                   <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
                     Sonuç bulunamadı
                   </h2>

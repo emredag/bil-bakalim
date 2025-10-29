@@ -14,12 +14,12 @@ export type ParticipantType = 'player' | 'team';
 /**
  * Game state phases
  */
-export type GameState = 
-  | 'setup'              // Selecting category, mode, participants
-  | 'playing'            // Active game
-  | 'paused'             // Game paused
-  | 'waiting_next_turn'  // Waiting for host to start next participant's turn
-  | 'finished';          // Game completed
+export type GameState =
+  | 'setup' // Selecting category, mode, participants
+  | 'playing' // Active game
+  | 'paused' // Game paused
+  | 'waiting_next_turn' // Waiting for host to start next participant's turn
+  | 'finished'; // Game completed
 
 /**
  * Word reveal status
@@ -130,11 +130,11 @@ export interface GameSession {
   categoryEmoji: string;
   mode: GameMode;
   state: GameState;
-  
+
   // Participants
   participants: ActiveParticipant[];
   activeParticipantIndex: number;
-  
+
   // Timing - PRD: 5 minutes (300 seconds) total for all 14 words
   totalTimeSeconds: number; // 300
   elapsedTimeSeconds: number;

@@ -121,14 +121,12 @@ function DefaultErrorFallback({ error, onReset }: DefaultErrorFallbackProps): JS
           </div>
 
           {/* Title */}
-          <h1 className="text-3xl font-bold text-text-primary text-center mb-4">
-            Bir Hata Oluştu
-          </h1>
+          <h1 className="text-3xl font-bold text-text-primary text-center mb-4">Bir Hata Oluştu</h1>
 
           {/* Message */}
           <p className="text-text-secondary text-center mb-6">
-            Uygulama beklenmedik bir hatayla karşılaştı. Lütfen sayfayı yenileyin veya ana
-            menüye dönün.
+            Uygulama beklenmedik bir hatayla karşılaştı. Lütfen sayfayı yenileyin veya ana menüye
+            dönün.
           </p>
 
           {/* Error Details (Development only) */}
@@ -140,9 +138,7 @@ function DefaultErrorFallback({ error, onReset }: DefaultErrorFallbackProps): JS
                   <summary className="text-xs text-text-tertiary cursor-pointer hover:text-text-secondary">
                     Stack Trace
                   </summary>
-                  <pre className="mt-2 text-xs text-text-tertiary overflow-auto">
-                    {error.stack}
-                  </pre>
+                  <pre className="mt-2 text-xs text-text-tertiary overflow-auto">{error.stack}</pre>
                 </details>
               )}
             </div>

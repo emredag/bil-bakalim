@@ -1,8 +1,8 @@
 /**
  * Confetti Component - PRD 4.5, ui-ux-design.md#game-screen
- * 
+ *
  * Canvas-based confetti animation for correct answers
- * 
+ *
  * Features:
  * - Canvas-based particle system (z-30 layer)
  * - Triggered on correct answer
@@ -33,11 +33,7 @@ interface Particle {
 
 const COLORS = ['#fbbf24', '#3b82f6', '#8b5cf6', '#10b981', '#ef4444', '#ec4899'];
 
-export const Confetti: React.FC<ConfettiProps> = ({
-  active,
-  duration = 3000,
-  onComplete,
-}) => {
+export const Confetti: React.FC<ConfettiProps> = ({ active, duration = 3000, onComplete }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const particlesRef = useRef<Particle[]>([]);
   const animationFrameRef = useRef<number>();
@@ -45,9 +41,7 @@ export const Confetti: React.FC<ConfettiProps> = ({
 
   useEffect(() => {
     // Check for reduced motion preference
-    const prefersReducedMotion = window.matchMedia(
-      '(prefers-reduced-motion: reduce)'
-    ).matches;
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     if (prefersReducedMotion || !active) {
       if (onComplete) onComplete();
@@ -96,7 +90,7 @@ export const Confetti: React.FC<ConfettiProps> = ({
       if (!ctx || !canvas) return;
 
       const elapsed = Date.now() - (startTimeRef.current || 0);
-      
+
       // Clear canvas
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -155,10 +149,6 @@ export const Confetti: React.FC<ConfettiProps> = ({
   if (!active) return null;
 
   return (
-    <canvas
-      ref={canvasRef}
-      className="fixed inset-0 pointer-events-none z-30"
-      aria-hidden="true"
-    />
+    <canvas ref={canvasRef} className="fixed inset-0 pointer-events-none z-30" aria-hidden="true" />
   );
 };

@@ -184,13 +184,4 @@ export const TEAM_COLORS = [
 /**
  * Predefined team emojis
  */
-export const TEAM_EMOJIS = [
-  '🔵',
-  '🟣',
-  '🟢',
-  '🟡',
-  '🔴',
-  '🔷',
-  '🩷',
-  '🟩',
-] as const;
+export const TEAM_EMOJIS = ['🔵', '🟣', '🟢', '🟡', '🔴', '🔷', '🩷', '🟩'] as const;

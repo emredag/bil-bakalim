@@ -1,7 +1,7 @@
 //! Database schema definitions and migrations
-//! 
+//!
 //! This module contains all SQL table definitions, indexes, and migration logic.
-//! 
+//!
 //! Tables:
 //! - categories: Word categories (4-10 letters per word)
 //! - words: Individual words with hints
@@ -13,12 +13,12 @@
 use rusqlite::{Connection, Result};
 
 /// Run all database migrations in a transaction
-/// 
+///
 /// This function creates all tables, indexes, and constraints.
 /// It's idempotent - safe to run multiple times.
 pub fn run_migrations(conn: &Connection) -> Result<()> {
     conn.execute_batch("BEGIN TRANSACTION;")?;
-    
+
     match create_all_tables(conn) {
         Ok(_) => {
             conn.execute_batch("COMMIT;")?;
@@ -44,7 +44,7 @@ fn create_all_tables(conn: &Connection) -> Result<()> {
 }
 
 /// Create the categories table
-/// 
+///
 /// Stores word categories with metadata
 fn create_categories_table(conn: &Connection) -> Result<()> {
     conn.execute(
@@ -63,7 +63,7 @@ fn create_categories_table(conn: &Connection) -> Result<()> {
 }
 
 /// Create the words table with foreign key and CHECK constraint
-/// 
+///
 /// Stores words associated with categories.
 /// Constraint: letter_count must be between 4 and 10 (inclusive)
 fn create_words_table(conn: &Connection) -> Result<()> {
@@ -83,7 +83,7 @@ fn create_words_table(conn: &Connection) -> Result<()> {
 }
 
 /// Create the settings table
-/// 
+///
 /// Key-value store for application settings
 fn create_settings_table(conn: &Connection) -> Result<()> {
     conn.execute(
@@ -97,7 +97,7 @@ fn create_settings_table(conn: &Connection) -> Result<()> {
 }
 
 /// Create the game_history table
-/// 
+///
 /// Stores historical game sessions
 /// game_mode: "single" | "multi" | "team"
 fn create_game_history_table(conn: &Connection) -> Result<()> {
@@ -118,7 +118,7 @@ fn create_game_history_table(conn: &Connection) -> Result<()> {
 }
 
 /// Create the game_participants table
-/// 
+///
 /// Stores individual players or teams in each game
 /// participant_type: "player" | "team"
 fn create_game_participants_table(conn: &Connection) -> Result<()> {
@@ -142,7 +142,7 @@ fn create_game_participants_table(conn: &Connection) -> Result<()> {
 }
 
 /// Create the game_word_results table
-/// 
+///
 /// Stores word-by-word results for each participant
 /// result: "found" | "skipped" | "timeout"
 fn create_game_word_results_table(conn: &Connection) -> Result<()> {
@@ -166,7 +166,7 @@ fn create_game_word_results_table(conn: &Connection) -> Result<()> {
 }
 
 /// Create all performance indexes
-/// 
+///
 /// Indexes improve query performance for:
 /// - Filtering words by category
 /// - Filtering words by letter count
@@ -179,41 +179,41 @@ fn create_all_indexes(conn: &Connection) -> Result<()> {
          ON words(category_id)",
         [],
     )?;
-    
+
     // Index for words filtered by letter count
     conn.execute(
         "CREATE INDEX IF NOT EXISTS idx_words_letter_count 
          ON words(letter_count)",
         [],
     )?;
-    
+
     // Index for game history sorted by date
     conn.execute(
         "CREATE INDEX IF NOT EXISTS idx_game_history_played_at 
          ON game_history(played_at)",
         [],
     )?;
-    
+
     // Index for game history filtered by category
     conn.execute(
         "CREATE INDEX IF NOT EXISTS idx_game_history_category 
          ON game_history(category_id)",
         [],
     )?;
-    
+
     // Index for participants joined by game
     conn.execute(
         "CREATE INDEX IF NOT EXISTS idx_game_participants_game 
          ON game_participants(game_history_id)",
         [],
     )?;
-    
+
     // Index for word results joined by game
     conn.execute(
         "CREATE INDEX IF NOT EXISTS idx_game_word_results_game 
          ON game_word_results(game_history_id)",
         [],
     )?;
-    
+
     Ok(())
 }

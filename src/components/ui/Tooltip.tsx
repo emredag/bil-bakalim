@@ -42,7 +42,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
   // Show tooltip with delay
   const handleMouseEnter = () => {
     if (disabled) return;
-    
+
     timeoutRef.current = setTimeout(() => {
       setIsVisible(true);
       calculatePosition();
@@ -136,19 +136,22 @@ export const Tooltip: React.FC<TooltipProps> = ({
   };
 
   // Callback ref for trigger element
-  const triggerRefCallback = React.useCallback((node: HTMLElement | null) => {
-    setTriggerElement(node);
-    
-    // Handle existing ref from children
-    const childRef = (children as any).ref;
-    if (childRef) {
-      if (typeof childRef === 'function') {
-        childRef(node);
-      } else if (childRef && 'current' in childRef) {
-        childRef.current = node;
+  const triggerRefCallback = React.useCallback(
+    (node: HTMLElement | null) => {
+      setTriggerElement(node);
+
+      // Handle existing ref from children
+      const childRef = (children as any).ref;
+      if (childRef) {
+        if (typeof childRef === 'function') {
+          childRef(node);
+        } else if (childRef && 'current' in childRef) {
+          childRef.current = node;
+        }
       }
-    }
-  }, [children]);
+    },
+    [children]
+  );
 
   // Clone children and add event handlers + aria
   const trigger = React.cloneElement(children, {

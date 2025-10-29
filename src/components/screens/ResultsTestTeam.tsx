@@ -1,11 +1,11 @@
 /**
  * Test Page for ResultsTeamMode Component
- * 
+ *
  * Mock data with 3 teams:
  * - Winner: Mavi Takım (180 points, 9 words found)
  * - 2nd: Kırmızı Takım (160 points, 8 words found)
  * - 3rd: Yeşil Takım (140 points, 7 words found)
- * 
+ *
  * Test route: /results-test-team
  */
 
@@ -18,10 +18,7 @@ export function ResultsTestTeam() {
   const navigate = useNavigate();
 
   // Mock words for each team (14 words per team)
-  const createMockWords = (
-    foundCount: number,
-    skippedCount: number
-  ): GameWord[] => {
+  const createMockWords = (foundCount: number, skippedCount: number): GameWord[] => {
     const words: GameWord[] = [];
     const wordTemplates = [
       { word: 'KEDI', letterCount: 4, hint: 'Miyavlayan hayvan' },
@@ -170,11 +167,7 @@ export function ResultsTestTeam() {
         <div>Winner: {mockSession.participants[0].name}</div>
       </div>
 
-      <ResultsTeamMode
-        session={mockSession}
-        teams={mockTeams}
-        onPlayAgain={handlePlayAgain}
-      />
+      <ResultsTeamMode session={mockSession} teams={mockTeams} onPlayAgain={handlePlayAgain} />
     </div>
   );
 }

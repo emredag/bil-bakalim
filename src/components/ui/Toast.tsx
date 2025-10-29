@@ -111,9 +111,7 @@ export const Toast: React.FC<ToastProps> = ({
         <Icon className={`${config.iconColor} flex-shrink-0 w-5 h-5 mt-0.5`} />
 
         {/* Message */}
-        <p className="text-text-primary text-sm md:text-base flex-1">
-          {message}
-        </p>
+        <p className="text-text-primary text-sm md:text-base flex-1">{message}</p>
 
         {/* Close button */}
         <button

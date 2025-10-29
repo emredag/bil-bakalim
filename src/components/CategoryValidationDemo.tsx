@@ -1,7 +1,7 @@
 /**
  * Category Validation Demo
  * Task 29: Category Validation
- * 
+ *
  * Interactive demo to test category validation logic and UI
  */
 
@@ -104,7 +104,7 @@ const testCategories: { name: string; validation: ValidationResult }[] = [
 export function CategoryValidationDemo() {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [showDetails, setShowDetails] = useState(true);
-  
+
   const current = testCategories[selectedIndex];
   const enriched = enrichValidationResult(current.validation);
   const playableModes = getPlayableModes(current.validation);
@@ -114,12 +114,8 @@ export function CategoryValidationDemo() {
       <div className="max-w-6xl mx-auto space-y-8">
         {/* Header */}
         <div className="text-center space-y-4">
-          <h1 className="text-4xl font-extrabold text-white">
-            Kategori Validasyon Demo
-          </h1>
-          <p className="text-lg text-slate-300">
-            Task 29: Category Validation - Test & Preview
-          </p>
+          <h1 className="text-4xl font-extrabold text-white">Kategori Validasyon Demo</h1>
+          <p className="text-lg text-slate-300">Task 29: Category Validation - Test & Preview</p>
         </div>
 
         {/* Category Selector */}
@@ -164,7 +160,7 @@ export function CategoryValidationDemo() {
           {/* Right: Info & Tests */}
           <div className="space-y-6">
             <h2 className="text-2xl font-bold text-white">Validation Info</h2>
-            
+
             {/* Badge Preview */}
             <div className="bg-slate-800/60 backdrop-blur-sm border-2 border-slate-700 rounded-xl p-6 space-y-4">
               <h3 className="text-lg font-semibold text-white">Badge Preview</h3>
@@ -180,12 +176,14 @@ export function CategoryValidationDemo() {
               <div className="space-y-2 text-sm font-mono">
                 <div className="flex justify-between">
                   <span className="text-slate-400">Indicator Type:</span>
-                  <span className={`
+                  <span
+                    className={`
                     font-bold
                     ${enriched.indicatorType === 'success' ? 'text-emerald-400' : ''}
                     ${enriched.indicatorType === 'warning' ? 'text-yellow-400' : ''}
                     ${enriched.indicatorType === 'error' ? 'text-red-400' : ''}
-                  `}>
+                  `}
+                  >
                     {enriched.indicatorType}
                   </span>
                 </div>
@@ -200,8 +198,8 @@ export function CategoryValidationDemo() {
                 <div className="flex justify-between">
                   <span className="text-slate-400">Insufficient Lengths:</span>
                   <span className="text-white">
-                    {enriched.insufficientLengths.length > 0 
-                      ? enriched.insufficientLengths.join(', ') 
+                    {enriched.insufficientLengths.length > 0
+                      ? enriched.insufficientLengths.join(', ')
                       : 'None'}
                   </span>
                 </div>
@@ -235,13 +233,31 @@ export function CategoryValidationDemo() {
                 <div>
                   <p className="text-slate-400 mb-1">canSupportSetup:</p>
                   <div className="space-y-1 ml-4">
-                    <p className={canSupportSetup(current.validation, 'single', 1) ? 'text-emerald-400' : 'text-red-400'}>
+                    <p
+                      className={
+                        canSupportSetup(current.validation, 'single', 1)
+                          ? 'text-emerald-400'
+                          : 'text-red-400'
+                      }
+                    >
                       Single (1): {canSupportSetup(current.validation, 'single', 1) ? '✓' : '✗'}
                     </p>
-                    <p className={canSupportSetup(current.validation, 'multi', 2) ? 'text-emerald-400' : 'text-red-400'}>
+                    <p
+                      className={
+                        canSupportSetup(current.validation, 'multi', 2)
+                          ? 'text-emerald-400'
+                          : 'text-red-400'
+                      }
+                    >
                       Multi (2): {canSupportSetup(current.validation, 'multi', 2) ? '✓' : '✗'}
                     </p>
-                    <p className={canSupportSetup(current.validation, 'team', 2) ? 'text-emerald-400' : 'text-red-400'}>
+                    <p
+                      className={
+                        canSupportSetup(current.validation, 'team', 2)
+                          ? 'text-emerald-400'
+                          : 'text-red-400'
+                      }
+                    >
                       Team (2): {canSupportSetup(current.validation, 'team', 2) ? '✓' : '✗'}
                     </p>
                   </div>
@@ -263,13 +279,16 @@ export function CategoryValidationDemo() {
               <h3 className="text-lg font-semibold text-white">Mode Messages</h3>
               <div className="space-y-2 text-sm">
                 <p className="text-slate-300">
-                  <span className="font-semibold text-white">Single:</span> {enriched.modeMessages.single}
+                  <span className="font-semibold text-white">Single:</span>{' '}
+                  {enriched.modeMessages.single}
                 </p>
                 <p className="text-slate-300">
-                  <span className="font-semibold text-white">Multi:</span> {enriched.modeMessages.multi}
+                  <span className="font-semibold text-white">Multi:</span>{' '}
+                  {enriched.modeMessages.multi}
                 </p>
                 <p className="text-slate-300">
-                  <span className="font-semibold text-white">Team:</span> {enriched.modeMessages.team}
+                  <span className="font-semibold text-white">Team:</span>{' '}
+                  {enriched.modeMessages.team}
                 </p>
               </div>
             </div>

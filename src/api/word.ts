@@ -17,11 +17,7 @@ export async function getWordsByCategory(categoryId: number): Promise<Word[]> {
  * Add a new word to a category
  * PRD Reference: Section 5.4
  */
-export async function addWord(
-  categoryId: number,
-  word: string,
-  hint: string
-): Promise<Word> {
+export async function addWord(categoryId: number, word: string, hint: string): Promise<Word> {
   return invoke<Word>('add_word', { categoryId, word, hint });
 }
 
@@ -29,11 +25,7 @@ export async function addWord(
  * Update an existing word
  * PRD Reference: Section 5.5
  */
-export async function updateWord(
-  id: number,
-  word: string,
-  hint: string
-): Promise<Word> {
+export async function updateWord(id: number, word: string, hint: string): Promise<Word> {
   return invoke<Word>('update_word', { id, word, hint });
 }
 

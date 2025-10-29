@@ -42,16 +42,12 @@ export function getFocusableElements(container: HTMLElement): HTMLElement[] {
     '[tabindex]:not([tabindex="-1"])',
   ].join(',');
 
-  return Array.from(container.querySelectorAll<HTMLElement>(selector)).filter(
-    (el) => {
-      // Check if element is visible
-      return (
-        el.offsetWidth > 0 &&
-        el.offsetHeight > 0 &&
-        getComputedStyle(el).visibility !== 'hidden'
-      );
-    }
-  );
+  return Array.from(container.querySelectorAll<HTMLElement>(selector)).filter((el) => {
+    // Check if element is visible
+    return (
+      el.offsetWidth > 0 && el.offsetHeight > 0 && getComputedStyle(el).visibility !== 'hidden'
+    );
+  });
 }
 
 /**
@@ -108,10 +104,7 @@ export function announceToScreenReader(
  * Check color contrast ratio
  * WCAG 2.1 AA requires minimum 4.5:1 for normal text
  */
-export function getContrastRatio(
-  foreground: string,
-  background: string
-): number {
+export function getContrastRatio(foreground: string, background: string): number {
   const getLuminance = (rgb: number[]): number => {
     const [r, g, b] = rgb.map((val) => {
       const normalized = val / 255;
@@ -126,11 +119,7 @@ export function getContrastRatio(
   const hexToRgb = (hex: string): number[] => {
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     return result
-      ? [
-          parseInt(result[1], 16),
-          parseInt(result[2], 16),
-          parseInt(result[3], 16),
-        ]
+      ? [parseInt(result[1], 16), parseInt(result[2], 16), parseInt(result[3], 16)]
       : [0, 0, 0];
   };
 

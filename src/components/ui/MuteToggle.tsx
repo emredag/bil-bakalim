@@ -50,11 +50,7 @@ export const MuteToggle: React.FC<MuteToggleProps> = ({
   showTooltip = true,
   className = '',
 }) => {
-  const icon = muted ? (
-    <VolumeX className="w-5 h-5" />
-  ) : (
-    <Volume2 className="w-5 h-5" />
-  );
+  const icon = muted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />;
 
   const tooltipText = muted ? 'Unmute sounds' : 'Mute sounds';
 

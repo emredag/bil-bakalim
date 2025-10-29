@@ -151,9 +151,7 @@ export const ProgressRing: React.FC<ProgressRingProps> = ({
 
       {/* Center content */}
       {children && (
-        <div className="absolute inset-0 flex items-center justify-center">
-          {children}
-        </div>
+        <div className="absolute inset-0 flex items-center justify-center">{children}</div>
       )}
     </div>
   );
@@ -297,9 +295,7 @@ export const Timer: React.FC<TimerProps> = ({
           <div className="text-2xl md:text-3xl font-bold text-text-primary tabular-nums">
             {formatTime(seconds)}
           </div>
-          <div className="text-xs text-text-tertiary uppercase tracking-wide">
-            Time
-          </div>
+          <div className="text-xs text-text-tertiary uppercase tracking-wide">Time</div>
         </div>
       </ProgressRing>
     </motion.div>

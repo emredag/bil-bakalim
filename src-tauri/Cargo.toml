@@ -4,6 +4,11 @@ version = "1.0.0"
 description = "Kelime Oyunu - Interactive Word Guessing Game"
 authors = ["Kelime Oyunu Team"]
 edition = "2021"
+license = "MIT"
+repository = "https://github.com/yourusername/word-game-app"
+readme = "../README.md"
+keywords = ["game", "word-game", "tauri", "desktop"]
+categories = ["games"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -28,3 +33,12 @@ rusqlite = { version = "0.32", features = ["bundled"] }
 dirs = "6.0"
 rand = "0.8"
 
+[lints.clippy]
+all = "warn"
+pedantic = "warn"
+nursery = "warn"
+cargo = "warn"
+
+[lints.rust]
+unsafe_code = "forbid"
+unused_must_use = "warn"

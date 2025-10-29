@@ -13,7 +13,10 @@ import { motion } from 'framer-motion';
 import { User } from 'lucide-react';
 import { Input } from '../ui/Input';
 import type { SinglePlayerSetup } from '../../types';
-import { validateSinglePlayerSetup, type ValidationResult } from '../../utils/participantValidation';
+import {
+  validateSinglePlayerSetup,
+  type ValidationResult,
+} from '../../utils/participantValidation';
 
 export interface SinglePlayerFormProps {
   /** Initial setup data */
@@ -69,12 +72,8 @@ export const SinglePlayerForm: React.FC<SinglePlayerFormProps> = ({
             <User className="w-6 h-6 md:w-8 md:h-8 text-blue-400" />
           </div>
         </div>
-        <h3 className="text-xl md:text-2xl font-bold text-white">
-          Tek Yarışmacı
-        </h3>
-        <p className="text-sm md:text-base text-slate-400">
-          Adınızı girin ve oyuna başlayın
-        </p>
+        <h3 className="text-xl md:text-2xl font-bold text-white">Tek Yarışmacı</h3>
+        <p className="text-sm md:text-base text-slate-400">Adınızı girin ve oyuna başlayın</p>
       </div>
 
       {/* Name Input */}
@@ -94,9 +93,7 @@ export const SinglePlayerForm: React.FC<SinglePlayerFormProps> = ({
 
       {/* Info text */}
       <div className="text-center">
-        <p className="text-sm text-slate-400">
-          Oyun başladığında 14 kelime tahmin edeceksiniz
-        </p>
+        <p className="text-sm text-slate-400">Oyun başladığında 14 kelime tahmin edeceksiniz</p>
       </div>
     </motion.div>
   );

@@ -32,14 +32,14 @@ export interface ValidationBadgeProps {
  * - Shows word distribution per letter length
  * - Indicates supported game modes
  */
-export function ValidationBadge({ 
-  validation, 
-  compact = false, 
-  showTooltip = true 
+export function ValidationBadge({
+  validation,
+  compact = false,
+  showTooltip = true,
 }: ValidationBadgeProps) {
   // Enrich validation with detailed info
   const enriched = enrichValidationResult(validation);
-  
+
   // Get badge display info
   const getBadgeInfo = () => {
     if (!validation.is_valid) {
@@ -73,7 +73,9 @@ export function ValidationBadge({
 
   const badgeContent = (
     <Badge variant={variant} className="text-sm md:text-base font-semibold">
-      <span className="mr-1.5" aria-hidden="true">{icon}</span>
+      <span className="mr-1.5" aria-hidden="true">
+        {icon}
+      </span>
       {!compact && <span>{label}</span>}
     </Badge>
   );
@@ -81,11 +83,7 @@ export function ValidationBadge({
   // Wrap in tooltip if enabled
   if (showTooltip) {
     const tooltipContent = getValidationTooltip(validation);
-    return (
-      <Tooltip content={tooltipContent}>
-        {badgeContent}
-      </Tooltip>
-    );
+    return <Tooltip content={tooltipContent}>{badgeContent}</Tooltip>;
   }
 
   return badgeContent;

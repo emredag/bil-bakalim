@@ -2,7 +2,10 @@
 
 use crate::db;
 use crate::errors::AppError;
-use crate::models::{Category, ValidationResult, WordCountByLength, CategoryExportData, CategoryExportInfo, WordExportInfo, ImportResult};
+use crate::models::{
+    Category, CategoryExportData, CategoryExportInfo, ImportResult, ValidationResult,
+    WordCountByLength, WordExportInfo,
+};
 
 /// Get all categories from database
 #[tauri::command]
@@ -12,7 +15,7 @@ pub fn get_all_categories() -> Result<Vec<Category>, AppError> {
     let mut stmt = conn.prepare(
         "SELECT id, name, emoji, description, is_default, created_at, updated_at
          FROM categories
-         ORDER BY is_default DESC, name ASC"
+         ORDER BY is_default DESC, name ASC",
     )?;
 
     let categories = stmt
@@ -198,7 +201,10 @@ pub fn validate_category(id: i32) -> Result<ValidationResult, AppError> {
             )
         }
     } else if max_players_multi == 1 {
-        format!("✅ Sadece tek yarışmacı modu için oynanabilir ({} kelime)", total_words)
+        format!(
+            "✅ Sadece tek yarışmacı modu için oynanabilir ({} kelime)",
+            total_words
+        )
     } else {
         format!(
             "✅ {} yarışmacıya/takıma kadar oynanabilir ({} kelime)",
@@ -232,7 +238,7 @@ pub fn export_category_json(category_id: i32) -> Result<CategoryExportData, AppE
         "SELECT word, letter_count, hint
          FROM words
          WHERE category_id = ?1
-         ORDER BY letter_count ASC, word ASC"
+         ORDER BY letter_count ASC, word ASC",
     )?;
 
     let words = stmt
@@ -297,12 +303,11 @@ pub fn import_category_json(
         }
 
         // Check if word already exists in this category
-        let exists: i32 = conn
-            .query_row(
-                "SELECT COUNT(*) FROM words WHERE category_id = ?1 AND word = ?2",
-                (category_id, word_upper.as_str()),
-                |row| row.get(0),
-            )?;
+        let exists: i32 = conn.query_row(
+            "SELECT COUNT(*) FROM words WHERE category_id = ?1 AND word = ?2",
+            (category_id, word_upper.as_str()),
+            |row| row.get(0),
+        )?;
 
         if exists > 0 {
             words_skipped += 1;
@@ -320,11 +325,17 @@ pub fn import_category_json(
     }
 
     let message = if words_added > 0 && words_skipped > 0 {
-        format!("{} kelime eklendi, {} kelime zaten vardı veya geçersizdi", words_added, words_skipped)
+        format!(
+            "{} kelime eklendi, {} kelime zaten vardı veya geçersizdi",
+            words_added, words_skipped
+        )
     } else if words_added > 0 {
         format!("{} kelime başarıyla eklendi", words_added)
     } else {
-        format!("Hiç kelime eklenmedi, {} kelime zaten vardı veya geçersizdi", words_skipped)
+        format!(
+            "Hiç kelime eklenmedi, {} kelime zaten vardı veya geçersizdi",
+            words_skipped
+        )
     };
 
     Ok(ImportResult {

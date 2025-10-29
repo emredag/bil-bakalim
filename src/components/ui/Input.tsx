@@ -22,19 +22,7 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
  * - Fully accessible (ARIA labels)
  */
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  (
-    {
-      label,
-      error,
-      helperText,
-      icon,
-      fullWidth = false,
-      className = '',
-      id,
-      ...props
-    },
-    ref
-  ) => {
+  ({ label, error, helperText, icon, fullWidth = false, className = '', id, ...props }, ref) => {
     // Generate unique ID if not provided
     const inputId = id || `input-${React.useId()}`;
 
@@ -65,7 +53,9 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
       ${iconPadding}
       ${widthStyles}
       ${className}
-    `.trim().replace(/\s+/g, ' ');
+    `
+      .trim()
+      .replace(/\s+/g, ' ');
 
     return (
       <div className={fullWidth ? 'w-full' : ''}>
@@ -100,11 +90,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
             className={combinedClassName}
             aria-invalid={error ? 'true' : 'false'}
             aria-describedby={
-              error
-                ? `${inputId}-error`
-                : helperText
-                  ? `${inputId}-helper`
-                  : undefined
+              error ? `${inputId}-error` : helperText ? `${inputId}-helper` : undefined
             }
             {...props}
           />
@@ -135,10 +121,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
         {/* Helper text */}
         {helperText && !error && (
-          <p
-            id={`${inputId}-helper`}
-            className="mt-2 text-sm text-text-tertiary"
-          >
+          <p id={`${inputId}-helper`} className="mt-2 text-sm text-text-tertiary">
             {helperText}
           </p>
         )}
@@ -160,18 +143,7 @@ export interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextArea
 }
 
 export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
-  (
-    {
-      label,
-      error,
-      helperText,
-      fullWidth = false,
-      className = '',
-      id,
-      ...props
-    },
-    ref
-  ) => {
+  ({ label, error, helperText, fullWidth = false, className = '', id, ...props }, ref) => {
     // Generate unique ID if not provided
     const textareaId = id || `textarea-${React.useId()}`;
 
@@ -198,7 +170,9 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
       ${borderStyles}
       ${widthStyles}
       ${className}
-    `.trim().replace(/\s+/g, ' ');
+    `
+      .trim()
+      .replace(/\s+/g, ' ');
 
     return (
       <div className={fullWidth ? 'w-full' : ''}>
@@ -224,11 +198,7 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
           className={combinedClassName}
           aria-invalid={error ? 'true' : 'false'}
           aria-describedby={
-            error
-              ? `${textareaId}-error`
-              : helperText
-                ? `${textareaId}-helper`
-                : undefined
+            error ? `${textareaId}-error` : helperText ? `${textareaId}-helper` : undefined
           }
           {...props}
         />
@@ -258,10 +228,7 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
 
         {/* Helper text */}
         {helperText && !error && (
-          <p
-            id={`${textareaId}-helper`}
-            className="mt-2 text-sm text-text-tertiary"
-          >
+          <p id={`${textareaId}-helper`} className="mt-2 text-sm text-text-tertiary">
             {helperText}
           </p>
         )}

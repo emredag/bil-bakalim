@@ -113,7 +113,9 @@ export const LetterBox: React.FC<LetterBoxProps> = ({
         ${isRevealed ? openStyles : closedStyles}
         ${glowStyles[status]}
         ${className}
-      `.trim().replace(/\s+/g, ' ')}
+      `
+        .trim()
+        .replace(/\s+/g, ' ')}
       variants={flipVariants as any}
       initial="closed"
       animate={isRevealed ? 'open' : 'closed'}
@@ -174,7 +176,9 @@ export const LetterBoxRow: React.FC<LetterBoxRowProps> = ({
   const letters = word.split('');
 
   return (
-    <div className={`flex flex-wrap items-center justify-center gap-2 md:gap-3 lg:gap-4 ${className}`}>
+    <div
+      className={`flex flex-wrap items-center justify-center gap-2 md:gap-3 lg:gap-4 ${className}`}
+    >
       {letters.map((letter, index) => (
         <LetterBox
           key={index}

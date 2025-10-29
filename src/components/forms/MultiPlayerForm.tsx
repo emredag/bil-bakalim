@@ -69,14 +69,9 @@ const SortablePlayerItem: React.FC<SortablePlayerItemProps> = ({
   onRemove,
   canRemove,
 }) => {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({ id });
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+    id,
+  });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -156,9 +151,7 @@ export const MultiPlayerForm: React.FC<MultiPlayerFormProps> = ({
   className = '',
 }) => {
   // Initialize with 2 players or from initial setup
-  const [players, setPlayers] = useState<string[]>(
-    initialSetup?.players || ['', '']
-  );
+  const [players, setPlayers] = useState<string[]>(initialSetup?.players || ['', '']);
 
   // DnD sensors
   const sensors = useSensors(
@@ -225,9 +218,7 @@ export const MultiPlayerForm: React.FC<MultiPlayerFormProps> = ({
             <Users className="w-6 h-6 md:w-8 md:h-8 text-violet-400" />
           </div>
         </div>
-        <h3 className="text-xl md:text-2xl font-bold text-white">
-          Çoklu Yarışmacı
-        </h3>
+        <h3 className="text-xl md:text-2xl font-bold text-white">Çoklu Yarışmacı</h3>
         <p className="text-sm md:text-base text-slate-400">
           2-6 oyuncu ekleyin ve sırasını belirleyin
         </p>
@@ -250,11 +241,7 @@ export const MultiPlayerForm: React.FC<MultiPlayerFormProps> = ({
           </Button>
         </div>
 
-        <DndContext
-          sensors={sensors}
-          collisionDetection={closestCenter}
-          onDragEnd={handleDragEnd}
-        >
+        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
           <SortableContext
             items={players.map((_, i) => `player-${i}`)}
             strategy={verticalListSortingStrategy}
@@ -280,9 +267,7 @@ export const MultiPlayerForm: React.FC<MultiPlayerFormProps> = ({
 
       {/* Info text */}
       <div className="text-center space-y-2">
-        <p className="text-sm text-slate-400">
-          Her oyuncu sırayla 14 kelime tahmin edecek
-        </p>
+        <p className="text-sm text-slate-400">Her oyuncu sırayla 14 kelime tahmin edecek</p>
         <p className="text-xs text-slate-500">
           💡 İpucu: Oyuncuları sürükleyerek sırasını değiştirebilirsiniz
         </p>

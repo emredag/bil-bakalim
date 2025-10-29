@@ -28,9 +28,7 @@ export interface WordDistributionSidebarProps {
  * - Playability status badge (large)
  * - Responsive: full width on mobile, sidebar on desktop
  */
-export function WordDistributionSidebar({
-  validation,
-}: WordDistributionSidebarProps) {
+export function WordDistributionSidebar({ validation }: WordDistributionSidebarProps) {
   // Create a map of letter counts
   const letterCountMap = new Map<number, number>();
   validation.words_by_length.forEach((item) => {
@@ -55,12 +53,8 @@ export function WordDistributionSidebar({
     >
       {/* Header */}
       <div className="mb-6">
-        <h2 className="text-xl md:text-2xl font-bold text-white mb-2">
-          Dağılım Kontrolü
-        </h2>
-        <p className="text-sm text-slate-400">
-          Her harf uzunluğu için kelime sayısı
-        </p>
+        <h2 className="text-xl md:text-2xl font-bold text-white mb-2">Dağılım Kontrolü</h2>
+        <p className="text-sm text-slate-400">Her harf uzunluğu için kelime sayısı</p>
       </div>
 
       {/* Word Distribution List */}
@@ -82,8 +76,8 @@ export function WordDistributionSidebar({
                   isMinimumMet
                     ? 'bg-green-500/10 border-green-500/30'
                     : count > 0
-                    ? 'bg-amber-500/10 border-amber-500/30'
-                    : 'bg-red-500/10 border-red-500/30'
+                      ? 'bg-amber-500/10 border-amber-500/30'
+                      : 'bg-red-500/10 border-red-500/30'
                 }
               `}
             >
@@ -99,8 +93,8 @@ export function WordDistributionSidebar({
                       isMinimumMet
                         ? 'text-green-400'
                         : count > 0
-                        ? 'text-amber-400'
-                        : 'text-red-400'
+                          ? 'text-amber-400'
+                          : 'text-red-400'
                     }
                   `}
                 >
@@ -111,20 +105,11 @@ export function WordDistributionSidebar({
               {/* Status icon */}
               <div>
                 {isMinimumMet ? (
-                  <CheckCircle
-                    className="w-6 h-6 text-green-400"
-                    aria-label="Yeterli"
-                  />
+                  <CheckCircle className="w-6 h-6 text-green-400" aria-label="Yeterli" />
                 ) : count > 0 ? (
-                  <AlertTriangle
-                    className="w-6 h-6 text-amber-400"
-                    aria-label="Yetersiz"
-                  />
+                  <AlertTriangle className="w-6 h-6 text-amber-400" aria-label="Yetersiz" />
                 ) : (
-                  <XCircle
-                    className="w-6 h-6 text-red-400"
-                    aria-label="Kelime yok"
-                  />
+                  <XCircle className="w-6 h-6 text-red-400" aria-label="Kelime yok" />
                 )}
               </div>
             </motion.div>
@@ -204,7 +189,9 @@ export function WordDistributionSidebar({
       {/* Help text */}
       <div className="mt-6 p-4 bg-slate-700/30 rounded-lg">
         <p className="text-xs text-slate-400 leading-relaxed">
-          <strong className="text-slate-300">Not:</strong> Oynanabilir bir kategori için her harf uzunluğundan (4-10) en az 2'şer kelime gereklidir. Çoklu yarışmacı modları için daha fazla kelimeye ihtiyaç vardır.
+          <strong className="text-slate-300">Not:</strong> Oynanabilir bir kategori için her harf
+          uzunluğundan (4-10) en az 2'şer kelime gereklidir. Çoklu yarışmacı modları için daha fazla
+          kelimeye ihtiyaç vardır.
         </p>
       </div>
     </motion.aside>

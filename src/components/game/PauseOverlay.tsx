@@ -1,8 +1,8 @@
 /**
  * PauseOverlay Component - PRD 4.5, ui-ux-design.md#game-screen
- * 
+ *
  * Pause screen overlay
- * 
+ *
  * Features:
  * - Blur backdrop
  * - "Duraklatıldı" message

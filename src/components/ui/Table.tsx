@@ -52,8 +52,7 @@ export function Table<T>({
   const handleSort = (columnKey: string) => {
     if (!onSort) return;
 
-    const newDirection =
-      sortKey === columnKey && sortDirection === 'asc' ? 'desc' : 'asc';
+    const newDirection = sortKey === columnKey && sortDirection === 'asc' ? 'desc' : 'asc';
     onSort(columnKey, newDirection);
   };
 
@@ -92,9 +91,7 @@ export function Table<T>({
                   ${column.width ? column.width : ''}
                   ${column.sortable ? 'cursor-pointer hover:bg-slate-700 transition-colors' : ''}
                 `}
-                onClick={
-                  column.sortable ? () => handleSort(column.key) : undefined
-                }
+                onClick={column.sortable ? () => handleSort(column.key) : undefined}
               >
                 <div className="flex items-center gap-2">
                   <span>{column.header}</span>
@@ -131,10 +128,7 @@ export function Table<T>({
               `}
             >
               {columns.map((column) => (
-                <td
-                  key={column.key}
-                  className="px-4 py-3 text-sm md:text-base text-text-secondary"
-                >
+                <td key={column.key} className="px-4 py-3 text-sm md:text-base text-text-secondary">
                   {column.accessor(row)}
                 </td>
               ))}
@@ -196,12 +190,8 @@ export function ResponsiveTable<T>({
           >
             {columns.map((column) => (
               <div key={column.key} className="flex justify-between py-2">
-                <span className="font-semibold text-text-primary text-sm">
-                  {column.header}
-                </span>
-                <span className="text-text-secondary text-sm">
-                  {column.accessor(row)}
-                </span>
+                <span className="font-semibold text-text-primary text-sm">{column.header}</span>
+                <span className="text-text-secondary text-sm">{column.accessor(row)}</span>
               </div>
             ))}
           </div>

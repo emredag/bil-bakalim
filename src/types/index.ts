@@ -33,9 +33,6 @@ export type {
 } from './game.js';
 
 // Settings types
-export type {
-  Settings,
-  ParsedSettings,
-} from './settings.js';
+export type { Settings, ParsedSettings } from './settings.js';
 
 export { DEFAULT_SETTINGS } from './settings.js';

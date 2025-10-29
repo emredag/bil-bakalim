@@ -60,13 +60,7 @@ const isModifierPressed = (e: KeyboardEvent): boolean => {
  */
 export function useKeyboardShortcuts(handlers: KeyboardShortcutHandlers = {}) {
   const navigate = useNavigate();
-  const { 
-    onNew, 
-    onSave, 
-    onSearch, 
-    disableGlobal = false,
-    disableNavigation = false,
-  } = handlers;
+  const { onNew, onSave, onSearch, disableGlobal = false, disableNavigation = false } = handlers;
 
   // Handle fullscreen toggle
   const toggleFullscreen = useCallback(async () => {
@@ -105,9 +99,8 @@ export function useKeyboardShortcuts(handlers: KeyboardShortcutHandlers = {}) {
     const handleKeyDown = (e: KeyboardEvent) => {
       // Don't handle shortcuts when typing in inputs
       const target = e.target as HTMLElement;
-      const isInput = target.tagName === 'INPUT' || 
-                     target.tagName === 'TEXTAREA' || 
-                     target.isContentEditable;
+      const isInput =
+        target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable;
 
       // F11 - Fullscreen (works everywhere)
       if (e.key === 'F11') {
@@ -143,7 +136,7 @@ export function useKeyboardShortcuts(handlers: KeyboardShortcutHandlers = {}) {
       }
 
       // Context-aware shortcuts (don't trigger in inputs except search)
-      
+
       // Ctrl/Cmd + N - New item
       if (isModifierPressed(e) && e.key === 'n' && !isInput) {
         e.preventDefault();

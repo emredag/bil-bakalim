@@ -18,12 +18,42 @@ import { Button } from './ui/Button';
  * Sports, colors, animals, symbols
  */
 export const TEAM_EMOJI_OPTIONS = [
-  '🔴', '🔵', '🟢', '🟡', '🟠', '🟣',
-  '⚽', '🏀', '🏈', '⚾', '🎾', '🏐',
-  '🦁', '🐯', '🐻', '🦅', '🐺', '🦊',
-  '⭐', '💎', '🔥', '⚡', '🌟', '💫',
-  '🚀', '🎯', '🏆', '👑', '🎪', '🎨',
-  '🌈', '☀️', '🌙', '⛰️', '🌊', '🌸',
+  '🔴',
+  '🔵',
+  '🟢',
+  '🟡',
+  '🟠',
+  '🟣',
+  '⚽',
+  '🏀',
+  '🏈',
+  '⚾',
+  '🎾',
+  '🏐',
+  '🦁',
+  '🐯',
+  '🐻',
+  '🦅',
+  '🐺',
+  '🦊',
+  '⭐',
+  '💎',
+  '🔥',
+  '⚡',
+  '🌟',
+  '💫',
+  '🚀',
+  '🎯',
+  '🏆',
+  '👑',
+  '🎪',
+  '🎨',
+  '🌈',
+  '☀️',
+  '🌙',
+  '⛰️',
+  '🌊',
+  '🌸',
 ];
 
 /**
@@ -32,17 +62,59 @@ export const TEAM_EMOJI_OPTIONS = [
  */
 export const CATEGORY_EMOJI_OPTIONS = [
   // Row 1: Sports & Activities
-  '⚽', '🏀', '🏈', '⚾', '🎾', '🏐', '🏓', '🏸',
+  '⚽',
+  '🏀',
+  '🏈',
+  '⚾',
+  '🎾',
+  '🏐',
+  '🏓',
+  '🏸',
   // Row 2: Food & Drink
-  '🍕', '🍔', '🍟', '🍎', '🍌', '🍇', '🍰', '☕',
+  '🍕',
+  '🍔',
+  '🍟',
+  '🍎',
+  '🍌',
+  '🍇',
+  '🍰',
+  '☕',
   // Row 3: Technology & Devices
-  '💻', '📱', '⌨️', '🖱️', '🎮', '🎧', '📷', '🖨️',
+  '💻',
+  '📱',
+  '⌨️',
+  '🖱️',
+  '🎮',
+  '🎧',
+  '📷',
+  '🖨️',
   // Row 4: Education & Books
-  '📚', '📖', '✏️', '📝', '🎓', '🏫', '🔬', '🧪',
+  '📚',
+  '📖',
+  '✏️',
+  '📝',
+  '🎓',
+  '🏫',
+  '🔬',
+  '🧪',
   // Row 5: Buildings & Places
-  '🏠', '🏢', '🏥', '🏪', '🏰', '⛪', '🕌', '🗼',
+  '🏠',
+  '🏢',
+  '🏥',
+  '🏪',
+  '🏰',
+  '⛪',
+  '🕌',
+  '🗼',
   // Row 6: Nature & Environment
-  '🌍', '🌎', '🌏', '🌳', '🌲', '🌴', '🌵', '🌺',
+  '🌍',
+  '🌎',
+  '🌏',
+  '🌳',
+  '🌲',
+  '🌴',
+  '🌵',
+  '🌺',
 ];
 
 export interface EmojiPickerProps {
@@ -84,9 +156,10 @@ export const EmojiPicker: React.FC<EmojiPickerProps> = ({
   const emojiOptions = type === 'category' ? CATEGORY_EMOJI_OPTIONS : TEAM_EMOJI_OPTIONS;
   const title = type === 'category' ? 'Kategori Emoji Seç' : 'Takım Emoji Seç';
   const gridCols = type === 'category' ? 'grid-cols-8' : 'grid-cols-6';
-  const hint = type === 'category' 
-    ? 'Kategoriyi temsil edecek bir emoji seçin'
-    : 'Takımınızı temsil edecek bir emoji seçin';
+  const hint =
+    type === 'category'
+      ? 'Kategoriyi temsil edecek bir emoji seçin'
+      : 'Takımınızı temsil edecek bir emoji seçin';
 
   const handleSelect = (emoji: string) => {
     onSelect(emoji);
@@ -107,9 +180,7 @@ export const EmojiPicker: React.FC<EmojiPickerProps> = ({
     <div className={`bg-slate-800 rounded-2xl p-6 shadow-2xl ${className}`}>
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
-        <h3 className="text-xl md:text-2xl font-bold text-white">
-          {title}
-        </h3>
+        <h3 className="text-xl md:text-2xl font-bold text-white">{title}</h3>
         {onClose && (
           <button
             onClick={onClose}
@@ -172,9 +243,7 @@ export const EmojiPicker: React.FC<EmojiPickerProps> = ({
       </div>
 
       {/* Footer hint */}
-      <p className="text-sm text-slate-400 mt-6 text-center">
-        {hint}
-      </p>
+      <p className="text-sm text-slate-400 mt-6 text-center">{hint}</p>
     </div>
   );
 

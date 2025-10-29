@@ -1,7 +1,7 @@
 /**
  * Route Constants
  * PRD Reference: Section 4 - OYUN AKIŞI
- * 
+ *
  * Centralized route definitions for the application
  */
 
@@ -9,22 +9,22 @@ export const ROUTES = {
   // Main navigation
   HOME: '/',
   WELCOME: '/welcome',
-  
+
   // Game flow
   CATEGORY_SELECT: '/category-select',
   MODE_SELECT: '/mode-select',
   PARTICIPANT_SETUP: '/participant-setup',
   GAME: '/game',
   RESULTS: '/results',
-  
+
   // History
   HISTORY: '/history',
   HISTORY_DETAIL: '/history/:id',
-  
+
   // Management
   CATEGORY_MANAGEMENT: '/category-management',
   WORD_MANAGEMENT: '/category/:categoryId/words',
-  
+
   // Settings & Help
   SETTINGS: '/settings',
   HOW_TO_PLAY: '/how-to-play',

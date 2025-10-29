@@ -1,7 +1,7 @@
 /**
  * Word Service - Word management and selection logic
  * PRD Reference: Section 4.6 - Word Selection Algorithm
- * 
+ *
  * Handles:
  * - Random word selection for games
  * - Word validation
@@ -39,11 +39,7 @@ export async function getWordsByCategory(categoryId: number): Promise<Word[]> {
  * Add a new word to a category
  * PRD Reference: Section 14.1 - Tauri Commands
  */
-export async function addWord(
-  categoryId: number,
-  word: string,
-  hint: string
-): Promise<Word> {
+export async function addWord(categoryId: number, word: string, hint: string): Promise<Word> {
   try {
     return await safeInvoke<Word>('add_word', { categoryId, word, hint });
   } catch (error) {
@@ -56,11 +52,7 @@ export async function addWord(
  * Update an existing word
  * PRD Reference: Section 14.1 - Tauri Commands
  */
-export async function updateWord(
-  id: number,
-  word: string,
-  hint: string
-): Promise<Word> {
+export async function updateWord(id: number, word: string, hint: string): Promise<Word> {
   try {
     return await safeInvoke<Word>('update_word', { id, word, hint });
   } catch (error) {
@@ -85,10 +77,10 @@ export async function deleteWord(id: number): Promise<void> {
 /**
  * Get random words for game play
  * PRD Reference: Section 4.6 - Word Selection Algorithm
- * 
+ *
  * Selects exactly 14 words: 2 from each letter length (4-10)
  * In multiplayer/team mode, uses exclude_ids to prevent duplicates
- * 
+ *
  * @param categoryId - Category to select words from
  * @param excludeIds - List of word IDs already selected for other players (optional)
  * @returns Array of 14 random words
@@ -112,7 +104,7 @@ export async function getRandomWords(
 /**
  * Validate if category has enough words for a game mode
  * PRD Reference: Section 4.6 - Category Validation
- * 
+ *
  * @param categoryId - Category to validate
  * @param mode - Game mode: 'single', 'multi', or 'team'
  * @param participantCount - Number of players or teams
@@ -124,14 +116,23 @@ export async function validateCategoryForMode(
   participantCount: number
 ): Promise<boolean> {
   try {
-    console.debug('[wordService] validateCategoryForMode called', { categoryId, mode, participantCount });
+    console.debug('[wordService] validateCategoryForMode called', {
+      categoryId,
+      mode,
+      participantCount,
+    });
     return await safeInvoke<boolean>('validate_category_for_mode', {
       categoryId,
       mode,
       participantCount,
     });
   } catch (error) {
-    console.error('[wordService] Error validating category:', { categoryId, mode, participantCount, error });
+    console.error('[wordService] Error validating category:', {
+      categoryId,
+      mode,
+      participantCount,
+      error,
+    });
     throw error;
   }
 }
@@ -139,21 +140,21 @@ export async function validateCategoryForMode(
 /**
  * Select words for all participants in a game
  * PRD Reference: Section 4.6 - Word Selection Algorithm
- * 
+ *
  * SINGLE MODE:
  * - Selects 14 random words (2 per length 4-10)
  * - Returns array with single word set
- * 
+ *
  * MULTI MODE:
  * - Each player gets unique 14 words
  * - No word duplication across players
  * - Returns array of word sets (one per player)
- * 
+ *
  * TEAM MODE:
  * - Each team gets unique 14 words
  * - Team members share the same word set
  * - Returns array of word sets (one per team)
- * 
+ *
  * @param categoryId - Category to select from
  * @param mode - Game mode
  * @param participantCount - Number of players or teams
@@ -165,14 +166,14 @@ export async function selectWordsForGame(
   participantCount: number
 ): Promise<GameWord[][]> {
   try {
-    console.debug('[wordService] selectWordsForGame called', { categoryId, mode, participantCount });
-
-    // Validate category first
-    const isValid = await validateCategoryForMode(
+    console.debug('[wordService] selectWordsForGame called', {
       categoryId,
       mode,
-      participantCount
-    );
+      participantCount,
+    });
+
+    // Validate category first
+    const isValid = await validateCategoryForMode(categoryId, mode, participantCount);
 
     if (!isValid) {
       throw new Error(
@@ -184,15 +185,18 @@ export async function selectWordsForGame(
       );
     }
 
-  const allWordSets: GameWord[][] = [];
+    const allWordSets: GameWord[][] = [];
     const usedWordIds: number[] = [];
 
     // Select words for each participant
     for (let i = 0; i < participantCount; i++) {
       // Get random words, excluding already used ones
-  const words = await getRandomWords(categoryId, usedWordIds);
+      const words = await getRandomWords(categoryId, usedWordIds);
 
-  console.debug('[wordService] getRandomWords returned', { participantIndex: i, count: words.length });
+      console.debug('[wordService] getRandomWords returned', {
+        participantIndex: i,
+        count: words.length,
+      });
 
       // Track used word IDs for next iteration
       words.forEach((word) => usedWordIds.push(word.id));
@@ -221,7 +225,12 @@ export async function selectWordsForGame(
     console.debug('[wordService] selectWordsForGame result', { totalSets: allWordSets.length });
     return allWordSets;
   } catch (error) {
-    console.error('[wordService] Error selecting words for game:', { categoryId, mode, participantCount, error });
+    console.error('[wordService] Error selecting words for game:', {
+      categoryId,
+      mode,
+      participantCount,
+      error,
+    });
     // Re-throw so upper layers (UI) can surface the message
     throw error;
   }

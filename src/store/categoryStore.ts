@@ -1,14 +1,21 @@
 /**
  * Category Store - Category and word data cache using Zustand
  * PRD Reference: Section 2.1 - State Management, Section 3 - Category System
- * 
+ *
  * Manages categories and words with caching to reduce backend calls
  * Data is fetched from Tauri backend and cached in memory
  */
 
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-import type { Category, Word, ValidationResult, SinglePlayerSetup, MultiPlayerSetup, TeamModeSetup } from '../types';
+import type {
+  Category,
+  Word,
+  ValidationResult,
+  SinglePlayerSetup,
+  MultiPlayerSetup,
+  TeamModeSetup,
+} from '../types';
 
 interface CategoryStore {
   // Cache state
@@ -29,7 +36,7 @@ interface CategoryStore {
   // Game setup flow (Task 10: Mode Selection, Task 11: Participant Setup)
   selectedMode: 'single' | 'multi' | 'team' | null;
   gameSetup: SinglePlayerSetup | MultiPlayerSetup | TeamModeSetup | null;
-  
+
   // Actions - Categories
   setCategories: (categories: Category[]) => void;
   addCategory: (category: Category) => void;
@@ -37,7 +44,7 @@ interface CategoryStore {
   removeCategory: (categoryId: number) => void;
   setCategoriesLoading: (loading: boolean) => void;
   setCategoriesError: (error: string | null) => void;
-  
+
   // Actions - Selection
   setSelectedCategory: (category: Category | null) => void;
   selectCategory: (categoryId: number) => void;
@@ -49,7 +56,7 @@ interface CategoryStore {
   removeWord: (wordId: number) => void;
   setWordsLoading: (loading: boolean) => void;
   setWordsError: (error: string | null) => void;
-  
+
   // Actions - Validation
   setValidation: (categoryId: number, validation: ValidationResult) => void;
   getValidation: (categoryId: number) => ValidationResult | undefined;
@@ -97,9 +104,7 @@ export const useCategoryStore = create<CategoryStore>()(
 
       updateCategory: (category: Category) => {
         set((state) => ({
-          categories: state.categories.map((c) =>
-            c.id === category.id ? category : c
-          ),
+          categories: state.categories.map((c) => (c.id === category.id ? category : c)),
         }));
       },
 
@@ -113,18 +118,11 @@ export const useCategoryStore = create<CategoryStore>()(
             return newCache;
           })(),
           // Clear selected category if it was removed
-          selectedCategory:
-            state.selectedCategoryId === categoryId
-              ? null
-              : state.selectedCategory,
+          selectedCategory: state.selectedCategoryId === categoryId ? null : state.selectedCategory,
           selectedCategoryId:
-            state.selectedCategoryId === categoryId
-              ? null
-              : state.selectedCategoryId,
+            state.selectedCategoryId === categoryId ? null : state.selectedCategoryId,
           selectedCategoryWords:
-            state.selectedCategoryId === categoryId
-              ? []
-              : state.selectedCategoryWords,
+            state.selectedCategoryId === categoryId ? [] : state.selectedCategoryWords,
         }));
       },
 
@@ -187,13 +185,9 @@ export const useCategoryStore = create<CategoryStore>()(
 
       removeWord: (wordId: number) => {
         set((state) => {
-          const removedWord = state.selectedCategoryWords.find(
-            (w) => w.id === wordId
-          );
+          const removedWord = state.selectedCategoryWords.find((w) => w.id === wordId);
           return {
-            selectedCategoryWords: state.selectedCategoryWords.filter(
-              (w) => w.id !== wordId
-            ),
+            selectedCategoryWords: state.selectedCategoryWords.filter((w) => w.id !== wordId),
             // Invalidate validation cache
             validationCache: removedWord
               ? (() => {

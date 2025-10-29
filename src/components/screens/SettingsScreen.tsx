@@ -28,8 +28,24 @@ import {
 } from 'lucide-react';
 import { useSettingsStore } from '../../store/settingsStore';
 import { soundService } from '../../services';
-import { Button, Card, CardHeader, CardTitle, CardContent, Toggle, Select, Modal, useToast } from '../ui';
-import { backupDatabase, restoreDatabase, resetAllData, getDatabaseSize, formatBytes } from '../../api/database';
+import {
+  Button,
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  Toggle,
+  Select,
+  Modal,
+  useToast,
+} from '../ui';
+import {
+  backupDatabase,
+  restoreDatabase,
+  resetAllData,
+  getDatabaseSize,
+  formatBytes,
+} from '../../api/database';
 import { ROUTES } from '../../routes/constants';
 import { useKeyboardShortcuts } from '../../hooks';
 
@@ -93,7 +109,10 @@ export const SettingsScreen: React.FC = () => {
 
   const handleAnimationSpeedChange = (speed: 'slow' | 'normal' | 'fast') => {
     setAnimationSpeed(speed);
-    toast.showToast(`Animasyon hızı: ${speed === 'slow' ? 'Yavaş' : speed === 'normal' ? 'Normal' : 'Hızlı'}`, 'success');
+    toast.showToast(
+      `Animasyon hızı: ${speed === 'slow' ? 'Yavaş' : speed === 'normal' ? 'Normal' : 'Hızlı'}`,
+      'success'
+    );
   };
 
   const handleBackup = async () => {
@@ -161,9 +180,7 @@ export const SettingsScreen: React.FC = () => {
           >
             Geri
           </Button>
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-100">
-            ⚙️ Ayarlar
-          </h1>
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-100">⚙️ Ayarlar</h1>
         </div>
 
         {/* General Settings */}
@@ -216,15 +233,11 @@ export const SettingsScreen: React.FC = () => {
 
             {/* Language (static) */}
             <div className="space-y-2">
-              <label className="block text-base md:text-lg font-semibold text-slate-100">
-                Dil
-              </label>
+              <label className="block text-base md:text-lg font-semibold text-slate-100">Dil</label>
               <div className="px-4 py-3 bg-slate-700/50 border-2 border-slate-600 rounded-lg text-slate-300">
                 🇹🇷 Türkçe
               </div>
-              <p className="text-sm text-slate-400">
-                Şu anda sadece Türkçe dil desteği mevcuttur
-              </p>
+              <p className="text-sm text-slate-400">Şu anda sadece Türkçe dil desteği mevcuttur</p>
             </div>
           </CardContent>
         </Card>
@@ -244,9 +257,7 @@ export const SettingsScreen: React.FC = () => {
               <div className="px-4 py-3 bg-slate-700/50 border-2 border-slate-600 rounded-lg text-slate-300">
                 5 dakika (300 saniye)
               </div>
-              <p className="text-sm text-slate-400">
-                Oyun kuralları gereği değiştirilemez
-              </p>
+              <p className="text-sm text-slate-400">Oyun kuralları gereği değiştirilemez</p>
             </div>
 
             {/* Default Guesses (read-only) */}
@@ -258,9 +269,7 @@ export const SettingsScreen: React.FC = () => {
               <div className="px-4 py-3 bg-slate-700/50 border-2 border-slate-600 rounded-lg text-slate-300">
                 3 tahmin hakkı
               </div>
-              <p className="text-sm text-slate-400">
-                Oyun kuralları gereği değiştirilemez
-              </p>
+              <p className="text-sm text-slate-400">Oyun kuralları gereği değiştirilemez</p>
             </div>
 
             {/* Animation Speed */}
@@ -403,12 +412,8 @@ export const SettingsScreen: React.FC = () => {
             <li>Tüm oyun geçmişi</li>
             <li>Ayarlar varsayılana döner</li>
           </ul>
-          <p className="text-red-400 font-semibold">
-            ⚠️ Bu işlem geri alınamaz!
-          </p>
-          <p className="text-slate-400">
-            Devam etmek istediğinizden emin misiniz?
-          </p>
+          <p className="text-red-400 font-semibold">⚠️ Bu işlem geri alınamaz!</p>
+          <p className="text-slate-400">Devam etmek istediğinizden emin misiniz?</p>
 
           <div className="flex gap-3 pt-4">
             <Button

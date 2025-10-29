@@ -72,7 +72,6 @@ export const Modal: React.FC<ModalProps> = ({
     return () => document.removeEventListener('keydown', handleEscape);
   }, [isOpen, closeOnEscape, onClose]);
 
-
   // Prevent body scroll when modal is open
   useEffect(() => {
     if (isOpen) {
@@ -179,9 +178,7 @@ export const Modal: React.FC<ModalProps> = ({
             )}
 
             {/* Content */}
-            <div className="text-text-secondary">
-              {children}
-            </div>
+            <div className="text-text-secondary">{children}</div>
           </motion.div>
         </div>
       )}
@@ -199,12 +196,11 @@ export interface ModalFooterProps {
   className?: string;
 }
 
-export const ModalFooter: React.FC<ModalFooterProps> = ({
-  children,
-  className = '',
-}) => {
+export const ModalFooter: React.FC<ModalFooterProps> = ({ children, className = '' }) => {
   return (
-    <div className={`mt-6 pt-6 border-t border-slate-700 flex items-center justify-end gap-3 ${className}`}>
+    <div
+      className={`mt-6 pt-6 border-t border-slate-700 flex items-center justify-end gap-3 ${className}`}
+    >
       {children}
     </div>
   );

@@ -1,8 +1,8 @@
 /**
  * HintSection Component - PRD 4.5, ui-ux-design.md#game-screen
- * 
+ *
  * TV Show Quality Hint Display (100px target height)
- * 
+ *
  * Features:
  * - Large readable hint text
  * - Lightbulb icon (💡)

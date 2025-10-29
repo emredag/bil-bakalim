@@ -137,8 +137,8 @@ export function GameModeSelectionScreen() {
 
           {/* Info Text */}
           <p className="text-base md:text-lg text-slate-300 max-w-3xl">
-            Oyun modunu seçin. Her mod için minimum kelime sayısı gereklidir. Yetersiz kelimeleri olan
-            modlar devre dışı bırakılmıştır.
+            Oyun modunu seçin. Her mod için minimum kelime sayısı gereklidir. Yetersiz kelimeleri
+            olan modlar devre dışı bırakılmıştır.
           </p>
         </header>
 
@@ -151,11 +151,7 @@ export function GameModeSelectionScreen() {
             animate="visible"
           >
             {modeValidations.map((validation) => (
-              <motion.div
-                key={validation.mode}
-                variants={cardVariants}
-                className="flex"
-              >
+              <motion.div key={validation.mode} variants={cardVariants} className="flex">
                 <ModeCard
                   mode={validation.mode}
                   enabled={validation.enabled}

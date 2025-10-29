@@ -36,7 +36,11 @@ class SoundService {
    */
   private initAudioContext(): void {
     try {
-      this.audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const AudioContextConstructor = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContextConstructor) {
+        throw new Error('Web Audio API is not supported in this browser');
+      }
+      this.audioContext = new AudioContextConstructor();
       this.masterGainNode = this.audioContext.createGain();
       this.masterGainNode.connect(this.audioContext.destination);
       this.masterGainNode.gain.value = this.masterVolume;
@@ -144,7 +148,7 @@ class SoundService {
     if (!this.isEnabled || !this.audioContext || !this.masterGainNode) return;
 
     try {
-      const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+      const notes = [523.25, 659.25, 783.99, 1046.5]; // C5, E5, G5, C6
       const noteDuration = 0.25; // 0.25s per note = 1s total
 
       notes.forEach((frequency, index) => {
@@ -244,7 +248,7 @@ class SoundService {
     if (!this.isEnabled || !this.audioContext || !this.masterGainNode) return;
 
     try {
-      const notes = [261.63, 329.63, 392.00, 523.25, 659.25, 783.99]; // C4, E4, G4, C5, E5, G5
+      const notes = [261.63, 329.63, 392.0, 523.25, 659.25, 783.99]; // C4, E4, G4, C5, E5, G5
       const noteDuration = 0.25;
 
       notes.forEach((frequency, index) => {

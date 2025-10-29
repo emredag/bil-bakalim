@@ -54,7 +54,7 @@ export function ResultsMultiplayer({ session, onPlayAgain }: ResultsMultiplayerP
   for (let i = 1; i < participantsWithRank.length; i++) {
     const current = participantsWithRank[i];
     const prev = participantsWithRank[i - 1];
-    
+
     if (current.score === prev.score && current.wordsFound === prev.wordsFound) {
       // Tie detected - use previous rank
       current.rank = prev.rank;
@@ -68,7 +68,7 @@ export function ResultsMultiplayer({ session, onPlayAgain }: ResultsMultiplayerP
       console.log('⏭️ Multiplayer session already saved, skipping:', session.id);
       return;
     }
-    
+
     // Mark as saved immediately
     savedSessionIds.add(session.id);
 
@@ -146,9 +146,7 @@ export function ResultsMultiplayer({ session, onPlayAgain }: ResultsMultiplayerP
         >
           <div className="flex items-center justify-center gap-4 mb-4">
             <Trophy className="w-12 h-12 md:w-16 md:h-16 text-amber-400" />
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white">
-              Sıralama
-            </h1>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white">Sıralama</h1>
             <Trophy className="w-12 h-12 md:w-16 md:h-16 text-amber-400" />
           </div>
           <p className="text-xl md:text-2xl text-slate-300">
@@ -171,7 +169,8 @@ export function ResultsMultiplayer({ session, onPlayAgain }: ResultsMultiplayerP
               {participantsWithRank.map((participant, index) => {
                 const isExpanded = expandedParticipants.has(index);
                 const medal = getMedal(participant.rank);
-                const isTied = index > 0 && participantsWithRank[index - 1].score === participant.score;
+                const isTied =
+                  index > 0 && participantsWithRank[index - 1].score === participant.score;
 
                 // Medal color for top 3
                 let rankColor = 'text-slate-400';
@@ -199,9 +198,7 @@ export function ResultsMultiplayer({ session, onPlayAgain }: ResultsMultiplayerP
                           <span className={`text-2xl md:text-3xl font-bold ${rankColor}`}>
                             {participant.rank}.
                           </span>
-                          {medal && (
-                            <span className="text-3xl md:text-4xl">{medal}</span>
-                          )}
+                          {medal && <span className="text-3xl md:text-4xl">{medal}</span>}
                         </div>
 
                         {/* Name & Score */}
@@ -302,14 +299,14 @@ export function ResultsMultiplayer({ session, onPlayAgain }: ResultsMultiplayerP
                                 word.result === 'found'
                                   ? '✅'
                                   : word.result === 'skipped'
-                                  ? '⏭'
-                                  : '⏱️';
+                                    ? '⏭'
+                                    : '⏱️';
                               const statusColor =
                                 word.result === 'found'
                                   ? 'text-emerald-400'
                                   : word.result === 'skipped'
-                                  ? 'text-amber-400'
-                                  : 'text-red-400';
+                                    ? 'text-amber-400'
+                                    : 'text-red-400';
 
                               return (
                                 <div

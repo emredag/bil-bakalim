@@ -43,7 +43,7 @@ import { ResultsTestTeam } from '../components/screens/ResultsTestTeam';
  * Main application router
  * Uses React Router v7 createBrowserRouter with PageLayout wrapper
  * All routes include fade + slide transitions (PRD 8.4)
- * 
+ *
  * First launch detection: HomeRouteGuard checks on every render
  */
 export const router = createBrowserRouter([

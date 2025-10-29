@@ -209,11 +209,7 @@ export function CategoryManagementScreen() {
           </div>
 
           {/* Create Button */}
-          <Button
-            variant="primary"
-            onClick={() => setShowCreateModal(true)}
-            className="sm:w-auto"
-          >
+          <Button variant="primary" onClick={() => setShowCreateModal(true)} className="sm:w-auto">
             <Plus className="w-5 h-5 mr-2" />
             Yeni Kategori Oluştur
           </Button>
@@ -230,11 +226,7 @@ export function CategoryManagementScreen() {
         {error && !isLoading && (
           <div className="bg-red-500/10 border-2 border-red-500/50 rounded-2xl p-6 text-center">
             <p className="text-red-400 text-lg font-medium">{error}</p>
-            <Button
-              variant="secondary"
-              onClick={loadCategories}
-              className="mt-4"
-            >
+            <Button variant="secondary" onClick={loadCategories} className="mt-4">
               Tekrar Dene
             </Button>
           </div>
@@ -257,11 +249,7 @@ export function CategoryManagementScreen() {
                 : 'Yeni bir kategori oluşturarak başlayın.'}
             </p>
             {!searchQuery && (
-              <Button
-                variant="primary"
-                onClick={() => setShowCreateModal(true)}
-                size="lg"
-              >
+              <Button variant="primary" onClick={() => setShowCreateModal(true)} size="lg">
                 <Plus className="w-5 h-5 mr-2" />
                 İlk Kategoriyi Oluştur
               </Button>

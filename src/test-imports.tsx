@@ -5,11 +5,7 @@ import { create } from 'zustand';
 
 // Test T-005: Framer Motion imports correctly
 const TestMotion = () => (
-  <motion.div
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    className="p-4"
-  >
+  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="p-4">
     Framer Motion Test
   </motion.div>
 );
@@ -37,9 +33,7 @@ const useTestStore = create<StoreState>((set) => ({
 
 // Test T-004: Tailwind classes apply correctly (already tested in App.tsx)
 const TestTailwind = () => (
-  <div className="bg-blue-500 text-white p-4 rounded-lg shadow-md">
-    Tailwind CSS Test
-  </div>
+  <div className="bg-blue-500 text-white p-4 rounded-lg shadow-md">Tailwind CSS Test</div>
 );
 
 export { TestMotion, TestIcons, useTestStore, TestTailwind };

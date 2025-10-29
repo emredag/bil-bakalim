@@ -141,7 +141,8 @@ export default function ResultsTestMulti() {
           Çoklu Yarışmacı Sonuçları - Test
         </h1>
         <p className="text-white/60 mt-2">
-          Test senaryosu: 5 yarışmacı, 1. sıra Ahmet (180 puan, 9 kelime), 2-3. sırada beraberlik (Zeynep vs Mehmet, 160 puan ama farklı kelime sayısı)
+          Test senaryosu: 5 yarışmacı, 1. sıra Ahmet (180 puan, 9 kelime), 2-3. sırada beraberlik
+          (Zeynep vs Mehmet, 160 puan ama farklı kelime sayısı)
         </p>
       </div>
 

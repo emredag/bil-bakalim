@@ -125,12 +125,12 @@ export function GameHistoryScreen() {
       // Load participants for each game
       const participantsData: Record<number, GameParticipant[]> = {};
       const wordResultsData: Record<number, GameWordResult[]> = {};
-      
+
       for (const game of gamesData) {
         try {
           const participants = await getGameParticipants(game.id);
           participantsData[game.id] = participants;
-          
+
           // Load word results for each participant
           for (const participant of participants) {
             try {
@@ -146,7 +146,7 @@ export function GameHistoryScreen() {
           participantsData[game.id] = [];
         }
       }
-      
+
       setParticipantsMap(participantsData);
       setWordResultsMap(wordResultsData);
     } catch (err) {
@@ -227,7 +227,14 @@ export function GameHistoryScreen() {
   };
 
   // Empty state
-  if (!loading && games.length === 0 && !selectedCategoryId && !selectedGameMode && !startDate && !endDate) {
+  if (
+    !loading &&
+    games.length === 0 &&
+    !selectedCategoryId &&
+    !selectedGameMode &&
+    !startDate &&
+    !endDate
+  ) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 p-4 md:p-6 lg:p-8">
         <div className="max-w-7xl mx-auto">
@@ -278,11 +285,7 @@ export function GameHistoryScreen() {
             </h1>
           </div>
           <div className="flex gap-2">
-            <Button
-              variant="secondary"
-              onClick={() => setShowFilters(true)}
-              title="Filtreler"
-            >
+            <Button variant="secondary" onClick={() => setShowFilters(true)} title="Filtreler">
               <Filter className="w-5 h-5" />
             </Button>
             <Button
@@ -315,9 +318,7 @@ export function GameHistoryScreen() {
             <motion.div variants={staggerItem}>
               <Card className="p-4 md:p-6 text-center bg-gradient-to-br from-blue-900/30 to-violet-900/30">
                 <Trophy className="w-8 h-8 text-amber-400 mx-auto mb-2" />
-                <p className="text-2xl md:text-3xl font-bold text-white">
-                  {stats.total_games}
-                </p>
+                <p className="text-2xl md:text-3xl font-bold text-white">{stats.total_games}</p>
                 <p className="text-sm text-slate-400">Toplam Oyun</p>
               </Card>
             </motion.div>
@@ -335,9 +336,7 @@ export function GameHistoryScreen() {
             <motion.div variants={staggerItem}>
               <Card className="p-4 md:p-6 text-center bg-gradient-to-br from-amber-900/30 to-yellow-900/30">
                 <Trophy className="w-8 h-8 text-yellow-400 mx-auto mb-2" />
-                <p className="text-2xl md:text-3xl font-bold text-white">
-                  {stats.highest_score}
-                </p>
+                <p className="text-2xl md:text-3xl font-bold text-white">{stats.highest_score}</p>
                 <p className="text-sm text-slate-400">En Yüksek Skor</p>
               </Card>
             </motion.div>
@@ -402,7 +401,12 @@ export function GameHistoryScreen() {
             </Button>
           </Card>
         ) : (
-          <motion.div variants={staggerContainer} initial="initial" animate="animate" className="space-y-4">
+          <motion.div
+            variants={staggerContainer}
+            initial="initial"
+            animate="animate"
+            className="space-y-4"
+          >
             {games.map((game) => {
               const participants = participantsMap[game.id] || [];
               const sortedParticipants = [...participants].sort((a, b) => a.rank - b.rank);
@@ -415,9 +419,7 @@ export function GameHistoryScreen() {
                       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                         <div className="flex-1 space-y-2">
                           <div className="flex items-center gap-3">
-                            <h3 className="text-xl font-bold text-white">
-                              {game.category_name}
-                            </h3>
+                            <h3 className="text-xl font-bold text-white">{game.category_name}</h3>
                             <span className="px-3 py-1 bg-blue-900/50 text-blue-300 rounded-full text-sm">
                               {formatGameMode(game.game_mode)}
                             </span>
@@ -549,8 +551,8 @@ export function GameHistoryScreen() {
                                               wordResult.result === 'found'
                                                 ? 'bg-green-900/20 border border-green-700/30'
                                                 : wordResult.result === 'skipped'
-                                                ? 'bg-orange-900/20 border border-orange-700/30'
-                                                : 'bg-red-900/20 border border-red-700/30'
+                                                  ? 'bg-orange-900/20 border border-orange-700/30'
+                                                  : 'bg-red-900/20 border border-red-700/30'
                                             }`}
                                           >
                                             <div className="flex items-center justify-between mb-1">
@@ -562,15 +564,15 @@ export function GameHistoryScreen() {
                                                   wordResult.result === 'found'
                                                     ? 'bg-green-600/30 text-green-300'
                                                     : wordResult.result === 'skipped'
-                                                    ? 'bg-orange-600/30 text-orange-300'
-                                                    : 'bg-red-600/30 text-red-300'
+                                                      ? 'bg-orange-600/30 text-orange-300'
+                                                      : 'bg-red-600/30 text-red-300'
                                                 }`}
                                               >
                                                 {wordResult.result === 'found'
                                                   ? '✓ Buldu'
                                                   : wordResult.result === 'skipped'
-                                                  ? '→ Geçti'
-                                                  : '✗ Bulamadı'}
+                                                    ? '→ Geçti'
+                                                    : '✗ Bulamadı'}
                                               </span>
                                             </div>
                                             {wordResult.word_hint && (
@@ -640,17 +642,11 @@ export function GameHistoryScreen() {
       </div>
 
       {/* Filter Modal */}
-      <Modal
-        isOpen={showFilters}
-        onClose={() => setShowFilters(false)}
-        title="Filtreler"
-      >
+      <Modal isOpen={showFilters} onClose={() => setShowFilters(false)} title="Filtreler">
         <div className="space-y-4">
           {/* Category Filter */}
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
-              Kategori
-            </label>
+            <label className="block text-sm font-medium text-slate-300 mb-2">Kategori</label>
             <select
               className="w-full bg-slate-900 border-2 border-slate-700 focus:border-blue-500 rounded-lg px-4 py-2 text-slate-100"
               value={selectedCategoryId || ''}
@@ -669,9 +665,7 @@ export function GameHistoryScreen() {
 
           {/* Game Mode Filter */}
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
-              Oyun Modu
-            </label>
+            <label className="block text-sm font-medium text-slate-300 mb-2">Oyun Modu</label>
             <select
               className="w-full bg-slate-900 border-2 border-slate-700 focus:border-blue-500 rounded-lg px-4 py-2 text-slate-100"
               value={selectedGameMode || ''}
@@ -699,9 +693,7 @@ export function GameHistoryScreen() {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
-              Bitiş Tarihi
-            </label>
+            <label className="block text-sm font-medium text-slate-300 mb-2">Bitiş Tarihi</label>
             <input
               type="date"
               className="w-full bg-slate-900 border-2 border-slate-700 focus:border-blue-500 rounded-lg px-4 py-2 text-slate-100"
@@ -712,15 +704,11 @@ export function GameHistoryScreen() {
 
           {/* Sort By */}
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
-              Sıralama
-            </label>
+            <label className="block text-sm font-medium text-slate-300 mb-2">Sıralama</label>
             <select
               className="w-full bg-slate-900 border-2 border-slate-700 focus:border-blue-500 rounded-lg px-4 py-2 text-slate-100"
               value={sortBy}
-              onChange={(e) =>
-                setSortBy(e.target.value as 'date_desc' | 'date_asc' | 'score_desc')
-              }
+              onChange={(e) => setSortBy(e.target.value as 'date_desc' | 'date_asc' | 'score_desc')}
             >
               <option value="date_desc">Tarih (Yeni → Eski)</option>
               <option value="date_asc">Tarih (Eski → Yeni)</option>
@@ -763,11 +751,7 @@ export function GameHistoryScreen() {
           Bu oyun kaydını silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.
         </p>
         <div className="flex gap-2">
-          <Button
-            variant="secondary"
-            className="flex-1"
-            onClick={() => setDeleteConfirmId(null)}
-          >
+          <Button variant="secondary" className="flex-1" onClick={() => setDeleteConfirmId(null)}>
             İptal
           </Button>
           <Button
@@ -788,7 +772,8 @@ export function GameHistoryScreen() {
       >
         <p className="text-slate-300 mb-6">
           Tüm oyun geçmişini silmek istediğinizden emin misiniz? Bu işlem geri alınamaz ve{' '}
-          <strong className="text-red-400">{stats?.total_games || 0}</strong> oyun kaydı silinecektir.
+          <strong className="text-red-400">{stats?.total_games || 0}</strong> oyun kaydı
+          silinecektir.
         </p>
         <div className="flex gap-2">
           <Button

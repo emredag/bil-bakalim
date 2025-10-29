@@ -46,7 +46,7 @@ export function ResultsSinglePlayer({ session, onPlayAgain }: ResultsSinglePlaye
       console.log('⏭️ Session already saved, skipping:', session.id);
       return;
     }
-    
+
     // Mark as saved immediately
     savedSessionIds.add(session.id);
 
@@ -146,9 +146,7 @@ export function ResultsSinglePlayer({ session, onPlayAgain }: ResultsSinglePlaye
           <p className="text-xl md:text-2xl text-slate-300">
             {session.categoryEmoji} {session.categoryName}
           </p>
-          <p className="text-lg md:text-xl text-slate-400 mt-2">
-            {participant.name}
-          </p>
+          <p className="text-lg md:text-xl text-slate-400 mt-2">{participant.name}</p>
         </motion.div>
 
         {/* Score Card */}
@@ -227,9 +225,7 @@ export function ResultsSinglePlayer({ session, onPlayAgain }: ResultsSinglePlaye
           <Card className="p-6 md:p-8">
             {/* Header with Expand/Collapse buttons */}
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl md:text-3xl font-bold text-white">
-                📝 Kelime Detayları
-              </h2>
+              <h2 className="text-2xl md:text-3xl font-bold text-white">📝 Kelime Detayları</h2>
               <div className="flex gap-2">
                 <Button
                   variant="secondary"
@@ -254,15 +250,23 @@ export function ResultsSinglePlayer({ session, onPlayAgain }: ResultsSinglePlaye
             <div className="space-y-3">
               {words.map((word, index) => {
                 const isExpanded = expandedWords.has(index);
-                const statusIcon = word.result === 'found' ? '✅' : word.result === 'skipped' ? '⏭' : '⏱️';
-                const statusText = word.result === 'found' ? 'Bulundu' : word.result === 'skipped' ? 'Pas' : 'Süre Doldu';
-                const statusColor = word.result === 'found' ? 'text-emerald-400' : word.result === 'skipped' ? 'text-amber-400' : 'text-red-400';
+                const statusIcon =
+                  word.result === 'found' ? '✅' : word.result === 'skipped' ? '⏭' : '⏱️';
+                const statusText =
+                  word.result === 'found'
+                    ? 'Bulundu'
+                    : word.result === 'skipped'
+                      ? 'Pas'
+                      : 'Süre Doldu';
+                const statusColor =
+                  word.result === 'found'
+                    ? 'text-emerald-400'
+                    : word.result === 'skipped'
+                      ? 'text-amber-400'
+                      : 'text-red-400';
 
                 return (
-                  <div
-                    key={index}
-                    className="bg-slate-700/50 rounded-lg overflow-hidden"
-                  >
+                  <div key={index} className="bg-slate-700/50 rounded-lg overflow-hidden">
                     {/* Word Header - Clickable */}
                     <button
                       onClick={() => toggleWord(index)}
@@ -274,7 +278,10 @@ export function ResultsSinglePlayer({ session, onPlayAgain }: ResultsSinglePlaye
                         </span>
                         <div className="text-left">
                           <p className="text-lg md:text-xl font-bold text-white">
-                            {word.word} <span className="text-slate-400 text-sm">({word.letterCount} harf)</span>
+                            {word.word}{' '}
+                            <span className="text-slate-400 text-sm">
+                              ({word.letterCount} harf)
+                            </span>
                           </p>
                           <p className={`text-sm md:text-base font-medium ${statusColor}`}>
                             {statusIcon} {statusText} | {word.pointsEarned} puan

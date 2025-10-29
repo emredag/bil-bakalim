@@ -35,10 +35,7 @@ export function createOscillator(
  * @param duration - Duration in seconds
  * @returns AudioBufferSourceNode with white noise
  */
-export function createWhiteNoise(
-  ctx: AudioContext,
-  duration: number
-): AudioBufferSourceNode {
+export function createWhiteNoise(ctx: AudioContext, duration: number): AudioBufferSourceNode {
   const bufferSize = ctx.sampleRate * duration;
   const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
   const output = buffer.getChannelData(0);
@@ -84,10 +81,7 @@ export function createFilter(
  * @param initialGain - Initial gain value (0-1)
  * @returns GainNode
  */
-export function createGainNode(
-  ctx: AudioContext,
-  initialGain: number = 1
-): GainNode {
+export function createGainNode(ctx: AudioContext, initialGain: number = 1): GainNode {
   const gain = ctx.createGain();
   gain.gain.value = initialGain;
   return gain;

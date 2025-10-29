@@ -131,16 +131,8 @@ const ComponentsDemo: React.FC<{ showToast: (msg: string, type?: any) => void }>
             icon={<HelpCircle className="w-5 h-5" />}
             fullWidth
           />
-          <Input
-            label="With Error"
-            error="This field is required"
-            fullWidth
-          />
-          <Input
-            label="With Helper"
-            helperText="This is a helper text"
-            fullWidth
-          />
+          <Input label="With Error" error="This field is required" fullWidth />
+          <Input label="With Helper" helperText="This is a helper text" fullWidth />
         </div>
       </Card>
 
@@ -162,22 +154,13 @@ const ComponentsDemo: React.FC<{ showToast: (msg: string, type?: any) => void }>
       <Card>
         <h3 className="mb-4">Toasts</h3>
         <div className="flex flex-wrap gap-3">
-          <Button
-            variant="secondary"
-            onClick={() => showToast('Success message!', 'success')}
-          >
+          <Button variant="secondary" onClick={() => showToast('Success message!', 'success')}>
             Show Success
           </Button>
-          <Button
-            variant="secondary"
-            onClick={() => showToast('Error message!', 'error')}
-          >
+          <Button variant="secondary" onClick={() => showToast('Error message!', 'error')}>
             Show Error
           </Button>
-          <Button
-            variant="secondary"
-            onClick={() => showToast('Warning message!', 'warning')}
-          >
+          <Button variant="secondary" onClick={() => showToast('Warning message!', 'warning')}>
             Show Warning
           </Button>
         </div>
@@ -253,9 +236,27 @@ const GameUIDemo: React.FC = () => {
         <div className="space-y-4">
           <TeamChipList
             teams={[
-              { id: '1', name: 'Mavi Takım', color: TEAM_COLORS[0], emoji: TEAM_EMOJIS[0], score: 1500 },
-              { id: '2', name: 'Mor Takım', color: TEAM_COLORS[1], emoji: TEAM_EMOJIS[1], score: 1200 },
-              { id: '3', name: 'Yeşil Takım', color: TEAM_COLORS[2], emoji: TEAM_EMOJIS[2], score: 1800 },
+              {
+                id: '1',
+                name: 'Mavi Takım',
+                color: TEAM_COLORS[0],
+                emoji: TEAM_EMOJIS[0],
+                score: 1500,
+              },
+              {
+                id: '2',
+                name: 'Mor Takım',
+                color: TEAM_COLORS[1],
+                emoji: TEAM_EMOJIS[1],
+                score: 1200,
+              },
+              {
+                id: '3',
+                name: 'Yeşil Takım',
+                color: TEAM_COLORS[2],
+                emoji: TEAM_EMOJIS[2],
+                score: 1800,
+              },
             ]}
             activeTeamId="1"
             showScores

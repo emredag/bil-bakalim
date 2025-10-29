@@ -28,6 +28,7 @@ import { TurnTransition } from './TurnTransition';
 import { useGameStore } from '../../store/gameStore';
 import { useSettingsStore } from '../../store/settingsStore';
 import { soundService } from '../../services';
+import { ROUTES } from '../../routes/constants';
 import { Modal } from '../ui/Modal';
 import { Button } from '../ui/Button';
 
@@ -102,6 +103,10 @@ export const GameScreen: React.FC = () => {
         case 'KeyP':
           setShowSkipModal(true);
           break;
+        case 'KeyM':
+          // Toggle sound (PRD 11.2)
+          soundService.toggle();
+          break;
         case 'Space':
           e.preventDefault();
           handlePause();
@@ -116,6 +121,62 @@ export const GameScreen: React.FC = () => {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [session]);
+
+  // Guess Modal keyboard shortcuts (PRD 11.3)
+  useEffect(() => {
+    if (!showGuessModal) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      switch (e.key.toLowerCase()) {
+        case 'd':
+        case 'enter':
+          e.preventDefault();
+          handleGuess(true);
+          break;
+        case 'y':
+          e.preventDefault();
+          handleGuess(false);
+          break;
+        case 'n':
+          e.preventDefault();
+          setShowGuessModal(false);
+          break;
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [showGuessModal]);
+
+  // Skip Modal keyboard shortcuts (PRD 11.3)
+  useEffect(() => {
+    if (!showSkipModal) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        handleSkip();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [showSkipModal]);
+
+  // Home Modal keyboard shortcuts (PRD 11.3)
+  useEffect(() => {
+    if (!showHomeModal) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        navigate(ROUTES.HOME);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [showHomeModal, navigate]);
 
   // Check if game finished
   useEffect(() => {

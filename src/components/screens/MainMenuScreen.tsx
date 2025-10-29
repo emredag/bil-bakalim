@@ -19,6 +19,7 @@ import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../routes/constants';
 import { ActionCard } from '../ActionCard';
 import { ParticleBackground } from '../ParticleBackground';
+import { useKeyboardShortcuts } from '../../hooks';
 
 /**
  * MainMenuScreen - Primary navigation hub
@@ -33,6 +34,9 @@ import { ParticleBackground } from '../ParticleBackground';
  */
 export function MainMenuScreen() {
   const navigate = useNavigate();
+
+  // Global keyboard shortcuts (PRD Section 11.1)
+  useKeyboardShortcuts();
 
   // Check if in development mode
   const isDev = import.meta.env.DEV;

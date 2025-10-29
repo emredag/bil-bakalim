@@ -48,6 +48,7 @@ import {
 } from '../../api/gameHistory';
 import { getAllCategories } from '../../api/category';
 import { Category } from '../../types/database';
+import { useKeyboardShortcuts } from '../../hooks';
 import { Button } from '../ui/Button';
 import { Card } from '../ui/Card';
 import { Modal } from '../ui/Modal';
@@ -59,6 +60,9 @@ const GAME_MODES = ['single', 'multi', 'team'];
 
 export function GameHistoryScreen() {
   const navigate = useNavigate();
+
+  // Global keyboard shortcuts (PRD Section 11.1)
+  useKeyboardShortcuts();
 
   // State
   const [games, setGames] = useState<GameHistory[]>([]);

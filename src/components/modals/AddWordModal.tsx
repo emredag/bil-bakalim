@@ -21,6 +21,7 @@ import { Badge } from '../ui/Badge';
 import { useToast } from '../ui/Toast';
 import { addWord, getWordsByCategory } from '../../api/word';
 import { Word, ValidationResult } from '../../types/database';
+import { useKeyboardShortcuts } from '../../hooks';
 
 export interface AddWordModalProps {
   isOpen: boolean;
@@ -70,6 +71,16 @@ export function AddWordModal({
       loadExistingWords();
     }
   }, [isOpen, categoryId]);
+
+  // Keyboard shortcuts (PRD Section 11.4)
+  useKeyboardShortcuts({
+    onSave: () => {
+      if (isOpen && !isSubmitting) {
+        handleSubmit(new Event('submit') as any);
+      }
+    },
+    disableNavigation: isOpen,
+  });
 
   // Load existing words for duplicate checking
   const loadExistingWords = async () => {

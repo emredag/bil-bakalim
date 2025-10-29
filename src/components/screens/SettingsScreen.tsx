@@ -31,10 +31,14 @@ import { soundService } from '../../services';
 import { Button, Card, CardHeader, CardTitle, CardContent, Toggle, Select, Modal, useToast } from '../ui';
 import { backupDatabase, restoreDatabase, resetAllData, getDatabaseSize, formatBytes } from '../../api/database';
 import { ROUTES } from '../../routes/constants';
+import { useKeyboardShortcuts } from '../../hooks';
 
 export const SettingsScreen: React.FC = () => {
   const navigate = useNavigate();
   const toast = useToast();
+
+  // Global keyboard shortcuts (PRD Section 11.1)
+  useKeyboardShortcuts();
 
   // Settings from store
   const soundEnabled = useSettingsStore((state) => state.soundEnabled);

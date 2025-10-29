@@ -22,6 +22,7 @@ import { useCategories } from '../../hooks/useCategories';
 import { ROUTES } from '../../routes/constants';
 import { Skeleton } from '../../animations/SkeletonLoader';
 import { useCategoryStore } from '../../store/categoryStore';
+import { useKeyboardShortcuts } from '../../hooks';
 
 /**
  * CategorySelectionScreen - Category selection page
@@ -42,6 +43,9 @@ export function CategorySelectionScreen() {
 
   // Search state
   const [searchQuery, setSearchQuery] = useState('');
+
+  // Global keyboard shortcuts (PRD Section 11.1)
+  useKeyboardShortcuts();
 
   // Handle category selection (Play button)
   const handlePlayCategory = (categoryId: number) => {

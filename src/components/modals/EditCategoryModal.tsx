@@ -16,6 +16,7 @@ import { EmojiPicker, EmojiButton } from '../EmojiPicker';
 import { useToast } from '../ui/Toast';
 import { updateCategory } from '../../api/category';
 import { Category } from '../../types/database';
+import { useKeyboardShortcuts } from '../../hooks';
 
 export interface EditCategoryModalProps {
   isOpen: boolean;
@@ -60,6 +61,16 @@ export function EditCategoryModal({
       setShowEmojiPicker(false);
     }
   }, [isOpen, category]);
+
+  // Keyboard shortcuts (PRD Section 11.4)
+  useKeyboardShortcuts({
+    onSave: () => {
+      if (isOpen && !isSubmitting) {
+        handleSubmit(new Event('submit') as any);
+      }
+    },
+    disableNavigation: isOpen,
+  });
 
   // Validation
   const validate = (): boolean => {

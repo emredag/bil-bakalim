@@ -12,7 +12,7 @@
  * - Navigate to word management
  */
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Plus, Search, ArrowLeft, Loader2 } from 'lucide-react';
@@ -25,6 +25,7 @@ import { DeleteCategoryDialog } from '../modals/DeleteCategoryDialog';
 import { getAllCategories, validateCategory } from '../../api/category';
 import { Category, ValidationResult } from '../../types/database';
 import { ROUTES, buildRoute } from '../../routes/constants';
+import { useKeyboardShortcuts } from '../../hooks';
 
 /**
  * CategoryManagementScreen Component
@@ -52,6 +53,15 @@ export function CategoryManagementScreen() {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [editingCategory, setEditingCategory] = useState<Category | null>(null);
   const [deletingCategory, setDeletingCategory] = useState<Category | null>(null);
+
+  // Search input ref for keyboard shortcut
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  // Keyboard shortcuts (PRD Section 11.4)
+  useKeyboardShortcuts({
+    onNew: () => setShowCreateModal(true),
+    onSearch: () => searchInputRef.current?.focus(),
+  });
 
   // Load categories on mount
   useEffect(() => {
@@ -189,8 +199,9 @@ export function CategoryManagementScreen() {
           <div className="flex-1 relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
             <Input
+              ref={searchInputRef}
               type="text"
-              placeholder="Kategori ara..."
+              placeholder="Kategori ara... (Ctrl/Cmd+F)"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-10"

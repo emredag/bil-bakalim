@@ -12,7 +12,7 @@
  * - JSON Import/Export buttons (Task 30)
  */
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Plus, Search, ArrowLeft, Upload, Download, Edit2, Trash2, Loader2, AlertCircle, X } from 'lucide-react';
@@ -27,6 +27,7 @@ import { getCategoryById, validateCategory, exportCategoryToJson, importCategory
 import { Category, Word, ValidationResult } from '../../types/database';
 import { ROUTES } from '../../routes/constants';
 import { useToast, ToastContainer } from '../ui/Toast';
+import { useKeyboardShortcuts } from '../../hooks';
 
 /**
  * WordManagementScreen Component
@@ -62,6 +63,15 @@ export function WordManagementScreen() {
   // Sort state
   const [sortKey, setSortKey] = useState<string>('word');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+
+  // Search input ref for keyboard shortcut
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  // Keyboard shortcuts (PRD Section 11.4)
+  useKeyboardShortcuts({
+    onNew: () => setShowAddModal(true),
+    onSearch: () => searchInputRef.current?.focus(),
+  });
 
   // Load category and words on mount
   useEffect(() => {
@@ -377,8 +387,9 @@ export function WordManagementScreen() {
               {/* Search Input */}
               <div className="flex-1 sm:max-w-md ml-auto">
                 <Input
+                  ref={searchInputRef}
                   type="text"
-                  placeholder="Kelime veya ipucu ara..."
+                  placeholder="Kelime veya ipucu ara... (Ctrl/Cmd+F)"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   icon={<Search className="w-5 h-5" />}

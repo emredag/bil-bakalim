@@ -21,6 +21,7 @@ import { EmojiPicker, EmojiButton } from '../EmojiPicker';
 import { useToast } from '../ui/Toast';
 import { createCategory, getAllCategories } from '../../api/category';
 import { Category } from '../../types/database';
+import { useKeyboardShortcuts } from '../../hooks';
 
 export interface CreateCategoryModalProps {
   isOpen: boolean;
@@ -64,6 +65,16 @@ export function CreateCategoryModal({ isOpen, onClose, onSuccess, onSuccessAndAd
       loadExistingCategories();
     }
   }, [isOpen]);
+
+  // Keyboard shortcuts (PRD Section 11.4)
+  useKeyboardShortcuts({
+    onSave: () => {
+      if (isOpen && !isSubmitting) {
+        handleSubmit(new Event('submit') as any);
+      }
+    },
+    disableNavigation: isOpen,
+  });
 
   // Load existing categories
   const loadExistingCategories = async () => {

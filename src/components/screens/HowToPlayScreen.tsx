@@ -27,6 +27,7 @@ import { Button } from '../ui/Button';
 import { Card } from '../ui/Card';
 import { Tabs, type Tab } from '../ui/Tabs';
 import { ROUTES } from '../../routes/constants';
+import { useKeyboardShortcuts } from '../../hooks';
 
 /**
  * Tutorial Steps Data
@@ -128,6 +129,9 @@ const KEYBOARD_SHORTCUTS = {
 export function HowToPlayScreen() {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(0);
+
+  // Global keyboard shortcuts (PRD Section 11.1)
+  useKeyboardShortcuts();
 
   /**
    * Navigate to next tutorial step

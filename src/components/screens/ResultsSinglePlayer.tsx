@@ -58,7 +58,8 @@ export function ResultsSinglePlayer({ session, onPlayAgain }: ResultsSinglePlaye
       category_name: session.categoryName,
       game_mode: session.mode,
       played_at: new Date().toISOString(),
-      total_time_seconds: session.elapsedTimeSeconds,
+      // Use participant's elapsed time, not session's (which is not updated)
+      total_time_seconds: participant.elapsedTimeSeconds,
       participants: [
         {
           name: participant.name,
@@ -97,7 +98,8 @@ export function ResultsSinglePlayer({ session, onPlayAgain }: ResultsSinglePlaye
   const wordsFound = participant.wordsFound;
   const wordsSkipped = participant.wordsSkipped;
   const lettersRevealed = participant.lettersRevealed;
-  const elapsedSeconds = session.elapsedTimeSeconds;
+  // Use participant's elapsed time, not session's (which is not updated)
+  const elapsedSeconds = participant.elapsedTimeSeconds;
   const avgTimePerWord = totalWords > 0 ? elapsedSeconds / totalWords : 0;
 
   // Format time (MM:SS)

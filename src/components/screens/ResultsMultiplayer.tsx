@@ -72,12 +72,19 @@ export function ResultsMultiplayer({ session, onPlayAgain }: ResultsMultiplayerP
     // Mark as saved immediately
     savedSessionIds.add(session.id);
 
+    // Calculate total elapsed time from all participants
+    const totalElapsedTime = participantsWithRank.reduce(
+      (sum, p) => sum + p.elapsedTimeSeconds,
+      0
+    );
+
     const gameData: GameSessionData = {
       category_id: session.categoryId,
       category_name: session.categoryName,
       game_mode: session.mode,
       played_at: new Date().toISOString(),
-      total_time_seconds: session.elapsedTimeSeconds,
+      // Use sum of all participants' elapsed time
+      total_time_seconds: totalElapsedTime,
       participants: participantsWithRank.map((p) => ({
         name: p.name,
         participant_type: p.type,
@@ -263,7 +270,7 @@ export function ResultsMultiplayer({ session, onPlayAgain }: ResultsMultiplayerP
                     >
                       <div className="p-4 md:p-6 pt-0 border-t border-slate-600/50">
                         {/* Stats Grid */}
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-6">
                           <div className="bg-slate-800/50 p-3 rounded-lg text-center">
                             <p className="text-2xl font-bold text-emerald-400 tabular-nums">
                               {participant.wordsFound}/{participant.words.length}
@@ -284,6 +291,30 @@ export function ResultsMultiplayer({ session, onPlayAgain }: ResultsMultiplayerP
                           </div>
                           <div className="bg-slate-800/50 p-3 rounded-lg text-center">
                             <p className="text-2xl font-bold text-violet-400 tabular-nums">
+                              {(() => {
+                                const mins = Math.floor(participant.elapsedTimeSeconds / 60);
+                                const secs = Math.floor(participant.elapsedTimeSeconds % 60);
+                                return `${mins}:${secs.toString().padStart(2, '0')}`;
+                              })()}
+                            </p>
+                            <p className="text-xs text-slate-400 mt-1">Geçen Süre</p>
+                          </div>
+                          <div className="bg-slate-800/50 p-3 rounded-lg text-center">
+                            <p className="text-2xl font-bold text-cyan-400 tabular-nums">
+                              {(() => {
+                                const avgSeconds =
+                                  participant.words.length > 0
+                                    ? participant.elapsedTimeSeconds / participant.words.length
+                                    : 0;
+                                const mins = Math.floor(avgSeconds / 60);
+                                const secs = Math.floor(avgSeconds % 60);
+                                return `${mins}:${secs.toString().padStart(2, '0')}`;
+                              })()}
+                            </p>
+                            <p className="text-xs text-slate-400 mt-1">Ort. Süre/Kelime</p>
+                          </div>
+                          <div className="bg-slate-800/50 p-3 rounded-lg text-center">
+                            <p className="text-2xl font-bold text-slate-400 tabular-nums">
                               {participant.words.length}
                             </p>
                             <p className="text-xs text-slate-400 mt-1">Toplam Kelime</p>

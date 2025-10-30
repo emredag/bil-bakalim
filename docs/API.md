@@ -364,8 +364,10 @@ Oyun için rastgele kelime seçer.
 **Seçim Algoritması:**
 - Her harf uzunluğundan (4-10) tam 2 kelime seçilir
 - Toplam 14 kelime döner
-- Son olarak karıştırılır (shuffle)
+- **Kelimeler harf sayısına göre SIRALANIR (4,4,5,5,6,6,7,7,8,8,9,9,10,10)**
+- Her çift içindeki kelimeler rastgele seçilir (RANDOM())
 - `exclude_ids` listesindeki kelimeler seçilmez
+- **NOT:** Eski versiyonda shuffle yapılıyordu, artık yapılmıyor (oyun kuralları gereği)
 
 **Hatalar:**
 - `ValidationError` - Yeterli kelime yoksa

@@ -3,7 +3,6 @@
 use crate::db;
 use crate::errors::AppError;
 use crate::models::Word;
-use rand::seq::SliceRandom;
 
 /// Get all words for a specific category
 #[tauri::command]
@@ -156,7 +155,6 @@ pub fn delete_word(id: i32) -> Result<(), AppError> {
 pub fn get_random_words(category_id: i32, exclude_ids: Vec<i32>) -> Result<Vec<Word>, AppError> {
     let conn = db::get_connection()?;
     let mut selected_words = Vec::new();
-    let mut rng = rand::thread_rng();
 
     // For each letter length (4-10), select 2 random words
     for letter_count in 4..=10 {
@@ -206,8 +204,9 @@ pub fn get_random_words(category_id: i32, exclude_ids: Vec<i32>) -> Result<Vec<W
         selected_words.extend(words);
     }
 
-    // Shuffle the final list for variety
-    selected_words.shuffle(&mut rng);
+    // DO NOT shuffle! Words must be presented in order by length (4,4,5,5,6,6,7,7,8,8,9,9,10,10)
+    // as per game rules: "Kelimeler artan zorlukta ilerler"
+    // Each pair (2 words of same length) is already randomized by RANDOM() in SQL query
 
     Ok(selected_words)
 }

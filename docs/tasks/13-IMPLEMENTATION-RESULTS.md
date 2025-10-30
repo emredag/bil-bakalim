@@ -42,7 +42,8 @@ const wordSets = await selectWordsForGame(categoryId, 'single', 1);
 // - 2 words of length 8
 // - 2 words of length 9
 // - 2 words of length 10
-// Total: 14 words, randomized order
+// Total: 14 words, ORDERED by length (4,4,5,5,6,6,7,7,8,8,9,9,10,10)
+// Note: Within each pair, words are randomly selected
 ```
 
 ### Multi Player Mode (3 players example)
@@ -71,7 +72,7 @@ const wordSets = await selectWordsForGame(categoryId, 'team', 2);
 ✅ **Single Player:**
 - Kategoriden rastgele 14 kelime seçilir
 - Her uzunluktan 2'şer kelime (4-10 harf)
-- Karışık sırada sunulur
+- **ARTAN ZORLUKTA (harf sayısına göre sıralı) sunulur** (4,4,5,5,6,6,7,7,8,8,9,9,10,10)
 
 ✅ **Multi Player:**
 - Her yarışmacı için ayrı 14 kelime seçilir

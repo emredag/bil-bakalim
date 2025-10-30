@@ -61,6 +61,24 @@ async function testSinglePlayerWordSelection(categoryId: number) {
     }
     log(`✓ Exactly 2 words per length (4-10)`, 'green');
 
+    // Check word order: should be 4,4,5,5,6,6,7,7,8,8,9,9,10,10 (ascending by length)
+    const expectedOrder = [4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10];
+    const actualOrder = words.map((w) => w.letterCount);
+    let orderCorrect = true;
+    for (let i = 0; i < expectedOrder.length; i++) {
+      if (expectedOrder[i] !== actualOrder[i]) {
+        orderCorrect = false;
+        break;
+      }
+    }
+    if (!orderCorrect) {
+      log(`❌ FAILED: Words not in correct order`, 'red');
+      log(`   Expected: ${expectedOrder.join(', ')}`, 'red');
+      log(`   Got:      ${actualOrder.join(', ')}`, 'red');
+      return false;
+    }
+    log(`✓ Words ordered correctly (ascending by length)`, 'green');
+
     // Check word structure
     const firstWord = words[0];
     if (!firstWord.id || !firstWord.word || !firstWord.hint) {
@@ -290,35 +308,57 @@ async function testInsufficientWordsError(categoryId: number) {
 }
 
 /**
- * Test 6: Word Randomization
- * PRD: "Karışık sırada sunulur"
+ * Test 6: Word Order (Updated based on game rules)
+ * Game Rules: Words must be presented in order by length (4,4,5,5,6,6,7,7,8,8,9,9,10,10)
+ * "Kelimeler artan zorlukta ilerler" - words progress in increasing difficulty
  */
-async function testWordRandomization(categoryId: number) {
-  log('\n=== TEST 6: Word Randomization ===', 'blue');
+async function testWordOrder(categoryId: number) {
+  log('\n=== TEST 6: Word Order (By Length) ===', 'blue');
 
   try {
-    // Get two word sets
-    const wordSets1 = await selectWordsForGame(categoryId, 'single', 1);
-    const wordSets2 = await selectWordsForGame(categoryId, 'single', 1);
+    const wordSets = await selectWordsForGame(categoryId, 'single', 1);
+    const words = wordSets[0];
 
-    const words1 = wordSets1[0];
-    const words2 = wordSets2[0];
+    log(`✓ Received ${words.length} words`, 'green');
 
-    // Check if order is different (randomized)
-    let differenceCount = 0;
-    for (let i = 0; i < words1.length; i++) {
-      if (words1[i].id !== words2[i].id) {
-        differenceCount++;
+    // Expected order: 4,4,5,5,6,6,7,7,8,8,9,9,10,10
+    const expectedLengths = [4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10];
+    const actualLengths = words.map((w) => w.letterCount);
+
+    log('\nExpected length order: ' + expectedLengths.join(', '), 'blue');
+    log('Actual length order:   ' + actualLengths.join(', '), 'blue');
+
+    // Check if order matches
+    let isCorrectOrder = true;
+    for (let i = 0; i < expectedLengths.length; i++) {
+      if (expectedLengths[i] !== actualLengths[i]) {
+        isCorrectOrder = false;
+        log(`✗ Position ${i + 1}: Expected ${expectedLengths[i]}, got ${actualLengths[i]}`, 'red');
       }
     }
 
-    if (differenceCount === 0) {
-      log(`⚠️  WARNING: Words appear in same order (might need more test runs)`, 'yellow');
+    if (isCorrectOrder) {
+      log('\n✓ Words are in correct order (ascending by length)', 'green');
+      log('✓ Game rule satisfied: "Kelimeler artan zorlukta ilerler"', 'green');
     } else {
-      log(`✓ Words are randomized (${differenceCount} different positions)`, 'green');
+      log('\n✗ Words are NOT in correct order', 'red');
+      throw new Error('Words must be ordered by length: 4,4,5,5,6,6,7,7,8,8,9,9,10,10');
     }
 
-    log('\n✅ TEST 6 PASSED: Word randomization confirmed', 'green');
+    // Verify each pair is from same length
+    for (let i = 0; i < 7; i++) {
+      const idx1 = i * 2;
+      const idx2 = i * 2 + 1;
+      const len1 = words[idx1].letterCount;
+      const len2 = words[idx2].letterCount;
+
+      if (len1 !== len2) {
+        throw new Error(`Pair ${i + 1}: Words ${idx1 + 1} and ${idx2 + 1} should have same length`);
+      }
+      log(`✓ Pair ${i + 1}: Both words have ${len1} letters`, 'green');
+    }
+
+    log('\n✅ TEST 6 PASSED: Words are correctly ordered by length', 'green');
     return true;
   } catch (error) {
     log(`❌ TEST 6 FAILED with error: ${error}`, 'red');
@@ -341,7 +381,7 @@ export async function runWordSelectionTests(categoryId: number) {
     test3: await testTeamModeWordSelection(categoryId),
     test4: await testCategoryValidation(categoryId),
     test5: await testInsufficientWordsError(categoryId),
-    test6: await testWordRandomization(categoryId),
+    test6: await testWordOrder(categoryId),
   };
 
   const passed = Object.values(results).filter((r) => r).length;

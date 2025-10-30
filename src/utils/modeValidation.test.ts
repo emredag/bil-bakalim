@@ -7,7 +7,7 @@ import {
   isCategoryPlayable,
   getPlayableModes,
 } from './modeValidation';
-import type { GameMode, ValidationResult } from '../types';
+import type { ValidationResult } from '../types';
 
 describe('modeValidation', () => {
   describe('calculateRequiredWords', () => {

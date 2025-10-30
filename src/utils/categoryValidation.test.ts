@@ -12,7 +12,6 @@ import {
   formatInsufficientLengths,
 } from './categoryValidation';
 import type { ValidationResult } from '../types/database';
-import type { GameMode } from '../types/game';
 
 describe('categoryValidation', () => {
   describe('calculateRequiredWords', () => {

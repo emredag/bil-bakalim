@@ -171,7 +171,7 @@ describe('participantValidation', () => {
         name: 'Team A',
         emoji: '🔥',
         color: 'red',
-        members: [{ name: 'Alice' }, { name: 'Bob' }],
+        members: [{ name: 'Alice', order: 1 }, { name: 'Bob', order: 2 }],
       };
       const errors = validateTeam(team, 0);
       expect(errors).toHaveLength(0);
@@ -182,7 +182,7 @@ describe('participantValidation', () => {
         name: '',
         emoji: '🔥',
         color: 'red',
-        members: [{ name: 'Alice' }, { name: 'Bob' }],
+        members: [{ name: 'Alice', order: 1 }, { name: 'Bob', order: 2 }],
       };
       const errors = validateTeam(team, 0);
       expect(errors.some((e) => e.includes('Takım adı boş olamaz'))).toBe(true);
@@ -193,7 +193,7 @@ describe('participantValidation', () => {
         name: 'Team A',
         emoji: '',
         color: 'red',
-        members: [{ name: 'Alice' }, { name: 'Bob' }],
+        members: [{ name: 'Alice', order: 1 }, { name: 'Bob', order: 2 }],
       };
       const errors = validateTeam(team, 0);
       expect(errors.some((e) => e.includes('Takım emoji seçilmelidir'))).toBe(true);
@@ -204,7 +204,7 @@ describe('participantValidation', () => {
         name: 'Team A',
         emoji: '🔥',
         color: '',
-        members: [{ name: 'Alice' }, { name: 'Bob' }],
+        members: [{ name: 'Alice', order: 1 }, { name: 'Bob', order: 2 }],
       };
       const errors = validateTeam(team, 0);
       expect(errors.some((e) => e.includes('Takım rengi seçilmelidir'))).toBe(true);
@@ -215,7 +215,7 @@ describe('participantValidation', () => {
         name: 'Team A',
         emoji: '🔥',
         color: 'red',
-        members: [{ name: 'Alice' }],
+        members: [{ name: 'Alice', order: 1 }],
       };
       const errors = validateTeam(team, 0);
       expect(errors.some((e) => e.includes('En az 2 oyuncu gereklidir'))).toBe(true);
@@ -227,11 +227,11 @@ describe('participantValidation', () => {
         emoji: '🔥',
         color: 'red',
         members: [
-          { name: 'P1' },
-          { name: 'P2' },
-          { name: 'P3' },
-          { name: 'P4' },
-          { name: 'P5' },
+          { name: 'P1', order: 1 },
+          { name: 'P2', order: 2 },
+          { name: 'P3', order: 3 },
+          { name: 'P4', order: 4 },
+          { name: 'P5', order: 5 },
         ],
       };
       const errors = validateTeam(team, 0);
@@ -243,7 +243,7 @@ describe('participantValidation', () => {
         name: 'Team A',
         emoji: '🔥',
         color: 'red',
-        members: [{ name: 'Alice' }, { name: '' }],
+        members: [{ name: 'Alice', order: 1 }, { name: '', order: 2 }],
       };
       const errors = validateTeam(team, 0);
       expect(errors.some((e) => e.includes('Tüm oyuncu adları doldurulmalıdır'))).toBe(true);
@@ -254,7 +254,7 @@ describe('participantValidation', () => {
         name: 'Team A',
         emoji: '🔥',
         color: 'red',
-        members: [{ name: 'Alice' }, { name: 'alice' }],
+        members: [{ name: 'Alice', order: 1 }, { name: 'alice', order: 2 }],
       };
       const errors = validateTeam(team, 0);
       expect(errors.some((e) => e.includes('Oyuncu adları benzersiz olmalıdır'))).toBe(true);
@@ -269,13 +269,13 @@ describe('participantValidation', () => {
             name: 'Team A',
             emoji: '🔥',
             color: 'red',
-            members: [{ name: 'Alice' }, { name: 'Bob' }],
+            members: [{ name: 'Alice', order: 1 }, { name: 'Bob', order: 2 }],
           },
           {
             name: 'Team B',
             emoji: '⚡',
             color: 'blue',
-            members: [{ name: 'Charlie' }, { name: 'David' }],
+            members: [{ name: 'Charlie', order: 1 }, { name: 'David', order: 2 }],
           },
         ],
       };
@@ -298,7 +298,7 @@ describe('participantValidation', () => {
             name: 'Team A',
             emoji: '🔥',
             color: 'red',
-            members: [{ name: 'Alice' }, { name: 'Bob' }],
+            members: [{ name: 'Alice', order: 1 }, { name: 'Bob', order: 2 }],
           },
         ],
       };
@@ -314,31 +314,31 @@ describe('participantValidation', () => {
             name: 'Team A',
             emoji: '🔥',
             color: 'red',
-            members: [{ name: 'A1' }, { name: 'A2' }],
+            members: [{ name: 'A1', order: 1 }, { name: 'A2', order: 2 }],
           },
           {
             name: 'Team B',
             emoji: '⚡',
             color: 'blue',
-            members: [{ name: 'B1' }, { name: 'B2' }],
+            members: [{ name: 'B1', order: 1 }, { name: 'B2', order: 2 }],
           },
           {
             name: 'Team C',
             emoji: '💎',
             color: 'green',
-            members: [{ name: 'C1' }, { name: 'C2' }],
+            members: [{ name: 'C1', order: 1 }, { name: 'C2', order: 2 }],
           },
           {
             name: 'Team D',
             emoji: '🌟',
             color: 'yellow',
-            members: [{ name: 'D1' }, { name: 'D2' }],
+            members: [{ name: 'D1', order: 1 }, { name: 'D2', order: 2 }],
           },
           {
             name: 'Team E',
             emoji: '🎯',
             color: 'purple',
-            members: [{ name: 'E1' }, { name: 'E2' }],
+            members: [{ name: 'E1', order: 1 }, { name: 'E2', order: 2 }],
           },
         ],
       };
@@ -354,13 +354,13 @@ describe('participantValidation', () => {
             name: 'Team A',
             emoji: '🔥',
             color: 'red',
-            members: [{ name: 'Alice' }, { name: 'Bob' }],
+            members: [{ name: 'Alice', order: 1 }, { name: 'Bob', order: 2 }],
           },
           {
             name: 'team a', // Case-insensitive duplicate
             emoji: '⚡',
             color: 'blue',
-            members: [{ name: 'Charlie' }, { name: 'David' }],
+            members: [{ name: 'Charlie', order: 1 }, { name: 'David', order: 2 }],
           },
         ],
       };
@@ -376,19 +376,19 @@ describe('participantValidation', () => {
             name: 'Team A',
             emoji: '🔥',
             color: 'red',
-            members: [{ name: 'Alice' }, { name: 'Bob' }],
+            members: [{ name: 'Alice', order: 1 }, { name: 'Bob', order: 2 }],
           },
           {
             name: 'Team B',
             emoji: '⚡',
             color: 'blue',
-            members: [{ name: 'Charlie' }, { name: 'David' }],
+            members: [{ name: 'Charlie', order: 1 }, { name: 'David', order: 2 }],
           },
           {
             name: 'Team C',
             emoji: '💎',
             color: 'green',
-            members: [{ name: 'Eve' }, { name: 'Frank' }],
+            members: [{ name: 'Eve', order: 1 }, { name: 'Frank', order: 2 }],
           },
         ],
       };
@@ -404,13 +404,13 @@ describe('participantValidation', () => {
             name: '',
             emoji: '🔥',
             color: 'red',
-            members: [{ name: 'Alice' }], // Not enough members
+            members: [{ name: 'Alice', order: 1 }], // Not enough members
           },
           {
             name: 'Team B',
             emoji: '',
             color: 'blue',
-            members: [{ name: 'Charlie' }, { name: 'David' }],
+            members: [{ name: 'Charlie', order: 1 }, { name: 'David', order: 2 }],
           },
         ],
       };
@@ -442,25 +442,25 @@ describe('participantValidation', () => {
             name: 'Team A',
             emoji: '🔥',
             color: 'red',
-            members: [{ name: 'A1' }, { name: 'A2' }],
+            members: [{ name: 'A1', order: 1 }, { name: 'A2', order: 2 }],
           },
           {
             name: 'Team B',
             emoji: '⚡',
             color: 'blue',
-            members: [{ name: 'B1' }, { name: 'B2' }],
+            members: [{ name: 'B1', order: 1 }, { name: 'B2', order: 2 }],
           },
           {
             name: 'Team C',
             emoji: '💎',
             color: 'green',
-            members: [{ name: 'C1' }, { name: 'C2' }],
+            members: [{ name: 'C1', order: 1 }, { name: 'C2', order: 2 }],
           },
           {
             name: 'Team D',
             emoji: '🌟',
             color: 'yellow',
-            members: [{ name: 'D1' }, { name: 'D2' }],
+            members: [{ name: 'D1', order: 1 }, { name: 'D2', order: 2 }],
           },
         ],
       };
@@ -510,13 +510,13 @@ describe('participantValidation', () => {
             name: 'Team A',
             emoji: '🔥',
             color: 'red',
-            members: [{ name: 'Alice' }, { name: 'Bob' }],
+            members: [{ name: 'Alice', order: 1 }, { name: 'Bob', order: 2 }],
           },
           {
             name: 'Team B',
             emoji: '⚡',
             color: 'blue',
-            members: [{ name: 'Charlie' }, { name: 'David' }],
+            members: [{ name: 'Charlie', order: 1 }, { name: 'David', order: 2 }],
           },
         ],
       };
@@ -530,7 +530,7 @@ describe('participantValidation', () => {
             name: 'Team A',
             emoji: '🔥',
             color: 'red',
-            members: [{ name: 'Alice' }], // Not enough members
+            members: [{ name: 'Alice', order: 1 }], // Not enough members
           },
         ],
       };
@@ -596,25 +596,25 @@ describe('participantValidation', () => {
             name: 'T1',
             emoji: '🔥',
             color: 'red',
-            members: [{ name: 'A' }, { name: 'B' }],
+            members: [{ name: 'A', order: 1 }, { name: 'B', order: 2 }],
           },
           {
             name: 'T2',
             emoji: '⚡',
             color: 'blue',
-            members: [{ name: 'C' }, { name: 'D' }],
+            members: [{ name: 'C', order: 1 }, { name: 'D', order: 2 }],
           },
           {
             name: 'T3',
             emoji: '💎',
             color: 'green',
-            members: [{ name: 'E' }, { name: 'F' }],
+            members: [{ name: 'E', order: 1 }, { name: 'F', order: 2 }],
           },
           {
             name: 'T4',
             emoji: '🌟',
             color: 'yellow',
-            members: [{ name: 'G' }, { name: 'H' }],
+            members: [{ name: 'G', order: 1 }, { name: 'H', order: 2 }],
           },
         ],
       };
@@ -629,13 +629,13 @@ describe('participantValidation', () => {
             name: 'Team A',
             emoji: '🔥',
             color: 'red',
-            members: [{ name: 'P1' }, { name: 'P2' }, { name: 'P3' }, { name: 'P4' }],
+            members: [{ name: 'P1', order: 1 }, { name: 'P2', order: 2 }, { name: 'P3', order: 3 }, { name: 'P4', order: 4 }],
           },
           {
             name: 'Team B',
             emoji: '⚡',
             color: 'blue',
-            members: [{ name: 'P5' }, { name: 'P6' }, { name: 'P7' }, { name: 'P8' }],
+            members: [{ name: 'P5', order: 1 }, { name: 'P6', order: 2 }, { name: 'P7', order: 3 }, { name: 'P8', order: 4 }],
           },
         ],
       };

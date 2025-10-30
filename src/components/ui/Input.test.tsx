@@ -103,7 +103,6 @@ describe('Input', () => {
     });
 
     it('should handle controlled input', async () => {
-      const user = userEvent.setup();
       const { rerender } = render(<Input value="initial" readOnly />);
       const input = screen.getByRole('textbox');
       expect(input).toHaveValue('initial');
@@ -254,7 +253,7 @@ describe('Input', () => {
       render(<Input onChange={handleChange} />);
 
       const input = screen.getByRole('textbox');
-      await user.type(input, 'quicktext', { delay: 1 });
+      await user.type(input, 'quicktext');
 
       expect(input).toHaveValue('quicktext');
       expect(handleChange).toHaveBeenCalledTimes(9);

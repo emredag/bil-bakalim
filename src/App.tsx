@@ -6,16 +6,15 @@ import { soundService } from './services/soundService';
 
 /**
  * Main App Component
- *
- * Features:
- * - React Router navigation (Task 37)
- * - Error Boundary for error handling (Task 39)
- * - Sound service initialization synced with settings store (Task 31)
  */
 function App() {
   useEffect(() => {
-    // Initialize sound service and sync with settings store
-    soundService.init();
+    // Initialize sound service (non-blocking)
+    try {
+      soundService.init();
+    } catch (err) {
+      console.warn('Sound service init failed:', err);
+    }
   }, []);
 
   return (

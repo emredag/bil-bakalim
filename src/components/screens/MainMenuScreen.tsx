@@ -38,9 +38,6 @@ export function MainMenuScreen() {
   // Global keyboard shortcuts (PRD Section 11.1)
   useKeyboardShortcuts();
 
-  // Check if in development mode
-  const isDev = import.meta.env.DEV;
-
   // Action cards configuration (PRD 4.1)
   const actionCards = [
     {
@@ -75,56 +72,8 @@ export function MainMenuScreen() {
     },
   ];
 
-  // Test/Demo cards (only in development mode)
-  const testCards = isDev
-    ? [
-        {
-          emoji: '🧪',
-          title: 'Tauri Word Test',
-          description: 'Task 13 - Word Selection Test',
-          onClick: () => navigate('/tauri-test'),
-        },
-        {
-          emoji: '🧪',
-          title: 'First Launch Test',
-          description: 'Test first launch experience',
-          onClick: () => navigate('/first-launch-test'),
-        },
-        {
-          emoji: '🎬',
-          title: 'Animation Demo',
-          description: 'View animation examples',
-          onClick: () => navigate('/animation-demo'),
-        },
-        {
-          emoji: '🔊',
-          title: 'Sound Demo',
-          description: 'Test sound effects',
-          onClick: () => navigate('/sound-demo'),
-        },
-        {
-          emoji: '♿',
-          title: 'A11y Demo',
-          description: 'Accessibility features',
-          onClick: () => navigate('/a11y-demo'),
-        },
-        {
-          emoji: '❌',
-          title: 'Error Demo',
-          description: 'Test error handling',
-          onClick: () => navigate('/error-demo'),
-        },
-        {
-          emoji: '✅',
-          title: 'Validation Demo',
-          description: 'Task 29 - Category Validation',
-          onClick: () => navigate('/validation-demo'),
-        },
-      ]
-    : [];
-
-  // Combine all cards
-  const allCards = [...actionCards, ...testCards];
+  // All cards
+  const allCards = actionCards;
 
   // Container animation variants (stagger children)
   const containerVariants: Variants = {

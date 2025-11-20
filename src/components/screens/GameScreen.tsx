@@ -215,7 +215,7 @@ export const GameScreen: React.FC = () => {
 
   // Calculate remaining points for current word
   const calculateRemainingPoints = (): number => {
-    const basePoints = currentWord.letterCount * 1000;
+    const basePoints = currentWord.letterCount * 100;
     const revealedPenalty = currentWord.lettersRevealed * 100;
     return Math.max(0, basePoints - revealedPenalty);
   };

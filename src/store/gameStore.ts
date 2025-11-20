@@ -250,8 +250,7 @@ export const useGameStore = create<GameStore>()(
           word.letters = letters;
           word.lettersRevealed += 1;
 
-          // Deduct 100 points per letter (PRD: -100 per letter)
-          participant.score = Math.max(0, participant.score - 100);
+          // Track letters revealed for statistics (penalty applied on correct guess)
           participant.lettersRevealed += 1;
 
           words[wordIndex] = word;

@@ -71,7 +71,6 @@ export class SoundManager {
       this.masterGainNode.connect(this.audioContext.destination);
 
       this.initialized = true;
-      console.log('[SoundManager] Initialized successfully');
     } catch (error) {
       console.error('[SoundManager] Failed to initialize:', error);
       throw error;
@@ -90,7 +89,6 @@ export class SoundManager {
     }
 
     if (!this.audioContext || !this.masterGainNode) {
-      console.warn('[SoundManager] AudioContext not available');
       return;
     }
 
@@ -106,7 +104,6 @@ export class SoundManager {
 
     const definition = SOUND_DEFINITIONS[soundType];
     if (!definition) {
-      console.warn(`[SoundManager] Unknown sound type: ${soundType}`);
       return;
     }
 

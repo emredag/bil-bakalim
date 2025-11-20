@@ -136,26 +136,7 @@ export function getMemoryUsage(): {
  * Log performance metrics
  */
 export function logPerformanceMetrics(): void {
-  const memory = getMemoryUsage();
-  const device = checkDevicePerformance();
-
-  console.group('🚀 Performance Metrics');
-  console.log('Device:', {
-    'High Performance': device.isHighPerformance ? '✅' : '❌',
-    'CPU Cores': device.cpuCores,
-    'Memory (GB)': device.memory,
-  });
-
-  if (memory.usedJSHeapSize) {
-    console.log('Memory Usage:', {
-      Used: `${memory.usedJSHeapSize.toFixed(2)} MB`,
-      Total: `${memory.totalJSHeapSize?.toFixed(2)} MB`,
-      Limit: `${memory.jsHeapSizeLimit?.toFixed(2)} MB`,
-      'Usage %': `${((memory.usedJSHeapSize / (memory.jsHeapSizeLimit || 1)) * 100).toFixed(2)}%`,
-    });
-  }
-
-  console.groupEnd();
+  // Performance logging disabled in production
 }
 
 /**

@@ -4,14 +4,9 @@
  */
 
 export { MainMenuScreen } from './MainMenuScreen';
-export { AnimationDemo } from './AnimationDemo';
-export { SoundDemo } from './SoundDemo';
-export { ErrorDemo } from './ErrorDemo';
-export { A11yDemo } from './A11yDemo';
 
 // Task 38: First Launch Experience
 export { WelcomeScreen } from './WelcomeScreen';
-export { FirstLaunchTest } from './FirstLaunchTest';
 
 // Task 09: Category Selection Screen
 export { CategorySelectionScreen as CategorySelectScreen } from './CategorySelectionScreen';
@@ -24,7 +19,6 @@ export { ParticipantSetupScreen } from './ParticipantSetupScreen';
 
 // Task 12: Game Screen Layout
 export { GameScreen } from './GameScreen';
-export { GameScreenTest } from './GameScreenTest';
 
 // Task 20: Results Screen - Single Player
 export { ResultsSinglePlayer } from './ResultsSinglePlayer';
@@ -34,7 +28,6 @@ export { ResultsMultiplayer } from './ResultsMultiplayer';
 
 // Task 22: Results Screen - Team Mode
 export { ResultsTeamMode } from './ResultsTeamMode';
-export { ResultsTestTeam } from './ResultsTestTeam';
 
 // Task 23: Game History List
 export { GameHistoryScreen } from './GameHistoryScreen';

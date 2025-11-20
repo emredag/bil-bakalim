@@ -1,0 +1,3 @@
+# Run quality checks before committing
+npm run lint
+npm run type-check

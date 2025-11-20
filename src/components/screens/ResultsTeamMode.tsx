@@ -70,7 +70,6 @@ export function ResultsTeamMode({ session, teams, onPlayAgain }: ResultsTeamMode
   useEffect(() => {
     // Check if this session was already saved
     if (savedSessionIds.has(session.id)) {
-      console.log('⏭️ Team session already saved, skipping:', session.id);
       return;
     }
 
@@ -109,9 +108,6 @@ export function ResultsTeamMode({ session, teams, onPlayAgain }: ResultsTeamMode
     };
 
     saveGameToHistory(gameData)
-      .then(() => {
-        console.log('✅ Team game saved successfully!');
-      })
       .catch((err) => {
         console.error('❌ Failed to save game to history:', err);
         // Remove from set on error so it can be retried

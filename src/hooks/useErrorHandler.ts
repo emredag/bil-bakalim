@@ -56,9 +56,7 @@ export function useErrorHandler(): UseErrorHandlerReturn {
     const result = errorHandler.handle(error, context);
 
     // Here you would integrate with your toast system
-    // For now, we're just logging
     if (result.shouldShowToast) {
-      console.log(`[Toast ${result.toastVariant}]:`, result.message);
       // TODO: Integrate with actual toast system when available
       // toast[result.toastVariant](result.message);
     }
@@ -68,8 +66,7 @@ export function useErrorHandler(): UseErrorHandlerReturn {
    * Show a custom error message
    */
   const showError = useCallback(
-    (message: string, variant: 'info' | 'warning' | 'error' = 'error') => {
-      console.log(`[Toast ${variant}]:`, message);
+    (_message: string, _variant: 'info' | 'warning' | 'error' = 'error') => {
       // TODO: Integrate with actual toast system
       // toast[variant](message);
     },

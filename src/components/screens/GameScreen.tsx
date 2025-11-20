@@ -295,8 +295,8 @@ export const GameScreen: React.FC = () => {
         totalWords={14}
         activeParticipantName={activeParticipant.name}
         activeParticipantType={activeParticipant.type}
-        activeParticipantColor={undefined} // TODO: Get from team data
-        activeParticipantEmoji={undefined} // TODO: Get from team data
+        activeParticipantColor={undefined} // Optional: Team colors not yet implemented
+        activeParticipantEmoji={undefined} // Optional: Team emojis not yet implemented
         gameMode={session.mode}
       />
 

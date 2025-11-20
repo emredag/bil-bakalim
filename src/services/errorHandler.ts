@@ -163,11 +163,13 @@ class ErrorHandler {
     const timestamp = new Date().toISOString();
     const location = context?.location || 'Unknown';
 
+    // eslint-disable-next-line no-console
     console.group(`[ERROR] ${timestamp} - ${location}`);
     console.error('Error:', error);
     if (context?.data) {
       console.error('Context:', context.data);
     }
+    // eslint-disable-next-line no-console
     console.groupEnd();
   }
 

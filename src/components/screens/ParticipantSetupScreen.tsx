@@ -216,8 +216,6 @@ export function ParticipantSetupScreen() {
       navigate(ROUTES.GAME);
     } catch (error: any) {
       console.error('Failed to start game:', error);
-      // Log full error for debugging in DevTools
-      console.debug('[ParticipantSetup] startGame error object:', error);
       // Show detailed error to the user for debugging (will include Tauri invoke errors)
       const message = error?.message || String(error) || 'Bilinmeyen hata';
       alert(`Oyun başlatılamadı: ${message}`);

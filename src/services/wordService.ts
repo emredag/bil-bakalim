@@ -90,7 +90,6 @@ export async function getRandomWords(
   excludeIds: number[] = []
 ): Promise<Word[]> {
   try {
-    console.debug('[wordService] getRandomWords called', { categoryId, excludeIds });
     return await safeInvoke<Word[]>('get_random_words', {
       categoryId,
       excludeIds,
@@ -116,11 +115,6 @@ export async function validateCategoryForMode(
   participantCount: number
 ): Promise<boolean> {
   try {
-    console.debug('[wordService] validateCategoryForMode called', {
-      categoryId,
-      mode,
-      participantCount,
-    });
     return await safeInvoke<boolean>('validate_category_for_mode', {
       categoryId,
       mode,
@@ -166,12 +160,6 @@ export async function selectWordsForGame(
   participantCount: number
 ): Promise<GameWord[][]> {
   try {
-    console.debug('[wordService] selectWordsForGame called', {
-      categoryId,
-      mode,
-      participantCount,
-    });
-
     // Validate category first
     const isValid = await validateCategoryForMode(categoryId, mode, participantCount);
 
@@ -192,11 +180,6 @@ export async function selectWordsForGame(
     for (let i = 0; i < participantCount; i++) {
       // Get random words, excluding already used ones
       const words = await getRandomWords(categoryId, usedWordIds);
-
-      console.debug('[wordService] getRandomWords returned', {
-        participantIndex: i,
-        count: words.length,
-      });
 
       // Track used word IDs for next iteration
       words.forEach((word) => usedWordIds.push(word.id));
@@ -222,7 +205,6 @@ export async function selectWordsForGame(
       allWordSets.push(gameWords);
     }
 
-    console.debug('[wordService] selectWordsForGame result', { totalSets: allWordSets.length });
     return allWordSets;
   } catch (error) {
     console.error('[wordService] Error selecting words for game:', {

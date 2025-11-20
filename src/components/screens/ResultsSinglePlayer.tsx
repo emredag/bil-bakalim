@@ -43,15 +43,11 @@ export function ResultsSinglePlayer({ session, onPlayAgain }: ResultsSinglePlaye
   useEffect(() => {
     // Check if this session was already saved
     if (savedSessionIds.has(session.id)) {
-      console.log('⏭️ Session already saved, skipping:', session.id);
       return;
     }
 
     // Mark as saved immediately
     savedSessionIds.add(session.id);
-
-    console.log('🎮 Saving game to history...');
-    console.log('Session:', session);
 
     const gameData: GameSessionData = {
       category_id: session.categoryId,
@@ -80,12 +76,7 @@ export function ResultsSinglePlayer({ session, onPlayAgain }: ResultsSinglePlaye
       ],
     };
 
-    console.log('Game data to save:', gameData);
-
     saveGameToHistory(gameData)
-      .then((gameId) => {
-        console.log('✅ Game saved successfully! ID:', gameId);
-      })
       .catch((err) => {
         console.error('❌ Failed to save game to history:', err);
         // Remove from set on error so it can be retried

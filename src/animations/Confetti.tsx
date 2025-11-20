@@ -222,5 +222,4 @@ Confetti.displayName = 'Confetti';
 export function triggerConfetti(_options: Omit<ConfettiProps, 'active'> = {}): void {
   // This would need a global confetti instance
   // For now, use the component directly with state
-  console.log('Use <Confetti active={true} /> component instead');
 }

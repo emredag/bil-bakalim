@@ -65,7 +65,6 @@ export function ResultsMultiplayer({ session, onPlayAgain }: ResultsMultiplayerP
   useEffect(() => {
     // Check if this session was already saved
     if (savedSessionIds.has(session.id)) {
-      console.log('⏭️ Multiplayer session already saved, skipping:', session.id);
       return;
     }
 
@@ -104,9 +103,6 @@ export function ResultsMultiplayer({ session, onPlayAgain }: ResultsMultiplayerP
     };
 
     saveGameToHistory(gameData)
-      .then(() => {
-        console.log('✅ Multiplayer game saved successfully!');
-      })
       .catch((err) => {
         console.error('❌ Failed to save game to history:', err);
         // Remove from set on error so it can be retried

@@ -446,11 +446,8 @@ fn insert_default_settings(conn: &Connection) -> Result<()> {
 pub fn seed_database(conn: &Connection) -> Result<()> {
     // Check if already seeded
     if is_database_seeded(conn)? {
-        println!("Database already seeded, skipping...");
         return Ok(());
     }
-
-    println!("Seeding database with default data...");
 
     // Begin transaction
     conn.execute_batch("BEGIN TRANSACTION;")?;
@@ -458,7 +455,6 @@ pub fn seed_database(conn: &Connection) -> Result<()> {
     match seed_database_internal(conn) {
         Ok(_) => {
             conn.execute_batch("COMMIT;")?;
-            println!("Database seeding completed successfully!");
             Ok(())
         }
         Err(e) => {
@@ -472,15 +468,12 @@ pub fn seed_database(conn: &Connection) -> Result<()> {
 fn seed_database_internal(conn: &Connection) -> Result<()> {
     // Insert default category
     let category_id = insert_default_category(conn)?;
-    println!("Created default category with ID: {}", category_id);
 
     // Insert all 70 words
     insert_default_words(conn, category_id)?;
-    println!("Inserted 70 words");
 
     // Insert default settings
     insert_default_settings(conn)?;
-    println!("Inserted default settings");
 
     // Verify word counts by letter
     verify_word_distribution(conn, category_id)?;
@@ -500,8 +493,6 @@ fn verify_word_distribution(conn: &Connection, category_id: i64) -> Result<()> {
         if count != 10 {
             return Err(rusqlite::Error::InvalidQuery);
         }
-
-        println!("Verified: {} words with {} letters", count, letter_count);
     }
 
     Ok(())

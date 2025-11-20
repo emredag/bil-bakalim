@@ -5,39 +5,46 @@
  *
  * Defines all routes and their components
  * Includes PageTransition wrapper for smooth page transitions (Task 06)
- * Performance: Code splitting handled by Vite's automatic chunking
+ * Performance: Code splitting via lazy loading for large screens
  */
 
+import { lazy, Suspense } from 'react';
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { ROUTES } from './constants';
 import {
-  AnimationDemo,
-  SoundDemo,
-  ErrorDemo,
-  A11yDemo,
   WelcomeScreen,
-  FirstLaunchTest,
   CategorySelectScreen,
   ModeSelectScreen,
   ParticipantSetupScreen,
-  GameScreen,
-  GameScreenTest,
-  ResultsScreen,
-  GameHistoryScreen,
-  GameHistoryDetailScreen,
-  CategoryManagementScreen,
-  WordManagementScreen,
   SettingsScreen,
   HowToPlayScreen,
 } from '../components/screens';
 import { PageLayout } from '../components/layouts/PageLayout';
 import { HomeRouteGuard } from './HomeRouteGuard';
-import WordSelectionTestRunner from '../components/WordSelectionTestRunner';
-import SimpleTauriTest from '../components/SimpleTauriTest';
-import { CategoryValidationDemo } from '../components/CategoryValidationDemo';
-import { ResultsTestSingle } from '../components/screens/ResultsTestSingle';
-import ResultsTestMulti from '../components/screens/ResultsTestMulti';
-import { ResultsTestTeam } from '../components/screens/ResultsTestTeam';
+
+// Lazy load large/complex screens for better performance
+const GameScreen = lazy(() => import('../components/screens/GameScreen').then(m => ({ default: m.GameScreen })));
+const ResultsScreen = lazy(() => import('../components/screens/PlaceholderScreens').then(m => ({ default: m.ResultsScreen })));
+const GameHistoryScreen = lazy(() => import('../components/screens/GameHistoryScreen').then(m => ({ default: m.GameHistoryScreen })));
+const GameHistoryDetailScreen = lazy(() => import('../components/screens/GameHistoryDetailScreen').then(m => ({ default: m.GameHistoryDetailScreen })));
+const CategoryManagementScreen = lazy(() => import('../components/screens/CategoryManagementScreen').then(m => ({ default: m.CategoryManagementScreen })));
+const WordManagementScreen = lazy(() => import('../components/screens/WordManagementScreen').then(m => ({ default: m.WordManagementScreen })));
+
+/**
+ * Loading fallback component
+ */
+const LoadingFallback = () => (
+  <div style={{
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100vh',
+    fontSize: '1.2rem',
+    color: '#666'
+  }}>
+    Yükleniyor...
+  </div>
+);
 
 /**
  * Main application router
@@ -59,61 +66,6 @@ export const router = createBrowserRouter([
         path: ROUTES.WELCOME,
         element: <WelcomeScreen />,
       },
-      // Demo Pages (Task 06, 07, 34, 38, 39 Testing)
-      {
-        path: '/animation-demo',
-        element: <AnimationDemo />,
-      },
-      {
-        path: '/sound-demo',
-        element: <SoundDemo />,
-      },
-      {
-        path: '/error-demo',
-        element: <ErrorDemo />,
-      },
-      {
-        path: '/a11y-demo',
-        element: <A11yDemo />,
-      },
-      {
-        path: '/first-launch-test',
-        element: <FirstLaunchTest />,
-      },
-      // Task 12: Game Screen Test
-      {
-        path: '/game-screen-test',
-        element: <GameScreenTest />,
-      },
-      // Task 13: Word Selection Algorithm Test
-      {
-        path: '/word-selection-test',
-        element: <WordSelectionTestRunner />,
-      },
-      {
-        path: '/tauri-test',
-        element: <SimpleTauriTest />,
-      },
-      // Task 29: Category Validation Demo
-      {
-        path: '/validation-demo',
-        element: <CategoryValidationDemo />,
-      },
-      // Task 20: Results Screen Test
-      {
-        path: '/results-test-single',
-        element: <ResultsTestSingle />,
-      },
-      // Task 21: Results Screen Test - Multiplayer
-      {
-        path: '/results-test-multi',
-        element: <ResultsTestMulti />,
-      },
-      // Task 22: Results Screen Test - Team Mode
-      {
-        path: '/results-test-team',
-        element: <ResultsTestTeam />,
-      },
       // Game Flow
       {
         path: ROUTES.CATEGORY_SELECT,
@@ -129,29 +81,29 @@ export const router = createBrowserRouter([
       },
       {
         path: ROUTES.GAME,
-        element: <GameScreen />,
+        element: <Suspense fallback={<LoadingFallback />}><GameScreen /></Suspense>,
       },
       {
         path: ROUTES.RESULTS,
-        element: <ResultsScreen />,
+        element: <Suspense fallback={<LoadingFallback />}><ResultsScreen /></Suspense>,
       },
       // History
       {
         path: ROUTES.HISTORY,
-        element: <GameHistoryScreen />,
+        element: <Suspense fallback={<LoadingFallback />}><GameHistoryScreen /></Suspense>,
       },
       {
         path: ROUTES.HISTORY_DETAIL,
-        element: <GameHistoryDetailScreen />,
+        element: <Suspense fallback={<LoadingFallback />}><GameHistoryDetailScreen /></Suspense>,
       },
       // Management
       {
         path: ROUTES.CATEGORY_MANAGEMENT,
-        element: <CategoryManagementScreen />,
+        element: <Suspense fallback={<LoadingFallback />}><CategoryManagementScreen /></Suspense>,
       },
       {
         path: ROUTES.WORD_MANAGEMENT,
-        element: <WordManagementScreen />,
+        element: <Suspense fallback={<LoadingFallback />}><WordManagementScreen /></Suspense>,
       },
       // Settings & Help
       {

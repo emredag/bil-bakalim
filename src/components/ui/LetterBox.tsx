@@ -1,44 +1,29 @@
 import React, { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { HelpCircle } from 'lucide-react';
 import { soundService } from '../../services';
 
 export interface LetterBoxProps {
   letter?: string;
   isRevealed?: boolean;
   status?: 'idle' | 'correct' | 'incorrect';
-  size?: 'sm' | 'md' | 'lg';
+  totalLetters?: number; // For dynamic sizing
   className?: string;
 }
 
 /**
- * LetterBox Component - PRD 8.3 (Harf Kutuları)
- *
- * TV Show Quality letter tile for the word game.
- *
- * States:
- * - Closed: slate background with "?" icon
- * - Open: amber background with letter visible
- * - Correct: green glow effect
- * - Incorrect: red flash effect
- *
- * Features:
- * - Responsive sizing (PRD 8.3): w-12 h-14 md:w-14 md:h-16 lg:w-16 lg:h-20
- * - 3D flip animation (PRD 8.4): rotateY 0→180deg, 0.6s
- * - Status glow effects (ui-ux-design.md)
- * - Font size scales with container
+ * LetterBox Component - Design System v2.0
+ * Fully responsive letter tile with smooth animations
+ * Dynamically sizes based on number of letters in word
  */
 export const LetterBox: React.FC<LetterBoxProps> = ({
   letter,
   isRevealed = false,
   status = 'idle',
-  size = 'md',
+  totalLetters = 5,
   className = '',
 }) => {
-  // Track previous revealed state to only play sound on transitions
   const prevRevealedRef = useRef(isRevealed);
 
-  // Play sound when letter is revealed
   useEffect(() => {
     if (isRevealed && !prevRevealedRef.current) {
       soundService.playPop();
@@ -46,150 +31,77 @@ export const LetterBox: React.FC<LetterBoxProps> = ({
     prevRevealedRef.current = isRevealed;
   }, [isRevealed]);
 
-  // Size variants (responsive - PRD 8.3)
-  const sizeStyles = {
-    sm: 'w-10 h-12 md:w-12 md:h-14 text-xl md:text-2xl',
-    md: 'w-12 h-14 md:w-14 md:h-16 lg:w-16 lg:h-20 text-2xl md:text-3xl lg:text-4xl',
-    lg: 'w-14 h-16 md:w-16 md:h-20 lg:w-20 lg:h-24 text-3xl md:text-4xl lg:text-5xl',
+  // Dynamic sizing based on number of letters
+  // Uses CSS clamp for responsive sizing that adapts to viewport
+  const getDynamicSize = () => {
+    if (totalLetters <= 4) {
+      return {
+        width: 'clamp(4rem, 12vw, 10rem)',
+        height: 'clamp(5rem, 16vw, 13rem)',
+        fontSize: 'clamp(2rem, 8vw, 5rem)',
+      };
+    } else if (totalLetters <= 6) {
+      return {
+        width: 'clamp(3.5rem, 10vw, 8rem)',
+        height: 'clamp(4.5rem, 13vw, 10.5rem)',
+        fontSize: 'clamp(1.75rem, 6.5vw, 4rem)',
+      };
+    } else if (totalLetters <= 8) {
+      return {
+        width: 'clamp(3rem, 8.5vw, 7rem)',
+        height: 'clamp(4rem, 11vw, 9rem)',
+        fontSize: 'clamp(1.5rem, 5.5vw, 3.5rem)',
+      };
+    } else {
+      return {
+        width: 'clamp(2.5rem, 7vw, 6rem)',
+        height: 'clamp(3.5rem, 9.5vw, 8rem)',
+        fontSize: 'clamp(1.25rem, 4.5vw, 3rem)',
+      };
+    }
   };
 
-  // Base styles for both states
-  const baseStyles = `
-    rounded-lg
-    flex items-center justify-center
-    font-extrabold
-    transition-all duration-200
-    ${sizeStyles[size]}
-  `;
-
-  // Closed state styles (PRD 8.3)
-  const closedStyles = `
-    bg-slate-700 border-2 border-slate-600
-    text-slate-400
-  `;
-
-  // Open state styles (PRD 8.3)
-  const openStyles = `
-    bg-amber-400 border-2 border-amber-500
-    text-slate-900
-  `;
-
-  // Status glow effects (ui-ux-design.md)
-  const glowStyles = {
-    idle: '',
-    correct: 'glow-success',
-    incorrect: 'glow-error',
-  };
-
-  // 3D Flip animation variants (PRD 8.4)
-  const flipVariants = {
-    closed: {
-      rotateY: 0,
-      scale: 1,
-    },
-    open: {
-      rotateY: 180,
-      scale: [1, 1.1, 1],
-      transition: {
-        duration: 0.6,
-        ease: [0.42, 0, 0.58, 1], // easeInOut as cubic bezier
-      },
-    },
-  };
-
-  // Flash animation for incorrect guess
-  const incorrectVariants = {
-    idle: { x: 0 },
-    shake: {
-      x: [-10, 10, -10, 10, 0],
-      transition: { duration: 0.3 },
-    },
-  };
+  const dynamicSize = getDynamicSize();
 
   return (
     <motion.div
       className={`
-        ${baseStyles}
-        ${isRevealed ? openStyles : closedStyles}
-        ${glowStyles[status]}
+        rounded-xl
+        flex items-center justify-center
+        font-extrabold uppercase
+        border-2 shadow-lg
+        transition-colors duration-300
+        ${
+          isRevealed
+            ? 'bg-gradient-to-br from-primary-600 to-primary-500 border-primary-400 text-white'
+            : 'bg-gradient-to-br from-neutral-800 to-neutral-700 border-white/10 text-neutral-500'
+        }
+        ${status === 'correct' ? 'shadow-success-500/50' : ''}
+        ${status === 'incorrect' ? 'shadow-error-500/50' : ''}
         ${className}
-      `
-        .trim()
-        .replace(/\s+/g, ' ')}
-      variants={flipVariants as any}
-      initial="closed"
-      animate={isRevealed ? 'open' : 'closed'}
+      `}
       style={{
-        transformStyle: 'preserve-3d',
+        width: dynamicSize.width,
+        height: dynamicSize.height,
+        fontSize: dynamicSize.fontSize,
+      }}
+      initial={{ scale: 1, opacity: 1 }}
+      animate={
+        isRevealed
+          ? {
+              scale: [1, 1.1, 1],
+              opacity: [0.7, 1, 1],
+            }
+          : { scale: 1, opacity: 1 }
+      }
+      whileHover={!isRevealed ? { scale: 1.05, y: -4 } : {}}
+      whileTap={!isRevealed ? { scale: 0.95 } : {}}
+      transition={{
+        duration: 0.4,
+        ease: 'easeOut',
       }}
     >
-      {/* Front face (closed) */}
-      {!isRevealed && (
-        <motion.div
-          className="flex items-center justify-center"
-          style={{
-            backfaceVisibility: 'hidden',
-          }}
-        >
-          <HelpCircle className="w-1/2 h-1/2" strokeWidth={2.5} />
-        </motion.div>
-      )}
-
-      {/* Back face (open) */}
-      {isRevealed && (
-        <motion.div
-          className="flex items-center justify-center"
-          style={{
-            backfaceVisibility: 'hidden',
-            transform: 'rotateY(180deg)',
-          }}
-          variants={status === 'incorrect' ? incorrectVariants : undefined}
-          animate={status === 'incorrect' ? 'shake' : 'idle'}
-        >
-          {letter?.toUpperCase() || '?'}
-        </motion.div>
-      )}
+      {isRevealed ? <span>{letter}</span> : <span>?</span>}
     </motion.div>
   );
 };
-
-LetterBox.displayName = 'LetterBox';
-
-/**
- * LetterBoxRow - Container for multiple letter boxes (word display)
- */
-export interface LetterBoxRowProps {
-  word: string;
-  revealedIndices?: number[];
-  status?: 'idle' | 'correct' | 'incorrect';
-  size?: 'sm' | 'md' | 'lg';
-  className?: string;
-}
-
-export const LetterBoxRow: React.FC<LetterBoxRowProps> = ({
-  word,
-  revealedIndices = [],
-  status = 'idle',
-  size = 'md',
-  className = '',
-}) => {
-  const letters = word.split('');
-
-  return (
-    <div
-      className={`flex flex-wrap items-center justify-center gap-2 md:gap-3 lg:gap-4 ${className}`}
-    >
-      {letters.map((letter, index) => (
-        <LetterBox
-          key={index}
-          letter={letter}
-          isRevealed={revealedIndices.includes(index)}
-          status={status}
-          size={size}
-        />
-      ))}
-    </div>
-  );
-};
-
-LetterBoxRow.displayName = 'LetterBoxRow';

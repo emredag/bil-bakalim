@@ -22,7 +22,7 @@ interface ProgressBarProps {
 export const ProgressBar: React.FC<ProgressBarProps> = ({
   currentWord,
   totalWords,
-  categoryDescription = '',
+  categoryDescription: _categoryDescription = '', // Reserved for future use
   className = '',
 }) => {
   const progressPercent = (currentWord / totalWords) * 100;
@@ -30,52 +30,31 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
   return (
     <div
       className={`
-        shrink-0
-        h-[50px] md:h-[60px]
-        bg-slate-800/80 backdrop-blur-sm
-        border-t border-slate-700
-        px-4 md:px-6 lg:px-8
-        flex items-center justify-between gap-4
+        h-14 px-6
+        bg-neutral-900/80 backdrop-blur-md
+        border-t border-white/10
+        flex items-center justify-between gap-6
         ${className}
       `}
       role="region"
       aria-label="İlerleme çubuğu"
     >
-      {/* Progress Text */}
-      <div className="flex items-center gap-4">
-        <div className="flex items-baseline gap-2">
-          <span className="text-xs md:text-sm text-slate-400 uppercase tracking-wide">
-            İlerleme:
-          </span>
-          <span
-            className="text-xl md:text-2xl lg:text-3xl font-bold text-blue-400 tabular-nums"
-            aria-live="polite"
-            aria-label={`${currentWord} / ${totalWords} kelime tamamlandı`}
-          >
-            {currentWord}/{totalWords}
-          </span>
-        </div>
-
-        {/* Category Description */}
-        {categoryDescription && (
-          <span className="text-sm md:text-base text-slate-300 hidden md:inline-block max-w-md truncate">
-            {categoryDescription}
-          </span>
-        )}
-      </div>
-
       {/* Visual Progress Bar */}
-      <div className="flex-1 max-w-md h-2 bg-slate-700 rounded-full overflow-hidden">
+      <div className="flex-1 max-w-md h-2 bg-neutral-800 rounded-full overflow-hidden">
         <div
-          className="h-full bg-gradient-to-r from-blue-500 to-violet-500 transition-all duration-500 ease-out"
+          className="h-full bg-gradient-to-r from-primary-500 to-secondary-500 rounded-full transition-all duration-300"
           style={{ width: `${progressPercent}%` }}
           role="progressbar"
           aria-valuenow={currentWord}
           aria-valuemin={0}
           aria-valuemax={totalWords}
-          aria-label={`Kelime ilerlemesi: ${currentWord} / ${totalWords}`}
         />
       </div>
+
+      {/* Progress Text */}
+      <span className="text-sm font-medium text-neutral-400 tabular-nums whitespace-nowrap" aria-live="polite">
+        {currentWord}/{totalWords} kelime
+      </span>
     </div>
   );
 };

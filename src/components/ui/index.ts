@@ -36,8 +36,8 @@ export type { ToggleProps } from './Toggle';
 export { Select } from './Select';
 export type { SelectProps, SelectOption } from './Select';
 
-export { LetterBox, LetterBoxRow } from './LetterBox';
-export type { LetterBoxProps, LetterBoxRowProps } from './LetterBox';
+export { LetterBox } from './LetterBox';
+export type { LetterBoxProps } from './LetterBox';
 
 // TV Show Quality Components (ui-ux-design.md)
 export { Toast, ToastContainer, useToast } from './Toast';

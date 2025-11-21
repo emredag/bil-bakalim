@@ -1,21 +1,23 @@
 /**
  * WordArea Component - PRD 4.5, ui-ux-design.md#game-screen
  *
- * TV Show Quality Word Display Area (500px target height)
+ * Fully Responsive TV Show Quality Word Display Area
  *
  * Features:
- * - Dynamic letter tile grid with responsive spacing
- * - Letter tiles with 3D flip animations
- * - Status glow effects (correct = green, wrong = red flash)
+ * - Dynamic letter tile grid with viewport-based sizing
+ * - Letter tiles with smooth reveal animations
+ * - Status glow effects (correct = green, wrong = red flash + shake)
  * - Closed state: Slate bg with "?" icon
  * - Open state: Amber bg with letter (extrabold)
- * - Fully responsive tile sizing
+ * - Automatically adapts to any number of letters
+ * - Always fits on screen regardless of device
+ * - Wrong answer shake animation (Design System)
  *
- * Uses the existing LetterBox component
+ * Uses the responsive LetterBox component
  */
 
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { LetterBox } from '../ui/LetterBox';
 import type { Letter } from '../../types';
 
@@ -30,49 +32,79 @@ export const WordArea: React.FC<WordAreaProps> = ({
   wordStatus = 'idle',
   className = '',
 }) => {
-  // Determine grid columns based on word length
-  const getGridColumns = (length: number): string => {
-    if (length <= 4) return 'grid-cols-4';
-    if (length <= 6) return 'grid-cols-6';
-    if (length <= 8) return 'grid-cols-8';
-    return 'grid-cols-10';
+  const letterCount = letters.length;
+
+  // Dynamic gap based on number of letters
+  const getGapClass = () => {
+    if (letterCount <= 4) return 'gap-4 md:gap-6 lg:gap-8';
+    if (letterCount <= 6) return 'gap-3 md:gap-4 lg:gap-6';
+    if (letterCount <= 8) return 'gap-2 md:gap-3 lg:gap-4';
+    return 'gap-2 md:gap-2.5 lg:gap-3';
   };
 
-  // Responsive gap spacing
-  const gapClass = 'gap-2 md:gap-3 lg:gap-4';
-
   return (
-    <motion.div
-      className={`
-        flex-1 min-h-0
-        flex items-center justify-center
-        px-4 md:px-6 lg:px-8 py-4
-        ${className}
-      `}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
+    <section
+      className={`relative flex flex-col items-center justify-center ${className}`}
+      style={{
+        minHeight: 'clamp(200px, 30vh, 400px)',
+      }}
     >
-      <div
-        className={`
-          grid
-          ${getGridColumns(letters.length)}
-          ${gapClass}
-          max-w-7xl
-        `}
-        role="region"
-        aria-label="Kelime alanı"
-      >
-        {letters.map((letter, index) => (
-          <LetterBox
-            key={`${index}-${letter.char}`}
-            letter={letter.char}
-            isRevealed={letter.status === 'revealed'}
-            status={wordStatus}
-            size="md"
-          />
-        ))}
-      </div>
-    </motion.div>
+      {/* Animated Spotlight Glow */}
+      <motion.div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            wordStatus === 'incorrect'
+              ? 'radial-gradient(circle at center, rgba(239, 68, 68, 0.3) 0%, transparent 70%)'
+              : 'radial-gradient(circle at center, rgba(14, 165, 233, 0.25) 0%, transparent 70%)',
+          filter: 'blur(80px)',
+        }}
+        animate={{
+          opacity: wordStatus === 'incorrect' ? [0.5, 0.8, 0.5] : [0.3, 0.5, 0.3],
+          scale: wordStatus === 'incorrect' ? [1, 1.1, 1] : [1, 1.05, 1],
+        }}
+        transition={{
+          duration: wordStatus === 'incorrect' ? 0.5 : 4,
+          repeat: wordStatus === 'incorrect' ? 0 : Infinity,
+          ease: 'easeInOut',
+        }}
+      />
+
+      {/* Word Container - Always centered, no wrapping */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={wordStatus}
+          className={`
+            relative z-10
+            flex items-center justify-center
+            ${getGapClass()}
+            w-full px-4 md:px-8
+          `}
+          role="region"
+          aria-label="Kelime alanı"
+          animate={
+            wordStatus === 'incorrect'
+              ? {
+                  x: [0, -10, 10, -10, 10, -5, 5, 0],
+                }
+              : {}
+          }
+          transition={{
+            duration: wordStatus === 'incorrect' ? 0.5 : 0,
+            ease: [0.4, 0, 0.2, 1],
+          }}
+        >
+          {letters.map((letter, index) => (
+            <LetterBox
+              key={`${index}-${letter.char}`}
+              letter={letter.char}
+              isRevealed={letter.status === 'revealed'}
+              status={wordStatus}
+              totalLetters={letterCount}
+            />
+          ))}
+        </motion.div>
+      </AnimatePresence>
+    </section>
   );
 };

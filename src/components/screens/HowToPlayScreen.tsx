@@ -104,15 +104,14 @@ const SCORING_TABLE = [
 const KEYBOARD_SHORTCUTS = {
   game: [
     { key: 'H', action: 'Harf Aç', description: 'Rastgele harf açar' },
-    { key: 'T', action: 'Tahmin Et', description: "Tahmin popup'ı açar" },
+    { key: 'D', action: 'Doğru', description: 'Kelimeyi doğru bildiniz' },
+    { key: 'Y', action: 'Yanlış', description: 'Kelimeyi yanlış bildiniz' },
     { key: 'P', action: 'Pas Geç', description: 'Pas geçme onayı ister' },
-    { key: 'Space', action: 'Duraklat/Devam', description: 'Oyunu duraklat' },
+    { key: 'Space', action: 'Duraklat', description: 'Oyunu duraklat' },
     { key: 'M', action: 'Ses Aç/Kapat', description: 'Ses toggle' },
-    { key: 'Esc', action: 'Ana Menü', description: 'Onaylı çıkış' },
+    { key: 'Esc', action: 'Ana Menü', description: 'Ana menüye dön' },
   ],
   dialog: [
-    { key: 'D / Enter', action: 'Doğru', description: "Tahmin popup'ında" },
-    { key: 'Y / N', action: 'Yanlış', description: "Tahmin popup'ında" },
     { key: 'Enter', action: 'Onayla', description: "Tüm onay dialog'larında" },
     { key: 'Esc', action: 'İptal', description: "Tüm dialog'larda" },
   ],

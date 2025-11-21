@@ -39,6 +39,10 @@ interface GameStore {
   revealLetter: (participantIndex: number, wordIndex: number, letterIndex: number) => void;
   submitGuess: (participantIndex: number, wordIndex: number, isCorrect: boolean) => void;
   skipWord: (participantIndex: number, wordIndex: number) => void;
+  nextWord: () => void; // Move to next word (after delay)
+
+  // Transition actions
+  setTransition: (isInTransition: boolean) => void; // Pause timer during transitions
 
   // Participant actions
   nextParticipant: () => void;
@@ -117,6 +121,7 @@ export const useGameStore = create<GameStore>()(
           totalTimeSeconds: 300, // PRD: 5 minutes for all words
           elapsedTimeSeconds: 0,
           isPaused: false,
+          isInTransition: false, // Start without transition
           startedAt: new Date().toISOString(),
           finishedAt: null,
         };
@@ -169,7 +174,7 @@ export const useGameStore = create<GameStore>()(
 
       tick: () => {
         set((state) => {
-          if (!state.session || state.session.isPaused) return state;
+          if (!state.session || state.session.isPaused || state.session.isInTransition) return state;
 
           // Get active participant
           const participants = [...state.session.participants];
@@ -296,15 +301,21 @@ export const useGameStore = create<GameStore>()(
             participant.score += earnedPoints;
             participant.wordsFound += 1;
 
-            // Move to next word
-            participant.currentWordIndex += 1;
+            // NOTE: Do NOT move to next word here - will be done by nextWord() after delay
           } else {
             // Wrong guess
             if (word.remainingGuesses === 0) {
+              // Reveal all letters before auto-skip (so user can see the word)
+              word.letters = word.letters.map((letter: Letter) => ({
+                ...letter,
+                status: 'revealed' as const,
+              }));
+
               // Auto-skip if no guesses left
               word.result = 'skipped';
               participant.wordsSkipped += 1;
-              participant.currentWordIndex += 1;
+
+              // NOTE: Do NOT move to next word here - will be done by nextWord() after delay
             }
           }
 
@@ -312,44 +323,10 @@ export const useGameStore = create<GameStore>()(
           participant.words = words;
           participants[participantIndex] = participant;
 
-          // Check if current participant completed all words
-          const participantCompleted = participant.words.every((w) => w.result !== null);
-
-          // Check if ALL participants completed their words
-          const allParticipantsCompleted = participants.every((p) =>
-            p.words.every((w) => w.result !== null)
-          );
-
-          // Determine next state and actions
-          let newState: GameState = state.session.state;
-          const newActiveIndex = state.session.activeParticipantIndex;
-          let finishedAt = state.session.finishedAt;
-          let updatedParticipants = participants;
-
-          if (allParticipantsCompleted) {
-            // ALL participants finished → End game
-            newState = 'finished';
-            finishedAt = new Date().toISOString();
-          } else if (
-            participantCompleted &&
-            (state.session.mode === 'multi' || state.session.mode === 'team')
-          ) {
-            // Current participant finished in multi/team mode → Wait for host to start next turn
-            newState = 'waiting_next_turn';
-            updatedParticipants = [...participants];
-            updatedParticipants[participantIndex] = {
-              ...updatedParticipants[participantIndex],
-              isActive: false,
-            };
-          }
-
           return {
             session: {
               ...state.session,
-              participants: updatedParticipants,
-              activeParticipantIndex: newActiveIndex,
-              state: newState,
-              finishedAt,
+              participants,
             },
           };
         });
@@ -364,53 +341,26 @@ export const useGameStore = create<GameStore>()(
           const words = [...participant.words];
           const word = { ...words[wordIndex] };
 
+          // Reveal all letters before skipping (so user can see the word)
+          word.letters = word.letters.map((letter: Letter) => ({
+            ...letter,
+            status: 'revealed' as const,
+          }));
+
           word.result = 'skipped';
           word.pointsEarned = 0;
           participant.wordsSkipped += 1;
-          participant.currentWordIndex += 1;
+
+          // NOTE: Do NOT move to next word here - will be done by nextWord() after delay
 
           words[wordIndex] = word;
           participant.words = words;
           participants[participantIndex] = participant;
 
-          // Check if current participant completed all words
-          const participantCompleted = participant.words.every((w) => w.result !== null);
-
-          // Check if ALL participants completed their words
-          const allParticipantsCompleted = participants.every((p) =>
-            p.words.every((w) => w.result !== null)
-          );
-
-          // Determine next state and actions
-          let newState: GameState = state.session.state;
-          const newActiveIndex = state.session.activeParticipantIndex;
-          let finishedAt = state.session.finishedAt;
-          let updatedParticipants = participants;
-
-          if (allParticipantsCompleted) {
-            // ALL participants finished → End game
-            newState = 'finished';
-            finishedAt = new Date().toISOString();
-          } else if (
-            participantCompleted &&
-            (state.session.mode === 'multi' || state.session.mode === 'team')
-          ) {
-            // Current participant finished in multi/team mode → Wait for host to start next turn
-            newState = 'waiting_next_turn';
-            updatedParticipants = [...participants];
-            updatedParticipants[participantIndex] = {
-              ...updatedParticipants[participantIndex],
-              isActive: false,
-            };
-          }
-
           return {
             session: {
               ...state.session,
-              participants: updatedParticipants,
-              activeParticipantIndex: newActiveIndex,
-              state: newState,
-              finishedAt,
+              participants,
             },
           };
         });
@@ -453,6 +403,72 @@ export const useGameStore = create<GameStore>()(
             session: {
               ...state.session,
               participants,
+            },
+          };
+        });
+      },
+
+      setTransition: (isInTransition: boolean) => {
+        set((state) => {
+          if (!state.session) return state;
+          return {
+            session: {
+              ...state.session,
+              isInTransition,
+            },
+          };
+        });
+      },
+
+      nextWord: () => {
+        set((state) => {
+          if (!state.session) return state;
+
+          const participants = [...state.session.participants];
+          const participant = { ...participants[state.session.activeParticipantIndex] };
+
+          // Move to next word
+          participant.currentWordIndex += 1;
+          participants[state.session.activeParticipantIndex] = participant;
+
+          // Check if current participant completed all words
+          const participantCompleted = participant.words.every((w) => w.result !== null);
+
+          // Check if ALL participants completed their words
+          const allParticipantsCompleted = participants.every((p) =>
+            p.words.every((w) => w.result !== null)
+          );
+
+          // Determine next state
+          let newState: GameState = state.session.state;
+          const newActiveIndex = state.session.activeParticipantIndex;
+          let finishedAt = state.session.finishedAt;
+          let updatedParticipants = participants;
+
+          if (allParticipantsCompleted) {
+            // ALL participants finished → End game
+            newState = 'finished';
+            finishedAt = new Date().toISOString();
+          } else if (
+            participantCompleted &&
+            (state.session.mode === 'multi' || state.session.mode === 'team')
+          ) {
+            // Current participant finished in multi/team mode → Wait for host to start next turn
+            newState = 'waiting_next_turn';
+            updatedParticipants = [...participants];
+            updatedParticipants[state.session.activeParticipantIndex] = {
+              ...updatedParticipants[state.session.activeParticipantIndex],
+              isActive: false,
+            };
+          }
+
+          return {
+            session: {
+              ...state.session,
+              participants: updatedParticipants,
+              activeParticipantIndex: newActiveIndex,
+              state: newState,
+              finishedAt,
             },
           };
         });

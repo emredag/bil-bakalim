@@ -139,6 +139,7 @@ export interface GameSession {
   totalTimeSeconds: number; // 300
   elapsedTimeSeconds: number;
   isPaused: boolean;
+  isInTransition: boolean; // Pause timer during word transitions (confetti, reveal)
 
   // Timestamps
   startedAt: string | null;

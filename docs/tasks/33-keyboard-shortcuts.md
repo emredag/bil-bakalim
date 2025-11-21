@@ -24,15 +24,14 @@ From PRD Section 11:
 
 ### 11.2 Oyun Ekranı Kısayolları
 - H: Harf Aç
-- T: Tahmin Et
+- D: Doğru (kelimeyi doğru bildiniz - inline button)
+- Y: Yanlış (kelimeyi yanlış bildiniz - inline button)
 - P: Pas Geç
 - Space: Duraklat/Devam
 - M: Ses Aç/Kapat
 - Esc: Ana Menü
 
-### 11.3 Popup/Dialog Kısayolları
-- D / Enter: Doğru (tahmin popup'ında)
-- Y / N: Yanlış (tahmin popup'ında)
+### 11.3 Dialog Kısayolları (Pause/Skip/Home only)
 - Enter: Onayla (onay dialogları)
 - Esc: İptal (tüm dialoglar)
 

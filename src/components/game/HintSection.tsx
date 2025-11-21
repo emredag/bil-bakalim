@@ -22,30 +22,22 @@ export const HintSection: React.FC<HintSectionProps> = ({ hint, className = '' }
   return (
     <div
       className={`
-        py-4 md:py-6
+        py-6 md:py-7 lg:py-8 px-6 md:px-8 lg:px-12
         bg-gradient-to-r from-amber-900/20 to-amber-800/10
-        border-2 border-amber-700/50
-        rounded-xl
-        px-6 md:px-8 lg:px-12
-        flex items-center justify-center gap-4
+        border-2 border-amber-700/30 rounded-2xl
+        backdrop-blur-sm
+        flex items-start gap-4 lg:gap-5
+        w-full max-w-4xl mx-auto
         ${className}
       `}
       role="region"
       aria-label="İpucu bölümü"
     >
-      {/* Lightbulb Icon */}
-      <div className="shrink-0">
-        <Lightbulb
-          className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 text-amber-400"
-          aria-hidden="true"
-        />
-      </div>
+      {/* Lightbulb Icon (Optimized for projection) */}
+      <Lightbulb className="w-7 h-7 lg:w-8 lg:h-8 text-amber-400 flex-shrink-0 mt-1" aria-hidden="true" />
 
-      {/* Hint Text */}
-      <p
-        className="text-base md:text-lg lg:text-xl xl:text-2xl text-slate-100 font-medium text-center"
-        aria-live="polite"
-      >
+      {/* Hint Text (Optimized for projection) */}
+      <p className="text-xl md:text-2xl lg:text-3xl text-neutral-100 flex-1 font-medium" aria-live="polite">
         {hint}
       </p>
     </div>

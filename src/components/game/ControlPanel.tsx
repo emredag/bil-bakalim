@@ -13,13 +13,14 @@
  */
 
 import React from 'react';
-import { Eye, CheckCircle, SkipForward, Pause, Volume2, VolumeX, Home } from 'lucide-react';
+import { Eye, Check, X, SkipForward, Lightbulb, Target, TrendingUp } from 'lucide-react';
 import { Button } from '../ui/Button';
 
 interface ControlPanelProps {
   // Actions
   onRevealLetter: () => void;
-  onGuess: () => void;
+  onGuessCorrect: () => void;
+  onGuessWrong: () => void;
   onSkip: () => void;
   onPause: () => void;
   onToggleSound: () => void;
@@ -41,139 +42,124 @@ interface ControlPanelProps {
 
 export const ControlPanel: React.FC<ControlPanelProps> = ({
   onRevealLetter,
-  onGuess,
+  onGuessCorrect,
+  onGuessWrong,
   onSkip,
-  onPause,
-  onToggleSound,
-  onHome,
+  onPause: _onPause, // Side controls to be added in future update
+  onToggleSound: _onToggleSound, // Side controls to be added in future update
+  onHome: _onHome, // Side controls to be added in future update
   canRevealLetter,
   canGuess,
   canSkip,
-  soundEnabled,
+  soundEnabled: _soundEnabled, // Used with sound toggle control
   remainingGuesses,
   lettersRevealed,
   remainingPoints,
   className = '',
 }) => {
   return (
-    <div
-      className={`
-        shrink-0
-        bg-slate-800/50 backdrop-blur-sm
-        border-t-2 border-slate-700
-        px-4 md:px-6 lg:px-8 py-3 md:py-4
-        ${className}
-      `}
-      role="region"
-      aria-label="Kontrol paneli"
-    >
-      <div className="max-w-7xl mx-auto space-y-3">
-        {/* Main Action Buttons */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-          {/* Reveal Letter Button */}
+    <div className={`w-full ${className}`} role="region" aria-label="Kontrol paneli">
+      <div className="flex flex-col items-center gap-4">
+        {/* Action Buttons - Floating Glassmorphism Container (Optimized for projection) */}
+        <div
+          className="flex items-center justify-center gap-3 lg:gap-4 px-6 py-4
+                     bg-neutral-900/70 backdrop-blur-xl
+                     border border-white/10 rounded-2xl shadow-2xl
+                     flex-wrap"
+        >
+          {/* Harf Aç Button */}
           <Button
             onClick={onRevealLetter}
             disabled={!canRevealLetter}
             variant="secondary"
             size="lg"
-            className="h-14 md:h-16 text-base md:text-lg"
+            className="min-w-[120px] lg:min-w-[140px] h-16 lg:h-18 text-base lg:text-lg font-semibold"
             aria-label="Harf aç, klavye kısayolu H"
           >
-            <Eye className="w-5 h-5 md:w-6 md:h-6" aria-hidden="true" />
+            <Lightbulb className="w-5 h-5 lg:w-6 lg:h-6" aria-hidden="true" />
             <span>Harf Aç</span>
-            <kbd className="ml-2 px-2 py-1 bg-slate-700 rounded text-sm">H</kbd>
+            <kbd className="ml-2 px-2 py-0.5 bg-neutral-700 rounded text-xs lg:text-sm">H</kbd>
           </Button>
 
-          {/* Guess Button */}
+          {/* Doğru Button - Inline (replaces modal) */}
           <Button
-            onClick={onGuess}
+            onClick={onGuessCorrect}
             disabled={!canGuess}
             variant="primary"
             size="lg"
-            className="h-14 md:h-16 text-base md:text-lg"
-            aria-label="Tahmin et, klavye kısayolu T"
+            className="min-w-[140px] lg:min-w-[160px] h-16 lg:h-18 text-base lg:text-lg font-semibold
+                       bg-success-500/20 hover:bg-success-500/30
+                       border-2 border-success-500/50 hover:border-success-500
+                       text-success-100"
+            aria-label="Kelimeyi doğru bildiniz, klavye kısayolu D"
           >
-            <CheckCircle className="w-5 h-5 md:w-6 md:h-6" aria-hidden="true" />
-            <span>Tahmin Et</span>
-            <kbd className="ml-2 px-2 py-1 bg-blue-800 rounded text-sm">T</kbd>
+            <Check className="w-6 h-6 lg:w-7 lg:h-7" aria-hidden="true" />
+            <span>Doğru</span>
+            <kbd className="ml-2 px-2 py-0.5 bg-success-700 rounded text-xs lg:text-sm">D</kbd>
           </Button>
 
-          {/* Skip Button */}
+          {/* Yanlış Button - Inline (replaces modal) */}
+          <Button
+            onClick={onGuessWrong}
+            disabled={!canGuess}
+            variant="destructive"
+            size="lg"
+            className="min-w-[140px] lg:min-w-[160px] h-16 lg:h-18 text-base lg:text-lg font-semibold
+                       bg-error-500/20 hover:bg-error-500/30
+                       border-2 border-error-500/50 hover:border-error-500
+                       text-error-100"
+            aria-label="Kelimeyi yanlış bildiniz, klavye kısayolu Y"
+          >
+            <X className="w-6 h-6 lg:w-7 lg:h-7" aria-hidden="true" />
+            <span>Yanlış</span>
+            <kbd className="ml-2 px-2 py-0.5 bg-error-700 rounded text-xs lg:text-sm">Y</kbd>
+          </Button>
+
+          {/* Atla Button */}
           <Button
             onClick={onSkip}
             disabled={!canSkip}
             variant="secondary"
             size="lg"
-            className="h-14 md:h-16 text-base md:text-lg"
+            className="min-w-[120px] lg:min-w-[140px] h-16 lg:h-18 text-base lg:text-lg font-semibold"
             aria-label="Pas geç, klavye kısayolu P"
           >
-            <SkipForward className="w-5 h-5 md:w-6 md:h-6" aria-hidden="true" />
-            <span>Pas Geç</span>
-            <kbd className="ml-2 px-2 py-1 bg-slate-700 rounded text-sm">P</kbd>
+            <SkipForward className="w-5 h-5 lg:w-6 lg:h-6" aria-hidden="true" />
+            <span>Atla</span>
+            <kbd className="ml-2 px-2 py-0.5 bg-neutral-700 rounded text-xs lg:text-sm">P</kbd>
           </Button>
         </div>
 
-        {/* Info Bar */}
-        <div className="grid grid-cols-3 gap-3 text-center">
-          <div className="bg-slate-900/50 rounded-lg p-2">
-            <div className="text-xs md:text-sm text-slate-400 uppercase tracking-wide mb-1">
-              Kalan Tahmin
-            </div>
-            <div className="text-xl md:text-2xl font-bold text-blue-400 tabular-nums">
-              {remainingGuesses}
-            </div>
+        {/* Info Bar - Compact Glassmorphism (Optimized for projection) */}
+        <div
+          className="flex items-center justify-center gap-6 lg:gap-8 px-8 py-4 lg:px-10 lg:py-5
+                     bg-neutral-900/50 backdrop-blur-md
+                     border border-white/8 rounded-xl"
+        >
+          <div className="flex items-center gap-2 lg:gap-3">
+            <Target className="w-5 h-5 lg:w-6 lg:h-6 text-primary-400" aria-hidden="true" />
+            <span className="text-base lg:text-lg text-neutral-300">
+              <span className="font-bold text-neutral-50">{remainingGuesses}</span> tahmin
+            </span>
           </div>
 
-          <div className="bg-slate-900/50 rounded-lg p-2">
-            <div className="text-xs md:text-sm text-slate-400 uppercase tracking-wide mb-1">
-              Açılan Harf
-            </div>
-            <div className="text-xl md:text-2xl font-bold text-amber-400 tabular-nums">
-              {lettersRevealed}
-            </div>
+          <div className="w-px h-5 lg:h-6 bg-white/10" aria-hidden="true" />
+
+          <div className="flex items-center gap-2 lg:gap-3">
+            <Eye className="w-5 h-5 lg:w-6 lg:h-6 text-accent-400" aria-hidden="true" />
+            <span className="text-base lg:text-lg text-neutral-300">
+              <span className="font-bold text-neutral-50">{lettersRevealed}</span> harf
+            </span>
           </div>
 
-          <div className="bg-slate-900/50 rounded-lg p-2">
-            <div className="text-xs md:text-sm text-slate-400 uppercase tracking-wide mb-1">
-              Kalan Puan
-            </div>
-            <div className="text-xl md:text-2xl font-bold text-emerald-400 tabular-nums">
-              {remainingPoints}
-            </div>
+          <div className="w-px h-5 lg:h-6 bg-white/10" aria-hidden="true" />
+
+          <div className="flex items-center gap-2 lg:gap-3">
+            <TrendingUp className="w-5 h-5 lg:w-6 lg:h-6 text-success-400" aria-hidden="true" />
+            <span className="text-base lg:text-lg text-neutral-300">
+              <span className="font-bold text-accent-400">+{remainingPoints}</span> puan
+            </span>
           </div>
-        </div>
-
-        {/* Side Controls */}
-        <div className="flex items-center justify-center gap-3">
-          <Button
-            onClick={onPause}
-            variant="secondary"
-            size="md"
-            aria-label="Oyunu duraklat, klavye kısayolu Space"
-          >
-            <Pause className="w-5 h-5" aria-hidden="true" />
-            <span className="ml-2">Duraklat</span>
-            <kbd className="ml-2 px-2 py-1 bg-slate-700 rounded text-xs">Space</kbd>
-          </Button>
-
-          <Button
-            onClick={onToggleSound}
-            variant="secondary"
-            size="md"
-            aria-label={soundEnabled ? 'Sesi kapat' : 'Sesi aç'}
-          >
-            {soundEnabled ? (
-              <Volume2 className="w-5 h-5" aria-hidden="true" />
-            ) : (
-              <VolumeX className="w-5 h-5" aria-hidden="true" />
-            )}
-            <span className="ml-2">{soundEnabled ? 'Ses Açık' : 'Ses Kapalı'}</span>
-          </Button>
-
-          <Button onClick={onHome} variant="secondary" size="md" aria-label="Ana menüye dön">
-            <Home className="w-5 h-5" aria-hidden="true" />
-            <span className="ml-2">Ana Menü</span>
-          </Button>
         </div>
       </div>
     </div>

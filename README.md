@@ -125,15 +125,17 @@ npm run quality:check
 ### Klavye Kısayolları
 
 Oyun sırasında:
-- `Space` veya `H` - Harf aç
-- `Enter` veya `T` - Tahmin et
+- `H` - Harf aç
+- `D` - Kelimeyi doğru bildiniz
+- `Y` - Kelimeyi yanlış bildiniz
 - `P` - Pas geç
-- `Esc` - Duraklat
+- `Space` - Duraklat
 - `M` - Ses aç/kapat
+- `Esc` - Ana menü
 
 Dialog'larda:
-- `Enter` veya `Y` - Onayla
-- `Esc` veya `N` - İptal
+- `Enter` - Onayla
+- `Esc` - İptal
 
 ### Kategori ve Kelime Yönetimi
 

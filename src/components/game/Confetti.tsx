@@ -1,10 +1,12 @@
 /**
- * Confetti Component - PRD 4.5, ui-ux-design.md#game-screen
+ * Confetti Component - PRD 4.5, DESIGN_SYSTEM.md
  *
- * Canvas-based confetti animation for correct answers
+ * Enhanced canvas-based confetti animation for correct answers
  *
  * Features:
  * - Canvas-based particle system (z-30 layer)
+ * - Multiple particle shapes (square, circle, star)
+ * - Design System color palette
  * - Triggered on correct answer
  * - Performance-optimized (60 FPS)
  * - Respects "reduce motion" preference
@@ -29,9 +31,51 @@ interface Particle {
   color: string;
   size: number;
   gravity: number;
+  shape: 'square' | 'circle' | 'star';
 }
 
-const COLORS = ['#fbbf24', '#3b82f6', '#8b5cf6', '#10b981', '#ef4444', '#ec4899'];
+// Design System colors (from DESIGN_SYSTEM.md#mesh-gradient-celebration)
+const COLORS = [
+  '#0ea5e9', // primary-500
+  '#f59e0b', // accent-500
+  '#a855f7', // secondary-500
+  '#22c55e', // success-500
+  '#ec4899', // pink-500
+  '#38bdf8', // primary-400
+  '#fbbf24', // accent-400
+];
+
+const SHAPES: Array<'square' | 'circle' | 'star'> = ['square', 'circle', 'star'];
+
+// Draw a star shape
+const drawStar = (
+  ctx: CanvasRenderingContext2D,
+  size: number,
+  color: string
+) => {
+  const spikes = 5;
+  const outerRadius = size;
+  const innerRadius = size / 2;
+
+  ctx.beginPath();
+  ctx.fillStyle = color;
+
+  for (let i = 0; i < spikes * 2; i++) {
+    const radius = i % 2 === 0 ? outerRadius : innerRadius;
+    const angle = (i * Math.PI) / spikes - Math.PI / 2;
+    const x = Math.cos(angle) * radius;
+    const y = Math.sin(angle) * radius;
+
+    if (i === 0) {
+      ctx.moveTo(x, y);
+    } else {
+      ctx.lineTo(x, y);
+    }
+  }
+
+  ctx.closePath();
+  ctx.fill();
+};
 
 export const Confetti: React.FC<ConfettiProps> = ({ active, duration = 3000, onComplete }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -62,24 +106,27 @@ export const Confetti: React.FC<ConfettiProps> = ({ active, duration = 3000, onC
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
-    // Initialize particles
-    const particleCount = 100;
+    // Initialize particles (Design System: 150 particles)
+    const particleCount = 150;
     const centerX = canvas.width / 2;
-    const centerY = canvas.height / 3;
+    const centerY = canvas.height / 2.5; // Slightly higher than center
 
     particlesRef.current = Array.from({ length: particleCount }, () => {
-      const angle = Math.random() * Math.PI * 2;
-      const velocity = 5 + Math.random() * 10;
+      // Wider spread for better coverage
+      const angle = (Math.random() - 0.5) * Math.PI * 1.2; // 70 degree spread
+      const velocity = 8 + Math.random() * 15;
+
       return {
         x: centerX,
         y: centerY,
         vx: Math.cos(angle) * velocity,
-        vy: Math.sin(angle) * velocity - 5, // Bias upward
+        vy: Math.sin(angle) * velocity - 8, // Strong upward bias
         rotation: Math.random() * Math.PI * 2,
-        rotationSpeed: (Math.random() - 0.5) * 0.3,
+        rotationSpeed: (Math.random() - 0.5) * 0.4,
         color: COLORS[Math.floor(Math.random() * COLORS.length)],
-        size: 8 + Math.random() * 8,
-        gravity: 0.3 + Math.random() * 0.2,
+        size: 6 + Math.random() * 10,
+        gravity: 0.5 + Math.random() * 0.3,
+        shape: SHAPES[Math.floor(Math.random() * SHAPES.length)],
       };
     });
 
@@ -113,12 +160,23 @@ export const Confetti: React.FC<ConfettiProps> = ({ active, duration = 3000, onC
         const isVisible = particle.y < canvas.height + 50;
 
         if (isVisible) {
-          // Draw particle (simple square)
+          // Draw particle based on shape
           ctx.save();
           ctx.translate(particle.x, particle.y);
           ctx.rotate(particle.rotation);
-          ctx.fillStyle = particle.color;
-          ctx.fillRect(-particle.size / 2, -particle.size / 2, particle.size, particle.size);
+
+          if (particle.shape === 'square') {
+            ctx.fillStyle = particle.color;
+            ctx.fillRect(-particle.size / 2, -particle.size / 2, particle.size, particle.size);
+          } else if (particle.shape === 'circle') {
+            ctx.fillStyle = particle.color;
+            ctx.beginPath();
+            ctx.arc(0, 0, particle.size / 2, 0, Math.PI * 2);
+            ctx.fill();
+          } else if (particle.shape === 'star') {
+            drawStar(ctx, particle.size / 2, particle.color);
+          }
+
           ctx.restore();
         }
 

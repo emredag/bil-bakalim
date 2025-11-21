@@ -267,8 +267,9 @@ Ana menüde 6 ana bölüm bulunur:
 - **İpucu şeridi:** Kelimenin ipucu metni
 
 #### Kontrol Paneli
-- **Harf Aç (Space/H):** Bir harf açar
-- **Tahmin Et (Enter/T):** Tahmininizi onaylar
+- **Harf Aç (H):** Bir harf açar
+- **Doğru (D):** Kelimeyi doğru bildiniz
+- **Yanlış (Y):** Kelimeyi yanlış bildiniz
 - **Pas (P):** Kelimeyi atlar
 - **Bilgi satırı:** Kalan tahmin, açılan harf, kazanılacak puan
 
@@ -281,8 +282,8 @@ Ana menüde 6 ana bölüm bulunur:
 
 1. **İpucu okuyun**
 2. **Kelimeyi biliyor musunuz?**
-   - **Evet:** "Tahmin Et" butonuna basın → Kelimeyi yazın → Onayla
-   - **Hayır:** Harf açın → Tahmin edin veya pas geçin
+   - **Evet:** "Doğru" (D) butonuna basın
+   - **Hayır:** "Yanlış" (Y) butonuna basın veya harf açmaya devam edin
 3. **Doğru bildiniz mi?**
    - **Evet:** Konfeti ve puan, sonraki kelimeye geçiş
    - **Hayır:** Tahmin hakkı azalır, tekrar deneyin
@@ -628,18 +629,20 @@ Klavye kısayolları, oyunu daha hızlı ve rahat kullanmanızı sağlar.
 
 | Tuş | İşlev |
 |-----|-------|
-| `Space` veya `H` | Harf aç |
-| `Enter` veya `T` | Tahmin et |
+| `H` | Harf aç |
+| `D` | Kelimeyi doğru bildiniz |
+| `Y` | Kelimeyi yanlış bildiniz |
 | `P` | Pas geç |
-| `Esc` | Oyunu duraklat |
+| `Space` | Oyunu duraklat |
 | `M` | Sesi aç/kapat |
+| `Esc` | Ana menü |
 
 ### Dialog'lar ve Onay Ekranları
 
 | Tuş | İşlev |
 |-----|-------|
-| `Enter` veya `Y` | Onayla (Evet) |
-| `Esc` veya `N` | İptal (Hayır) |
+| `Enter` | Onayla |
+| `Esc` | İptal |
 
 ### Genel Navigasyon
 

@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 import { useFocusTrap } from '../../hooks/useFocusTrap';
@@ -114,7 +115,7 @@ export const Modal: React.FC<ModalProps> = ({
     },
   };
 
-  return (
+  const modalContent = (
     <AnimatePresence>
       {isOpen && (
         <div
@@ -184,6 +185,11 @@ export const Modal: React.FC<ModalProps> = ({
       )}
     </AnimatePresence>
   );
+
+  // Render modal to document.body using portal to avoid positioning issues
+  return typeof document !== 'undefined'
+    ? createPortal(modalContent, document.body)
+    : null;
 };
 
 Modal.displayName = 'Modal';

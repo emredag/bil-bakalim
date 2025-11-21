@@ -30,6 +30,7 @@ interface ControlPanelProps {
   canRevealLetter: boolean;
   canGuess: boolean;
   canSkip: boolean;
+  isInTransition: boolean;
   soundEnabled: boolean;
 
   // Info
@@ -51,6 +52,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
   canRevealLetter,
   canGuess,
   canSkip,
+  isInTransition,
   soundEnabled: _soundEnabled, // Used with sound toggle control
   remainingGuesses,
   lettersRevealed,
@@ -70,63 +72,71 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
           {/* Harf Aç Button */}
           <Button
             onClick={onRevealLetter}
-            disabled={!canRevealLetter}
+            disabled={!canRevealLetter || isInTransition}
             variant="secondary"
             size="lg"
-            className="min-w-[120px] lg:min-w-[140px] h-16 lg:h-18 text-base lg:text-lg font-semibold"
+            className="min-w-[140px] lg:min-w-[160px] h-16 lg:h-18 text-base lg:text-lg font-semibold flex-col gap-1"
             aria-label="Harf aç, klavye kısayolu H"
           >
-            <Lightbulb className="w-5 h-5 lg:w-6 lg:h-6" aria-hidden="true" />
-            <span>Harf Aç</span>
-            <kbd className="ml-2 px-2 py-0.5 bg-neutral-700 rounded text-xs lg:text-sm">H</kbd>
+            <div className="flex items-center gap-2">
+              <Lightbulb className="w-6 h-6 lg:w-7 lg:h-7" aria-hidden="true" />
+              <span>Harf Aç</span>
+            </div>
+            <kbd className="px-2 py-0.5 bg-neutral-700/50 rounded text-xs lg:text-sm">H</kbd>
           </Button>
 
           {/* Doğru Button - Inline (replaces modal) */}
           <Button
             onClick={onGuessCorrect}
-            disabled={!canGuess}
+            disabled={!canGuess || isInTransition}
             variant="primary"
             size="lg"
-            className="min-w-[140px] lg:min-w-[160px] h-16 lg:h-18 text-base lg:text-lg font-semibold
+            className="min-w-[140px] lg:min-w-[160px] h-16 lg:h-18 text-base lg:text-lg font-semibold flex-col gap-1
                        bg-success-500/20 hover:bg-success-500/30
                        border-2 border-success-500/50 hover:border-success-500
                        text-success-100"
             aria-label="Kelimeyi doğru bildiniz, klavye kısayolu D"
           >
-            <Check className="w-6 h-6 lg:w-7 lg:h-7" aria-hidden="true" />
-            <span>Doğru</span>
-            <kbd className="ml-2 px-2 py-0.5 bg-success-700 rounded text-xs lg:text-sm">D</kbd>
+            <div className="flex items-center gap-2">
+              <Check className="w-6 h-6 lg:w-7 lg:h-7" aria-hidden="true" />
+              <span>Doğru</span>
+            </div>
+            <kbd className="px-2 py-0.5 bg-success-700/50 rounded text-xs lg:text-sm">D</kbd>
           </Button>
 
           {/* Yanlış Button - Inline (replaces modal) */}
           <Button
             onClick={onGuessWrong}
-            disabled={!canGuess}
+            disabled={!canGuess || isInTransition}
             variant="destructive"
             size="lg"
-            className="min-w-[140px] lg:min-w-[160px] h-16 lg:h-18 text-base lg:text-lg font-semibold
+            className="min-w-[140px] lg:min-w-[160px] h-16 lg:h-18 text-base lg:text-lg font-semibold flex-col gap-1
                        bg-error-500/20 hover:bg-error-500/30
                        border-2 border-error-500/50 hover:border-error-500
                        text-error-100"
             aria-label="Kelimeyi yanlış bildiniz, klavye kısayolu Y"
           >
-            <X className="w-6 h-6 lg:w-7 lg:h-7" aria-hidden="true" />
-            <span>Yanlış</span>
-            <kbd className="ml-2 px-2 py-0.5 bg-error-700 rounded text-xs lg:text-sm">Y</kbd>
+            <div className="flex items-center gap-2">
+              <X className="w-6 h-6 lg:w-7 lg:h-7" aria-hidden="true" />
+              <span>Yanlış</span>
+            </div>
+            <kbd className="px-2 py-0.5 bg-error-700/50 rounded text-xs lg:text-sm">Y</kbd>
           </Button>
 
           {/* Atla Button */}
           <Button
             onClick={onSkip}
-            disabled={!canSkip}
+            disabled={!canSkip || isInTransition}
             variant="secondary"
             size="lg"
-            className="min-w-[120px] lg:min-w-[140px] h-16 lg:h-18 text-base lg:text-lg font-semibold"
+            className="min-w-[140px] lg:min-w-[160px] h-16 lg:h-18 text-base lg:text-lg font-semibold flex-col gap-1"
             aria-label="Pas geç, klavye kısayolu P"
           >
-            <SkipForward className="w-5 h-5 lg:w-6 lg:h-6" aria-hidden="true" />
-            <span>Atla</span>
-            <kbd className="ml-2 px-2 py-0.5 bg-neutral-700 rounded text-xs lg:text-sm">P</kbd>
+            <div className="flex items-center gap-2">
+              <SkipForward className="w-6 h-6 lg:w-7 lg:h-7" aria-hidden="true" />
+              <span>Atla</span>
+            </div>
+            <kbd className="px-2 py-0.5 bg-neutral-700/50 rounded text-xs lg:text-sm">P</kbd>
           </Button>
         </div>
 

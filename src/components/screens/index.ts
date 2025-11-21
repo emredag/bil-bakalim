@@ -47,4 +47,5 @@ export { SettingsScreen } from './SettingsScreen';
 // Task 32: How to Play Screen
 export { HowToPlayScreen } from './HowToPlayScreen';
 
-export { ResultsScreen, HistoryDetailScreen } from './PlaceholderScreens';
+// Results Screen Wrapper - Renders appropriate results screen based on game mode
+export { ResultsScreen } from './ResultsScreenWrapper';

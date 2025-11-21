@@ -16,15 +16,16 @@
 
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { ChevronDown, Home, RefreshCw, History, Trophy, Users } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ChevronDown, Users, BarChart3, Clock, Target, Zap } from 'lucide-react';
 import type { GameSession, Team } from '../../types';
-import { Button } from '../ui/Button';
-import { Card } from '../ui/Card';
 import { TeamChip } from '../ui/TeamChip';
 import { ROUTES } from '../../routes/constants';
-import { fadeVariant, pageTransition } from '../../animations/variants';
 import { saveGameToHistory, type GameSessionData } from '../../api/gameHistory';
+import CelebrationHero from '../results/CelebrationHero';
+import PodiumDisplay from '../results/PodiumDisplay';
+import WordResultsGrid from '../results/WordResultsGrid';
+import { ResultsActions } from '../results/ResultsActions';
 
 // Global set to track saved session IDs (prevents duplicate saves in Strict Mode)
 const savedSessionIds = new Set<string>();
@@ -151,107 +152,98 @@ export function ResultsTeamMode({ session, teams, onPlayAgain }: ResultsTeamMode
   const winnerTeam = participantsWithRank[0];
   const winnerTeamInfo = getTeamInfo(winnerTeam.name);
 
+  // Add team info (emoji, color) to participants for podium display
+  const rankedTeamsWithInfo = participantsWithRank.map((p) => {
+    const teamInfo = getTeamInfo(p.name);
+    return {
+      ...p,
+      emoji: teamInfo?.emoji || '👥',
+      color: teamInfo?.color || '#3b82f6',
+    };
+  });
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 p-4 md:p-6 lg:p-8">
-      <div className="max-w-6xl mx-auto space-y-6 md:space-y-8">
-        {/* Header - Trophy & Winner Highlight */}
+    <div className="relative min-h-screen bg-neutral-950 p-4 md:p-6 lg:p-8">
+      {/* Mesh Gradient Background */}
+      <div
+        className="pointer-events-none fixed inset-0 opacity-[0.08]"
+        style={{
+          background: `
+            radial-gradient(at 40% 20%, rgb(14, 165, 233) 0px, transparent 50%),
+            radial-gradient(at 80% 0%, rgb(245, 158, 11) 0px, transparent 50%),
+            radial-gradient(at 0% 50%, rgb(168, 85, 247) 0px, transparent 50%),
+            radial-gradient(at 80% 50%, rgb(14, 165, 233) 0px, transparent 50%),
+            radial-gradient(at 0% 100%, rgb(245, 158, 11) 0px, transparent 50%),
+            radial-gradient(at 80% 100%, rgb(168, 85, 247) 0px, transparent 50%)
+          `,
+          filter: 'blur(80px)',
+        }}
+      />
+
+      <div className="relative z-10 mx-auto max-w-6xl space-y-8">
+        {/* Winner Celebration */}
         <motion.div
-          variants={fadeVariant}
-          initial="initial"
-          animate="animate"
-          className="text-center"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
         >
-          <div className="flex items-center justify-center gap-4 mb-4">
-            <Trophy className="w-12 h-12 md:w-16 md:h-16 text-amber-400" />
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white">Kazanan Takım</h1>
-            <Trophy className="w-12 h-12 md:w-16 md:h-16 text-amber-400" />
-          </div>
-          <p className="text-xl md:text-2xl text-slate-300 mb-2">
-            {session.categoryEmoji} {session.categoryName}
-          </p>
-          <p className="text-base md:text-lg text-slate-400">{session.participants.length} Takım</p>
+          <CelebrationHero
+            playerName={`${winnerTeamInfo?.emoji || '🏆'} ${winnerTeam.name}`}
+            score={winnerTeam.score}
+            mode={session.mode}
+            categoryEmoji={session.categoryEmoji}
+            categoryName={session.categoryName}
+          />
         </motion.div>
 
-        {/* Winner Team Card */}
-        <motion.div variants={pageTransition} initial="initial" animate="animate">
-          <Card className="p-6 md:p-8 text-center bg-gradient-to-br from-amber-900/40 to-amber-800/40 border-2 border-amber-400/60 shadow-2xl">
-            <div className="flex flex-col items-center gap-4">
-              {/* Team Chip */}
-              {winnerTeamInfo && (
-                <TeamChip
-                  name={winnerTeam.name}
-                  emoji={winnerTeamInfo.emoji}
-                  color={winnerTeamInfo.color}
-                  size="lg"
-                  score={winnerTeam.score}
-                  showScore={false}
-                />
-              )}
-
-              {/* Score */}
-              <div>
-                <p className="text-lg md:text-xl text-amber-200 mb-2">🥇 Toplam Puan</p>
-                <p className="text-6xl md:text-7xl lg:text-8xl font-bold text-amber-400 tabular-nums">
-                  {winnerTeam.score}
-                </p>
-              </div>
-
-              {/* Quick stats */}
-              <div className="flex flex-wrap justify-center gap-4 mt-4 text-sm md:text-base">
-                <div>
-                  <span className="text-emerald-400 font-bold">{winnerTeam.wordsFound}</span>
-                  <span className="text-slate-300"> kelime buldu</span>
-                </div>
-                <div className="text-slate-500">•</div>
-                <div>
-                  <span className="text-amber-400 font-bold">{winnerTeam.wordsSkipped}</span>
-                  <span className="text-slate-300"> pas geçildi</span>
-                </div>
-                <div className="text-slate-500">•</div>
-                <div>
-                  <span className="text-blue-400 font-bold">{winnerTeam.lettersRevealed}</span>
-                  <span className="text-slate-300"> harf alındı</span>
-                </div>
-              </div>
-            </div>
-          </Card>
+        {/* Team Podium Display */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3, duration: 0.5 }}
+        >
+          <PodiumDisplay rankings={rankedTeamsWithInfo} mode="team" />
         </motion.div>
 
-        {/* Team Rankings */}
+        {/* Detailed Team Rankings */}
         <motion.div
-          variants={pageTransition}
-          initial="initial"
-          animate="animate"
-          transition={{ delay: 0.1 }}
+          className="glass-card rounded-2xl p-6 md:p-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6 }}
         >
-          <Card className="p-6 md:p-8">
-            <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">Takım Sıralaması</h2>
+          <h2 className="mb-6 text-2xl font-bold text-neutral-50 md:text-3xl">
+            📊 Takım Detayları
+          </h2>
 
-            <div className="space-y-4">
+          <div className="space-y-4">
               {participantsWithRank.map((participant, index) => {
                 const isExpanded = expandedTeams.has(index);
                 const teamInfo = getTeamInfo(participant.name);
                 const isTied =
                   index > 0 && participantsWithRank[index - 1].score === participant.score;
 
+                // Winner highlight
+                const isWinner = participant.rank === 1;
+
                 return (
                   <div
                     key={index}
-                    className={`rounded-lg overflow-hidden transition-all ${
-                      participant.rank === 1
-                        ? 'bg-gradient-to-r from-amber-900/40 to-amber-800/40 border-2 border-amber-400/50'
-                        : 'bg-slate-700/50 border border-slate-600'
+                    className={`overflow-hidden rounded-xl transition-all ${
+                      isWinner
+                        ? 'border-2 border-accent-500/50 bg-gradient-to-r from-accent-900/40 to-accent-800/40'
+                        : 'border border-neutral-700/50 bg-neutral-800/30'
                     }`}
                   >
                     {/* Team Header - Clickable */}
                     <button
                       onClick={() => toggleTeam(index)}
-                      className="w-full p-4 md:p-6 flex items-center justify-between hover:bg-slate-600/20 transition-colors text-left"
+                      className="flex w-full items-center justify-between p-4 text-left transition-colors hover:bg-neutral-700/30 md:p-6"
                     >
-                      <div className="flex items-center gap-3 md:gap-4 flex-1 min-w-0">
+                      <div className="flex min-w-0 flex-1 items-center gap-3 md:gap-4">
                         {/* Rank & Medal */}
-                        <div className="flex items-center gap-2 flex-shrink-0">
-                          <span className="text-2xl md:text-3xl font-bold text-slate-300 tabular-nums">
+                        <div className="flex flex-shrink-0 items-center gap-2">
+                          <span className="text-2xl font-bold tabular-nums text-neutral-300 md:text-3xl">
                             {participant.rank}
                           </span>
                           {getMedal(participant.rank) && (
@@ -277,33 +269,33 @@ export function ResultsTeamMode({ session, teams, onPlayAgain }: ResultsTeamMode
                         <div className="ml-auto flex items-center gap-4">
                           {/* Tiebreaker badge (only on large screens) */}
                           {isTied && (
-                            <span className="hidden md:inline text-xs md:text-sm text-amber-300 bg-amber-900/30 px-2 py-1 rounded">
-                              🏅 Eşitlik: {participant.wordsFound} kelime buldu
+                            <span className="hidden rounded bg-warning-900/30 px-2 py-1 text-xs text-warning-300 md:inline md:text-sm">
+                              🏅 Beraberlik
                             </span>
                           )}
 
                           {/* Quick stats (hidden on mobile) */}
-                          <div className="hidden lg:flex items-center gap-4 text-sm text-slate-400">
+                          <div className="hidden items-center gap-4 text-sm text-neutral-400 lg:flex">
                             <span>
                               Bulunan:{' '}
-                              <span className="text-emerald-400">{participant.wordsFound}</span>
+                              <span className="text-success-400">{participant.wordsFound}</span>
                             </span>
                             <span>
                               Pas:{' '}
-                              <span className="text-amber-400">{participant.wordsSkipped}</span>
+                              <span className="text-warning-400">{participant.wordsSkipped}</span>
                             </span>
                             <span>
                               Harf:{' '}
-                              <span className="text-blue-400">{participant.lettersRevealed}</span>
+                              <span className="text-primary-400">{participant.lettersRevealed}</span>
                             </span>
                           </div>
 
                           {/* Score */}
-                          <div className="text-right flex-shrink-0">
-                            <p className="text-2xl md:text-3xl lg:text-4xl font-bold text-amber-400 tabular-nums">
-                              {participant.score}
+                          <div className="flex-shrink-0 text-right">
+                            <p className="font-mono text-2xl font-bold tabular-nums text-accent-400 md:text-3xl lg:text-4xl">
+                              {participant.score.toLocaleString('tr-TR')}
                             </p>
-                            <p className="text-xs text-slate-400">puan</p>
+                            <p className="text-xs text-neutral-400">puan</p>
                           </div>
                         </div>
                       </div>
@@ -314,201 +306,116 @@ export function ResultsTeamMode({ session, teams, onPlayAgain }: ResultsTeamMode
                         transition={{ duration: 0.2 }}
                         className="ml-4 flex-shrink-0"
                       >
-                        <ChevronDown className="w-6 h-6 text-slate-400" />
+                        <ChevronDown className="h-6 w-6 text-neutral-400" />
                       </motion.div>
                     </button>
 
                     {/* Team Details - Expandable */}
-                    <motion.div
-                      initial={false}
-                      animate={{
-                        height: isExpanded ? 'auto' : 0,
-                        opacity: isExpanded ? 1 : 0,
-                      }}
-                      transition={{ duration: 0.3 }}
-                      className="overflow-hidden"
-                    >
-                      <div className="p-4 md:p-6 pt-0 border-t border-slate-600/50">
-                        {/* Team Members */}
-                        {teamInfo && teamInfo.members && teamInfo.members.length > 0 && (
-                          <div className="mb-6">
-                            <div className="flex items-center gap-2 mb-3">
-                              <Users className="w-5 h-5 text-slate-400" />
-                              <h3 className="text-lg font-bold text-white">Takım Üyeleri</h3>
-                            </div>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
-                              {teamInfo.members
-                                .sort((a, b) => a.order - b.order)
-                                .map((member) => (
-                                  <div
-                                    key={member.order}
-                                    className="bg-slate-800/30 p-3 rounded-lg flex items-center gap-2"
-                                  >
-                                    <div className="w-6 h-6 rounded-full bg-slate-700 text-slate-300 flex items-center justify-center text-xs font-bold">
-                                      {member.order}
-                                    </div>
-                                    <span className="text-slate-300">{member.name}</span>
-                                  </div>
-                                ))}
-                            </div>
-                          </div>
-                        )}
+                    <AnimatePresence>
+                      {isExpanded && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: 'auto', opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.3 }}
+                          className="overflow-hidden"
+                        >
+                          <div className="border-t border-neutral-700/50 p-4 pt-6 md:p-6">
+                            {/* Team Members */}
+                            {teamInfo && teamInfo.members && teamInfo.members.length > 0 && (
+                              <div className="mb-6">
+                                <div className="mb-3 flex items-center gap-2">
+                                  <Users className="h-5 w-5 text-neutral-400" />
+                                  <h3 className="text-lg font-bold text-neutral-50">
+                                    Takım Üyeleri
+                                  </h3>
+                                </div>
+                                <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3">
+                                  {teamInfo.members
+                                    .sort((a, b) => a.order - b.order)
+                                    .map((member) => (
+                                      <div
+                                        key={member.order}
+                                        className="flex items-center gap-2 rounded-lg bg-neutral-800/30 p-3"
+                                      >
+                                        <div className="flex h-6 w-6 items-center justify-center rounded-full bg-neutral-700 text-xs font-bold text-neutral-300">
+                                          {member.order}
+                                        </div>
+                                        <span className="text-neutral-300">{member.name}</span>
+                                      </div>
+                                    ))}
+                                </div>
+                              </div>
+                            )}
 
-                        {/* Stats Grid */}
-                        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-6">
-                          <div className="bg-slate-800/50 p-3 rounded-lg text-center">
-                            <p className="text-2xl font-bold text-emerald-400 tabular-nums">
-                              {participant.wordsFound}/{participant.words.length}
-                            </p>
-                            <p className="text-xs text-slate-400 mt-1">Bulunan Kelime</p>
-                          </div>
-                          <div className="bg-slate-800/50 p-3 rounded-lg text-center">
-                            <p className="text-2xl font-bold text-amber-400 tabular-nums">
-                              {participant.wordsSkipped}
-                            </p>
-                            <p className="text-xs text-slate-400 mt-1">Pas Geçilen</p>
-                          </div>
-                          <div className="bg-slate-800/50 p-3 rounded-lg text-center">
-                            <p className="text-2xl font-bold text-blue-400 tabular-nums">
-                              {participant.lettersRevealed}
-                            </p>
-                            <p className="text-xs text-slate-400 mt-1">Alınan Harf</p>
-                          </div>
-                          <div className="bg-slate-800/50 p-3 rounded-lg text-center">
-                            <p className="text-2xl font-bold text-violet-400 tabular-nums">
-                              {(() => {
+                            {/* Stats Grid */}
+                            <div className="mb-6 grid grid-cols-2 gap-3 md:grid-cols-4">
+                              <div className="rounded-lg bg-neutral-800/50 p-3 text-center">
+                                <div className="mb-2 flex justify-center">
+                                  <Target className="h-5 w-5 text-success-400" />
+                                </div>
+                                <p className="font-mono text-xl font-bold tabular-nums text-success-400">
+                                  {participant.wordsFound}/{participant.words.length}
+                                </p>
+                                <p className="mt-1 text-xs text-neutral-400">Bulunan</p>
+                              </div>
+                              <div className="rounded-lg bg-neutral-800/50 p-3 text-center">
+                                <div className="mb-2 flex justify-center">
+                                  <Zap className="h-5 w-5 text-warning-400" />
+                                </div>
+                                <p className="font-mono text-xl font-bold tabular-nums text-warning-400">
+                                  {participant.wordsSkipped}
+                                </p>
+                                <p className="mt-1 text-xs text-neutral-400">Pas</p>
+                              </div>
+                              <div className="rounded-lg bg-neutral-800/50 p-3 text-center">
+                                <div className="mb-2 flex justify-center">
+                                  <BarChart3 className="h-5 w-5 text-primary-400" />
+                                </div>
+                                <p className="font-mono text-xl font-bold tabular-nums text-primary-400">
+                                  {participant.lettersRevealed}
+                                </p>
+                                <p className="mt-1 text-xs text-neutral-400">Harf</p>
+                              </div>
+                              <div className="rounded-lg bg-neutral-800/50 p-3 text-center">
+                                <div className="mb-2 flex justify-center">
+                                  <Clock className="h-5 w-5 text-secondary-400" />
+                                </div>
+                                <p className="font-mono text-xl font-bold tabular-nums text-secondary-400">
+                                  {(() => {
                                 const mins = Math.floor(participant.elapsedTimeSeconds / 60);
                                 const secs = Math.floor(participant.elapsedTimeSeconds % 60);
                                 return `${mins}:${secs.toString().padStart(2, '0')}`;
                               })()}
-                            </p>
-                            <p className="text-xs text-slate-400 mt-1">Geçen Süre</p>
-                          </div>
-                          <div className="bg-slate-800/50 p-3 rounded-lg text-center">
-                            <p className="text-2xl font-bold text-cyan-400 tabular-nums">
-                              {(() => {
-                                const avgSeconds =
-                                  participant.words.length > 0
-                                    ? participant.elapsedTimeSeconds / participant.words.length
-                                    : 0;
-                                const mins = Math.floor(avgSeconds / 60);
-                                const secs = Math.floor(avgSeconds % 60);
-                                return `${mins}:${secs.toString().padStart(2, '0')}`;
-                              })()}
-                            </p>
-                            <p className="text-xs text-slate-400 mt-1">Ort. Süre/Kelime</p>
-                          </div>
-                          <div className="bg-slate-800/50 p-3 rounded-lg text-center">
-                            <p className="text-2xl font-bold text-slate-400 tabular-nums">
-                              {participant.words.length}
-                            </p>
-                            <p className="text-xs text-slate-400 mt-1">Toplam Kelime</p>
-                          </div>
-                        </div>
+                                </p>
+                                <p className="mt-1 text-xs text-neutral-400">Süre</p>
+                              </div>
+                            </div>
 
-                        {/* Word List */}
-                        <div>
-                          <h3 className="text-lg font-bold text-white mb-3">Kelime Detayları</h3>
-                          <div className="space-y-2 max-h-[400px] overflow-y-auto">
-                            {participant.words.map((word, wordIndex) => {
-                              const statusIcon =
-                                word.result === 'found'
-                                  ? '✅'
-                                  : word.result === 'skipped'
-                                    ? '⏭'
-                                    : '⏱️';
-                              const statusColor =
-                                word.result === 'found'
-                                  ? 'text-emerald-400'
-                                  : word.result === 'skipped'
-                                    ? 'text-amber-400'
-                                    : 'text-red-400';
-
-                              return (
-                                <div
-                                  key={wordIndex}
-                                  className="bg-slate-800/30 p-3 rounded-lg flex items-center justify-between"
-                                >
-                                  <div className="flex items-center gap-3">
-                                    <span className="text-slate-400 font-mono text-sm">
-                                      {wordIndex + 1}.
-                                    </span>
-                                    <div>
-                                      <p className="text-white font-semibold">
-                                        {word.word}{' '}
-                                        <span className="text-slate-400 text-xs">
-                                          ({word.letterCount} harf)
-                                        </span>
-                                      </p>
-                                      <p className={`text-sm ${statusColor}`}>
-                                        {statusIcon}{' '}
-                                        {word.result === 'found'
-                                          ? 'Bulundu'
-                                          : word.result === 'skipped'
-                                            ? 'Pas'
-                                            : 'Süre Doldu'}
-                                      </p>
-                                    </div>
-                                  </div>
-                                  <div className="text-right">
-                                    <p className="text-lg font-bold text-amber-400 tabular-nums">
-                                      {word.pointsEarned}
-                                    </p>
-                                    <p className="text-xs text-slate-400">puan</p>
-                                  </div>
-                                </div>
-                              );
-                            })}
+                            {/* Word Results */}
+                            <WordResultsGrid words={participant.words} />
                           </div>
-                        </div>
-                      </div>
-                    </motion.div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
                 );
               })}
             </div>
-          </Card>
         </motion.div>
 
         {/* Action Buttons */}
-        <motion.div
-          variants={pageTransition}
-          initial="initial"
-          animate="animate"
-          transition={{ delay: 0.2 }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-4"
-        >
-          <Button
-            variant="secondary"
-            onClick={() => navigate(ROUTES.HOME)}
-            className="w-full flex items-center justify-center gap-2"
-          >
-            <Home className="w-5 h-5" />
-            Ana Menü
-          </Button>
-          <Button
-            variant="primary"
-            onClick={() => {
-              if (onPlayAgain) {
-                onPlayAgain();
-              } else {
-                navigate(ROUTES.CATEGORY_SELECT);
-              }
-            }}
-            className="w-full flex items-center justify-center gap-2"
-          >
-            <RefreshCw className="w-5 h-5" />
-            Tekrar Oyna
-          </Button>
-          <Button
-            variant="secondary"
-            onClick={() => navigate(ROUTES.HISTORY)}
-            className="w-full flex items-center justify-center gap-2"
-          >
-            <History className="w-5 h-5" />
-            Geçmiş Yarışmalar
-          </Button>
-        </motion.div>
+        <ResultsActions
+          onHome={() => navigate(ROUTES.HOME)}
+          onPlayAgain={() => {
+            if (onPlayAgain) {
+              onPlayAgain();
+            } else {
+              navigate(ROUTES.CATEGORY_SELECT);
+            }
+          }}
+          onHistory={() => navigate(ROUTES.HISTORY)}
+        />
       </div>
     </div>
   );

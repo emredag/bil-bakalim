@@ -13,14 +13,15 @@
 
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { ChevronDown, Home, RefreshCw, History, Trophy } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ChevronDown, BarChart3, Clock, Target, Zap } from 'lucide-react';
 import type { GameSession } from '../../types';
-import { Button } from '../ui/Button';
-import { Card } from '../ui/Card';
 import { ROUTES } from '../../routes/constants';
-import { fadeVariant, pageTransition } from '../../animations/variants';
 import { saveGameToHistory, type GameSessionData } from '../../api/gameHistory';
+import CelebrationHero from '../results/CelebrationHero';
+import PodiumDisplay from '../results/PodiumDisplay';
+import WordResultsGrid from '../results/WordResultsGrid';
+import { ResultsActions } from '../results/ResultsActions';
 
 // Global set to track saved session IDs (prevents duplicate saves in Strict Mode)
 const savedSessionIds = new Set<string>();
@@ -137,68 +138,96 @@ export function ResultsMultiplayer({ session, onPlayAgain }: ResultsMultiplayerP
     });
   };
 
+  // Get winner
+  const winner = participantsWithRank[0];
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 p-4 md:p-6 lg:p-8">
-      <div className="max-w-6xl mx-auto space-y-6 md:space-y-8">
-        {/* Header - Trophy */}
+    <div className="relative min-h-screen bg-neutral-950 p-4 md:p-6 lg:p-8">
+      {/* Mesh Gradient Background */}
+      <div
+        className="pointer-events-none fixed inset-0 opacity-[0.08]"
+        style={{
+          background: `
+            radial-gradient(at 40% 20%, rgb(14, 165, 233) 0px, transparent 50%),
+            radial-gradient(at 80% 0%, rgb(245, 158, 11) 0px, transparent 50%),
+            radial-gradient(at 0% 50%, rgb(168, 85, 247) 0px, transparent 50%),
+            radial-gradient(at 80% 50%, rgb(14, 165, 233) 0px, transparent 50%),
+            radial-gradient(at 0% 100%, rgb(245, 158, 11) 0px, transparent 50%),
+            radial-gradient(at 80% 100%, rgb(168, 85, 247) 0px, transparent 50%)
+          `,
+          filter: 'blur(80px)',
+        }}
+      />
+
+      <div className="relative z-10 mx-auto max-w-6xl space-y-8">
+        {/* Winner Celebration */}
         <motion.div
-          variants={fadeVariant}
-          initial="initial"
-          animate="animate"
-          className="text-center"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
         >
-          <div className="flex items-center justify-center gap-4 mb-4">
-            <Trophy className="w-12 h-12 md:w-16 md:h-16 text-amber-400" />
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white">Sıralama</h1>
-            <Trophy className="w-12 h-12 md:w-16 md:h-16 text-amber-400" />
-          </div>
-          <p className="text-xl md:text-2xl text-slate-300">
-            {session.categoryEmoji} {session.categoryName}
-          </p>
-          <p className="text-base md:text-lg text-slate-400 mt-2">
-            {session.participants.length} Yarışmacı
-          </p>
+          <CelebrationHero
+            playerName={winner.name}
+            score={winner.score}
+            mode={session.mode}
+            categoryEmoji={session.categoryEmoji}
+            categoryName={session.categoryName}
+          />
         </motion.div>
 
-        {/* Ranking Table */}
+        {/* Podium Display */}
         <motion.div
-          variants={pageTransition}
-          initial="initial"
-          animate="animate"
-          transition={{ delay: 0.1 }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3, duration: 0.5 }}
         >
-          <Card className="p-6 md:p-8">
-            <div className="space-y-3">
+          <PodiumDisplay rankings={participantsWithRank} mode="multi" />
+        </motion.div>
+
+        {/* Detailed Rankings */}
+        <motion.div
+          className="glass-card rounded-2xl p-6 md:p-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6 }}
+        >
+          <h2 className="mb-6 text-2xl font-bold text-neutral-50 md:text-3xl">
+            📊 Detaylı Sıralama
+          </h2>
+          <div className="space-y-4">
               {participantsWithRank.map((participant, index) => {
                 const isExpanded = expandedParticipants.has(index);
                 const medal = getMedal(participant.rank);
                 const isTied =
                   index > 0 && participantsWithRank[index - 1].score === participant.score;
 
-                // Medal color for top 3
-                let rankColor = 'text-slate-400';
-                if (participant.rank === 1) rankColor = 'text-amber-400';
-                else if (participant.rank === 2) rankColor = 'text-slate-300';
-                else if (participant.rank === 3) rankColor = 'text-amber-600';
+                // Rank color
+                let rankColor = 'text-neutral-400';
+                if (participant.rank === 1) rankColor = 'text-accent-400';
+                else if (participant.rank === 2) rankColor = 'text-neutral-300';
+                else if (participant.rank === 3) rankColor = 'text-accent-600';
+
+                // Winner highlight
+                const isWinner = participant.rank === 1;
 
                 return (
                   <div
                     key={index}
-                    className={`rounded-lg overflow-hidden ${
-                      participant.rank === 1
-                        ? 'bg-gradient-to-r from-amber-900/40 to-amber-800/40 border-2 border-amber-400/50'
-                        : 'bg-slate-700/50'
+                    className={`overflow-hidden rounded-xl transition-all ${
+                      isWinner
+                        ? 'border-2 border-accent-500/50 bg-gradient-to-r from-accent-900/40 to-accent-800/40'
+                        : 'border border-neutral-700/50 bg-neutral-800/30'
                     }`}
                   >
                     {/* Participant Header - Clickable */}
                     <button
                       onClick={() => toggleParticipant(index)}
-                      className="w-full p-4 md:p-6 flex items-center justify-between hover:bg-slate-700/70 transition-colors"
+                      className="flex w-full items-center justify-between p-4 transition-colors hover:bg-neutral-700/30 md:p-6"
                     >
-                      <div className="flex items-center gap-3 md:gap-6 flex-1">
+                      <div className="flex flex-1 items-center gap-3 md:gap-6">
                         {/* Rank & Medal */}
-                        <div className="flex items-center gap-2 min-w-[80px] md:min-w-[100px]">
-                          <span className={`text-2xl md:text-3xl font-bold ${rankColor}`}>
+                        <div className="flex min-w-[80px] items-center gap-2 md:min-w-[100px]">
+                          <span className={`text-2xl font-bold md:text-3xl ${rankColor}`}>
                             {participant.rank}.
                           </span>
                           {medal && <span className="text-3xl md:text-4xl">{medal}</span>}
@@ -206,40 +235,40 @@ export function ResultsMultiplayer({ session, onPlayAgain }: ResultsMultiplayerP
 
                         {/* Name & Score */}
                         <div className="flex-1 text-left">
-                          <p className="text-xl md:text-2xl font-bold text-white">
+                          <p className="text-xl font-bold text-neutral-50 md:text-2xl">
                             {participant.name}
                           </p>
-                          <div className="flex items-center gap-4 mt-1">
-                            <p className="text-2xl md:text-3xl font-bold text-amber-400 tabular-nums">
-                              {participant.score} puan
+                          <div className="mt-1 flex items-center gap-4">
+                            <p className="font-mono text-2xl font-bold tabular-nums text-accent-400 md:text-3xl">
+                              {participant.score.toLocaleString('tr-TR')}
                             </p>
                             {isTied && (
-                              <span className="text-xs md:text-sm text-amber-300 bg-amber-900/30 px-2 py-1 rounded">
-                                🏅 Eşitlik: {participant.wordsFound} kelime buldu
+                              <span className="rounded bg-warning-900/30 px-2 py-1 text-xs text-warning-300 md:text-sm">
+                                🏅 Beraberlik
                               </span>
                             )}
                           </div>
                         </div>
 
                         {/* Quick Stats */}
-                        <div className="hidden lg:flex items-center gap-6 text-sm">
+                        <div className="hidden items-center gap-6 text-sm lg:flex">
                           <div className="text-center">
-                            <p className="text-emerald-400 font-semibold tabular-nums">
+                            <p className="font-semibold tabular-nums text-success-400">
                               {participant.wordsFound}/{participant.words.length}
                             </p>
-                            <p className="text-slate-400 text-xs">Bulunan</p>
+                            <p className="text-xs text-neutral-400">Bulunan</p>
                           </div>
                           <div className="text-center">
-                            <p className="text-amber-400 font-semibold tabular-nums">
+                            <p className="font-semibold tabular-nums text-warning-400">
                               {participant.wordsSkipped}
                             </p>
-                            <p className="text-slate-400 text-xs">Pas</p>
+                            <p className="text-xs text-neutral-400">Pas</p>
                           </div>
                           <div className="text-center">
-                            <p className="text-blue-400 font-semibold tabular-nums">
+                            <p className="font-semibold tabular-nums text-primary-400">
                               {participant.lettersRevealed}
                             </p>
-                            <p className="text-slate-400 text-xs">Harf</p>
+                            <p className="text-xs text-neutral-400">Harf</p>
                           </div>
                         </div>
                       </div>
@@ -250,179 +279,89 @@ export function ResultsMultiplayer({ session, onPlayAgain }: ResultsMultiplayerP
                         transition={{ duration: 0.2 }}
                         className="ml-4"
                       >
-                        <ChevronDown className="w-6 h-6 text-slate-400" />
+                        <ChevronDown className="h-6 w-6 text-neutral-400" />
                       </motion.div>
                     </button>
 
                     {/* Participant Details - Expandable */}
-                    <motion.div
-                      initial={false}
-                      animate={{
-                        height: isExpanded ? 'auto' : 0,
-                        opacity: isExpanded ? 1 : 0,
-                      }}
-                      transition={{ duration: 0.3 }}
-                      className="overflow-hidden"
-                    >
-                      <div className="p-4 md:p-6 pt-0 border-t border-slate-600/50">
-                        {/* Stats Grid */}
-                        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-6">
-                          <div className="bg-slate-800/50 p-3 rounded-lg text-center">
-                            <p className="text-2xl font-bold text-emerald-400 tabular-nums">
-                              {participant.wordsFound}/{participant.words.length}
-                            </p>
-                            <p className="text-xs text-slate-400 mt-1">Bulunan Kelime</p>
-                          </div>
-                          <div className="bg-slate-800/50 p-3 rounded-lg text-center">
-                            <p className="text-2xl font-bold text-amber-400 tabular-nums">
-                              {participant.wordsSkipped}
-                            </p>
-                            <p className="text-xs text-slate-400 mt-1">Pas Geçilen</p>
-                          </div>
-                          <div className="bg-slate-800/50 p-3 rounded-lg text-center">
-                            <p className="text-2xl font-bold text-blue-400 tabular-nums">
-                              {participant.lettersRevealed}
-                            </p>
-                            <p className="text-xs text-slate-400 mt-1">Alınan Harf</p>
-                          </div>
-                          <div className="bg-slate-800/50 p-3 rounded-lg text-center">
-                            <p className="text-2xl font-bold text-violet-400 tabular-nums">
-                              {(() => {
-                                const mins = Math.floor(participant.elapsedTimeSeconds / 60);
-                                const secs = Math.floor(participant.elapsedTimeSeconds % 60);
-                                return `${mins}:${secs.toString().padStart(2, '0')}`;
-                              })()}
-                            </p>
-                            <p className="text-xs text-slate-400 mt-1">Geçen Süre</p>
-                          </div>
-                          <div className="bg-slate-800/50 p-3 rounded-lg text-center">
-                            <p className="text-2xl font-bold text-cyan-400 tabular-nums">
-                              {(() => {
-                                const avgSeconds =
-                                  participant.words.length > 0
-                                    ? participant.elapsedTimeSeconds / participant.words.length
-                                    : 0;
-                                const mins = Math.floor(avgSeconds / 60);
-                                const secs = Math.floor(avgSeconds % 60);
-                                return `${mins}:${secs.toString().padStart(2, '0')}`;
-                              })()}
-                            </p>
-                            <p className="text-xs text-slate-400 mt-1">Ort. Süre/Kelime</p>
-                          </div>
-                          <div className="bg-slate-800/50 p-3 rounded-lg text-center">
-                            <p className="text-2xl font-bold text-slate-400 tabular-nums">
-                              {participant.words.length}
-                            </p>
-                            <p className="text-xs text-slate-400 mt-1">Toplam Kelime</p>
-                          </div>
-                        </div>
-
-                        {/* Word List */}
-                        <div>
-                          <h3 className="text-lg font-bold text-white mb-3">Kelime Detayları</h3>
-                          <div className="space-y-2 max-h-[400px] overflow-y-auto">
-                            {participant.words.map((word, wordIndex) => {
-                              const statusIcon =
-                                word.result === 'found'
-                                  ? '✅'
-                                  : word.result === 'skipped'
-                                    ? '⏭'
-                                    : '⏱️';
-                              const statusColor =
-                                word.result === 'found'
-                                  ? 'text-emerald-400'
-                                  : word.result === 'skipped'
-                                    ? 'text-amber-400'
-                                    : 'text-red-400';
-
-                              return (
-                                <div
-                                  key={wordIndex}
-                                  className="bg-slate-800/30 p-3 rounded-lg flex items-center justify-between"
-                                >
-                                  <div className="flex items-center gap-3">
-                                    <span className="text-slate-400 font-mono text-sm">
-                                      {wordIndex + 1}.
-                                    </span>
-                                    <div>
-                                      <p className="text-white font-semibold">
-                                        {word.word}{' '}
-                                        <span className="text-slate-400 text-xs">
-                                          ({word.letterCount} harf)
-                                        </span>
-                                      </p>
-                                      <p className={`text-sm ${statusColor}`}>
-                                        {statusIcon} {word.result === 'found' ? 'Bulundu' : 'Pas'}
-                                      </p>
-                                    </div>
-                                  </div>
-                                  <div className="text-right">
-                                    <p className="text-lg font-bold text-amber-400 tabular-nums">
-                                      {word.pointsEarned}
-                                    </p>
-                                    <p className="text-xs text-slate-400">puan</p>
-                                  </div>
+                    <AnimatePresence>
+                      {isExpanded && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: 'auto', opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.3 }}
+                          className="overflow-hidden"
+                        >
+                          <div className="border-t border-neutral-700/50 p-4 pt-6 md:p-6">
+                            {/* Stats Grid */}
+                            <div className="mb-6 grid grid-cols-2 gap-3 md:grid-cols-4">
+                              <div className="rounded-lg bg-neutral-800/50 p-3 text-center">
+                                <div className="mb-2 flex justify-center">
+                                  <Target className="h-5 w-5 text-success-400" />
                                 </div>
-                              );
-                            })}
+                                <p className="font-mono text-xl font-bold tabular-nums text-success-400">
+                                  {participant.wordsFound}/{participant.words.length}
+                                </p>
+                                <p className="mt-1 text-xs text-neutral-400">Bulunan</p>
+                              </div>
+                              <div className="rounded-lg bg-neutral-800/50 p-3 text-center">
+                                <div className="mb-2 flex justify-center">
+                                  <Zap className="h-5 w-5 text-warning-400" />
+                                </div>
+                                <p className="font-mono text-xl font-bold tabular-nums text-warning-400">
+                                  {participant.wordsSkipped}
+                                </p>
+                                <p className="mt-1 text-xs text-neutral-400">Pas</p>
+                              </div>
+                              <div className="rounded-lg bg-neutral-800/50 p-3 text-center">
+                                <div className="mb-2 flex justify-center">
+                                  <BarChart3 className="h-5 w-5 text-primary-400" />
+                                </div>
+                                <p className="font-mono text-xl font-bold tabular-nums text-primary-400">
+                                  {participant.lettersRevealed}
+                                </p>
+                                <p className="mt-1 text-xs text-neutral-400">Harf</p>
+                              </div>
+                              <div className="rounded-lg bg-neutral-800/50 p-3 text-center">
+                                <div className="mb-2 flex justify-center">
+                                  <Clock className="h-5 w-5 text-secondary-400" />
+                                </div>
+                                <p className="font-mono text-xl font-bold tabular-nums text-secondary-400">
+                                  {(() => {
+                                    const mins = Math.floor(participant.elapsedTimeSeconds / 60);
+                                    const secs = Math.floor(participant.elapsedTimeSeconds % 60);
+                                    return `${mins}:${secs.toString().padStart(2, '0')}`;
+                                  })()}
+                                </p>
+                                <p className="mt-1 text-xs text-neutral-400">Süre</p>
+                              </div>
+                            </div>
+
+                            {/* Word Results */}
+                            <WordResultsGrid words={participant.words} />
                           </div>
-                        </div>
-                      </div>
-                    </motion.div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
                 );
               })}
             </div>
-          </Card>
         </motion.div>
 
         {/* Action Buttons */}
-        <motion.div
-          variants={pageTransition}
-          initial="initial"
-          animate="animate"
-          transition={{ delay: 0.2 }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-4"
-        >
-          {/* Home */}
-          <Button
-            variant="secondary"
-            size="lg"
-            onClick={() => navigate(ROUTES.HOME)}
-            className="w-full"
-          >
-            <Home className="w-5 h-5 mr-2" />
-            Ana Menü
-          </Button>
-
-          {/* Play Again */}
-          <Button
-            variant="primary"
-            size="lg"
-            onClick={() => {
-              if (onPlayAgain) {
-                onPlayAgain();
-              } else {
-                navigate(ROUTES.CATEGORY_SELECT);
-              }
-            }}
-            className="w-full"
-          >
-            <RefreshCw className="w-5 h-5 mr-2" />
-            Tekrar Oyna
-          </Button>
-
-          {/* History */}
-          <Button
-            variant="secondary"
-            size="lg"
-            onClick={() => navigate(ROUTES.HISTORY)}
-            className="w-full"
-          >
-            <History className="w-5 h-5 mr-2" />
-            Geçmiş Yarışmalar
-          </Button>
-        </motion.div>
+        <ResultsActions
+          onHome={() => navigate(ROUTES.HOME)}
+          onPlayAgain={() => {
+            if (onPlayAgain) {
+              onPlayAgain();
+            } else {
+              navigate(ROUTES.CATEGORY_SELECT);
+            }
+          }}
+          onHistory={() => navigate(ROUTES.HISTORY)}
+        />
       </div>
     </div>
   );

@@ -96,10 +96,13 @@ export const GameScreen: React.FC = () => {
   // Keyboard shortcuts
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (!session || session.isPaused) return;
+      if (!session || session.isPaused || session.isInTransition) return;
 
       const activeParticipant = session.participants[session.activeParticipantIndex];
       const currentWord = activeParticipant.words[activeParticipant.currentWordIndex];
+
+      // Guard: No current word
+      if (!currentWord) return;
 
       switch (e.code) {
         case 'KeyH':
@@ -224,7 +227,17 @@ export const GameScreen: React.FC = () => {
   };
 
   const handleGuess = (isCorrect: boolean) => {
+    // Guard: Prevent multiple guess submissions during transition
+    if (session.isInTransition) {
+      return;
+    }
+
     const currentWord = activeParticipant.words[activeParticipant.currentWordIndex];
+
+    // Guard: Prevent guess on invalid word
+    if (!currentWord || currentWord.result !== null) {
+      return;
+    }
 
     submitGuess(session.activeParticipantIndex, activeParticipant.currentWordIndex, isCorrect);
 
@@ -263,6 +276,18 @@ export const GameScreen: React.FC = () => {
   };
 
   const handleSkip = () => {
+    // Guard: Prevent skip during transition
+    if (session.isInTransition) {
+      return;
+    }
+
+    const currentWord = activeParticipant.words[activeParticipant.currentWordIndex];
+    
+    // Guard: Prevent skip on invalid word
+    if (!currentWord || currentWord.result !== null) {
+      return;
+    }
+
     setShowSkipModal(false);
     skipWord(session.activeParticipantIndex, activeParticipant.currentWordIndex);
     soundService.playWhoosh();
@@ -371,6 +396,7 @@ export const GameScreen: React.FC = () => {
           }
           canGuess={currentWord.remainingGuesses > 0}
           canSkip={true}
+          isInTransition={session.isInTransition}
           soundEnabled={soundEnabled}
           remainingGuesses={currentWord.remainingGuesses}
           lettersRevealed={currentWord.lettersRevealed}

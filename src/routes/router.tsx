@@ -24,7 +24,7 @@ import { HomeRouteGuard } from './HomeRouteGuard';
 
 // Lazy load large/complex screens for better performance
 const GameScreen = lazy(() => import('../components/screens/GameScreen').then(m => ({ default: m.GameScreen })));
-const ResultsScreen = lazy(() => import('../components/screens/PlaceholderScreens').then(m => ({ default: m.ResultsScreen })));
+const ResultsScreen = lazy(() => import('../components/screens/ResultsScreenWrapper').then(m => ({ default: m.ResultsScreen })));
 const GameHistoryScreen = lazy(() => import('../components/screens/GameHistoryScreen').then(m => ({ default: m.GameHistoryScreen })));
 const GameHistoryDetailScreen = lazy(() => import('../components/screens/GameHistoryDetailScreen').then(m => ({ default: m.GameHistoryDetailScreen })));
 const CategoryManagementScreen = lazy(() => import('../components/screens/CategoryManagementScreen').then(m => ({ default: m.CategoryManagementScreen })));

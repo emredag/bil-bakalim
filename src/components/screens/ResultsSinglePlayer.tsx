@@ -13,16 +13,16 @@
  * - Action buttons: Home, Play Again, View History
  */
 
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ChevronDown, Home, RefreshCw, History } from 'lucide-react';
+import { BarChart3, Clock, Target, Zap } from 'lucide-react';
 import type { GameSession } from '../../types';
-import { Button } from '../ui/Button';
-import { Card } from '../ui/Card';
 import { ROUTES } from '../../routes/constants';
-import { fadeVariant, pageTransition } from '../../animations/variants';
 import { saveGameToHistory, type GameSessionData } from '../../api/gameHistory';
+import CelebrationHero from '../results/CelebrationHero';
+import WordResultsGrid from '../results/WordResultsGrid';
+import { ResultsActions } from '../results/ResultsActions';
 
 // Global set to track saved session IDs (prevents duplicate saves in Strict Mode)
 const savedSessionIds = new Set<string>();
@@ -34,7 +34,6 @@ interface ResultsSinglePlayerProps {
 
 export function ResultsSinglePlayer({ session, onPlayAgain }: ResultsSinglePlayerProps) {
   const navigate = useNavigate();
-  const [expandedWords, setExpandedWords] = useState<Set<number>>(new Set());
 
   const participant = session.participants[0];
   const words = participant.words;
@@ -91,7 +90,6 @@ export function ResultsSinglePlayer({ session, onPlayAgain }: ResultsSinglePlaye
   const lettersRevealed = participant.lettersRevealed;
   // Use participant's elapsed time, not session's (which is not updated)
   const elapsedSeconds = participant.elapsedTimeSeconds;
-  const avgTimePerWord = totalWords > 0 ? elapsedSeconds / totalWords : 0;
 
   // Format time (MM:SS)
   const formatTime = (seconds: number) => {
@@ -100,294 +98,134 @@ export function ResultsSinglePlayer({ session, onPlayAgain }: ResultsSinglePlaye
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
-  // Toggle word expansion
-  const toggleWord = (index: number) => {
-    setExpandedWords((prev) => {
-      const next = new Set(prev);
-      if (next.has(index)) {
-        next.delete(index);
-      } else {
-        next.add(index);
-      }
-      return next;
-    });
-  };
-
-  // Expand all
-  const expandAll = () => {
-    setExpandedWords(new Set(words.map((_, i) => i)));
-  };
-
-  // Collapse all
-  const collapseAll = () => {
-    setExpandedWords(new Set());
-  };
-
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 p-4 md:p-6 lg:p-8">
-      <div className="max-w-5xl mx-auto space-y-6 md:space-y-8">
-        {/* Header - Celebration */}
+    <div className="relative min-h-screen bg-neutral-950 p-4 md:p-6 lg:p-8">
+      {/* Mesh Gradient Background */}
+      <div
+        className="pointer-events-none fixed inset-0 opacity-[0.08]"
+        style={{
+          background: `
+            radial-gradient(at 40% 20%, rgb(14, 165, 233) 0px, transparent 50%),
+            radial-gradient(at 80% 0%, rgb(245, 158, 11) 0px, transparent 50%),
+            radial-gradient(at 0% 50%, rgb(168, 85, 247) 0px, transparent 50%),
+            radial-gradient(at 80% 50%, rgb(14, 165, 233) 0px, transparent 50%),
+            radial-gradient(at 0% 100%, rgb(245, 158, 11) 0px, transparent 50%),
+            radial-gradient(at 80% 100%, rgb(168, 85, 247) 0px, transparent 50%)
+          `,
+          filter: 'blur(80px)',
+        }}
+      />
+
+      <div className="relative z-10 mx-auto max-w-5xl space-y-8">
+        {/* Celebration Hero */}
         <motion.div
-          variants={fadeVariant}
-          initial="initial"
-          animate="animate"
-          className="text-center"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
         >
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-amber-400 mb-4">
-            🎉 Tebrikler!
-          </h1>
-          <p className="text-xl md:text-2xl text-slate-300">
-            {session.categoryEmoji} {session.categoryName}
-          </p>
-          <p className="text-lg md:text-xl text-slate-400 mt-2">{participant.name}</p>
+          <CelebrationHero
+            playerName={participant.name}
+            score={participant.score}
+            mode={session.mode}
+            categoryEmoji={session.categoryEmoji}
+            categoryName={session.categoryName}
+          />
         </motion.div>
 
-        {/* Score Card */}
-        <motion.div variants={pageTransition} initial="initial" animate="animate">
-          <Card className="p-8 md:p-12 text-center bg-gradient-to-br from-blue-900/30 to-violet-900/30 border-2 border-amber-400/50">
-            <p className="text-lg md:text-xl text-slate-400 mb-2">Toplam Puan</p>
-            <p className="text-6xl md:text-7xl lg:text-8xl font-bold text-amber-400 tabular-nums">
-              {participant.score}
-            </p>
-          </Card>
-        </motion.div>
-
-        {/* Stats Grid */}
+        {/* Stats Grid - Glassmorphism Design */}
         <motion.div
-          variants={pageTransition}
-          initial="initial"
-          animate="animate"
-          transition={{ delay: 0.1 }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-4"
+          className="grid grid-cols-2 gap-4 md:grid-cols-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3, staggerChildren: 0.1 }}
         >
           {/* Words Found */}
-          <Card className="p-6 text-center">
-            <p className="text-3xl md:text-4xl font-bold text-emerald-400 mb-2 tabular-nums">
+          <motion.div
+            className="glass-card group cursor-default rounded-xl p-6 text-center transition-all hover:scale-102"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+          >
+            <div className="mb-3 flex justify-center">
+              <Target className="h-8 w-8 text-success-400" />
+            </div>
+            <p className="mb-2 font-mono text-3xl font-bold tabular-nums text-success-400 md:text-4xl">
               {wordsFound}/{totalWords}
             </p>
-            <p className="text-sm md:text-base text-slate-400">Bulunan Kelime</p>
-          </Card>
+            <p className="text-sm text-neutral-400 md:text-base">Bulunan Kelime</p>
+          </motion.div>
 
           {/* Words Skipped */}
-          <Card className="p-6 text-center">
-            <p className="text-3xl md:text-4xl font-bold text-amber-400 mb-2 tabular-nums">
+          <motion.div
+            className="glass-card group cursor-default rounded-xl p-6 text-center transition-all hover:scale-102"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+          >
+            <div className="mb-3 flex justify-center">
+              <Zap className="h-8 w-8 text-warning-400" />
+            </div>
+            <p className="mb-2 font-mono text-3xl font-bold tabular-nums text-warning-400 md:text-4xl">
               {wordsSkipped}
             </p>
-            <p className="text-sm md:text-base text-slate-400">Pas Geçilen</p>
-          </Card>
+            <p className="text-sm text-neutral-400 md:text-base">Pas Geçilen</p>
+          </motion.div>
 
           {/* Letters Revealed */}
-          <Card className="p-6 text-center">
-            <p className="text-3xl md:text-4xl font-bold text-blue-400 mb-2 tabular-nums">
+          <motion.div
+            className="glass-card group cursor-default rounded-xl p-6 text-center transition-all hover:scale-102"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6 }}
+          >
+            <div className="mb-3 flex justify-center">
+              <BarChart3 className="h-8 w-8 text-primary-400" />
+            </div>
+            <p className="mb-2 font-mono text-3xl font-bold tabular-nums text-primary-400 md:text-4xl">
               {lettersRevealed}
             </p>
-            <p className="text-sm md:text-base text-slate-400">Alınan Harf</p>
-          </Card>
+            <p className="text-sm text-neutral-400 md:text-base">Alınan Harf</p>
+          </motion.div>
 
           {/* Elapsed Time */}
-          <Card className="p-6 text-center">
-            <p className="text-3xl md:text-4xl font-bold text-violet-400 mb-2 tabular-nums">
+          <motion.div
+            className="glass-card group cursor-default rounded-xl p-6 text-center transition-all hover:scale-102"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.7 }}
+          >
+            <div className="mb-3 flex justify-center">
+              <Clock className="h-8 w-8 text-secondary-400" />
+            </div>
+            <p className="mb-2 font-mono text-3xl font-bold tabular-nums text-secondary-400 md:text-4xl">
               {formatTime(elapsedSeconds)}
             </p>
-            <p className="text-sm md:text-base text-slate-400">Geçen Süre</p>
-          </Card>
+            <p className="text-sm text-neutral-400 md:text-base">Geçen Süre</p>
+          </motion.div>
         </motion.div>
 
-        {/* Average Time Per Word */}
+        {/* Word Results Grid */}
         <motion.div
-          variants={pageTransition}
-          initial="initial"
-          animate="animate"
-          transition={{ delay: 0.2 }}
+          className="glass-card rounded-2xl p-6 md:p-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.8 }}
         >
-          <Card className="p-6 text-center">
-            <p className="text-2xl md:text-3xl font-bold text-blue-300 mb-2 tabular-nums">
-              {formatTime(avgTimePerWord)} / kelime
-            </p>
-            <p className="text-sm md:text-base text-slate-400">Ortalama Süre</p>
-          </Card>
-        </motion.div>
-
-        {/* Word List - Expandable */}
-        <motion.div
-          variants={pageTransition}
-          initial="initial"
-          animate="animate"
-          transition={{ delay: 0.3 }}
-        >
-          <Card className="p-6 md:p-8">
-            {/* Header with Expand/Collapse buttons */}
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl md:text-3xl font-bold text-white">📝 Kelime Detayları</h2>
-              <div className="flex gap-2">
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  onClick={expandAll}
-                  className="text-xs md:text-sm"
-                >
-                  Tümünü Aç
-                </Button>
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  onClick={collapseAll}
-                  className="text-xs md:text-sm"
-                >
-                  Tümünü Kapat
-                </Button>
-              </div>
-            </div>
-
-            {/* Word Accordion List */}
-            <div className="space-y-3">
-              {words.map((word, index) => {
-                const isExpanded = expandedWords.has(index);
-                const statusIcon =
-                  word.result === 'found' ? '✅' : word.result === 'skipped' ? '⏭' : '⏱️';
-                const statusText =
-                  word.result === 'found'
-                    ? 'Bulundu'
-                    : word.result === 'skipped'
-                      ? 'Pas'
-                      : 'Süre Doldu';
-                const statusColor =
-                  word.result === 'found'
-                    ? 'text-emerald-400'
-                    : word.result === 'skipped'
-                      ? 'text-amber-400'
-                      : 'text-red-400';
-
-                return (
-                  <div key={index} className="bg-slate-700/50 rounded-lg overflow-hidden">
-                    {/* Word Header - Clickable */}
-                    <button
-                      onClick={() => toggleWord(index)}
-                      className="w-full p-4 flex items-center justify-between hover:bg-slate-700/70 transition-colors"
-                    >
-                      <div className="flex items-center gap-4">
-                        <span className="text-xl md:text-2xl font-mono font-bold text-white">
-                          {index + 1}.
-                        </span>
-                        <div className="text-left">
-                          <p className="text-lg md:text-xl font-bold text-white">
-                            {word.word}{' '}
-                            <span className="text-slate-400 text-sm">
-                              ({word.letterCount} harf)
-                            </span>
-                          </p>
-                          <p className={`text-sm md:text-base font-medium ${statusColor}`}>
-                            {statusIcon} {statusText} | {word.pointsEarned} puan
-                          </p>
-                        </div>
-                      </div>
-                      <motion.div
-                        animate={{ rotate: isExpanded ? 180 : 0 }}
-                        transition={{ duration: 0.2 }}
-                      >
-                        <ChevronDown className="w-6 h-6 text-slate-400" />
-                      </motion.div>
-                    </button>
-
-                    {/* Word Details - Expandable */}
-                    <motion.div
-                      initial={false}
-                      animate={{
-                        height: isExpanded ? 'auto' : 0,
-                        opacity: isExpanded ? 1 : 0,
-                      }}
-                      transition={{ duration: 0.3 }}
-                      className="overflow-hidden"
-                    >
-                      <div className="p-4 pt-0 border-t border-slate-600/50 space-y-3">
-                        {/* Hint */}
-                        <div>
-                          <p className="text-sm text-slate-400 mb-1">İpucu:</p>
-                          <p className="text-base md:text-lg text-slate-300">{word.hint}</p>
-                        </div>
-
-                        {/* Letters Revealed */}
-                        <div>
-                          <p className="text-sm text-slate-400 mb-1">Kullanılan Harf:</p>
-                          <p className="text-base md:text-lg text-blue-300 font-semibold">
-                            {word.lettersRevealed} harf
-                          </p>
-                        </div>
-
-                        {/* Letter Grid */}
-                        <div>
-                          <p className="text-sm text-slate-400 mb-2">Harfler:</p>
-                          <div className="flex flex-wrap gap-2">
-                            {word.letters.map((letter, letterIndex) => (
-                              <div
-                                key={letterIndex}
-                                className={`w-10 h-10 md:w-12 md:h-12 rounded-lg flex items-center justify-center text-xl md:text-2xl font-bold ${
-                                  letter.status === 'revealed'
-                                    ? 'bg-blue-500/30 text-white border-2 border-blue-400'
-                                    : 'bg-slate-600/30 text-slate-500'
-                                }`}
-                              >
-                                {letter.status === 'revealed' ? letter.char : '•'}
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    </motion.div>
-                  </div>
-                );
-              })}
-            </div>
-          </Card>
+          <WordResultsGrid words={words} />
         </motion.div>
 
         {/* Action Buttons */}
-        <motion.div
-          variants={pageTransition}
-          initial="initial"
-          animate="animate"
-          transition={{ delay: 0.4 }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-4"
-        >
-          {/* Home */}
-          <Button
-            variant="secondary"
-            size="lg"
-            onClick={() => navigate(ROUTES.HOME)}
-            className="w-full"
-          >
-            <Home className="w-5 h-5 mr-2" />
-            Ana Menü
-          </Button>
-
-          {/* Play Again */}
-          <Button
-            variant="primary"
-            size="lg"
-            onClick={() => {
-              if (onPlayAgain) {
-                onPlayAgain();
-              } else {
-                navigate(ROUTES.CATEGORY_SELECT);
-              }
-            }}
-            className="w-full"
-          >
-            <RefreshCw className="w-5 h-5 mr-2" />
-            Tekrar Oyna
-          </Button>
-
-          {/* History */}
-          <Button
-            variant="secondary"
-            size="lg"
-            onClick={() => navigate(ROUTES.HISTORY)}
-            className="w-full"
-          >
-            <History className="w-5 h-5 mr-2" />
-            Geçmiş Yarışmalar
-          </Button>
-        </motion.div>
+        <ResultsActions
+          onHome={() => navigate(ROUTES.HOME)}
+          onPlayAgain={() => {
+            if (onPlayAgain) {
+              onPlayAgain();
+            } else {
+              navigate(ROUTES.CATEGORY_SELECT);
+            }
+          }}
+          onHistory={() => navigate(ROUTES.HISTORY)}
+        />
       </div>
     </div>
   );

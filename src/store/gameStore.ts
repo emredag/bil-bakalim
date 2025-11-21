@@ -424,6 +424,7 @@ export const useGameStore = create<GameStore>()(
         set((state) => {
           if (!state.session) return state;
 
+          // IMPORTANT: Get FRESH state from current session
           const participants = [...state.session.participants];
           const participant = { ...participants[state.session.activeParticipantIndex] };
 
@@ -431,10 +432,10 @@ export const useGameStore = create<GameStore>()(
           participant.currentWordIndex += 1;
           participants[state.session.activeParticipantIndex] = participant;
 
-          // Check if current participant completed all words
-          const participantCompleted = participant.words.every((w) => w.result !== null);
+          // Check if current participant completed all words (using UPDATED participants array)
+          const participantCompleted = participants[state.session.activeParticipantIndex].words.every((w) => w.result !== null);
 
-          // Check if ALL participants completed their words
+          // Check if ALL participants completed their words (using UPDATED participants array)
           const allParticipantsCompleted = participants.every((p) =>
             p.words.every((w) => w.result !== null)
           );

@@ -1,0 +1,161 @@
+/* MainMenuScreen - Design System v2.0 */
+
+/* ============================================
+   MAIN CONTAINER
+   ============================================ */
+.main-menu-screen {
+  position: relative;
+  min-height: 100vh;
+  overflow-y: auto;
+}
+
+/* ============================================
+   MESH GRADIENT BACKGROUND
+   ============================================ */
+.main-menu-background {
+  position: fixed;
+  inset: 0;
+  background: var(--bg-primary);
+  z-index: -1;
+}
+
+.main-menu-background::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(at 40% 20%, var(--primary-500) 0px, transparent 50%),
+    radial-gradient(at 80% 0%, var(--accent-500) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, var(--secondary-500) 0px, transparent 50%);
+  opacity: 0.08;
+  filter: blur(80px);
+  animation: meshFloat 20s ease-in-out infinite;
+}
+
+@keyframes meshFloat {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-20px, 20px) scale(1.1);
+  }
+}
+
+/* ============================================
+   CONTAINER
+   ============================================ */
+.main-menu-container {
+  position: relative;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: clamp(1rem, 5vw, 3rem);
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  min-height: 100vh;
+}
+
+/* ============================================
+   HERO SECTION (styled in HeroSection.tsx)
+   ============================================ */
+
+/* ============================================
+   QUICK STATS
+   ============================================ */
+.quick-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.quick-stats h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  margin: 0;
+}
+
+/* ============================================
+   RECENT ACTIVITY
+   ============================================ */
+.recent-activity {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.recent-activity h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  margin: 0;
+}
+
+/* ============================================
+   QUICK ACTIONS
+   ============================================ */
+.quick-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.quick-actions h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  margin: 0;
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+.main-menu-footer {
+  text-align: center;
+  padding: 2rem 0;
+  color: var(--text-tertiary);
+  font-size: 0.875rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  margin-top: auto;
+}
+
+.footer-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--accent-400);
+  text-decoration: none;
+  font-weight: 600;
+  margin-top: 0.5rem;
+  transition: color 0.2s ease;
+}
+
+.footer-link:hover {
+  color: var(--accent-300);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+  .main-menu-container {
+    gap: 2rem;
+  }
+
+  .quick-stats h2,
+  .recent-activity h2,
+  .quick-actions h2 {
+    font-size: 1.25rem;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .main-menu-background::before {
+    animation: none !important;
+  }
+}

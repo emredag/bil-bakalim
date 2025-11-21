@@ -1,43 +1,194 @@
-/* PRD 8.1 - Theme Configuration for Tailwind v4 */
+/* Design System v2.0 - Theme Configuration for Tailwind v4 */
 @import 'tailwindcss/theme' layer(theme);
 
 @layer theme {
-  /* Background Colors */
-  --color-background-primary: #0f172a;
-  --color-background-secondary: #1e293b;
-  --color-background-tertiary: #334155;
+  /* ============================================
+     NEUTRAL COLORS (Warm Charcoal/Gray)
+     ============================================ */
+  --neutral-50: #fafafa;
+  --neutral-100: #f5f5f5;
+  --neutral-200: #e5e5e5;
+  --neutral-300: #d4d4d4;
+  --neutral-400: #a3a3a3;
+  --neutral-500: #737373;
+  --neutral-600: #525252;
+  --neutral-700: #404040;
+  --neutral-800: #262626;
+  --neutral-900: #171717;
+  --neutral-950: #0a0a0a;
 
-  /* Accent Colors */
-  --color-accent-primary: #3b82f6;
-  --color-accent-secondary: #8b5cf6;
-  --color-accent-gold: #fbbf24;
+  /* ============================================
+     PRIMARY COLORS (Vibrant Blue/Cyan)
+     ============================================ */
+  --primary-50: #f0f9ff;
+  --primary-100: #e0f2fe;
+  --primary-200: #bae6fd;
+  --primary-300: #7dd3fc;
+  --primary-400: #38bdf8;
+  --primary-500: #0ea5e9;
+  --primary-600: #0284c7;
+  --primary-700: #0369a1;
+  --primary-800: #075985;
+  --primary-900: #0c4a6e;
 
-  /* Status Colors */
-  --color-status-success: #10b981;
-  --color-status-error: #ef4444;
-  --color-status-warning: #f59e0b;
-  --color-status-info: #3b82f6;
+  /* ============================================
+     ACCENT COLORS (Warm Amber/Orange)
+     ============================================ */
+  --accent-50: #fffbeb;
+  --accent-100: #fef3c7;
+  --accent-200: #fde68a;
+  --accent-300: #fcd34d;
+  --accent-400: #fbbf24;
+  --accent-500: #f59e0b;
+  --accent-600: #d97706;
+  --accent-700: #b45309;
+  --accent-800: #92400e;
+  --accent-900: #78350f;
 
-  /* Text Colors */
-  --color-text-primary: #f1f5f9;
-  --color-text-secondary: #cbd5e1;
-  --color-text-tertiary: #94a3b8;
+  /* ============================================
+     SECONDARY COLORS (Purple)
+     ============================================ */
+  --secondary-50: #faf5ff;
+  --secondary-100: #f3e8ff;
+  --secondary-200: #e9d5ff;
+  --secondary-300: #d8b4fe;
+  --secondary-400: #c084fc;
+  --secondary-500: #a855f7;
+  --secondary-600: #9333ea;
+  --secondary-700: #7e22ce;
+  --secondary-800: #6b21a8;
+  --secondary-900: #581c87;
 
-  /* Z-Index */
-  --z-content: 0;
-  --z-tooltip: 10;
-  --z-modal: 20;
-  --z-confetti: 30;
-  --z-toast: 40;
+  /* ============================================
+     STATUS COLORS (Semantic)
+     ============================================ */
+  /* Success - Vibrant Green */
+  --success-50: #f0fdf4;
+  --success-100: #dcfce7;
+  --success-200: #bbf7d0;
+  --success-300: #86efac;
+  --success-400: #4ade80;
+  --success-500: #22c55e;
+  --success-600: #16a34a;
+  --success-700: #15803d;
+  --success-800: #166534;
+  --success-900: #14532d;
 
-  /* Spacing */
-  --spacing-safe: clamp(1.5rem, 3vw, 3rem);
+  /* Error - Friendly Coral Red */
+  --error-50: #fef2f2;
+  --error-100: #fee2e2;
+  --error-200: #fecaca;
+  --error-300: #fca5a5;
+  --error-400: #f87171;
+  --error-500: #ef4444;
+  --error-600: #dc2626;
+  --error-700: #b91c1c;
+  --error-800: #991b1b;
+  --error-900: #7f1d1d;
 
-  /* Shadows */
-  --shadow-glow-amber: 0 0 20px rgba(251, 191, 36, 0.4);
-  --shadow-glow-green: 0 0 20px rgba(16, 185, 129, 0.5);
-  --shadow-glow-red: 0 0 20px rgba(239, 68, 68, 0.5);
-  --shadow-glow-blue: 0 0 20px rgba(59, 130, 246, 0.4);
+  /* Warning - Bright Yellow */
+  --warning-50: #fefce8;
+  --warning-100: #fef9c3;
+  --warning-200: #fef08a;
+  --warning-300: #fde047;
+  --warning-400: #facc15;
+  --warning-500: #eab308;
+  --warning-600: #ca8a04;
+  --warning-700: #a16207;
+  --warning-800: #854d0e;
+  --warning-900: #713f12;
+
+  /* Info - Cool Cyan */
+  --info-50: #ecfeff;
+  --info-100: #cffafe;
+  --info-200: #a5f3fc;
+  --info-300: #67e8f9;
+  --info-400: #22d3ee;
+  --info-500: #06b6d4;
+  --info-600: #0891b2;
+  --info-700: #0e7490;
+  --info-800: #155e75;
+  --info-900: #164e63;
+
+  /* ============================================
+     SEMANTIC COLOR TOKENS
+     ============================================ */
+  /* Backgrounds */
+  --bg-primary: var(--neutral-950);
+  --bg-secondary: var(--neutral-900);
+  --bg-elevated: var(--neutral-800);
+  --bg-hover: var(--neutral-700);
+
+  /* Text */
+  --text-primary: var(--neutral-50);
+  --text-secondary: var(--neutral-400);
+  --text-tertiary: var(--neutral-500);
+
+  /* Borders */
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-default: rgba(255, 255, 255, 0.12);
+  --border-strong: rgba(255, 255, 255, 0.18);
+
+  /* ============================================
+     LEGACY COMPATIBILITY (Deprecated)
+     ============================================ */
+  --color-background-primary: var(--neutral-950);
+  --color-background-secondary: var(--neutral-900);
+  --color-background-tertiary: var(--neutral-800);
+  --color-accent-primary: var(--primary-500);
+  --color-accent-secondary: var(--secondary-500);
+  --color-accent-gold: var(--accent-400);
+  --color-status-success: var(--success-500);
+  --color-status-error: var(--error-500);
+  --color-status-warning: var(--warning-500);
+  --color-status-info: var(--info-500);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-tertiary: var(--text-tertiary);
+
+  /* ============================================
+     GRADIENTS
+     ============================================ */
+  /* Background Gradients */
+  --gradient-bg-primary: linear-gradient(135deg, var(--neutral-950) 0%, var(--neutral-900) 50%, var(--neutral-950) 100%);
+  --gradient-surface: linear-gradient(135deg, var(--neutral-800) 0%, var(--neutral-700) 100%);
+  --gradient-hero: linear-gradient(135deg, var(--primary-900) 0%, var(--secondary-900) 100%);
+
+  /* Overlay Gradients */
+  --gradient-overlay: linear-gradient(to bottom, rgba(10, 10, 10, 0.8), rgba(10, 10, 10, 0.9));
+  --gradient-card-hover: linear-gradient(135deg, rgba(14, 165, 233, 0.05) 0%, rgba(168, 85, 247, 0.05) 100%);
+
+  /* ============================================
+     SHADOWS
+     ============================================ */
+  /* Elevation Shadows */
+  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+
+  /* Glow Effects (Colored Shadows) */
+  --glow-primary: 0 0 20px rgba(14, 165, 233, 0.4);
+  --glow-accent: 0 0 20px rgba(245, 158, 11, 0.4);
+  --glow-success: 0 0 20px rgba(34, 197, 94, 0.4);
+  --glow-error: 0 0 20px rgba(239, 68, 68, 0.4);
+  --shadow-glow-amber: var(--glow-accent);
+  --shadow-glow-green: var(--glow-success);
+  --shadow-glow-red: var(--glow-error);
+  --shadow-glow-blue: var(--glow-primary);
+
+  /* Inner Shadows */
+  --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+
+  /* ============================================
+     TYPOGRAPHY
+     ============================================ */
+  /* Font Families */
+  --font-display: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', 'Monaco', monospace;
 
   /* Fluid Typography */
   --font-size-fluid-h1: clamp(2.25rem, 5vw, 3.75rem);
@@ -45,4 +196,30 @@
   --font-size-fluid-h3: clamp(1.25rem, 2.5vw, 1.5rem);
   --font-size-fluid-body: clamp(0.875rem, 1.5vw, 1.125rem);
   --font-size-fluid-letter: clamp(2rem, 4vw, 3rem);
+
+  /* Display Scale */
+  --text-display-2xl: 4.5rem;
+  --text-display-xl: 3.75rem;
+  --text-display-lg: 3rem;
+  --text-display-md: 2.25rem;
+  --text-display-sm: 1.875rem;
+
+  /* ============================================
+     SPACING
+     ============================================ */
+  --spacing-safe: clamp(1.5rem, 3vw, 3rem);
+  --space-component-xs: 0.5rem;
+  --space-component-sm: 1rem;
+  --space-component-md: 1.5rem;
+  --space-component-lg: 2rem;
+  --space-component-xl: 3rem;
+
+  /* ============================================
+     Z-INDEX
+     ============================================ */
+  --z-content: 0;
+  --z-tooltip: 10;
+  --z-modal: 20;
+  --z-confetti: 30;
+  --z-toast: 40;
 }

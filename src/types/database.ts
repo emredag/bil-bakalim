@@ -136,3 +136,40 @@ export interface ImportResult {
   words_skipped: number;
   message: string;
 }
+
+/**
+ * Game history statistics summary
+ * Used in main menu quick stats
+ */
+export interface GameHistoryStats {
+  totalGames: number;
+  highScore: {
+    score: number;
+    player: string;
+    date: string;
+  } | null;
+  mostPlayedCategory: {
+    name: string;
+    emoji: string;
+    count: number;
+  } | null;
+  totalTime: number; // Total time in seconds
+}
+
+/**
+ * Last game summary for main menu
+ * Includes game info and winner details
+ */
+export interface LastGameSummary {
+  id: number;
+  categoryId: number;
+  categoryName: string;
+  categoryEmoji: string;
+  gameMode: 'single' | 'multi' | 'team';
+  playedAt: string;
+  winner: {
+    name: string;
+    score: number;
+  };
+  participantCount: number;
+}

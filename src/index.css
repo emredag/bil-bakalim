@@ -1,5 +1,8 @@
-/* PRD 8.2 - Google Fonts Import */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+/* Design System v2.0 - Google Fonts Import */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+/* Design System v2.0 - Custom Styles */
+@import './styles/design-system.css';
 
 @tailwind base;
 @tailwind components;
@@ -13,7 +16,7 @@
     box-sizing: border-box;
   }
 
-  /* PRD 8.2 - Typography Base */
+  /* Design System v2.0 - Typography Base */
   body {
     font-family:
       'Inter',
@@ -30,8 +33,8 @@
       sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: #0f172a;
-    color: #f1f5f9;
+    background-color: #0a0a0a; /* neutral-950 */
+    color: #fafafa; /* neutral-50 */
   }
 
   /* Root container */

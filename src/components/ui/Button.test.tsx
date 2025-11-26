@@ -30,7 +30,7 @@ describe('Button', () => {
     it('should render with secondary variant', () => {
       render(<Button variant="secondary">Secondary</Button>);
       const button = screen.getByRole('button');
-      expect(button.className).toContain('bg-slate-700');
+      expect(button.className).toContain('bg-neutral-700');
     });
 
     it('should render with destructive variant', () => {

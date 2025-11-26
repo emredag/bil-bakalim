@@ -189,7 +189,7 @@ describe('Input', () => {
     it('should show normal border when no error', () => {
       render(<Input />);
       const input = screen.getByRole('textbox');
-      expect(input.className).toContain('border-slate-700');
+      expect(input.className).toContain('border-neutral-700');
     });
 
     it('should display error icon', () => {

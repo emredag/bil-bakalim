@@ -60,3 +60,41 @@ export type { ProgressBarProps, ProgressRingProps, CountUpProps, TimerProps } fr
 
 export { TeamChip, TeamChipList, TEAM_COLORS, TEAM_EMOJIS } from './TeamChip';
 export type { TeamChipProps, TeamChipListProps } from './TeamChip';
+
+// Management Screens Components (Design System v2.0 - Priority 3 Migration)
+export { DataTable } from './DataTable';
+export type { DataTableProps, DataTableColumn } from './DataTable';
+
+export { QuickActionsMenu } from './QuickActionsMenu';
+export type { QuickActionsMenuProps, QuickActionItem } from './QuickActionsMenu';
+
+export { BulkActionBar } from './BulkActionBar';
+export type { BulkActionBarProps, BulkAction } from './BulkActionBar';
+
+export { FilterChip, FilterChipGroup } from './FilterChip';
+export type { FilterChipProps, FilterChipGroupProps } from './FilterChip';
+
+export { InlineEditCell } from './InlineEditCell';
+export type { InlineEditCellProps } from './InlineEditCell';
+
+export { DonutChart } from './DonutChart';
+export type { DonutChartProps, DonutChartSegment } from './DonutChart';
+
+export { QuickAddRow } from './QuickAddRow';
+export type { QuickAddRowProps } from './QuickAddRow';
+
+// Game History Components (Design System v2.0 - GameHistoryScreen Migration)
+export { TrendSparkline, generateTrendData } from './TrendSparkline';
+export type { TrendSparklineProps } from './TrendSparkline';
+
+export { GameCardThumbnail } from './GameCardThumbnail';
+export type { GameCardThumbnailProps } from './GameCardThumbnail';
+
+export { TimelineView } from './TimelineView';
+export type { TimelineViewProps } from './TimelineView';
+
+export { ComparisonModal } from './ComparisonModal';
+export type { ComparisonModalProps } from './ComparisonModal';
+
+export { InfiniteScrollContainer } from './InfiniteScrollContainer';
+export type { InfiniteScrollContainerProps } from './InfiniteScrollContainer';

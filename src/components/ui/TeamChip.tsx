@@ -67,7 +67,7 @@ export const TeamChip: React.FC<TeamChipProps> = ({
         rounded-full font-semibold
         transition-all duration-200
         ${sizeStyles[size]}
-        ${onClick ? 'cursor-pointer hover:scale-105' : ''}
+        ${onClick ? 'cursor-pointer hover:scale-102' : ''}
         ${active ? 'ring-2 ring-offset-2 ring-offset-background-primary' : ''}
         ${className}
       `}

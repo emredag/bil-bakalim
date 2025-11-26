@@ -174,6 +174,10 @@ export default {
       spacing: {
         'safe': 'clamp(1.5rem, 3vw, 3rem)',
       },
+      scale: {
+        '102': '1.02',
+        '103': '1.03',
+      },
     },
   },
   plugins: [

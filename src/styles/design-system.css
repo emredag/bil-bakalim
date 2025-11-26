@@ -37,6 +37,13 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+.glass-modal {
+  background: rgba(38, 38, 38, 0.95);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
 /* ============================================
    HERO SECTION UTILITIES
    ============================================ */

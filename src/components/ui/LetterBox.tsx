@@ -89,15 +89,15 @@ export const LetterBox: React.FC<LetterBoxProps> = ({
       animate={
         isRevealed
           ? {
-              scale: [1, 1.1, 1],
-              opacity: [0.7, 1, 1],
+              scale: [1, 1.05, 1],
+              opacity: [0.8, 1, 1],
             }
           : { scale: 1, opacity: 1 }
       }
-      whileHover={!isRevealed ? { scale: 1.05, y: -4 } : {}}
-      whileTap={!isRevealed ? { scale: 0.95 } : {}}
+      whileHover={!isRevealed ? { scale: 1.02 } : {}}
+      whileTap={!isRevealed ? { scale: 0.98 } : {}}
       transition={{
-        duration: 0.4,
+        duration: 0.25,
         ease: 'easeOut',
       }}
     >

@@ -272,23 +272,23 @@ export const skeletonPulse: Variants = {
 
 /**
  * Spring Config Presets
- * For physics-based animations
+ * For physics-based animations - tuned for subtle, professional feel
  */
 export const springConfig = {
   gentle: {
     type: 'spring' as const,
-    stiffness: 100,
-    damping: 15,
+    stiffness: 120,
+    damping: 20,
   },
   bouncy: {
     type: 'spring' as const,
-    stiffness: 300,
-    damping: 20,
+    stiffness: 200,
+    damping: 25,
   },
   stiff: {
     type: 'spring' as const,
-    stiffness: 500,
-    damping: 30,
+    stiffness: 350,
+    damping: 35,
   },
 };
 

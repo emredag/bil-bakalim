@@ -203,8 +203,30 @@ export function formatGameMode(mode: string): string {
 /**
  * Export game history to JSON file
  * PRD: Section 4.8 - Export functionality
+ *
+ * Opens a save dialog and writes game history data to selected file
  */
 export async function exportGameHistoryToJson(games: GameHistory[]): Promise<void> {
+  // Import Tauri modules
+  const { save } = await import('@tauri-apps/plugin-dialog');
+  const { writeTextFile } = await import('@tauri-apps/plugin-fs');
+
+  // Open save dialog
+  const filePath = await save({
+    defaultPath: `oyun-gecmisi-${new Date().toISOString().split('T')[0]}.json`,
+    filters: [
+      {
+        name: 'JSON Dosyası',
+        extensions: ['json'],
+      },
+    ],
+  });
+
+  if (!filePath) {
+    // User cancelled
+    return;
+  }
+
   // Get detailed data for each game
   const detailedGames = await Promise.all(
     games.map(async (game) => {
@@ -219,17 +241,7 @@ export async function exportGameHistoryToJson(games: GameHistory[]): Promise<voi
     })
   );
 
-  // Create JSON blob
+  // Write JSON to file
   const jsonStr = JSON.stringify(detailedGames, null, 2);
-  const blob = new Blob([jsonStr], { type: 'application/json' });
-
-  // Create download link
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `oyun-gecmisi-${new Date().toISOString().split('T')[0]}.json`;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
+  await writeTextFile(filePath, jsonStr);
 }

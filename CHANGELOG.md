@@ -5,6 +5,53 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2025-11-26
+
+### Design System v2.0 Migration
+
+#### UI/UX Improvements
+- **Color Palette Migration**: Migrated from slate to neutral color palette for softer, more modern appearance
+- **Semantic Colors**: Introduced semantic color tokens (primary, error, success, warning, info, accent)
+- **Animation Refinement**: Standardized hover/tap animations with subtle 1.02/1.03 scale values for professional feel
+- **Sound Refinement**: Softened all sound effects using Web Audio API with reduced gain values for better UX
+
+#### New Components
+- **DataTable**: Full-featured data table with sorting, selection, and inline editing
+- **DonutChart**: Circular progress/distribution visualization component
+- **InlineEditCell**: Inline editing for table cells with validation
+- **QuickAddRow**: Quick add functionality for tables with form validation
+- **BulkActionBar**: Floating action bar for bulk operations on selected items
+- **ComparisonModal**: Side-by-side comparison view for data analysis
+- **FilterChip**: Tag-based filtering component with clear functionality
+- **GameCardThumbnail**: Thumbnail preview for game history cards
+- **InfiniteScrollContainer**: Virtualized infinite scroll for large lists
+- **TimelineView**: Chronological event timeline visualization
+- **TrendSparkline**: Mini sparkline charts for trend visualization
+- **QuickActionsMenu**: Context-aware quick actions dropdown
+
+#### Screen Migrations
+- Migrated all 15+ screens to Design System v2.0 styling
+- Updated form components (SinglePlayerForm, MultiPlayerForm, TeamForm)
+- Updated modal dialogs (AddWord, EditWord, CreateCategory, EditCategory, DeleteCategory, DeleteWord)
+- Updated game components (CategoryCard, ModeCard, CategoryValidationPanel, TurnTransition)
+- Updated results screens (ResultsSinglePlayer, ResultsMultiplayer, ResultsTeamMode)
+
+#### Bug Fixes
+- Fixed HeroSection animation ease type error
+- Fixed CategoryManagementScreen API call signatures
+- Fixed WordManagementScreen DonutChart type mismatch
+- Fixed Button component children prop to be optional for icon-only buttons
+- Fixed JSX comment syntax in CategoryValidationPanel
+- Fixed game history export to use Tauri native file dialog
+
+#### Removed
+- Removed unused ParticleBackground component
+
+#### Configuration
+- Updated tailwind.config.js with new color palette
+- Enhanced design-system.css with semantic color tokens
+- Updated component test files for Design System v2.0
+
 ## [1.0.0] - 2025-10-30
 
 ### Production Readiness - Code Cleanup & Optimization

@@ -79,7 +79,7 @@ export function DeleteCategoryDialog({
         {/* Header with Icon */}
         <div className="flex items-start space-x-4">
           <div className="flex-shrink-0 w-12 h-12 rounded-full bg-red-500/20 flex items-center justify-center">
-            <AlertTriangle className="w-6 h-6 text-red-500" />
+            <AlertTriangle className="w-6 h-6 text-error-500" />
           </div>
           <div className="flex-1">
             <h2 className="text-xl md:text-2xl font-bold text-white mb-2">Kategoriyi Sil</h2>
@@ -87,7 +87,7 @@ export function DeleteCategoryDialog({
               type="button"
               onClick={onClose}
               disabled={isDeleting}
-              className="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors p-2 rounded-lg hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="absolute top-4 right-4 text-neutral-400 hover:text-white transition-colors p-2 rounded-lg hover:bg-neutral-700 disabled:opacity-50 disabled:cursor-not-allowed"
               aria-label="Kapat"
             >
               <X className="w-5 h-5" />
@@ -97,7 +97,7 @@ export function DeleteCategoryDialog({
 
         {/* Warning Message */}
         <div className="space-y-4">
-          <p className="text-slate-300 text-base md:text-lg">
+          <p className="text-neutral-300 text-base md:text-lg">
             <span className="font-bold text-white">
               {category.emoji} {category.name}
             </span>{' '}
@@ -106,25 +106,25 @@ export function DeleteCategoryDialog({
 
           {wordCount > 0 && (
             <div className="bg-red-500/10 border-2 border-red-500/50 rounded-lg p-4">
-              <p className="text-red-400 text-sm font-medium">
+              <p className="text-error-400 text-sm font-medium">
                 ⚠️ Bu işlem geri alınamaz ve <strong>{wordCount} kelime</strong> silinecek.
               </p>
             </div>
           )}
 
           {category.is_default && (
-            <div className="bg-amber-500/10 border-2 border-amber-500/50 rounded-lg p-4">
-              <p className="text-amber-400 text-sm font-medium">
+            <div className="bg-warning-500/10 border-2 border-warning-500/50 rounded-lg p-4">
+              <p className="text-warning-400 text-sm font-medium">
                 🔒 Bu varsayılan bir kategoridir ve silinemez.
               </p>
             </div>
           )}
 
-          <p className="text-slate-400 text-sm">Silinen kategori ve kelimeleri geri getirilemez.</p>
+          <p className="text-neutral-400 text-sm">Silinen kategori ve kelimeleri geri getirilemez.</p>
         </div>
 
         {/* Action Buttons */}
-        <div className="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-3 pt-4 border-t border-slate-700">
+        <div className="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-3 pt-4 border-t border-neutral-700">
           <Button type="button" variant="secondary" onClick={onClose} disabled={isDeleting}>
             İptal
           </Button>

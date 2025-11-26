@@ -196,8 +196,8 @@ export function AddWordModal({
     <Modal isOpen={isOpen} onClose={onClose} title="Yeni Kelime Ekle" size="lg">
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Category Info */}
-        <div className="bg-slate-700/30 rounded-lg p-4">
-          <p className="text-sm text-slate-400">
+        <div className="bg-neutral-700/30 rounded-lg p-4">
+          <p className="text-sm text-neutral-400">
             <strong className="text-white">{categoryName}</strong> kategorisine kelime ekliyorsunuz
           </p>
         </div>
@@ -205,7 +205,7 @@ export function AddWordModal({
         {/* Word Input */}
         <div>
           <label htmlFor="word-input" className="block text-sm font-semibold text-white mb-2">
-            Kelime <span className="text-red-400">*</span>
+            Kelime <span className="text-error-400">*</span>
           </label>
           <Input
             id="word-input"
@@ -219,7 +219,7 @@ export function AddWordModal({
           />
           {/* Real-time letter count */}
           <div className="flex items-center justify-between mt-2">
-            <p className="text-sm text-slate-400">Sadece harf (A-Z), 4-10 karakter</p>
+            <p className="text-sm text-neutral-400">Sadece harf (A-Z), 4-10 karakter</p>
             <Badge
               variant={
                 word.length === 0
@@ -238,7 +238,7 @@ export function AddWordModal({
         {/* Hint Input */}
         <div>
           <label htmlFor="hint-input" className="block text-sm font-semibold text-white mb-2">
-            İpucu <span className="text-red-400">*</span>
+            İpucu <span className="text-error-400">*</span>
           </label>
           <Input
             id="hint-input"
@@ -248,7 +248,7 @@ export function AddWordModal({
             placeholder="Örn: 11 kişiyle oynanan takım sporu"
             error={errors.hint}
           />
-          <p className="text-sm text-slate-400 mt-2">{hint.length}/100 karakter</p>
+          <p className="text-sm text-neutral-400 mt-2">{hint.length}/100 karakter</p>
         </div>
 
         {/* Distribution Info */}
@@ -260,29 +260,29 @@ export function AddWordModal({
               p-4 rounded-lg border-2 flex items-start gap-3
               ${
                 isSufficient()
-                  ? 'bg-green-500/10 border-green-500/30'
-                  : 'bg-amber-500/10 border-amber-500/30'
+                  ? 'bg-success-500/10 border-success-500/30'
+                  : 'bg-warning-500/10 border-warning-500/30'
               }
             `}
           >
             <AlertCircle
               className={`
                 w-5 h-5 flex-shrink-0 mt-0.5
-                ${isSufficient() ? 'text-green-400' : 'text-amber-400'}
+                ${isSufficient() ? 'text-success-400' : 'text-warning-400'}
               `}
             />
             <div className="flex-1">
               <p
                 className={`
                   text-sm font-medium mb-1
-                  ${isSufficient() ? 'text-green-400' : 'text-amber-400'}
+                  ${isSufficient() ? 'text-success-400' : 'text-warning-400'}
                 `}
               >
                 {getCurrentCount() === 0
                   ? `Bu kategoride ${word.length} harfli kelime yok`
                   : `Bu kategoride ${word.length} harfli ${getCurrentCount()} kelime var`}
               </p>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-neutral-400">
                 {isSufficient()
                   ? `${getCurrentCount() + 1}. kelime eklenecek (yeterli)`
                   : getCurrentCount() === 0

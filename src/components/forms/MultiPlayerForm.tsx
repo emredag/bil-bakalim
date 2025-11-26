@@ -76,7 +76,16 @@ const SortablePlayerItem: React.FC<SortablePlayerItemProps> = ({
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-    opacity: isDragging ? 0.5 : 1,
+  };
+
+  // Get initials from name
+  const getInitials = (playerName: string) => {
+    if (!playerName.trim()) return `P${index + 1}`;
+    const parts = playerName.trim().split(' ');
+    if (parts.length >= 2) {
+      return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
+    }
+    return playerName.substring(0, 2).toUpperCase();
   };
 
   return (
@@ -85,39 +94,53 @@ const SortablePlayerItem: React.FC<SortablePlayerItemProps> = ({
       style={style}
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: 20 }}
-      transition={{ duration: 0.2 }}
+      exit={{ opacity: 0, x: 20, scale: 0.9 }}
+      transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
       className={`
-        flex items-center gap-3 p-3 md:p-4 rounded-xl
-        bg-slate-800 border-2 border-slate-700
-        ${isDragging ? 'shadow-2xl z-50' : 'hover:border-slate-600'}
-        transition-colors
+        group relative flex items-center gap-3 md:gap-4 p-4 md:p-5 rounded-xl
+        bg-neutral-800/60 backdrop-blur-sm border-2 border-white/10
+        ${isDragging ? 'shadow-2xl z-50 scale-105 border-primary-500/50' : 'hover:border-white/20 hover:bg-neutral-800/80'}
+        transition-all duration-200
       `}
     >
       {/* Drag Handle */}
       <button
         {...attributes}
         {...listeners}
-        className="text-slate-500 hover:text-slate-300 cursor-grab active:cursor-grabbing focus:outline-none focus:ring-2 focus:ring-blue-500 rounded p-1"
+        className="text-neutral-500 hover:text-neutral-300 cursor-grab active:cursor-grabbing focus:outline-none focus:ring-2 focus:ring-primary-500 rounded-lg p-2 transition-colors"
         aria-label="Sürükle"
       >
         <GripVertical className="w-5 h-5" />
       </button>
 
-      {/* Order Number */}
-      <div className="flex-shrink-0 w-8 h-8 flex items-center justify-center bg-blue-500/20 text-blue-400 rounded-lg font-bold text-sm">
-        {index + 1}
+      {/* Avatar with Initials */}
+      <div className="flex-shrink-0 w-12 h-12 flex items-center justify-center bg-primary-500/20 text-primary-400 rounded-xl font-bold text-base ring-2 ring-primary-500/30 group-hover:ring-primary-500/50 transition-all">
+        {getInitials(name)}
       </div>
 
       {/* Name Input */}
       <div className="flex-1">
         <Input
-          placeholder={`Oyuncu ${index + 1}`}
+          placeholder={`Oyuncu ${index + 1} adını girin`}
           value={name}
           onChange={(e) => onNameChange(index, e.target.value)}
           fullWidth
           aria-label={`Oyuncu ${index + 1} adı`}
         />
+        {name.trim() && (
+          <motion.p
+            initial={{ opacity: 0, y: -5 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-xs text-success-400 mt-1 flex items-center gap-1"
+          >
+            <span>✓</span> İsim girildi
+          </motion.p>
+        )}
+      </div>
+
+      {/* Order Badge */}
+      <div className="flex-shrink-0 px-3 py-1 bg-neutral-900/60 text-neutral-400 rounded-lg font-semibold text-sm border border-white/10">
+        #{index + 1}
       </div>
 
       {/* Remove Button */}
@@ -208,36 +231,44 @@ export const MultiPlayerForm: React.FC<MultiPlayerFormProps> = ({
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-      className={`space-y-6 ${className}`}
+      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+      className={`glass-card rounded-2xl p-8 md:p-10 space-y-8 ${className}`}
     >
       {/* Header */}
-      <div className="text-center space-y-2">
-        <div className="flex items-center justify-center gap-3">
-          <div className="p-3 bg-violet-500/20 rounded-full">
-            <Users className="w-6 h-6 md:w-8 md:h-8 text-violet-400" />
+      <div className="text-center space-y-4">
+        <motion.div
+          initial={{ scale: 0.9, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ delay: 0.1, duration: 0.3 }}
+          className="flex items-center justify-center gap-3"
+        >
+          <div className="p-4 bg-secondary-500/20 rounded-2xl ring-2 ring-secondary-500/30">
+            <Users className="w-8 h-8 md:w-10 md:h-10 text-secondary-400" />
           </div>
+        </motion.div>
+        <div>
+          <h3 className="text-2xl md:text-3xl font-bold text-white mb-2">Çoklu Yarışmacı</h3>
+          <p className="text-base md:text-lg text-neutral-300 leading-relaxed">
+            2-6 oyuncu ekleyin ve sırasını belirleyin
+          </p>
         </div>
-        <h3 className="text-xl md:text-2xl font-bold text-white">Çoklu Yarışmacı</h3>
-        <p className="text-sm md:text-base text-slate-400">
-          2-6 oyuncu ekleyin ve sırasını belirleyin
-        </p>
       </div>
 
       {/* Player List */}
-      <div className="space-y-4">
+      <div className="space-y-5">
         <div className="flex items-center justify-between">
-          <h4 className="text-base md:text-lg font-semibold text-white">
-            Oyuncular ({players.length}/{CONSTRAINTS.MULTI.MAX_PLAYERS})
+          <h4 className="text-lg md:text-xl font-semibold text-white">
+            Oyuncular <span className="text-neutral-400 text-base">({players.length}/{CONSTRAINTS.MULTI.MAX_PLAYERS})</span>
           </h4>
           <Button
             variant="primary"
             onClick={handleAddPlayer}
             disabled={!canAddPlayer}
-            className="flex items-center gap-2"
+            className="flex items-center gap-2 shadow-lg hover:shadow-xl transition-shadow"
           >
-            <Plus className="w-4 h-4" />
-            <span className="hidden md:inline">Oyuncu Ekle</span>
+            <Plus className="w-5 h-5" />
+            <span className="hidden sm:inline">Oyuncu Ekle</span>
+            <span className="sm:hidden">Ekle</span>
           </Button>
         </div>
 
@@ -266,11 +297,18 @@ export const MultiPlayerForm: React.FC<MultiPlayerFormProps> = ({
       </div>
 
       {/* Info text */}
-      <div className="text-center space-y-2">
-        <p className="text-sm text-slate-400">Her oyuncu sırayla 14 kelime tahmin edecek</p>
-        <p className="text-xs text-slate-500">
-          💡 İpucu: Oyuncuları sürükleyerek sırasını değiştirebilirsiniz
-        </p>
+      <div className="space-y-3">
+        <div className="text-center bg-neutral-900/40 rounded-xl p-4 border border-white/5">
+          <p className="text-sm text-neutral-300 leading-relaxed">
+            Her oyuncu sırayla <strong className="text-secondary-400">14 kelime</strong> tahmin edecek
+          </p>
+        </div>
+        <div className="text-center">
+          <p className="text-xs text-neutral-400 flex items-center justify-center gap-2">
+            <GripVertical className="w-4 h-4" />
+            <span>Oyuncuları sürükleyerek sırasını değiştirebilirsiniz</span>
+          </p>
+        </div>
       </div>
     </motion.div>
   );

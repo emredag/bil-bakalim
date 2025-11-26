@@ -60,24 +60,24 @@ export function DeleteWordDialog({ isOpen, onClose, onSuccess, word }: DeleteWor
     <Modal isOpen={isOpen} onClose={onClose} title="Kelime Sil" size="md">
       <div className="space-y-6">
         {/* Warning Icon and Message */}
-        <div className="flex items-start gap-4 p-4 bg-red-500/10 border-2 border-red-500/30 rounded-lg">
-          <AlertTriangle className="w-6 h-6 text-red-400 flex-shrink-0 mt-1" />
+        <div className="flex items-start gap-4 p-4 bg-error-500/10 border-2 border-error-500/30 rounded-lg">
+          <AlertTriangle className="w-6 h-6 text-error-400 flex-shrink-0 mt-1" />
           <div className="flex-1">
-            <h3 className="text-lg font-semibold text-red-400 mb-2">
+            <h3 className="text-lg font-semibold text-error-400 mb-2">
               Bu kelimeyi silmek istediğinizden emin misiniz?
             </h3>
-            <p className="text-sm text-slate-300 mb-3">Bu işlem geri alınamaz.</p>
+            <p className="text-sm text-neutral-300 mb-3">Bu işlem geri alınamaz.</p>
 
             {/* Word Being Deleted */}
-            <div className="bg-slate-900/50 rounded-lg p-3 border border-slate-700">
-              <p className="text-xs text-slate-400 mb-1">Silinecek Kelime:</p>
+            <div className="bg-neutral-900/50 rounded-lg p-3 border border-neutral-700">
+              <p className="text-xs text-neutral-400 mb-1">Silinecek Kelime:</p>
               <p className="text-2xl font-bold text-white uppercase tracking-wide mb-2">
                 {word.word}
               </p>
-              <p className="text-sm text-slate-300">
-                <span className="text-slate-400">İpucu:</span> {word.hint}
+              <p className="text-sm text-neutral-300">
+                <span className="text-neutral-400">İpucu:</span> {word.hint}
               </p>
-              <p className="text-xs text-slate-400 mt-2">Harf sayısı: {word.letter_count}</p>
+              <p className="text-xs text-neutral-400 mt-2">Harf sayısı: {word.letter_count}</p>
             </div>
           </div>
         </div>

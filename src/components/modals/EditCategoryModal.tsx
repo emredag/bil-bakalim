@@ -141,7 +141,7 @@ export function EditCategoryModal({
             <button
               type="button"
               onClick={onClose}
-              className="text-slate-400 hover:text-white transition-colors p-2 rounded-lg hover:bg-slate-700"
+              className="text-neutral-400 hover:text-white transition-colors p-2 rounded-lg hover:bg-neutral-700"
               aria-label="Kapat"
             >
               <X className="w-5 h-5" />
@@ -150,8 +150,8 @@ export function EditCategoryModal({
 
           {/* Warning for default category */}
           {category.is_default && (
-            <div className="bg-amber-500/10 border-2 border-amber-500/50 rounded-lg p-4">
-              <p className="text-amber-400 text-sm font-medium">
+            <div className="bg-warning-500/10 border-2 border-warning-500/50 rounded-lg p-4">
+              <p className="text-warning-400 text-sm font-medium">
                 ⚠️ Bu varsayılan bir kategoridir. Düzenleyebilirsiniz ancak silemezsiniz.
               </p>
             </div>
@@ -164,9 +164,9 @@ export function EditCategoryModal({
               <div>
                 <label
                   htmlFor="edit-category-name"
-                  className="block text-sm font-medium text-slate-300 mb-2"
+                  className="block text-sm font-medium text-neutral-300 mb-2"
                 >
-                  Kategori Adı <span className="text-red-400">*</span>
+                  Kategori Adı <span className="text-error-400">*</span>
                 </label>
                 <Input
                   id="edit-category-name"
@@ -180,21 +180,21 @@ export function EditCategoryModal({
                   error={errors.name}
                   disabled={isSubmitting}
                 />
-                <p className="text-xs text-slate-400 mt-1">{name.length}/50 karakter</p>
+                <p className="text-xs text-neutral-400 mt-1">{name.length}/50 karakter</p>
               </div>
 
               {/* Emoji Picker */}
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-2">
-                  Emoji <span className="text-red-400">*</span>
+                <label className="block text-sm font-medium text-neutral-300 mb-2">
+                  Emoji <span className="text-error-400">*</span>
                 </label>
                 <div className="flex items-start space-x-3">
                   <EmojiButton emoji={emoji} onClick={() => setShowEmojiPicker(true)} size="lg" />
                   <div className="flex-1">
-                    <p className="text-sm text-slate-400">
+                    <p className="text-sm text-neutral-400">
                       Kategoriyi temsil edecek bir emoji seçin
                     </p>
-                    {errors.emoji && <p className="text-sm text-red-400 mt-1">{errors.emoji}</p>}
+                    {errors.emoji && <p className="text-sm text-error-400 mt-1">{errors.emoji}</p>}
                   </div>
                 </div>
               </div>
@@ -203,7 +203,7 @@ export function EditCategoryModal({
               <div>
                 <label
                   htmlFor="edit-category-description"
-                  className="block text-sm font-medium text-slate-300 mb-2"
+                  className="block text-sm font-medium text-neutral-300 mb-2"
                 >
                   Açıklama (Opsiyonel)
                 </label>
@@ -215,17 +215,17 @@ export function EditCategoryModal({
                   maxLength={200}
                   rows={3}
                   disabled={isSubmitting}
-                  className="w-full px-4 py-2 bg-slate-900 border-2 border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-colors disabled:opacity-50 disabled:cursor-not-allowed resize-none"
+                  className="w-full px-4 py-2 bg-neutral-900 border-2 border-neutral-700 rounded-lg text-white placeholder-neutral-500 focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-colors disabled:opacity-50 disabled:cursor-not-allowed resize-none"
                 />
-                <p className="text-xs text-slate-400 mt-1">{description.length}/200 karakter</p>
+                <p className="text-xs text-neutral-400 mt-1">{description.length}/200 karakter</p>
               </div>
             </div>
 
             {/* Right Column: Preview */}
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">Önizleme</label>
+              <label className="block text-sm font-medium text-neutral-300 mb-2">Önizleme</label>
               <motion.div
-                className="bg-slate-900 rounded-2xl p-6 border-2 border-slate-700 h-full min-h-[300px] flex flex-col items-center justify-center space-y-4"
+                className="bg-neutral-900 rounded-2xl p-6 border-2 border-neutral-700 h-full min-h-[300px] flex flex-col items-center justify-center space-y-4"
                 key={`${name}-${emoji}-${description}`}
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -239,14 +239,14 @@ export function EditCategoryModal({
 
                 {/* Preview Description */}
                 {description && (
-                  <p className="text-sm text-slate-400 text-center line-clamp-3">{description}</p>
+                  <p className="text-sm text-neutral-400 text-center line-clamp-3">{description}</p>
                 )}
               </motion.div>
             </div>
           </div>
 
           {/* Footer Buttons */}
-          <div className="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-3 pt-4 border-t border-slate-700">
+          <div className="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-3 pt-4 border-t border-neutral-700">
             <Button type="button" variant="secondary" onClick={onClose} disabled={isSubmitting}>
               İptal
             </Button>

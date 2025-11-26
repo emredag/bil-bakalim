@@ -81,7 +81,6 @@ const SortableMemberItem: React.FC<SortableMemberItemProps> = ({
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-    opacity: isDragging ? 0.5 : 1,
   };
 
   return (
@@ -90,27 +89,27 @@ const SortableMemberItem: React.FC<SortableMemberItemProps> = ({
       style={style}
       initial={{ opacity: 0, x: -10 }}
       animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: 10 }}
-      transition={{ duration: 0.2 }}
+      exit={{ opacity: 0, x: 10, scale: 0.95 }}
+      transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
       className={`
-        flex items-center gap-2 p-2 rounded-lg
-        bg-slate-900 border border-slate-700
-        ${isDragging ? 'shadow-xl z-50' : 'hover:border-slate-600'}
-        transition-colors
+        group flex items-center gap-2 p-3 rounded-lg
+        bg-neutral-900/60 backdrop-blur-sm border border-white/10
+        ${isDragging ? 'shadow-xl z-50 scale-105 border-primary-500/50' : 'hover:border-white/20 hover:bg-neutral-900/80'}
+        transition-all duration-200
       `}
     >
       {/* Drag Handle */}
       <button
         {...attributes}
         {...listeners}
-        className="text-slate-500 hover:text-slate-300 cursor-grab active:cursor-grabbing focus:outline-none focus:ring-2 focus:ring-blue-500 rounded p-1"
+        className="text-neutral-500 hover:text-neutral-300 cursor-grab active:cursor-grabbing focus:outline-none focus:ring-2 focus:ring-primary-500 rounded p-1 transition-colors"
         aria-label="Sürükle"
       >
         <GripVertical className="w-4 h-4" />
       </button>
 
-      {/* Order */}
-      <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center bg-slate-700 text-slate-300 rounded text-xs font-bold">
+      {/* Order Badge */}
+      <div className="flex-shrink-0 w-7 h-7 flex items-center justify-center bg-neutral-800/80 text-neutral-300 rounded-lg text-xs font-bold border border-white/10 group-hover:bg-neutral-700/80 transition-colors">
         {member.order}
       </div>
 
@@ -133,7 +132,7 @@ const SortableMemberItem: React.FC<SortableMemberItemProps> = ({
         className="flex-shrink-0 !p-2"
         aria-label="Kaldır"
       >
-        <Trash2 className="w-3 h-3" />
+        <Trash2 className="w-3.5 h-3.5" />
       </Button>
     </motion.div>
   );
@@ -239,20 +238,26 @@ const TeamCard: React.FC<TeamCardProps> = ({
       </div>
 
       {/* Color Picker */}
-      <div className="mb-4">
-        <label className="block text-sm font-medium text-slate-300 mb-2">Takım Rengi</label>
-        <div className="flex flex-wrap gap-2">
+      <div className="mb-5">
+        <label className="block text-sm font-semibold text-neutral-200 mb-3">Takım Rengi</label>
+        <div className="flex flex-wrap gap-3">
           {TEAM_COLORS.map((color) => (
-            <button
+            <motion.button
               key={color}
               onClick={() => onColorChange(teamIndex, color)}
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ duration: 0.15, ease: 'easeOut' }}
               className={`
-                w-8 h-8 rounded-full border-2 transition-transform
-                ${team.color === color ? 'ring-2 ring-white scale-110' : 'hover:scale-105'}
+                w-10 h-10 rounded-xl border-2 transition-all duration-200
+                ${team.color === color
+                  ? 'ring-4 ring-white/40 ring-offset-2 ring-offset-neutral-800 scale-110 shadow-lg'
+                  : 'hover:scale-102 hover:shadow-md'
+                }
               `}
               style={{
                 backgroundColor: color,
-                borderColor: team.color === color ? 'white' : color,
+                borderColor: team.color === color ? 'white' : 'rgba(255, 255, 255, 0.2)',
               }}
               aria-label={`Renk ${color}`}
               aria-pressed={team.color === color}
@@ -458,20 +463,27 @@ export const TeamForm: React.FC<TeamFormProps> = ({
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-      className={`space-y-6 ${className}`}
+      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+      className={`glass-card rounded-2xl p-8 md:p-10 space-y-8 ${className}`}
     >
       {/* Header */}
-      <div className="text-center space-y-2">
-        <div className="flex items-center justify-center gap-3">
-          <div className="p-3 bg-amber-500/20 rounded-full">
-            <Users className="w-6 h-6 md:w-8 md:h-8 text-amber-400" />
+      <div className="text-center space-y-4">
+        <motion.div
+          initial={{ scale: 0.9, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ delay: 0.1, duration: 0.3 }}
+          className="flex items-center justify-center gap-3"
+        >
+          <div className="p-4 bg-accent-500/20 rounded-2xl ring-2 ring-accent-500/30">
+            <Users className="w-8 h-8 md:w-10 md:h-10 text-accent-400" />
           </div>
+        </motion.div>
+        <div>
+          <h3 className="text-2xl md:text-3xl font-bold text-white mb-2">Takım Modu</h3>
+          <p className="text-base md:text-lg text-neutral-300 leading-relaxed">
+            2-4 takım oluşturun, her takıma 2-4 oyuncu ekleyin
+          </p>
         </div>
-        <h3 className="text-xl md:text-2xl font-bold text-white">Takım Modu</h3>
-        <p className="text-sm md:text-base text-slate-400">
-          2-4 takım oluşturun, her takıma 2-4 oyuncu ekleyin
-        </p>
       </div>
 
       {/* Add Team Button */}
@@ -480,23 +492,23 @@ export const TeamForm: React.FC<TeamFormProps> = ({
           variant="primary"
           onClick={handleAddTeam}
           disabled={!canAddTeam}
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 shadow-lg hover:shadow-xl transition-shadow"
         >
-          <Plus className="w-4 h-4" />
+          <Plus className="w-5 h-5" />
           Takım Ekle ({teams.length}/{CONSTRAINTS.TEAM.MAX_TEAMS})
         </Button>
       </div>
 
       {/* Team Cards */}
-      <div className="space-y-4">
+      <div className="space-y-5">
         <AnimatePresence mode="popLayout">
           {teams.map((team, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.2 }}
+              initial={{ opacity: 0, y: 20, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -20, scale: 0.95 }}
+              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
             >
               <TeamCard
                 team={team}
@@ -517,11 +529,18 @@ export const TeamForm: React.FC<TeamFormProps> = ({
       </div>
 
       {/* Info text */}
-      <div className="text-center space-y-2">
-        <p className="text-sm text-slate-400">Her takım sırayla 14 kelime tahmin edecek</p>
-        <p className="text-xs text-slate-500">
-          💡 İpucu: Takım içinde oyuncuları sürükleyerek sırasını değiştirebilirsiniz
-        </p>
+      <div className="space-y-3">
+        <div className="text-center bg-neutral-900/40 rounded-xl p-4 border border-white/5">
+          <p className="text-sm text-neutral-300 leading-relaxed">
+            Her takım sırayla <strong className="text-accent-400">14 kelime</strong> tahmin edecek
+          </p>
+        </div>
+        <div className="text-center">
+          <p className="text-xs text-neutral-400 flex items-center justify-center gap-2">
+            <GripVertical className="w-4 h-4" />
+            <span>Takım içinde oyuncuları sürükleyerek sırasını değiştirebilirsiniz</span>
+          </p>
+        </div>
       </div>
     </motion.div>
   );

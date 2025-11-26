@@ -62,25 +62,34 @@ export const SinglePlayerForm: React.FC<SinglePlayerFormProps> = ({
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-      className={`space-y-6 ${className}`}
+      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+      className={`glass-card rounded-2xl p-8 md:p-10 space-y-8 ${className}`}
     >
       {/* Header */}
-      <div className="text-center space-y-2">
-        <div className="flex items-center justify-center gap-3">
-          <div className="p-3 bg-blue-500/20 rounded-full">
-            <User className="w-6 h-6 md:w-8 md:h-8 text-blue-400" />
+      <div className="text-center space-y-4">
+        <motion.div
+          initial={{ scale: 0.9, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ delay: 0.1, duration: 0.3 }}
+          className="flex items-center justify-center gap-3"
+        >
+          <div className="p-4 bg-primary-500/20 rounded-2xl ring-2 ring-primary-500/30">
+            <User className="w-8 h-8 md:w-10 md:h-10 text-primary-400" />
           </div>
+        </motion.div>
+        <div>
+          <h3 className="text-2xl md:text-3xl font-bold text-white mb-2">Tek Yarışmacı</h3>
+          <p className="text-base md:text-lg text-neutral-300 leading-relaxed">
+            Adınızı girin ve oyuna başlayın
+          </p>
         </div>
-        <h3 className="text-xl md:text-2xl font-bold text-white">Tek Yarışmacı</h3>
-        <p className="text-sm md:text-base text-slate-400">Adınızı girin ve oyuna başlayın</p>
       </div>
 
       {/* Name Input */}
       <div className="max-w-md mx-auto">
         <Input
           label="Yarışmacı Adı"
-          placeholder="Adınızı girin"
+          placeholder="Örn: Ali Veli"
           value={playerName}
           onChange={handleNameChange}
           icon={<User className="w-5 h-5" />}
@@ -89,11 +98,22 @@ export const SinglePlayerForm: React.FC<SinglePlayerFormProps> = ({
           autoFocus
           aria-label="Yarışmacı adı"
         />
+        {playerName && (
+          <motion.p
+            initial={{ opacity: 0, y: -5 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-sm text-success-400 mt-2 flex items-center gap-1"
+          >
+            <span>✓</span> İsim girildi
+          </motion.p>
+        )}
       </div>
 
       {/* Info text */}
-      <div className="text-center">
-        <p className="text-sm text-slate-400">Oyun başladığında 14 kelime tahmin edeceksiniz</p>
+      <div className="text-center bg-neutral-900/40 rounded-xl p-4 border border-white/5">
+        <p className="text-sm text-neutral-300 leading-relaxed">
+          Oyun başladığında <strong className="text-primary-400">14 kelime</strong> tahmin edeceksiniz
+        </p>
       </div>
     </motion.div>
   );

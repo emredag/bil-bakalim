@@ -58,7 +58,7 @@ export const Skeleton: React.FC<SkeletonProps> = ({
   const finalHeight = height || defaultHeights[variant];
 
   // Base styles
-  const baseStyles = 'bg-slate-700';
+  const baseStyles = 'bg-neutral-700';
 
   // Variant styles
   const variantStyles = {
@@ -95,7 +95,7 @@ Skeleton.displayName = 'Skeleton';
  */
 export const SkeletonCard: React.FC<{ className?: string }> = ({ className = '' }) => {
   return (
-    <div className={`bg-slate-800 rounded-2xl p-6 border border-slate-700 ${className}`}>
+    <div className={`bg-neutral-800 rounded-2xl p-6 border border-neutral-700 ${className}`}>
       <div className="space-y-4">
         {/* Header */}
         <div className="flex items-center gap-3">

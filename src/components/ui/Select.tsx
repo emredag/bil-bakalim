@@ -51,7 +51,7 @@ export const Select: React.FC<SelectProps> = ({
       {label && (
         <label
           className={`
-            block text-base md:text-lg font-semibold text-slate-100
+            block text-base md:text-lg font-semibold text-neutral-100
             ${disabled ? 'opacity-50' : ''}
           `}
         >
@@ -63,7 +63,7 @@ export const Select: React.FC<SelectProps> = ({
       {description && (
         <p
           className={`
-            text-sm md:text-base text-slate-400
+            text-sm md:text-base text-neutral-400
             ${disabled ? 'opacity-50' : ''}
           `}
         >
@@ -81,14 +81,14 @@ export const Select: React.FC<SelectProps> = ({
             w-full appearance-none
             px-4 py-3 pr-10
             text-base md:text-lg
-            bg-slate-700 text-slate-100
-            border-2 border-slate-600
+            bg-neutral-700 text-neutral-100
+            border-2 border-neutral-600
             rounded-lg
             cursor-pointer
             transition-all duration-200
-            focus:outline-none focus:ring-2 focus:ring-blue-500
-            focus:border-blue-500
-            ${disabled ? 'opacity-50 cursor-not-allowed' : 'hover:border-slate-500'}
+            focus:outline-none focus:ring-2 focus:ring-primary-500
+            focus:border-primary-500
+            ${disabled ? 'opacity-50 cursor-not-allowed' : 'hover:border-neutral-500'}
           `}
         >
           {options.map((option) => (
@@ -106,7 +106,7 @@ export const Select: React.FC<SelectProps> = ({
             ${disabled ? 'opacity-50' : ''}
           `}
         >
-          <ChevronDown className="w-5 h-5 text-slate-400" />
+          <ChevronDown className="w-5 h-5 text-neutral-400" />
         </div>
       </div>
     </div>

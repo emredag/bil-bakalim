@@ -70,12 +70,12 @@
     font-weight: 600;
   }
 
-  /* Focus visible styles for accessibility */
+  /* Focus visible styles for accessibility - Design System v2.0 */
   *:focus-visible {
     outline: none;
     box-shadow:
-      0 0 0 2px #0f172a,
-      0 0 0 4px #3b82f6;
+      0 0 0 2px #0a0a0a,
+      0 0 0 4px #0ea5e9;
   }
 }
 
@@ -194,22 +194,22 @@
     -moz-appearance: textfield;
   }
 
-  /* Custom scrollbar (dark theme) */
+  /* Custom scrollbar (dark theme) - Design System v2.0 */
   .scrollbar-dark::-webkit-scrollbar {
     width: 8px;
     height: 8px;
   }
 
   .scrollbar-dark::-webkit-scrollbar-track {
-    background-color: #1e293b;
+    background-color: #262626;
   }
 
   .scrollbar-dark::-webkit-scrollbar-thumb {
-    background-color: #334155;
+    background-color: #404040;
     border-radius: 0.5rem;
   }
 
   .scrollbar-dark::-webkit-scrollbar-thumb:hover {
-    background-color: #475569;
+    background-color: #525252;
   }
 }

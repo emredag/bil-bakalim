@@ -26,20 +26,20 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     // Generate unique ID if not provided
     const inputId = id || `input-${React.useId()}`;
 
-    // Base styles (PRD 8.3 + responsive padding PRD 8.5)
+    // Base styles (Design System v2.0)
     const baseStyles = `
-      bg-slate-900 border-2 rounded-lg px-3 py-2 md:px-4 md:py-2.5
-      text-text-primary placeholder-text-tertiary
+      bg-neutral-900 border-2 rounded-lg px-3 py-2 md:px-4 md:py-2.5
+      text-neutral-50 placeholder-neutral-500
       transition-all duration-200
-      focus:outline-none focus:ring-2 focus:ring-blue-500
+      focus:outline-none focus:ring-2 focus:ring-primary-500
       disabled:opacity-60 disabled:cursor-not-allowed
       text-sm md:text-base
     `;
 
     // Border color (error state)
     const borderStyles = error
-      ? 'border-status-error focus:border-status-error'
-      : 'border-slate-700 focus:border-blue-500';
+      ? 'border-error-500 focus:border-error-500'
+      : 'border-neutral-700 focus:border-primary-500';
 
     // Icon padding
     const iconPadding = icon ? 'pl-12' : '';
@@ -147,20 +147,20 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
     // Generate unique ID if not provided
     const textareaId = id || `textarea-${React.useId()}`;
 
-    // Base styles (same as Input)
+    // Base styles (Design System v2.0)
     const baseStyles = `
-      bg-slate-900 border-2 rounded-lg px-4 py-2
-      text-text-primary placeholder-text-tertiary
+      bg-neutral-900 border-2 rounded-lg px-4 py-2
+      text-neutral-50 placeholder-neutral-500
       transition-all duration-200
-      focus:outline-none focus:ring-2 focus:ring-blue-500
+      focus:outline-none focus:ring-2 focus:ring-primary-500
       disabled:opacity-60 disabled:cursor-not-allowed
       resize-y
     `;
 
     // Border color (error state)
     const borderStyles = error
-      ? 'border-status-error focus:border-status-error'
-      : 'border-slate-700 focus:border-blue-500';
+      ? 'border-error-500 focus:border-error-500'
+      : 'border-neutral-700 focus:border-primary-500';
 
     // Width
     const widthStyles = fullWidth ? 'w-full' : '';

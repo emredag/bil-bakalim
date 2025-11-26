@@ -46,14 +46,14 @@ interface Particle {
   opacity: number;
 }
 
-// TV Show Quality colors (PRD 8.1)
+// TV Show Quality colors (Design System v2.0)
 const CONFETTI_COLORS = [
-  '#fbbf24', // gold/amber-400
-  '#3b82f6', // blue-500
-  '#8b5cf6', // violet-500
-  '#10b981', // emerald-500
-  '#f59e0b', // amber-500
-  '#6366f1', // indigo-500
+  '#f59e0b', // accent-500
+  '#3b82f6', // primary-500
+  '#8b5cf6', // secondary-500
+  '#22c55e', // success-500
+  '#fbbf24', // accent-400
+  '#6366f1', // info-500
 ];
 
 /**

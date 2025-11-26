@@ -77,7 +77,7 @@ export function Table<T>({
         {/* Header */}
         <thead
           className={`
-            bg-slate-800 border-b-2 border-slate-700
+            bg-neutral-800 border-b-2 border-neutral-700
             ${stickyHeader ? 'sticky top-0 z-10' : ''}
           `}
         >
@@ -89,7 +89,7 @@ export function Table<T>({
                   px-4 py-3 text-left
                   text-sm md:text-base font-semibold text-text-primary
                   ${column.width ? column.width : ''}
-                  ${column.sortable ? 'cursor-pointer hover:bg-slate-700 transition-colors' : ''}
+                  ${column.sortable ? 'cursor-pointer hover:bg-neutral-700 transition-colors' : ''}
                 `}
                 onClick={column.sortable ? () => handleSort(column.key) : undefined}
               >
@@ -122,9 +122,9 @@ export function Table<T>({
             <tr
               key={keyExtractor(row, index)}
               className={`
-                border-b border-slate-700
-                hover:bg-slate-800/50 transition-colors
-                ${zebra && index % 2 === 1 ? 'bg-slate-800/30' : ''}
+                border-b border-neutral-700
+                hover:bg-neutral-800/50 transition-colors
+                ${zebra && index % 2 === 1 ? 'bg-neutral-800/30' : ''}
               `}
             >
               {columns.map((column) => (
@@ -186,7 +186,7 @@ export function ResponsiveTable<T>({
         {data.map((row, index) => (
           <div
             key={keyExtractor(row, index)}
-            className="bg-slate-800 rounded-lg p-4 border border-slate-700"
+            className="bg-neutral-800 rounded-lg p-4 border border-neutral-700"
           >
             {columns.map((column) => (
               <div key={column.key} className="flex justify-between py-2">

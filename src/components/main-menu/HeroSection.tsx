@@ -18,23 +18,19 @@ export interface HeroSectionProps {
 
 /**
  * Hero animation variants
- * Spring-based animation with scale + fade
+ * Subtle fade + slight rise animation
  */
 const heroVariants = {
   hidden: {
     opacity: 0,
-    scale: 0.95,
-    y: 20,
+    y: 10,
   },
   visible: {
     opacity: 1,
-    scale: 1,
     y: 0,
     transition: {
-      type: 'spring' as const,
-      stiffness: 300,
-      damping: 30,
-      delay: 0.1,
+      duration: 0.4,
+      ease: [0.25, 0.1, 0.25, 1] as const, // cubic-bezier for smooth feel
     },
   },
 };
@@ -96,7 +92,7 @@ export function HeroSection({ onStartGame, lastGame, onResumeGame }: HeroSection
           size="lg"
           onClick={onStartGame}
           icon={<Sparkles size={24} />}
-          className="mt-2 shadow-2xl hover:shadow-glow-primary transform hover:scale-105 active:scale-100"
+          className="mt-2 shadow-2xl hover:shadow-glow-primary transform hover:scale-102 active:scale-100"
         >
           Yeni Yarışma Başlat
         </Button>

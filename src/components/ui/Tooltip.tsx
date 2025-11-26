@@ -199,8 +199,8 @@ export const Tooltip: React.FC<TooltipProps> = ({
               role="tooltip"
               className="
                 fixed z-tooltip
-                bg-slate-800 text-slate-100
-                border border-slate-700
+                bg-neutral-800 text-neutral-100
+                border border-neutral-700
                 px-3 py-2 rounded-lg
                 text-sm
                 shadow-xl

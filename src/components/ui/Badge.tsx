@@ -35,14 +35,14 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
     transition-colors duration-200
   `;
 
-    // Variant styles (using PRD status colors)
+    // Variant styles (Design System v2.0 colors)
     const variantStyles = {
-      default: 'bg-accent-primary/20 text-accent-primary border border-accent-primary/30',
-      success: 'bg-status-success/20 text-status-success border border-status-success/30',
-      error: 'bg-status-error/20 text-status-error border border-status-error/30',
-      warning: 'bg-status-warning/20 text-status-warning border border-status-warning/30',
-      info: 'bg-status-info/20 text-status-info border border-status-info/30',
-      neutral: 'bg-slate-700/50 text-text-secondary border border-slate-600',
+      default: 'bg-primary-500/20 text-primary-400 border border-primary-500/30',
+      success: 'bg-success-500/20 text-success-400 border border-success-500/30',
+      error: 'bg-error-500/20 text-error-400 border border-error-500/30',
+      warning: 'bg-warning-500/20 text-warning-400 border border-warning-500/30',
+      info: 'bg-info-500/20 text-info-400 border border-info-500/30',
+      neutral: 'bg-neutral-700/50 text-neutral-300 border border-neutral-600',
     };
 
     // Size styles

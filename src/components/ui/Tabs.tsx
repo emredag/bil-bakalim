@@ -118,7 +118,7 @@ const DefaultTabList: React.FC<TabListProps> = ({
   fullWidth,
 }) => {
   return (
-    <div className="flex border-b border-slate-700" role="tablist" aria-label="Tabs">
+    <div className="flex border-b border-neutral-700" role="tablist" aria-label="Tabs">
       {tabs.map((tab, index) => {
         const isActive = tab.id === activeTab;
 
@@ -176,7 +176,7 @@ const SegmentedTabList: React.FC<TabListProps> = ({
   return (
     <div
       className={`
-        inline-flex p-1 bg-slate-800 rounded-lg border border-slate-700
+        inline-flex p-1 bg-neutral-800 rounded-lg border border-neutral-700
         ${fullWidth ? 'w-full' : ''}
       `}
       role="tablist"
@@ -209,7 +209,7 @@ const SegmentedTabList: React.FC<TabListProps> = ({
             {/* Active background */}
             {isActive && (
               <motion.div
-                className="absolute inset-0 bg-slate-700 rounded-md"
+                className="absolute inset-0 bg-neutral-700 rounded-md"
                 layoutId="segmentedActiveTab"
                 transition={{ duration: 0.2 }}
               />

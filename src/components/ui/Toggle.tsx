@@ -63,9 +63,9 @@ export const Toggle: React.FC<ToggleProps> = ({
           rounded-full border-2 border-transparent
           transition-colors duration-200 ease-in-out
           focus-visible:outline-none focus-visible:ring-2
-          focus-visible:ring-blue-500 focus-visible:ring-offset-2
-          focus-visible:ring-offset-slate-900
-          ${checked ? 'bg-blue-600' : 'bg-slate-700'}
+          focus-visible:ring-primary-500 focus-visible:ring-offset-2
+          focus-visible:ring-offset-neutral-900
+          ${checked ? 'bg-primary-600' : 'bg-neutral-700'}
           ${disabled ? 'opacity-50 cursor-not-allowed' : 'hover:bg-opacity-90'}
         `}
       >
@@ -93,7 +93,7 @@ export const Toggle: React.FC<ToggleProps> = ({
           {label && (
             <label
               className={`
-                block text-base md:text-lg font-semibold text-slate-100
+                block text-base md:text-lg font-semibold text-neutral-100
                 ${disabled ? 'opacity-50' : ''}
               `}
             >
@@ -103,7 +103,7 @@ export const Toggle: React.FC<ToggleProps> = ({
           {description && (
             <p
               className={`
-                mt-1 text-sm md:text-base text-slate-400
+                mt-1 text-sm md:text-base text-neutral-400
                 ${disabled ? 'opacity-50' : ''}
               `}
             >

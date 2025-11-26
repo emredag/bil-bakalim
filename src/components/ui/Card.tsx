@@ -13,8 +13,8 @@ export interface CardProps extends Omit<HTMLMotionProps<'div'>, 'children'> {
  * TV Show Quality card with hover animations.
  *
  * Variants:
- * - default: Solid slate background
- * - gradient: Gradient background (from-slate-800 to-slate-700)
+ * - default: Solid neutral background
+ * - gradient: Gradient background (from-neutral-800 to-neutral-700)
  * - bordered: With border accent
  *
  * Features:
@@ -25,18 +25,18 @@ export interface CardProps extends Omit<HTMLMotionProps<'div'>, 'children'> {
  */
 export const Card = React.forwardRef<HTMLDivElement, CardProps>(
   ({ variant = 'default', hoverable = true, children, className = '', ...props }, ref) => {
-    // Base styles (PRD 8.3 + responsive padding PRD 8.5)
+    // Base styles (Design System v2.0)
     const baseStyles = `
-      rounded-2xl p-4 md:p-6 lg:p-8 shadow-xl border border-slate-700
+      rounded-2xl p-4 md:p-6 lg:p-8 shadow-xl border
       transition-all duration-200
       will-change-transform
     `;
 
-    // Variant styles
+    // Variant styles (Design System v2.0 colors)
     const variantStyles = {
-      default: 'bg-slate-800',
-      gradient: 'bg-gradient-to-b from-slate-800 to-slate-700',
-      bordered: 'bg-slate-800 border-2 border-slate-600',
+      default: 'bg-neutral-800 border-neutral-700',
+      gradient: 'bg-gradient-to-b from-neutral-800 to-neutral-700 border-neutral-700/50',
+      bordered: 'bg-neutral-800 border-2 border-neutral-600',
     };
 
     // Hover styles (conditional)
@@ -51,10 +51,10 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
       .trim()
       .replace(/\s+/g, ' ');
 
-    // Animation variants (ui-ux-design.md)
+    // Animation variants - subtle hover (standardized)
     const animationVariants = {
       rest: { scale: 1 },
-      hover: hoverable ? { scale: 1.05 } : { scale: 1 },
+      hover: hoverable ? { scale: 1.02 } : { scale: 1 },
     };
 
     return (
@@ -99,7 +99,7 @@ export interface CardTitleProps {
 
 export const CardTitle: React.FC<CardTitleProps> = ({ children, className = '' }) => {
   return (
-    <h3 className={`text-xl md:text-2xl font-semibold text-text-primary ${className}`}>
+    <h3 className={`text-xl md:text-2xl font-semibold text-neutral-50 ${className}`}>
       {children}
     </h3>
   );
@@ -116,7 +116,7 @@ export interface CardContentProps {
 }
 
 export const CardContent: React.FC<CardContentProps> = ({ children, className = '' }) => {
-  return <div className={`text-text-secondary ${className}`}>{children}</div>;
+  return <div className={`text-neutral-400 ${className}`}>{children}</div>;
 };
 
 CardContent.displayName = 'CardContent';
@@ -130,7 +130,7 @@ export interface CardFooterProps {
 }
 
 export const CardFooter: React.FC<CardFooterProps> = ({ children, className = '' }) => {
-  return <div className={`mt-4 pt-4 border-t border-slate-700 ${className}`}>{children}</div>;
+  return <div className={`mt-4 pt-4 border-t border-neutral-700 ${className}`}>{children}</div>;
 };
 
 CardFooter.displayName = 'CardFooter';

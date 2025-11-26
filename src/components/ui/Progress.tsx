@@ -59,7 +59,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
       )}
 
       {/* Progress bar */}
-      <div className={`w-full bg-slate-700 rounded-full overflow-hidden ${sizeStyles[size]}`}>
+      <div className={`w-full bg-neutral-700 rounded-full overflow-hidden ${sizeStyles[size]}`}>
         <motion.div
           className={`${variantColors[variant]} ${sizeStyles[size]} rounded-full`}
           initial={{ width: '0%' }}
@@ -127,7 +127,7 @@ export const ProgressRing: React.FC<ProgressRingProps> = ({
           stroke="currentColor"
           strokeWidth={strokeWidth}
           fill="none"
-          className="text-slate-700"
+          className="text-neutral-700"
         />
 
         {/* Progress circle */}

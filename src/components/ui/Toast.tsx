@@ -45,25 +45,25 @@ export const Toast: React.FC<ToastProps> = ({
   const typeConfig = {
     success: {
       icon: CheckCircle,
-      bgColor: 'bg-slate-800',
+      bgColor: 'bg-neutral-800',
       borderColor: 'border-l-status-success',
       iconColor: 'text-status-success',
     },
     error: {
       icon: AlertCircle,
-      bgColor: 'bg-slate-800',
+      bgColor: 'bg-neutral-800',
       borderColor: 'border-l-status-error',
       iconColor: 'text-status-error',
     },
     warning: {
       icon: AlertTriangle,
-      bgColor: 'bg-slate-800',
+      bgColor: 'bg-neutral-800',
       borderColor: 'border-l-status-warning',
       iconColor: 'text-status-warning',
     },
     info: {
       icon: Info,
-      bgColor: 'bg-slate-800',
+      bgColor: 'bg-neutral-800',
       borderColor: 'border-l-status-info',
       iconColor: 'text-status-info',
     },
@@ -120,7 +120,7 @@ export const Toast: React.FC<ToastProps> = ({
             absolute top-3 right-3
             text-text-tertiary hover:text-text-primary
             transition-colors duration-200
-            focus:outline-none focus:ring-2 focus:ring-blue-500 rounded
+            focus:outline-none focus:ring-2 focus:ring-primary-500 rounded
           "
           aria-label="Close notification"
         >

@@ -110,9 +110,9 @@ export const MuteToggleIcon: React.FC<MuteToggleIconProps> = ({
         touch-target
         p-2 rounded-lg
         transition-all duration-200
-        hover:bg-slate-700
+        hover:bg-neutral-700
         focus-visible:ring-2 focus-visible:ring-accent-primary
-        ${muted ? 'text-red-500' : 'text-text-secondary'}
+        ${muted ? 'text-error-500' : 'text-text-secondary'}
         ${className}
       `}
       aria-label={muted ? 'Unmute sounds' : 'Mute sounds'}

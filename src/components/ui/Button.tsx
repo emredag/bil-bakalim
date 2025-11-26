@@ -47,10 +47,10 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       }
       onClick?.(e);
     };
-    // Base styles (PRD 8.3 + ui-ux-design.md)
+    // Base styles (Design System v2.0 - Enhanced)
     const baseStyles = `
       touch-target
-      inline-flex items-center justify-center gap-2
+      inline-flex flex-row items-center justify-center gap-3
       font-semibold rounded-xl
       transition-all duration-200
       focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2
@@ -58,26 +58,26 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       will-change-transform
     `;
 
-    // Variant styles (PRD 8.3)
+    // Variant styles (Design System v2.0)
     const variantStyles = {
       primary: `
-        bg-gradient-to-b from-blue-600 to-blue-700
+        bg-gradient-to-b from-primary-600 to-primary-700
         text-white shadow-lg
-        hover:shadow-xl hover:from-blue-500 hover:to-blue-600
-        focus-visible:ring-blue-500
+        hover:shadow-xl hover:from-primary-500 hover:to-primary-600
+        focus-visible:ring-primary-500
         active:scale-95
       `,
       secondary: `
-        bg-slate-700 text-slate-100 shadow-lg
-        hover:bg-slate-600 hover:shadow-xl
-        focus-visible:ring-slate-500
+        bg-neutral-700 text-neutral-100 shadow-lg
+        hover:bg-neutral-600 hover:shadow-xl
+        focus-visible:ring-neutral-500
         active:scale-95
       `,
       destructive: `
-        bg-gradient-to-b from-red-600 to-red-700
+        bg-gradient-to-b from-error-600 to-error-700
         text-white shadow-lg
-        hover:shadow-xl hover:from-red-500 hover:to-red-600
-        focus-visible:ring-red-500
+        hover:shadow-xl hover:from-error-500 hover:to-error-600
+        focus-visible:ring-error-500
         active:scale-95
       `,
     };
@@ -99,8 +99,9 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       .replace(/\s+/g, ' ');
 
     const motionProps = {
-      whileHover: !disabled && !loading ? { scale: 1.05 } : undefined,
-      whileTap: !disabled && !loading ? { scale: 0.95 } : undefined,
+      whileHover: !disabled && !loading ? { scale: 1.02 } : undefined,
+      whileTap: !disabled && !loading ? { scale: 0.98 } : undefined,
+      transition: { duration: 0.15, ease: 'easeOut' },
     };
 
     return (

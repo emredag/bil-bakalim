@@ -14,6 +14,7 @@ export interface ModalProps {
   showCloseButton?: boolean;
   closeOnOverlayClick?: boolean;
   closeOnEscape?: boolean;
+  variant?: 'default' | 'glassmorphism';
 }
 
 /**
@@ -39,6 +40,7 @@ export const Modal: React.FC<ModalProps> = ({
   showCloseButton = true,
   closeOnOverlayClick = true,
   closeOnEscape = true,
+  variant = 'default',
 }) => {
   const trapRef = useFocusTrap<HTMLDivElement>({ active: isOpen });
 
@@ -138,10 +140,14 @@ export const Modal: React.FC<ModalProps> = ({
           <motion.div
             ref={trapRef}
             className={`
-              relative bg-slate-800 rounded-2xl p-4 md:p-6 lg:p-8 shadow-2xl
+              relative rounded-2xl p-4 md:p-6 lg:p-8 shadow-2xl
               w-full ${sizeStyles[size]}
-              border border-slate-700
               max-h-[90vh] overflow-y-auto scrollbar-dark
+              ${
+                variant === 'glassmorphism'
+                  ? 'glass-modal'
+                  : 'bg-neutral-800 border border-neutral-700'
+              }
             `}
             variants={modalVariants as any}
             initial="hidden"
@@ -166,9 +172,9 @@ export const Modal: React.FC<ModalProps> = ({
                     className="
                       ml-auto p-2 rounded-lg
                       text-text-tertiary hover:text-text-primary
-                      hover:bg-slate-700
+                      hover:bg-neutral-700
                       transition-colors duration-200
-                      focus:outline-none focus:ring-2 focus:ring-blue-500
+                      focus:outline-none focus:ring-2 focus:ring-primary-500
                     "
                     aria-label="Close modal"
                   >
@@ -205,7 +211,7 @@ export interface ModalFooterProps {
 export const ModalFooter: React.FC<ModalFooterProps> = ({ children, className = '' }) => {
   return (
     <div
-      className={`mt-6 pt-6 border-t border-slate-700 flex items-center justify-end gap-3 ${className}`}
+      className={`mt-6 pt-6 border-t border-neutral-700 flex items-center justify-end gap-3 ${className}`}
     >
       {children}
     </div>

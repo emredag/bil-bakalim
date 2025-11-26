@@ -108,7 +108,7 @@ export function GameModeSelectionScreen() {
   }
 
   return (
-    <div className="h-screen overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+    <div className="h-screen overflow-hidden bg-gradient-to-br from-neutral-950 via-neutral-900 to-neutral-950">
       <div className="safe-container max-w-[1600px] mx-auto h-full flex flex-col py-6 md:py-8">
         {/* Header */}
         <header className="space-y-6 md:space-y-8 mb-8 md:mb-12">
@@ -118,25 +118,25 @@ export function GameModeSelectionScreen() {
               <Button
                 variant="secondary"
                 onClick={handleBack}
-                className="flex items-center gap-2"
+                icon={<ArrowLeft className="w-5 h-5" />}
                 aria-label="Kategori seçimine dön"
               >
-                <ArrowLeft className="w-5 h-5" />
                 <span className="hidden md:inline">Geri</span>
               </Button>
               <div>
-                <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white">
+                <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-neutral-50 tracking-tight">
                   Oyun Modu Seçin
                 </h1>
-                <p className="text-lg md:text-xl text-slate-400 mt-2">
-                  {selectedCategory.emoji} {selectedCategory.name}
+                <p className="text-lg md:text-xl text-neutral-400 mt-2 flex items-center gap-2">
+                  <span className="text-2xl">{selectedCategory.emoji}</span>
+                  <span className="font-medium">{selectedCategory.name}</span>
                 </p>
               </div>
             </div>
           </div>
 
           {/* Info Text */}
-          <p className="text-base md:text-lg text-slate-300 max-w-3xl">
+          <p className="text-base md:text-lg text-neutral-300 max-w-3xl leading-relaxed">
             Oyun modunu seçin. Her mod için minimum kelime sayısı gereklidir. Yetersiz kelimeleri
             olan modlar devre dışı bırakılmıştır.
           </p>
@@ -165,12 +165,12 @@ export function GameModeSelectionScreen() {
         </main>
 
         {/* Footer - Navigation Help */}
-        <footer className="mt-8 md:mt-12 pt-6 border-t border-slate-700">
-          <div className="flex items-center justify-between text-sm text-slate-400">
+        <footer className="mt-8 md:mt-12 pt-6 border-t border-neutral-700/50">
+          <div className="flex items-center justify-between text-sm text-neutral-400">
             <p>Bir mod seçin veya geri dönün</p>
             <p className="hidden md:block">
-              Klavye: <kbd className="px-2 py-1 bg-slate-800 rounded">Tab</kbd> ile gezin,
-              <kbd className="px-2 py-1 bg-slate-800 rounded ml-2">Enter</kbd> ile seçin
+              Klavye: <kbd className="px-2 py-1 bg-neutral-800 rounded border border-neutral-700 text-neutral-300">Tab</kbd> ile gezin,
+              <kbd className="px-2 py-1 bg-neutral-800 rounded border border-neutral-700 text-neutral-300 ml-2">Enter</kbd> ile seçin
             </p>
           </div>
         </footer>

@@ -167,7 +167,7 @@ export const SettingsScreen: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-4 md:p-6 lg:p-8">
+    <div className="min-h-screen bg-gradient-to-br bg-neutral-950 p-4 md:p-6 lg:p-8">
       <div className="max-w-4xl mx-auto space-y-6">
         {/* Header */}
         <div className="flex items-center gap-4">
@@ -180,7 +180,7 @@ export const SettingsScreen: React.FC = () => {
           >
             Geri
           </Button>
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-100">⚙️ Ayarlar</h1>
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-neutral-100">⚙️ Ayarlar</h1>
         </div>
 
         {/* General Settings */}
@@ -200,7 +200,7 @@ export const SettingsScreen: React.FC = () => {
             {/* Volume Slider */}
             {soundEnabled && (
               <div className="space-y-3">
-                <label className="flex items-center gap-2 text-base md:text-lg font-semibold text-slate-100">
+                <label className="flex items-center gap-2 text-base md:text-lg font-semibold text-neutral-100">
                   {effectsVolume > 0 ? (
                     <Volume2 className="w-5 h-5" />
                   ) : (
@@ -214,17 +214,17 @@ export const SettingsScreen: React.FC = () => {
                   max="100"
                   value={effectsVolume}
                   onChange={handleVolumeChange}
-                  className="w-full h-3 bg-slate-700 rounded-lg appearance-none cursor-pointer
+                  className="w-full h-3 bg-neutral-700 rounded-lg appearance-none cursor-pointer
                     [&::-webkit-slider-thumb]:appearance-none
                     [&::-webkit-slider-thumb]:w-6
                     [&::-webkit-slider-thumb]:h-6
                     [&::-webkit-slider-thumb]:rounded-full
-                    [&::-webkit-slider-thumb]:bg-blue-600
+                    [&::-webkit-slider-thumb]:bg-primary-600
                     [&::-webkit-slider-thumb]:cursor-pointer
                     [&::-moz-range-thumb]:w-6
                     [&::-moz-range-thumb]:h-6
                     [&::-moz-range-thumb]:rounded-full
-                    [&::-moz-range-thumb]:bg-blue-600
+                    [&::-moz-range-thumb]:bg-primary-600
                     [&::-moz-range-thumb]:border-0
                     [&::-moz-range-thumb]:cursor-pointer"
                 />
@@ -233,11 +233,11 @@ export const SettingsScreen: React.FC = () => {
 
             {/* Language (static) */}
             <div className="space-y-2">
-              <label className="block text-base md:text-lg font-semibold text-slate-100">Dil</label>
-              <div className="px-4 py-3 bg-slate-700/50 border-2 border-slate-600 rounded-lg text-slate-300">
+              <label className="block text-base md:text-lg font-semibold text-neutral-100">Dil</label>
+              <div className="px-4 py-3 bg-neutral-700/50 border-2 border-neutral-600 rounded-lg text-neutral-300">
                 🇹🇷 Türkçe
               </div>
-              <p className="text-sm text-slate-400">Şu anda sadece Türkçe dil desteği mevcuttur</p>
+              <p className="text-sm text-neutral-400">Şu anda sadece Türkçe dil desteği mevcuttur</p>
             </div>
           </CardContent>
         </Card>
@@ -250,26 +250,26 @@ export const SettingsScreen: React.FC = () => {
           <CardContent className="space-y-6">
             {/* Default Time (read-only) */}
             <div className="space-y-2">
-              <label className="flex items-center gap-2 text-base md:text-lg font-semibold text-slate-100">
+              <label className="flex items-center gap-2 text-base md:text-lg font-semibold text-neutral-100">
                 <Clock className="w-5 h-5" />
                 Varsayılan Süre
               </label>
-              <div className="px-4 py-3 bg-slate-700/50 border-2 border-slate-600 rounded-lg text-slate-300">
+              <div className="px-4 py-3 bg-neutral-700/50 border-2 border-neutral-600 rounded-lg text-neutral-300">
                 5 dakika (300 saniye)
               </div>
-              <p className="text-sm text-slate-400">Oyun kuralları gereği değiştirilemez</p>
+              <p className="text-sm text-neutral-400">Oyun kuralları gereği değiştirilemez</p>
             </div>
 
             {/* Default Guesses (read-only) */}
             <div className="space-y-2">
-              <label className="flex items-center gap-2 text-base md:text-lg font-semibold text-slate-100">
+              <label className="flex items-center gap-2 text-base md:text-lg font-semibold text-neutral-100">
                 <Target className="w-5 h-5" />
                 Varsayılan Tahmin Hakkı
               </label>
-              <div className="px-4 py-3 bg-slate-700/50 border-2 border-slate-600 rounded-lg text-slate-300">
+              <div className="px-4 py-3 bg-neutral-700/50 border-2 border-neutral-600 rounded-lg text-neutral-300">
                 3 tahmin hakkı
               </div>
-              <p className="text-sm text-slate-400">Oyun kuralları gereği değiştirilemez</p>
+              <p className="text-sm text-neutral-400">Oyun kuralları gereği değiştirilemez</p>
             </div>
 
             {/* Animation Speed */}
@@ -299,9 +299,9 @@ export const SettingsScreen: React.FC = () => {
           </CardHeader>
           <CardContent className="space-y-6">
             {/* Database Size */}
-            <div className="flex items-center justify-between p-4 bg-slate-700/30 rounded-lg">
-              <span className="text-slate-300">Veritabanı Boyutu:</span>
-              <span className="text-slate-100 font-semibold">{formatBytes(dbSize)}</span>
+            <div className="flex items-center justify-between p-4 bg-neutral-700/30 rounded-lg">
+              <span className="text-neutral-300">Veritabanı Boyutu:</span>
+              <span className="text-neutral-100 font-semibold">{formatBytes(dbSize)}</span>
             </div>
 
             {/* Backup Button */}
@@ -337,7 +337,7 @@ export const SettingsScreen: React.FC = () => {
               Tüm Verileri Sıfırla
             </Button>
 
-            <p className="text-sm text-slate-400">
+            <p className="text-sm text-neutral-400">
               ⚠️ Sıfırlama işlemi geri alınamaz. Yedek almayı unutmayın!
             </p>
           </CardContent>
@@ -355,13 +355,13 @@ export const SettingsScreen: React.FC = () => {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <h3 className="text-xl font-bold text-slate-100">Kelime Oyunu</h3>
-              <p className="text-slate-300">Versiyon: 1.0.0</p>
+              <h3 className="text-xl font-bold text-neutral-100">Kelime Oyunu</h3>
+              <p className="text-neutral-300">Versiyon: 1.0.0</p>
             </div>
 
             <div className="space-y-2">
-              <h4 className="text-lg font-semibold text-slate-100">Açık Kaynak</h4>
-              <p className="text-sm text-slate-400">
+              <h4 className="text-lg font-semibold text-neutral-100">Açık Kaynak</h4>
+              <p className="text-sm text-neutral-400">
                 Bu proje MIT lisansı altında açık kaynak olarak geliştirilmiştir.
               </p>
             </div>
@@ -386,8 +386,8 @@ export const SettingsScreen: React.FC = () => {
               </Button>
             </div>
 
-            <div className="mt-4 p-4 bg-slate-700/30 rounded-lg">
-              <p className="text-sm text-slate-400 text-center">
+            <div className="mt-4 p-4 bg-neutral-700/30 rounded-lg">
+              <p className="text-sm text-neutral-400 text-center">
                 Tauri + React + TypeScript ile geliştirilmiştir
               </p>
             </div>
@@ -403,17 +403,17 @@ export const SettingsScreen: React.FC = () => {
         size="md"
       >
         <div className="space-y-4">
-          <p className="text-slate-300">
-            Bu işlem <strong className="text-red-400">tüm verilerinizi</strong> silecektir:
+          <p className="text-neutral-300">
+            Bu işlem <strong className="text-error-400">tüm verilerinizi</strong> silecektir:
           </p>
-          <ul className="list-disc list-inside space-y-2 text-slate-300 ml-4">
+          <ul className="list-disc list-inside space-y-2 text-neutral-300 ml-4">
             <li>Tüm kategoriler (varsayılan kategori hariç)</li>
             <li>Tüm kelimeler</li>
             <li>Tüm oyun geçmişi</li>
             <li>Ayarlar varsayılana döner</li>
           </ul>
-          <p className="text-red-400 font-semibold">⚠️ Bu işlem geri alınamaz!</p>
-          <p className="text-slate-400">Devam etmek istediğinizden emin misiniz?</p>
+          <p className="text-error-400 font-semibold">⚠️ Bu işlem geri alınamaz!</p>
+          <p className="text-neutral-400">Devam etmek istediğinizden emin misiniz?</p>
 
           <div className="flex gap-3 pt-4">
             <Button

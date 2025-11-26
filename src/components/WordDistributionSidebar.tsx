@@ -45,7 +45,7 @@ export function WordDistributionSidebar({ validation }: WordDistributionSidebarP
       transition={{ delay: 0.2 }}
       className="
         w-full lg:w-80 xl:w-96
-        bg-slate-800 border-t lg:border-t-0 lg:border-l border-slate-700
+        bg-neutral-800 border-t lg:border-t-0 lg:border-l border-neutral-700
         p-4 md:p-6
         overflow-y-auto
       "
@@ -54,7 +54,7 @@ export function WordDistributionSidebar({ validation }: WordDistributionSidebarP
       {/* Header */}
       <div className="mb-6">
         <h2 className="text-xl md:text-2xl font-bold text-white mb-2">Dağılım Kontrolü</h2>
-        <p className="text-sm text-slate-400">Her harf uzunluğu için kelime sayısı</p>
+        <p className="text-sm text-neutral-400">Her harf uzunluğu için kelime sayısı</p>
       </div>
 
       {/* Word Distribution List */}
@@ -74,10 +74,10 @@ export function WordDistributionSidebar({ validation }: WordDistributionSidebarP
                 p-3 rounded-lg border-2
                 ${
                   isMinimumMet
-                    ? 'bg-green-500/10 border-green-500/30'
+                    ? 'bg-success-500/10 border-success-500/30'
                     : count > 0
-                      ? 'bg-amber-500/10 border-amber-500/30'
-                      : 'bg-red-500/10 border-red-500/30'
+                      ? 'bg-warning-500/10 border-warning-500/30'
+                      : 'bg-error-500/10 border-error-500/30'
                 }
               `}
             >
@@ -91,10 +91,10 @@ export function WordDistributionSidebar({ validation }: WordDistributionSidebarP
                     text-xl md:text-2xl font-bold
                     ${
                       isMinimumMet
-                        ? 'text-green-400'
+                        ? 'text-success-400'
                         : count > 0
-                          ? 'text-amber-400'
-                          : 'text-red-400'
+                          ? 'text-warning-400'
+                          : 'text-error-400'
                     }
                   `}
                 >
@@ -105,11 +105,11 @@ export function WordDistributionSidebar({ validation }: WordDistributionSidebarP
               {/* Status icon */}
               <div>
                 {isMinimumMet ? (
-                  <CheckCircle className="w-6 h-6 text-green-400" aria-label="Yeterli" />
+                  <CheckCircle className="w-6 h-6 text-success-400" aria-label="Yeterli" />
                 ) : count > 0 ? (
-                  <AlertTriangle className="w-6 h-6 text-amber-400" aria-label="Yetersiz" />
+                  <AlertTriangle className="w-6 h-6 text-warning-400" aria-label="Yetersiz" />
                 ) : (
-                  <XCircle className="w-6 h-6 text-red-400" aria-label="Kelime yok" />
+                  <XCircle className="w-6 h-6 text-error-400" aria-label="Kelime yok" />
                 )}
               </div>
             </motion.div>
@@ -118,9 +118,9 @@ export function WordDistributionSidebar({ validation }: WordDistributionSidebarP
       </div>
 
       {/* Total Word Count */}
-      <Card className="mb-6 bg-slate-700/50">
+      <Card className="mb-6 bg-neutral-700/50">
         <div className="text-center p-4">
-          <p className="text-sm text-slate-400 mb-1">Toplam Kelime</p>
+          <p className="text-sm text-neutral-400 mb-1">Toplam Kelime</p>
           <p className="text-4xl font-bold text-white">{validation.total_words}</p>
         </div>
       </Card>
@@ -138,46 +138,46 @@ export function WordDistributionSidebar({ validation }: WordDistributionSidebarP
             p-6 rounded-xl text-center border-2
             ${
               validation.is_valid
-                ? 'bg-green-500/20 border-green-500/50'
-                : 'bg-red-500/20 border-red-500/50'
+                ? 'bg-success-500/20 border-success-500/50'
+                : 'bg-error-500/20 border-error-500/50'
             }
           `}
         >
           <div className="flex items-center justify-center gap-3 mb-3">
             {validation.is_valid ? (
-              <CheckCircle className="w-8 h-8 text-green-400" />
+              <CheckCircle className="w-8 h-8 text-success-400" />
             ) : (
-              <XCircle className="w-8 h-8 text-red-400" />
+              <XCircle className="w-8 h-8 text-error-400" />
             )}
             <h3
               className={`
                 text-xl md:text-2xl font-bold
-                ${validation.is_valid ? 'text-green-400' : 'text-red-400'}
+                ${validation.is_valid ? 'text-success-400' : 'text-error-400'}
               `}
             >
               {validation.is_valid ? 'Oynanabilir' : 'Yetersiz'}
             </h3>
           </div>
-          <p className="text-sm text-slate-300">{validation.message}</p>
+          <p className="text-sm text-neutral-300">{validation.message}</p>
         </div>
 
         {/* Playability details */}
         {validation.is_valid && (
           <div className="space-y-2 text-sm">
-            <div className="flex justify-between items-center p-2 bg-slate-700/30 rounded">
-              <span className="text-slate-400">Maksimum Oyuncu (Tek):</span>
+            <div className="flex justify-between items-center p-2 bg-neutral-700/30 rounded">
+              <span className="text-neutral-400">Maksimum Oyuncu (Tek):</span>
               <Badge variant="info" size="sm">
                 {validation.max_players_single}
               </Badge>
             </div>
-            <div className="flex justify-between items-center p-2 bg-slate-700/30 rounded">
-              <span className="text-slate-400">Maksimum Oyuncu (Çoklu):</span>
+            <div className="flex justify-between items-center p-2 bg-neutral-700/30 rounded">
+              <span className="text-neutral-400">Maksimum Oyuncu (Çoklu):</span>
               <Badge variant="info" size="sm">
                 {validation.max_players_multi}
               </Badge>
             </div>
-            <div className="flex justify-between items-center p-2 bg-slate-700/30 rounded">
-              <span className="text-slate-400">Maksimum Takım:</span>
+            <div className="flex justify-between items-center p-2 bg-neutral-700/30 rounded">
+              <span className="text-neutral-400">Maksimum Takım:</span>
               <Badge variant="info" size="sm">
                 {validation.max_teams}
               </Badge>
@@ -187,9 +187,9 @@ export function WordDistributionSidebar({ validation }: WordDistributionSidebarP
       </motion.div>
 
       {/* Help text */}
-      <div className="mt-6 p-4 bg-slate-700/30 rounded-lg">
-        <p className="text-xs text-slate-400 leading-relaxed">
-          <strong className="text-slate-300">Not:</strong> Oynanabilir bir kategori için her harf
+      <div className="mt-6 p-4 bg-neutral-700/30 rounded-lg">
+        <p className="text-xs text-neutral-400 leading-relaxed">
+          <strong className="text-neutral-300">Not:</strong> Oynanabilir bir kategori için her harf
           uzunluğundan (4-10) en az 2'şer kelime gereklidir. Çoklu yarışmacı modları için daha fazla
           kelimeye ihtiyaç vardır.
         </p>

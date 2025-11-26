@@ -110,13 +110,13 @@ export default function WordResultsGrid({ words }: WordResultsGridProps) {
           return (
             <motion.button
               key={index}
-              className={`${borderColor} ${bgColor} ${opacity} group relative rounded-xl border-2 p-4 text-center transition-all hover:scale-105 hover:border-opacity-100 hover:bg-opacity-20`}
+              className={`${borderColor} ${bgColor} ${opacity} group relative rounded-xl border-2 p-4 text-center transition-all hover:border-opacity-100 hover:bg-opacity-20`}
               onClick={() => setSelectedWord(word)}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              initial={{ opacity: 0, y: 20 }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.05 }}
+              transition={{ delay: index * 0.03, duration: 0.2 }}
             >
               {/* Result Icon */}
               <div className="mb-2 text-2xl">{statusIcon}</div>

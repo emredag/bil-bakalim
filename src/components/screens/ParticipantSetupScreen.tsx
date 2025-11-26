@@ -241,10 +241,13 @@ export function ParticipantSetupScreen() {
   };
 
   return (
-    <div className="h-screen overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-      <div className="safe-container max-w-[1400px] mx-auto h-full flex flex-col py-6 md:py-8">
+    <div className="relative h-screen overflow-hidden bg-gradient-to-br from-neutral-950 via-neutral-900 to-neutral-950">
+      {/* Mesh Gradient Overlay */}
+      <div className="absolute inset-0 hero-mesh-overlay opacity-20 pointer-events-none" />
+
+      <div className="relative safe-container max-w-[1400px] mx-auto h-full flex flex-col py-6 md:py-8 z-10">
         {/* Header */}
-        <header className="space-y-6 md:space-y-8 mb-8 md:mb-12">
+        <header className="space-y-4 md:space-y-6 mb-6 md:mb-8">
           {/* Title Row */}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
@@ -261,15 +264,18 @@ export function ParticipantSetupScreen() {
                 <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white">
                   Yarışmacı Ayarları
                 </h1>
-                <p className="text-lg md:text-xl text-slate-400 mt-2">
-                  {selectedCategory.emoji} {selectedCategory.name} • {modeTitles[selectedMode]}
+                <p className="text-lg md:text-xl text-neutral-400 mt-2 flex items-center gap-2">
+                  <span className="text-2xl">{selectedCategory.emoji}</span>
+                  <span>{selectedCategory.name}</span>
+                  <span className="text-neutral-600">•</span>
+                  <span>{modeTitles[selectedMode]}</span>
                 </p>
               </div>
             </div>
           </div>
 
           {/* Info Text */}
-          <p className="text-base md:text-lg text-slate-300 max-w-3xl">
+          <p className="text-base md:text-lg text-neutral-300 max-w-3xl leading-relaxed">
             Yarışmacı bilgilerini girin. Tüm bilgiler doğru girildikten sonra oyunu
             başlatabilirsiniz.
           </p>
@@ -330,17 +336,23 @@ export function ParticipantSetupScreen() {
 
               {/* Error Messages */}
               {validation && validation.errors.length > 0 && (
-                <div className="bg-red-500/20 border-2 border-red-500/40 rounded-xl p-4">
-                  <h4 className="text-red-300 font-semibold mb-2">Düzeltilmesi Gerekenler:</h4>
-                  <ul className="space-y-1 text-sm text-red-200">
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="bg-error-500/15 border-2 border-error-500/30 rounded-xl p-5 backdrop-blur-sm"
+                >
+                  <h4 className="text-error-300 font-semibold mb-3 text-base">
+                    Düzeltilmesi Gerekenler:
+                  </h4>
+                  <ul className="space-y-2 text-sm text-error-200">
                     {validation.errors.map((error, index) => (
                       <li key={index} className="flex items-start gap-2">
-                        <span className="text-red-400">•</span>
-                        <span>{error}</span>
+                        <span className="text-error-400 mt-0.5">•</span>
+                        <span className="leading-relaxed">{error}</span>
                       </li>
                     ))}
                   </ul>
-                </div>
+                </motion.div>
               )}
 
               {/* Start Button */}
@@ -348,7 +360,7 @@ export function ParticipantSetupScreen() {
                 variant="primary"
                 onClick={handleStartGame}
                 disabled={!isValid}
-                className="w-full flex items-center justify-center gap-3 !py-4 text-lg font-bold"
+                className="w-full flex items-center justify-center gap-3 !py-4 text-lg font-bold shadow-lg hover:shadow-xl transition-shadow"
                 aria-label="Oyunu başlat"
               >
                 <Play className="w-6 h-6" />
@@ -357,7 +369,7 @@ export function ParticipantSetupScreen() {
 
               {/* Help Text */}
               {!isValid && (
-                <p className="text-sm text-slate-400 text-center">
+                <p className="text-sm text-neutral-400 text-center leading-relaxed">
                   Oyunu başlatmak için tüm bilgileri eksiksiz doldurun
                 </p>
               )}
@@ -366,11 +378,11 @@ export function ParticipantSetupScreen() {
         </main>
 
         {/* Footer */}
-        <footer className="mt-8 md:mt-12 pt-6 border-t border-slate-700">
-          <div className="flex items-center justify-between text-sm text-slate-400">
+        <footer className="mt-6 md:mt-8 pt-6 border-t border-white/10">
+          <div className="flex items-center justify-between text-sm text-neutral-400">
             <p>Bilgileri girin veya geri dönün</p>
             <p className="hidden md:block">
-              Klavye: <kbd className="px-2 py-1 bg-slate-800 rounded">Tab</kbd> ile gezin
+              Klavye: <kbd className="px-2 py-1 bg-neutral-800/50 rounded border border-neutral-700">Tab</kbd> ile gezin
             </p>
           </div>
         </footer>

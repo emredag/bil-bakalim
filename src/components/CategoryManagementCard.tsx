@@ -55,8 +55,8 @@ export function CategoryManagementCard({
           className="text-5xl md:text-6xl lg:text-7xl text-center"
           aria-hidden="true"
           initial={{ scale: 1 }}
-          whileHover={{ scale: 1.1, rotate: 5 }}
-          transition={{ duration: 0.2 }}
+          whileHover={{ scale: 1.03, rotate: 2 }}
+          transition={{ duration: 0.2, ease: 'easeOut' }}
         >
           {category.emoji}
         </motion.div>
@@ -67,7 +67,7 @@ export function CategoryManagementCard({
             {category.name}
           </h3>
           {isDefault && (
-            <span className="inline-block mt-2 px-3 py-1 bg-amber-500/20 text-amber-400 text-xs md:text-sm font-semibold rounded-full">
+            <span className="inline-block mt-2 px-3 py-1 bg-warning-500/20 text-warning-400 text-xs md:text-sm font-semibold rounded-full">
               Varsayılan Kategori
             </span>
           )}
@@ -75,13 +75,13 @@ export function CategoryManagementCard({
 
         {/* Description */}
         {category.description && (
-          <p className="text-sm md:text-base text-slate-400 text-center line-clamp-2 px-2">
+          <p className="text-sm md:text-base text-neutral-400 text-center line-clamp-2 px-2">
             {category.description}
           </p>
         )}
 
         {/* Word Count */}
-        <p className="text-base md:text-lg text-slate-300 font-medium text-center">
+        <p className="text-base md:text-lg text-neutral-300 font-medium text-center">
           {validation.total_words} kelime
         </p>
 

@@ -142,19 +142,19 @@ export function GameHistoryDetailScreen() {
     switch (result) {
       case 'found':
         return (
-          <span className="px-2 py-1 bg-green-600/30 text-green-300 rounded text-xs font-medium">
+          <span className="px-2 py-1 bg-success-600/30 text-success-300 rounded text-xs font-medium">
             ✓ Buldu
           </span>
         );
       case 'skipped':
         return (
-          <span className="px-2 py-1 bg-orange-600/30 text-orange-300 rounded text-xs font-medium">
+          <span className="px-2 py-1 bg-warning-600/30 text-warning-300 rounded text-xs font-medium">
             → Geçti
           </span>
         );
       default:
         return (
-          <span className="px-2 py-1 bg-red-600/30 text-red-300 rounded text-xs font-medium">
+          <span className="px-2 py-1 bg-error-600/30 text-error-300 rounded text-xs font-medium">
             ⏱ Süre Doldu
           </span>
         );
@@ -181,9 +181,9 @@ export function GameHistoryDetailScreen() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900 flex items-center justify-center p-4">
         <Card className="p-8">
-          <p className="text-slate-400">Yükleniyor...</p>
+          <p className="text-neutral-400">Yükleniyor...</p>
         </Card>
       </div>
     );
@@ -191,9 +191,9 @@ export function GameHistoryDetailScreen() {
 
   if (error || !game) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900 flex items-center justify-center p-4">
         <Card className="p-8 text-center">
-          <p className="text-red-400 mb-4">{error || 'Oyun bulunamadı'}</p>
+          <p className="text-error-400 mb-4">{error || 'Oyun bulunamadı'}</p>
           <Button variant="primary" onClick={() => navigate(ROUTES.HISTORY)}>
             <ArrowLeft className="w-5 h-5 mr-2" />
             Geri
@@ -208,7 +208,7 @@ export function GameHistoryDetailScreen() {
       variants={fadeVariant}
       initial="initial"
       animate="animate"
-      className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-4 md:p-8"
+      className="min-h-screen bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900 p-4 md:p-8"
     >
       <div className="max-w-6xl mx-auto space-y-6">
         {/* Header */}
@@ -225,22 +225,22 @@ export function GameHistoryDetailScreen() {
         <Card className="p-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <div className="flex items-center gap-3">
-              <Calendar className="w-6 h-6 text-blue-400" />
+              <Calendar className="w-6 h-6 text-info-400" />
               <div>
-                <p className="text-xs text-slate-400">Tarih</p>
+                <p className="text-xs text-neutral-400">Tarih</p>
                 <p className="text-sm font-semibold text-white">{formatDate(game.played_at)}</p>
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <Trophy className="w-6 h-6 text-amber-400" />
+              <Trophy className="w-6 h-6 text-accent-400" />
               <div>
-                <p className="text-xs text-slate-400">Kategori</p>
+                <p className="text-xs text-neutral-400">Kategori</p>
                 <p className="text-sm font-semibold text-white">{game.category_name}</p>
               </div>
             </div>
             <div className="flex items-center gap-3">
               <svg
-                className="w-6 h-6 text-purple-400"
+                className="w-6 h-6 text-secondary-400"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -253,14 +253,14 @@ export function GameHistoryDetailScreen() {
                 />
               </svg>
               <div>
-                <p className="text-xs text-slate-400">Mod</p>
+                <p className="text-xs text-neutral-400">Mod</p>
                 <p className="text-sm font-semibold text-white">{formatGameMode(game.game_mode)}</p>
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <Clock className="w-6 h-6 text-green-400" />
+              <Clock className="w-6 h-6 text-success-400" />
               <div>
-                <p className="text-xs text-slate-400">Süre</p>
+                <p className="text-xs text-neutral-400">Süre</p>
                 <p className="text-sm font-semibold text-white">
                   {formatPlayTime(game.total_time_seconds || 0)}
                 </p>
@@ -275,22 +275,22 @@ export function GameHistoryDetailScreen() {
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-slate-700">
-                  <th className="text-left py-3 px-4 text-sm font-semibold text-slate-400">Sıra</th>
-                  <th className="text-left py-3 px-4 text-sm font-semibold text-slate-400">İsim</th>
-                  <th className="text-center py-3 px-4 text-sm font-semibold text-slate-400">
+                <tr className="border-b border-neutral-700">
+                  <th className="text-left py-3 px-4 text-sm font-semibold text-neutral-400">Sıra</th>
+                  <th className="text-left py-3 px-4 text-sm font-semibold text-neutral-400">İsim</th>
+                  <th className="text-center py-3 px-4 text-sm font-semibold text-neutral-400">
                     Puan
                   </th>
-                  <th className="text-center py-3 px-4 text-sm font-semibold text-slate-400">
+                  <th className="text-center py-3 px-4 text-sm font-semibold text-neutral-400">
                     Bulunan
                   </th>
-                  <th className="text-center py-3 px-4 text-sm font-semibold text-slate-400">
+                  <th className="text-center py-3 px-4 text-sm font-semibold text-neutral-400">
                     Pas
                   </th>
-                  <th className="text-center py-3 px-4 text-sm font-semibold text-slate-400">
+                  <th className="text-center py-3 px-4 text-sm font-semibold text-neutral-400">
                     Harf
                   </th>
-                  <th className="text-right py-3 px-4 text-sm font-semibold text-slate-400">
+                  <th className="text-right py-3 px-4 text-sm font-semibold text-neutral-400">
                     Detay
                   </th>
                 </tr>
@@ -302,7 +302,7 @@ export function GameHistoryDetailScreen() {
 
                   return (
                     <React.Fragment key={participant.id}>
-                      <tr className="border-b border-slate-700/50 hover:bg-slate-800/50 transition-colors">
+                      <tr className="border-b border-neutral-700/50 hover:bg-neutral-800/50 transition-colors">
                         <td className="py-4 px-4">
                           <div className="flex items-center gap-2">
                             <span className="text-lg">{getMedal(participant.rank)}</span>
@@ -315,29 +315,29 @@ export function GameHistoryDetailScreen() {
                           </span>
                         </td>
                         <td className="py-4 px-4 text-center">
-                          <span className="text-amber-400 font-bold text-lg">
+                          <span className="text-accent-400 font-bold text-lg">
                             {participant.score}
                           </span>
                         </td>
                         <td className="py-4 px-4 text-center">
-                          <span className="text-green-400 font-semibold">
+                          <span className="text-success-400 font-semibold">
                             {participant.words_found}/14
                           </span>
                         </td>
                         <td className="py-4 px-4 text-center">
-                          <span className="text-orange-400 font-semibold">
+                          <span className="text-warning-400 font-semibold">
                             {participant.words_skipped}
                           </span>
                         </td>
                         <td className="py-4 px-4 text-center">
-                          <span className="text-blue-400 font-semibold">
+                          <span className="text-info-400 font-semibold">
                             {participant.letters_revealed}
                           </span>
                         </td>
                         <td className="py-4 px-4 text-right">
                           <button
                             onClick={() => toggleParticipant(participant.id)}
-                            className="text-blue-400 hover:text-blue-300 transition-colors"
+                            className="text-info-400 hover:text-info-300 transition-colors"
                           >
                             <motion.div
                               animate={{ rotate: isExpanded ? 180 : 0 }}
@@ -352,7 +352,7 @@ export function GameHistoryDetailScreen() {
                       {/* Expanded Word Results */}
                       {isExpanded && wordResults.length > 0 && (
                         <tr>
-                          <td colSpan={7} className="py-4 px-4 bg-slate-800/30">
+                          <td colSpan={7} className="py-4 px-4 bg-neutral-800/30">
                             <motion.div
                               initial={{ height: 0, opacity: 0 }}
                               animate={{ height: 'auto', opacity: 1 }}
@@ -360,41 +360,41 @@ export function GameHistoryDetailScreen() {
                               transition={{ duration: 0.2 }}
                               className="space-y-2"
                             >
-                              <h4 className="text-sm font-semibold text-slate-300 mb-3">
+                              <h4 className="text-sm font-semibold text-neutral-300 mb-3">
                                 Kelime Detayları ({wordResults.length} kelime)
                               </h4>
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                                 {wordResults.map((word, idx) => (
                                   <div
                                     key={idx}
-                                    className="p-3 bg-slate-900/50 rounded-lg border border-slate-700"
+                                    className="p-3 bg-neutral-900/50 rounded-lg border border-neutral-700"
                                   >
                                     <div className="flex items-start justify-between mb-2">
                                       <div>
                                         <span className="text-white font-semibold">
                                           {word.word}
                                         </span>
-                                        <span className="text-slate-400 text-sm ml-2">
+                                        <span className="text-neutral-400 text-sm ml-2">
                                           ({word.word.length} harf)
                                         </span>
                                       </div>
                                       {getResultBadge(word.result)}
                                     </div>
                                     {word.word_hint && (
-                                      <p className="text-slate-400 text-sm mb-2">
+                                      <p className="text-neutral-400 text-sm mb-2">
                                         💡 {word.word_hint}
                                       </p>
                                     )}
                                     <div className="flex items-center gap-4 text-xs">
-                                      <span className="text-slate-400">
+                                      <span className="text-neutral-400">
                                         Puan:{' '}
-                                        <span className="text-amber-400 font-semibold">
+                                        <span className="text-accent-400 font-semibold">
                                           {word.points_earned}
                                         </span>
                                       </span>
-                                      <span className="text-slate-400">
+                                      <span className="text-neutral-400">
                                         Harf:{' '}
-                                        <span className="text-blue-400 font-semibold">
+                                        <span className="text-info-400 font-semibold">
                                           {word.letters_used}
                                         </span>
                                       </span>

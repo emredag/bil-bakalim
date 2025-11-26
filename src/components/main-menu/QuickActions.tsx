@@ -20,24 +20,23 @@ const actionsContainerVariants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.08,
-      delayChildren: 0.5,
+      staggerChildren: 0.04,
+      delayChildren: 0.15,
     },
   },
 };
 
 /**
- * Individual action card animation
+ * Individual action card animation - subtle fade + rise
  */
 const actionCardVariants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 8 },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      type: 'spring' as const,
-      stiffness: 300,
-      damping: 30,
+      duration: 0.25,
+      ease: [0.25, 0.1, 0.25, 1],
     },
   },
 };
@@ -113,16 +112,14 @@ interface ActionCardProps {
 function ActionCard({ icon: Icon, title, description, onClick, variants }: ActionCardProps) {
   return (
     <motion.button
-      className="glass-card-subtle rounded-xl p-5 flex flex-col items-center text-center gap-3 min-h-[140px] cursor-pointer transition-all duration-200 hover:bg-neutral-700/60 hover:border-neutral-600/50 hover:-translate-y-1 hover:shadow-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950"
+      className="glass-card-subtle rounded-xl p-5 flex flex-col items-center text-center gap-3 min-h-[140px] cursor-pointer transition-all duration-200 hover:bg-neutral-700/60 hover:border-neutral-600/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950"
       variants={variants}
       onClick={onClick}
-      whileHover={{ scale: 1.03 }}
-      whileTap={{ scale: 0.98 }}
     >
       {/* Icon */}
       <Icon
         size={32}
-        className="text-primary-400 opacity-80 transition-all duration-200 group-hover:opacity-100 group-hover:scale-110"
+        className="text-primary-400 opacity-80 transition-all duration-200"
       />
 
       {/* Title */}

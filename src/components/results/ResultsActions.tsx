@@ -32,14 +32,13 @@ const actionsContainerVariants = {
  * Individual action card animation
  */
 const actionCardVariants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 10 },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      type: 'spring' as const,
-      stiffness: 300,
-      damping: 30,
+      duration: 0.25,
+      ease: [0.25, 0.1, 0.25, 1],
     },
   },
 };
@@ -128,14 +127,11 @@ function ActionCard({
             ? 'border-primary-500/50 bg-gradient-to-br from-primary-900/30 to-primary-800/20 hover:from-primary-800/40 hover:to-primary-700/30'
             : 'hover:bg-neutral-700/60 hover:border-neutral-600/50'
         }
-        hover:-translate-y-1 hover:shadow-2xl
         focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500
         focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950
       `}
       variants={variants}
       onClick={onClick}
-      whileHover={{ scale: 1.03 }}
-      whileTap={{ scale: 0.98 }}
     >
       {/* Icon */}
       <Icon

@@ -44,10 +44,10 @@ export const PauseOverlay: React.FC<PauseOverlayProps> = ({ onResume, onHome }) 
       aria-modal="true"
       aria-labelledby="pause-title"
     >
-      <div className="bg-slate-800 rounded-2xl p-8 md:p-12 shadow-2xl border-2 border-slate-700 max-w-md mx-4">
+      <div className="bg-neutral-800 rounded-2xl p-8 md:p-12 shadow-2xl border-2 border-neutral-700 max-w-md mx-4">
         <h2
           id="pause-title"
-          className="text-3xl md:text-4xl font-bold text-slate-100 text-center mb-8"
+          className="text-3xl md:text-4xl font-bold text-neutral-100 text-center mb-8"
         >
           Oyun Duraklatıldı
         </h2>
@@ -63,7 +63,7 @@ export const PauseOverlay: React.FC<PauseOverlayProps> = ({ onResume, onHome }) 
           >
             <Play className="w-6 h-6" aria-hidden="true" />
             <span>Devam Et</span>
-            <kbd className="ml-2 px-2 py-1 bg-blue-800 rounded text-sm">Space</kbd>
+            <kbd className="ml-2 px-2 py-1 bg-primary-800 rounded text-sm">Space</kbd>
           </Button>
 
           <Button
@@ -78,7 +78,7 @@ export const PauseOverlay: React.FC<PauseOverlayProps> = ({ onResume, onHome }) 
           </Button>
         </div>
 
-        <p className="text-sm text-slate-400 text-center mt-6">
+        <p className="text-sm text-neutral-400 text-center mt-6">
           Oyuna devam etmek için Space tuşuna basın
         </p>
       </div>

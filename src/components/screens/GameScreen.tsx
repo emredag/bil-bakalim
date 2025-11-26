@@ -431,10 +431,10 @@ export const GameScreen: React.FC = () => {
         title="Kelimeyi Pas Geç"
       >
         <div className="space-y-6">
-          <p className="text-lg text-slate-300 text-center">
+          <p className="text-lg text-neutral-300 text-center">
             Bu kelimeyi geçmek istediğinizden emin misiniz?
           </p>
-          <p className="text-sm text-slate-400 text-center">Kelimeyi geçerseniz puan alamazsınız</p>
+          <p className="text-sm text-neutral-400 text-center">Kelimeyi geçerseniz puan alamazsınız</p>
           <div className="grid grid-cols-2 gap-4">
             <Button onClick={handleSkip} variant="destructive" size="lg" className="h-16">
               Evet, Geç
@@ -454,10 +454,10 @@ export const GameScreen: React.FC = () => {
       {/* Home Confirmation Modal */}
       <Modal isOpen={showHomeModal} onClose={() => setShowHomeModal(false)} title="Ana Menüye Dön">
         <div className="space-y-6">
-          <p className="text-lg text-slate-300 text-center">
+          <p className="text-lg text-neutral-300 text-center">
             Ana menüye dönmek istediğinizden emin misiniz?
           </p>
-          <p className="text-sm text-red-400 text-center">⚠️ Oyun ilerlemesi kaydedilmeyecek</p>
+          <p className="text-sm text-error-400 text-center">⚠️ Oyun ilerlemesi kaydedilmeyecek</p>
           <div className="grid grid-cols-2 gap-4">
             <Button onClick={confirmHome} variant="destructive" size="lg" className="h-16">
               Evet, Çık

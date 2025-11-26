@@ -177,14 +177,14 @@ export const EmojiPicker: React.FC<EmojiPickerProps> = ({
 
   // Picker content
   const pickerContent = (
-    <div className={`bg-slate-800 rounded-2xl p-6 shadow-2xl ${className}`}>
+    <div className={`bg-neutral-800 rounded-2xl p-6 shadow-2xl ${className}`}>
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-xl md:text-2xl font-bold text-white">{title}</h3>
         {onClose && (
           <button
             onClick={onClose}
-            className="text-slate-400 hover:text-white transition-colors p-2 rounded-lg hover:bg-slate-700"
+            className="text-neutral-400 hover:text-white transition-colors p-2 rounded-lg hover:bg-neutral-700"
             aria-label="Kapat"
           >
             <X className="w-5 h-5" />
@@ -208,11 +208,12 @@ export const EmojiPicker: React.FC<EmojiPickerProps> = ({
               className={`
                 relative aspect-square flex items-center justify-center
                 text-3xl md:text-4xl rounded-xl transition-all
-                focus:outline-none focus:ring-2 focus:ring-blue-500
-                ${isSelected ? 'bg-blue-600 scale-110' : 'bg-slate-700 hover:bg-slate-600'}
+                focus:outline-none focus:ring-2 focus:ring-primary-500
+                ${isSelected ? 'bg-primary-600 scale-110' : 'bg-neutral-700 hover:bg-neutral-600'}
               `}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ duration: 0.15, ease: 'easeOut' }}
               aria-label={`Select ${emoji}`}
               aria-pressed={isSelected}
             >
@@ -221,7 +222,7 @@ export const EmojiPicker: React.FC<EmojiPickerProps> = ({
               {/* Selection indicator */}
               {isSelected && (
                 <motion.div
-                  className="absolute inset-0 rounded-xl border-2 border-blue-400"
+                  className="absolute inset-0 rounded-xl border-2 border-primary-400"
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.2 }}
@@ -243,7 +244,7 @@ export const EmojiPicker: React.FC<EmojiPickerProps> = ({
       </div>
 
       {/* Footer hint */}
-      <p className="text-sm text-slate-400 mt-6 text-center">{hint}</p>
+      <p className="text-sm text-neutral-400 mt-6 text-center">{hint}</p>
     </div>
   );
 
@@ -310,7 +311,7 @@ export const EmojiButton: React.FC<EmojiButtonProps> = ({
       className={`
         ${sizeStyles[size]}
         p-0 flex items-center justify-center
-        ${!emoji ? 'text-slate-400' : ''}
+        ${!emoji ? 'text-neutral-400' : ''}
         ${className}
       `}
       aria-label={emoji ? `Seçili emoji: ${emoji}` : 'Emoji seç'}

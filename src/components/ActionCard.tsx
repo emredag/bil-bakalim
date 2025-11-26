@@ -72,11 +72,11 @@ const ActionCardComponent = ({
         cursor-pointer
         focus:outline-none
         focus:ring-4
-        focus:ring-amber-400/40
+        focus:ring-accent-400/40
         focus:ring-offset-4
-        focus:ring-offset-slate-900
+        focus:ring-offset-neutral-900
         hover:ring-2
-        hover:ring-amber-400/30
+        hover:ring-accent-400/30
         transition-all
         duration-300
         ${className}
@@ -88,8 +88,8 @@ const ActionCardComponent = ({
           className="text-6xl md:text-7xl lg:text-8xl drop-shadow-glow"
           aria-hidden="true"
           initial={{ scale: 1 }}
-          whileHover={{ scale: 1.15, rotate: 8 }}
-          transition={{ duration: 0.3, type: 'spring', stiffness: 300 }}
+          whileHover={{ scale: 1.03, rotate: 2 }}
+          transition={{ duration: 0.2, ease: 'easeOut' }}
         >
           {emoji}
         </motion.div>
@@ -97,7 +97,7 @@ const ActionCardComponent = ({
         {/* Optional Lucide Icon */}
         {Icon && (
           <Icon
-            className="w-10 h-10 md:w-12 md:h-12 text-blue-400 drop-shadow-glow"
+            className="w-10 h-10 md:w-12 md:h-12 text-info-400 drop-shadow-glow"
             aria-hidden="true"
           />
         )}
@@ -108,7 +108,7 @@ const ActionCardComponent = ({
         </h2>
 
         {/* Description - Clear subtitle */}
-        <p className="text-base md:text-lg lg:text-xl text-slate-300 leading-relaxed max-w-[280px]">
+        <p className="text-base md:text-lg lg:text-xl text-neutral-300 leading-relaxed max-w-[280px]">
           {description}
         </p>
       </div>

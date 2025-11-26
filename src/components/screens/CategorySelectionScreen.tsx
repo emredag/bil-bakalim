@@ -102,7 +102,7 @@ export function CategorySelectionScreen() {
   };
 
   return (
-    <div className="h-screen overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+    <div className="h-screen overflow-hidden bg-gradient-to-br from-neutral-950 via-neutral-900 to-neutral-950">
       <div className="safe-container max-w-[1600px] mx-auto h-full flex flex-col py-6 md:py-8">
         {/* Header */}
         <header className="space-y-6 md:space-y-8 mb-8 md:mb-12">
@@ -112,13 +112,12 @@ export function CategorySelectionScreen() {
               <Button
                 variant="secondary"
                 onClick={() => navigate(ROUTES.HOME)}
-                className="flex items-center gap-2"
+                icon={<ArrowLeft className="w-5 h-5" />}
                 aria-label="Ana menüye dön"
               >
-                <ArrowLeft className="w-5 h-5" />
                 <span className="hidden md:inline">Geri</span>
               </Button>
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white">
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-neutral-50 tracking-tight">
                 Kategori Seçin
               </h1>
             </div>
@@ -128,10 +127,9 @@ export function CategorySelectionScreen() {
               <Button
                 variant="primary"
                 onClick={handleCreateCategory}
-                className="flex items-center gap-2"
+                icon={<Plus className="w-5 h-5" />}
                 aria-label="Yeni kategori oluştur"
               >
-                <Plus className="w-5 h-5" />
                 <span className="hidden md:inline">Yeni Kategori</span>
               </Button>
             )}
@@ -141,13 +139,13 @@ export function CategorySelectionScreen() {
           {categories.length > 0 && (
             <div className="max-w-2xl">
               <div className="relative">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
                 <Input
                   type="text"
                   placeholder="Kategori ara..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-12 text-lg"
+                  className="pl-12 text-lg bg-neutral-800/50 border-neutral-700 focus:border-primary-500 text-neutral-50 placeholder:text-neutral-500"
                   aria-label="Kategori ara"
                 />
               </div>
@@ -169,8 +167,8 @@ export function CategorySelectionScreen() {
           {/* Error State */}
           {error && !loading && (
             <div className="flex flex-col items-center justify-center py-16 md:py-24 text-center">
-              <p className="text-2xl md:text-3xl text-red-400 mb-4">❌ Hata</p>
-              <p className="text-lg md:text-xl text-slate-300 mb-8">{error}</p>
+              <p className="text-2xl md:text-3xl text-error-400 mb-4">❌ Hata</p>
+              <p className="text-lg md:text-xl text-neutral-300 mb-8">{error}</p>
               <Button variant="primary" onClick={() => window.location.reload()}>
                 Tekrar Dene
               </Button>
@@ -186,21 +184,21 @@ export function CategorySelectionScreen() {
               transition={{ duration: 0.5 }}
             >
               <PackagePlus
-                className="w-24 h-24 md:w-32 md:h-32 text-slate-600 mb-6"
+                className="w-24 h-24 md:w-32 md:h-32 text-neutral-600 mb-6"
                 strokeWidth={1.5}
               />
-              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-4">
+              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-neutral-50 mb-4">
                 Henüz kategori yok
               </h2>
-              <p className="text-lg md:text-xl text-slate-400 mb-8 max-w-md">
+              <p className="text-lg md:text-xl text-neutral-400 mb-8 max-w-md">
                 Oyuna başlamak için önce bir kategori oluşturmanız gerekiyor.
               </p>
               <Button
                 variant="primary"
                 onClick={handleCreateCategory}
-                className="flex items-center gap-3 px-8 py-4 text-lg"
+                icon={<Plus className="w-6 h-6" />}
+                size="lg"
               >
-                <Plus className="w-6 h-6" />
                 Yeni Kategori Oluştur
               </Button>
             </motion.div>
@@ -234,13 +232,13 @@ export function CategorySelectionScreen() {
                   transition={{ duration: 0.5 }}
                 >
                   <Search
-                    className="w-24 h-24 md:w-32 md:h-32 text-slate-600 mb-6"
+                    className="w-24 h-24 md:w-32 md:h-32 text-neutral-600 mb-6"
                     strokeWidth={1.5}
                   />
-                  <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
+                  <h2 className="text-2xl md:text-3xl font-bold text-neutral-50 mb-4">
                     Sonuç bulunamadı
                   </h2>
-                  <p className="text-lg md:text-xl text-slate-400 mb-8 max-w-md">
+                  <p className="text-lg md:text-xl text-neutral-400 mb-8 max-w-md">
                     "{searchQuery}" için hiçbir kategori bulunamadı.
                   </p>
                   <Button variant="secondary" onClick={() => setSearchQuery('')}>

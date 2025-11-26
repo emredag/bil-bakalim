@@ -22,24 +22,23 @@ const statsContainerVariants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.2,
+      staggerChildren: 0.05,
+      delayChildren: 0.1,
     },
   },
 };
 
 /**
- * Individual stat card animation
+ * Individual stat card animation - subtle fade + rise
  */
 const statCardVariants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 8 },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      type: 'spring' as const,
-      stiffness: 300,
-      damping: 30,
+      duration: 0.3,
+      ease: [0.25, 0.1, 0.25, 1],
     },
   },
 };
@@ -141,10 +140,8 @@ interface StatCardProps {
 function StatCard({ icon: Icon, label, value, subtitle, trend, variants }: StatCardProps) {
   return (
     <motion.div
-      className="glass-card rounded-2xl p-6 flex flex-col gap-3 cursor-pointer transition-all duration-200 hover:bg-neutral-700/80 hover:-translate-y-1 hover:shadow-xl"
+      className="glass-card rounded-2xl p-6 flex flex-col gap-3 cursor-pointer transition-all duration-200 hover:bg-neutral-700/80"
       variants={variants}
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
     >
       {/* Icon */}
       <Icon size={24} className="stat-icon text-primary-400 opacity-80" />

@@ -98,67 +98,65 @@ class SoundService {
   }
 
   /**
-   * Create a gain node for envelope shaping
-   */
-  private createEnvelope(
-    attack: number = 0.01,
-    decay: number = 0.1,
-    sustain: number = 0.5
-  ): GainNode {
-    if (!this.audioContext || !this.masterGainNode) {
-      throw new Error('AudioContext not initialized');
-    }
-
-    const gainNode = this.audioContext.createGain();
-    const now = this.audioContext.currentTime;
-
-    // ADS envelope (Attack, Decay, Sustain)
-    gainNode.gain.setValueAtTime(0, now);
-    gainNode.gain.linearRampToValueAtTime(1, now + attack);
-    gainNode.gain.linearRampToValueAtTime(sustain, now + attack + decay);
-
-    gainNode.connect(this.masterGainNode);
-    return gainNode;
-  }
-
-  /**
    * Play pop sound (letter reveal)
-   * PRD: 440 Hz, 0.1s, Sine wave, Quick attack/decay
+   * Soft, pleasant click - like a bubble pop
    */
   playPop(): void {
     if (!this.isEnabled || !this.audioContext || !this.masterGainNode) return;
 
     try {
-      const oscillator = this.createOscillator(440, 'sine');
-      const gainNode = this.createEnvelope(0.01, 0.09, 0);
-
+      const now = this.audioContext.currentTime;
+      
+      // Softer, higher pitched pop with quick decay
+      const oscillator = this.createOscillator(600, 'sine');
+      const gainNode = this.audioContext.createGain();
+      
+      // Quick, soft envelope
+      gainNode.gain.setValueAtTime(0, now);
+      gainNode.gain.linearRampToValueAtTime(0.3, now + 0.01);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+      
+      oscillator.frequency.setValueAtTime(600, now);
+      oscillator.frequency.exponentialRampToValueAtTime(400, now + 0.08);
+      
+      gainNode.connect(this.masterGainNode);
       oscillator.connect(gainNode);
-      oscillator.start();
-      oscillator.stop(this.audioContext.currentTime + 0.1);
+      oscillator.start(now);
+      oscillator.stop(now + 0.08);
     } catch (error) {
       console.error('Failed to play pop sound:', error);
     }
   }
 
   /**
-   * Play success jingle (correct guess)
-   * PRD: C5-E5-G5-C6 notes, 1s, Square wave
+   * Play success sound (correct guess)
+   * Pleasant, soft chime - two gentle notes
    */
   playSuccess(): void {
     if (!this.isEnabled || !this.audioContext || !this.masterGainNode) return;
 
     try {
-      const notes = [523.25, 659.25, 783.99, 1046.5]; // C5, E5, G5, C6
-      const noteDuration = 0.25; // 0.25s per note = 1s total
-
-      notes.forEach((frequency, index) => {
-        const oscillator = this.createOscillator(frequency, 'square');
-        const gainNode = this.createEnvelope(0.05, 0.15, 0.5);
-
-        const startTime = this.audioContext!.currentTime + index * noteDuration;
-        oscillator.connect(gainNode);
-        oscillator.start(startTime);
-        oscillator.stop(startTime + noteDuration);
+      const now = this.audioContext.currentTime;
+      
+      // Two-note soft chime (G5 -> C6) - simple and pleasant
+      const notes = [
+        { freq: 784, time: 0, duration: 0.15 },      // G5
+        { freq: 1047, time: 0.12, duration: 0.25 },  // C6
+      ];
+      
+      notes.forEach(({ freq, time, duration }) => {
+        const osc = this.createOscillator(freq, 'sine');
+        const gain = this.audioContext!.createGain();
+        
+        const startTime = now + time;
+        gain.gain.setValueAtTime(0, startTime);
+        gain.gain.linearRampToValueAtTime(0.25, startTime + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
+        
+        gain.connect(this.masterGainNode!);
+        osc.connect(gain);
+        osc.start(startTime);
+        osc.stop(startTime + duration);
       });
     } catch (error) {
       console.error('Failed to play success sound:', error);
@@ -166,19 +164,31 @@ class SoundService {
   }
 
   /**
-   * Play error buzz (wrong guess)
-   * PRD: 200 Hz, 0.3s, Sawtooth, Sharp attack
+   * Play error sound (wrong guess)
+   * Soft, low thud - not harsh or alarming
    */
   playError(): void {
     if (!this.isEnabled || !this.audioContext || !this.masterGainNode) return;
 
     try {
-      const oscillator = this.createOscillator(200, 'sawtooth');
-      const gainNode = this.createEnvelope(0.01, 0.2, 0.3);
-
+      const now = this.audioContext.currentTime;
+      
+      // Low, soft thud instead of harsh buzz
+      const oscillator = this.createOscillator(150, 'sine');
+      const gainNode = this.audioContext.createGain();
+      
+      gainNode.gain.setValueAtTime(0, now);
+      gainNode.gain.linearRampToValueAtTime(0.3, now + 0.02);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+      
+      // Pitch drops slightly for "thud" effect
+      oscillator.frequency.setValueAtTime(150, now);
+      oscillator.frequency.exponentialRampToValueAtTime(80, now + 0.15);
+      
+      gainNode.connect(this.masterGainNode);
       oscillator.connect(gainNode);
-      oscillator.start();
-      oscillator.stop(this.audioContext.currentTime + 0.3);
+      oscillator.start(now);
+      oscillator.stop(now + 0.15);
     } catch (error) {
       console.error('Failed to play error sound:', error);
     }
@@ -186,36 +196,43 @@ class SoundService {
 
   /**
    * Play whoosh sound (skip word)
-   * PRD: White noise sweep, 0.2s, Low-pass filter
+   * Soft swoosh - gentle transition sound
    */
   playWhoosh(): void {
     if (!this.isEnabled || !this.audioContext || !this.masterGainNode) return;
 
     try {
-      // Create white noise using buffer
-      const bufferSize = this.audioContext.sampleRate * 0.2;
+      const now = this.audioContext.currentTime;
+      
+      // Softer, shorter white noise swoosh
+      const bufferSize = Math.floor(this.audioContext.sampleRate * 0.12);
       const buffer = this.audioContext.createBuffer(1, bufferSize, this.audioContext.sampleRate);
       const data = buffer.getChannelData(0);
 
       for (let i = 0; i < bufferSize; i++) {
-        data[i] = Math.random() * 2 - 1;
+        data[i] = (Math.random() * 2 - 1) * 0.5; // Reduced amplitude
       }
 
       const noise = this.audioContext.createBufferSource();
       noise.buffer = buffer;
 
-      // Low-pass filter with sliding cutoff
+      // Bandpass filter for softer sound
       const filter = this.audioContext.createBiquadFilter();
-      filter.type = 'lowpass';
-      filter.frequency.setValueAtTime(2000, this.audioContext.currentTime);
-      filter.frequency.linearRampToValueAtTime(500, this.audioContext.currentTime + 0.2);
+      filter.type = 'bandpass';
+      filter.frequency.setValueAtTime(1500, now);
+      filter.frequency.exponentialRampToValueAtTime(400, now + 0.12);
+      filter.Q.value = 1;
 
-      const gainNode = this.createEnvelope(0.01, 0.19, 0);
+      const gainNode = this.audioContext.createGain();
+      gainNode.gain.setValueAtTime(0, now);
+      gainNode.gain.linearRampToValueAtTime(0.15, now + 0.02);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
 
       noise.connect(filter);
       filter.connect(gainNode);
-      noise.start();
-      noise.stop(this.audioContext.currentTime + 0.2);
+      gainNode.connect(this.masterGainNode);
+      noise.start(now);
+      noise.stop(now + 0.12);
     } catch (error) {
       console.error('Failed to play whoosh sound:', error);
     }
@@ -223,18 +240,26 @@ class SoundService {
 
   /**
    * Play tick sound (timer warning)
-   * PRD: 880 Hz, 0.05s, Square wave
+   * Soft, subtle tick - not alarming
    */
   playTick(): void {
     if (!this.isEnabled || !this.audioContext || !this.masterGainNode) return;
 
     try {
-      const oscillator = this.createOscillator(880, 'square');
-      const gainNode = this.createEnvelope(0.01, 0.04, 0);
-
+      const now = this.audioContext.currentTime;
+      
+      // Softer, lower tick sound
+      const oscillator = this.createOscillator(660, 'sine');
+      const gainNode = this.audioContext.createGain();
+      
+      gainNode.gain.setValueAtTime(0, now);
+      gainNode.gain.linearRampToValueAtTime(0.15, now + 0.005);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
+      
+      gainNode.connect(this.masterGainNode);
       oscillator.connect(gainNode);
-      oscillator.start();
-      oscillator.stop(this.audioContext.currentTime + 0.05);
+      oscillator.start(now);
+      oscillator.stop(now + 0.04);
     } catch (error) {
       console.error('Failed to play tick sound:', error);
     }
@@ -242,23 +267,35 @@ class SoundService {
 
   /**
    * Play fanfare (game win)
-   * PRD: C4-E4-G4-C5-E5-G5, 1.5s, Triangle wave
+   * Pleasant ascending chime - celebratory but not overwhelming
    */
   playFanfare(): void {
     if (!this.isEnabled || !this.audioContext || !this.masterGainNode) return;
 
     try {
-      const notes = [261.63, 329.63, 392.0, 523.25, 659.25, 783.99]; // C4, E4, G4, C5, E5, G5
-      const noteDuration = 0.25;
-
-      notes.forEach((frequency, index) => {
-        const oscillator = this.createOscillator(frequency, 'triangle');
-        const gainNode = this.createEnvelope(0.1, 0.1, 0.6);
-
-        const startTime = this.audioContext!.currentTime + index * noteDuration;
-        oscillator.connect(gainNode);
-        oscillator.start(startTime);
-        oscillator.stop(startTime + noteDuration);
+      const now = this.audioContext.currentTime;
+      
+      // Three pleasant ascending notes with overlap
+      const notes = [
+        { freq: 523, time: 0, duration: 0.3 },      // C5
+        { freq: 659, time: 0.15, duration: 0.3 },   // E5
+        { freq: 784, time: 0.3, duration: 0.4 },    // G5
+      ];
+      
+      notes.forEach(({ freq, time, duration }) => {
+        const osc = this.createOscillator(freq, 'sine');
+        const gain = this.audioContext!.createGain();
+        
+        const startTime = now + time;
+        gain.gain.setValueAtTime(0, startTime);
+        gain.gain.linearRampToValueAtTime(0.2, startTime + 0.03);
+        gain.gain.setValueAtTime(0.2, startTime + duration * 0.6);
+        gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
+        
+        gain.connect(this.masterGainNode!);
+        osc.connect(gain);
+        osc.start(startTime);
+        osc.stop(startTime + duration);
       });
     } catch (error) {
       console.error('Failed to play fanfare sound:', error);
@@ -267,18 +304,25 @@ class SoundService {
 
   /**
    * Play click sound (button clicks)
-   * PRD: 1000 Hz, 0.05s, Sine wave
+   * Very soft, subtle click
    */
   playClick(): void {
     if (!this.isEnabled || !this.audioContext || !this.masterGainNode) return;
 
     try {
-      const oscillator = this.createOscillator(1000, 'sine');
-      const gainNode = this.createEnvelope(0.01, 0.04, 0);
-
+      const now = this.audioContext.currentTime;
+      
+      const oscillator = this.createOscillator(800, 'sine');
+      const gainNode = this.audioContext.createGain();
+      
+      gainNode.gain.setValueAtTime(0, now);
+      gainNode.gain.linearRampToValueAtTime(0.12, now + 0.005);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.03);
+      
+      gainNode.connect(this.masterGainNode);
       oscillator.connect(gainNode);
-      oscillator.start();
-      oscillator.stop(this.audioContext.currentTime + 0.05);
+      oscillator.start(now);
+      oscillator.stop(now + 0.03);
     } catch (error) {
       console.error('Failed to play click sound:', error);
     }

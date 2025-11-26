@@ -2,7 +2,7 @@
 name = "kelime-oyunu"
 version = "1.0.0"
 description = "Kelime Oyunu - Interactive Word Guessing Game"
-authors = ["Kelime Oyunu Team"]
+authors = ["Emre Dağ <info@emredag.dev>"]
 edition = "2021"
 license = "MIT"
 repository = "https://github.com/emredag/word-game-app"

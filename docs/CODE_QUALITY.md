@@ -361,6 +361,6 @@ git commit
 
 ---
 
-**Last Updated**: 2025-10-29
-**Maintained by**: Kelime Oyunu Team
+**Last Updated**: 2025-11-26
+**Maintained by**: Emre Dağ ([@emredag](https://github.com/emredag))
 **Questions?**: See CONTRIBUTING.md or open an issue

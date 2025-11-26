@@ -2,6 +2,29 @@
   "name": "kelime-oyunu",
   "private": true,
   "version": "1.0.0",
+  "description": "Kelime Oyunu - Interactive Turkish Word Guessing Game for education and entertainment",
+  "author": {
+    "name": "Emre Dağ",
+    "url": "https://github.com/emredag"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/emredag/word-game-app.git"
+  },
+  "homepage": "https://github.com/emredag/word-game-app#readme",
+  "bugs": {
+    "url": "https://github.com/emredag/word-game-app/issues"
+  },
+  "keywords": [
+    "game",
+    "word-game",
+    "turkish",
+    "education",
+    "tauri",
+    "react",
+    "desktop"
+  ],
   "type": "module",
   "scripts": {
     "dev": "vite",

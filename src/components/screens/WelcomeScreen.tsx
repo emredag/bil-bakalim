@@ -208,7 +208,7 @@ export function WelcomeScreen() {
           transition={{ delay: 1, duration: 0.5 }}
           className="text-center mt-6 text-neutral-500 text-sm"
         >
-          <p>Bil Bakalım v1.2.0 • Open Source • MIT License</p>
+          <p>Bil Bakalım v1.0.0 • Open Source • MIT License</p>
         </motion.div>
       </motion.div>
     </div>

@@ -52,9 +52,9 @@ Bil Bakalım, sınıf içi eğitim ve yarışmalar için tasarlanmış modern bi
 ### Son Kullanıcılar İçin
 
 1. [Releases](https://github.com/emredag/word-game-app/releases) sayfasından platformunuza uygun kurulum dosyasını indirin:
-   - **Windows:** `Bil.Bakalim_1.2.0_x64-setup.exe` veya `Bil.Bakalim_1.2.0_x64_en-US.msi`
-   - **macOS:** `Bil.Bakalim_1.2.0_x64.dmg`
-   - **Linux:** `bil-bakalim_1.2.0_amd64.deb` veya `bil-bakalim_1.2.0_amd64.AppImage`
+   - **Windows:** `Bil.Bakalim_1.0.0_x64-setup.exe` veya `Bil.Bakalim_1.0.0_x64_en-US.msi`
+   - **macOS:** `Bil.Bakalim_1.0.0_x64.dmg`
+   - **Linux:** `bil-bakalim_1.0.0_amd64.deb` veya `bil-bakalim_1.0.0_amd64.AppImage`
 
 2. Kurulum dosyasını çalıştırın ve yönergeleri takip edin
 

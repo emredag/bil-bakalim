@@ -102,7 +102,7 @@ export function MainMenuScreen() {
         <footer className="main-menu-footer">
           <p className="font-medium">v1.0.0 • MIT License</p>
           <a
-            href="https://github.com/yourusername/kelime-oyunu"
+            href="https://github.com/emredag/word-game-app"
             target="_blank"
             rel="noopener noreferrer"
             className="footer-link"

@@ -355,8 +355,8 @@ export const SettingsScreen: React.FC = () => {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <h3 className="text-xl font-bold text-neutral-100">Kelime Oyunu</h3>
-              <p className="text-neutral-300">Versiyon: 1.0.0</p>
+              <h3 className="text-xl font-bold text-neutral-100">Bil Bakalım</h3>
+              <p className="text-neutral-300">Versiyon: 1.2.0</p>
             </div>
 
             <div className="space-y-2">

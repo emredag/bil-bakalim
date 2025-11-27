@@ -1,4 +1,4 @@
-//! Database module for Kelime Oyunu
+//! Database module for Bil Bakalım
 //!
 //! This module handles all SQLite database operations including:
 //! - Database initialization and migrations

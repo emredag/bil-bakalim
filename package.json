@@ -1,8 +1,8 @@
 {
-  "name": "kelime-oyunu",
+  "name": "bil-bakalim",
   "private": true,
-  "version": "1.0.0",
-  "description": "Kelime Oyunu - Interactive Turkish Word Guessing Game for education and entertainment",
+  "version": "1.2.0",
+  "description": "Bil Bakalım - Interactive Turkish Word Guessing Game for education and entertainment",
   "author": {
     "name": "Emre Dağ",
     "url": "https://github.com/emredag"

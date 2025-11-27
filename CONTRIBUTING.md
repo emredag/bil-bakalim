@@ -1,6 +1,6 @@
-# Contributing to Kelime Oyunu
+# Contributing to Bil Bakalım
 
-Thank you for your interest in contributing to Kelime Oyunu! This document provides guidelines and instructions for contributing to the project.
+Thank you for your interest in contributing to Bil Bakalım! This document provides guidelines and instructions for contributing to the project.
 
 ---
 
@@ -490,6 +490,6 @@ Contributors will be recognized in:
 
 ---
 
-**Thank you for contributing to Kelime Oyunu!** 🎉
+**Thank you for contributing to Bil Bakalım!** 🎉
 
 Your contributions help make this project better for everyone.

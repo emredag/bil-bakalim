@@ -2,5 +2,5 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 fn main() {
-    kelime_oyunu_lib::run()
+    bil_bakalim_lib::run()
 }

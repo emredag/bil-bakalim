@@ -1,7 +1,7 @@
 [package]
-name = "kelime-oyunu"
-version = "1.0.0"
-description = "Kelime Oyunu - Interactive Word Guessing Game"
+name = "bil-bakalim"
+version = "1.2.0"
+description = "Bil Bakalım - Interactive Word Guessing Game"
 authors = ["Emre Dağ <info@emredag.dev>"]
 edition = "2021"
 license = "MIT"
@@ -16,7 +16,7 @@ categories = ["games"]
 # The `_lib` suffix may seem redundant but it is necessary
 # to make the lib name unique and wouldn't conflict with the bin name.
 # This seems to be only an issue on Windows, see https://github.com/rust-lang/cargo/issues/8519
-name = "kelime_oyunu_lib"
+name = "bil_bakalim_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
 
 [build-dependencies]

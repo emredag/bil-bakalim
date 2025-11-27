@@ -11,7 +11,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 // Database path (should match Tauri app database location)
-const dbPath = join(__dirname, '../../src-tauri/kelime_oyunu.db');
+const dbPath = join(__dirname, '../../src-tauri/bil_bakalim.db');
 
 console.log('📊 Database Word Count Check\n');
 console.log('Database path:', dbPath, '\n');

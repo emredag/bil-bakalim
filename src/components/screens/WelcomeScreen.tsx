@@ -93,7 +93,7 @@ export function WelcomeScreen() {
             </motion.div>
 
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-secondary-400 mb-4 leading-tight">
-              Kelime Oyunu'na
+              Bil Bakalım'a
               <br />
               Hoş Geldiniz!
             </h1>
@@ -208,7 +208,7 @@ export function WelcomeScreen() {
           transition={{ delay: 1, duration: 0.5 }}
           className="text-center mt-6 text-neutral-500 text-sm"
         >
-          <p>Kelime Oyunu v1.0.0 • Open Source • MIT License</p>
+          <p>Bil Bakalım v1.2.0 • Open Source • MIT License</p>
         </motion.div>
       </motion.div>
     </div>

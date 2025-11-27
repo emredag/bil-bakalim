@@ -8,14 +8,14 @@ use std::path::PathBuf;
 /// Get the database file path in the user's application data directory
 ///
 /// Platform-specific locations:
-/// - Windows: `%APPDATA%\com.kelimeoyunu.app\word-game.db`
-/// - macOS: `~/Library/Application Support/com.kelimeoyunu.app/word-game.db`
-/// - Linux: `~/.local/share/com.kelimeoyunu.app/word-game.db`
+/// - Windows: `%APPDATA%\com.bilbakalim.app\word-game.db`
+/// - macOS: `~/Library/Application Support/com.bilbakalim.app/word-game.db`
+/// - Linux: `~/.local/share/com.bilbakalim.app/word-game.db`
 pub fn get_db_path() -> Result<PathBuf, String> {
     let app_dir =
         dirs::data_dir().ok_or_else(|| "Could not determine user data directory".to_string())?;
 
-    let db_dir = app_dir.join("com.kelimeoyunu.app");
+    let db_dir = app_dir.join("com.bilbakalim.app");
 
     // Create directory if it doesn't exist
     std::fs::create_dir_all(&db_dir)

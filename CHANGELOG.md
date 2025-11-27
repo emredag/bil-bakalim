@@ -5,6 +5,32 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2025-11-27
+
+### Rebranding
+
+#### Changed
+- **App Name**: Rebranded from "Kelime Oyunu" to "Bil Bakalım"
+- **Package Name**: Changed from `kelime-oyunu` to `bil-bakalim`
+- **App Identifier**: Updated from `com.kelimeoyunu.app` to `com.bilbakalim.app`
+- **Rust Library**: Renamed from `kelime_oyunu_lib` to `bil_bakalim_lib`
+- **Database Paths**: Updated to use new app identifier (`com.bilbakalim.app`)
+- **localStorage Keys**: Changed from `kelime-oyunu-*` to `bil-bakalim-*`
+- **All UI Components**: Updated branding across HeroSection, WelcomeScreen, SettingsScreen
+- **Documentation**: Updated README and CONTRIBUTING with new brand name
+- **Release Assets**: Build artifacts now use `Bil.Bakalim_*` naming convention
+
+#### Added
+- **New App Icons**: Complete icon set with new brand design
+  - Web favicons (16x16, 32x32, 192x192, 512x512)
+  - macOS `.icns` bundle
+  - Windows `.ico` file
+  - Windows Store logo variants
+- **CI/CD Pipelines**: Added GitHub Actions workflows
+  - Automated build and test on every commit (Windows + macOS)
+  - Automated release builds on version tags
+  - Parallel build execution for faster feedback
+
 ## [1.1.0] - 2025-11-26
 
 ### Design System v2.0 Migration

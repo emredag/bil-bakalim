@@ -5,7 +5,7 @@
  * Handles first launch detection and database initialization check
  */
 
-const FIRST_LAUNCH_KEY = 'kelime-oyunu-first-launch-completed';
+const FIRST_LAUNCH_KEY = 'bil-bakalim-first-launch-completed';
 
 /**
  * Check if this is the first launch of the application

@@ -73,7 +73,7 @@ export function HeroSection({ onStartGame, lastGame, onResumeGame }: HeroSection
             letterSpacing: '-0.025em',
           }}
         >
-          🎯 Kelime Oyunu
+          🎯 Bil Bakalım
         </h1>
 
         {/* Description */}

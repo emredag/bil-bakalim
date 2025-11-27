@@ -95,8 +95,8 @@ export interface SoundManagerConfig {
  * localStorage keys for sound settings
  */
 export const STORAGE_KEYS = {
-  VOLUME: 'kelime-oyunu-volume',
-  MUTED: 'kelime-oyunu-muted',
+  VOLUME: 'bil-bakalim-volume',
+  MUTED: 'bil-bakalim-muted',
 } as const;
 
 /**

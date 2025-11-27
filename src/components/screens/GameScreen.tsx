@@ -342,7 +342,7 @@ export const GameScreen: React.FC = () => {
             remainingSeconds={remainingSeconds}
             totalSeconds={session.totalTimeSeconds}
             currentScore={activeParticipant.score}
-            wordsCompleted={activeParticipant.currentWordIndex}
+            wordsCompleted={activeParticipant.currentWordIndex + 1}
             totalWords={14}
             activeParticipantName={activeParticipant.name}
             activeParticipantType={activeParticipant.type}
@@ -411,7 +411,7 @@ export const GameScreen: React.FC = () => {
       >
         <ProgressBar
           currentWord={activeParticipant.currentWordIndex + 1}
-          totalWords={14}
+          totalWords={activeParticipant.words.length}
           categoryDescription={session.categoryName}
         />
       </div>

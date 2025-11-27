@@ -1,7 +1,7 @@
 {
   "name": "bil-bakalim",
   "private": true,
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Bil Bakalım - Interactive Turkish Word Guessing Game for education and entertainment",
   "author": {
     "name": "Emre Dağ",

@@ -112,20 +112,20 @@ export const Confetti: React.FC<ConfettiProps> = ({ active, duration = 3000, onC
     const centerY = canvas.height / 2.5; // Slightly higher than center
 
     particlesRef.current = Array.from({ length: particleCount }, () => {
-      // Wider spread for better coverage
-      const angle = (Math.random() - 0.5) * Math.PI * 1.2; // 70 degree spread
-      const velocity = 8 + Math.random() * 15;
+      // Full 360 degree spread for symmetrical distribution
+      const angle = Math.random() * Math.PI * 2; // Full circle
+      const velocity = 4 + Math.random() * 8; // Reduced from 8-23 to 4-12 for slower effect
 
       return {
         x: centerX,
         y: centerY,
         vx: Math.cos(angle) * velocity,
-        vy: Math.sin(angle) * velocity - 8, // Strong upward bias
+        vy: Math.sin(angle) * velocity - 4, // Reduced from -8 for slower upward movement
         rotation: Math.random() * Math.PI * 2,
-        rotationSpeed: (Math.random() - 0.5) * 0.4,
+        rotationSpeed: (Math.random() - 0.5) * 0.3, // Reduced from 0.4 for slower rotation
         color: COLORS[Math.floor(Math.random() * COLORS.length)],
         size: 6 + Math.random() * 10,
-        gravity: 0.5 + Math.random() * 0.3,
+        gravity: 0.25 + Math.random() * 0.15, // Reduced from 0.5-0.8 to 0.25-0.4 for slower fall
         shape: SHAPES[Math.floor(Math.random() * SHAPES.length)],
       };
     });

@@ -312,4 +312,6 @@ See [GitHub Issues](https://github.com/emredag/word-game-app/issues) for planned
 
 **Note:** For detailed changes in each task (01-47), see `docs/tasks/` directory.
 
+[1.2.0]: https://github.com/emredag/word-game-app/releases/tag/v1.2.0
+[1.1.0]: https://github.com/emredag/word-game-app/releases/tag/v1.1.0
 [1.0.0]: https://github.com/emredag/word-game-app/releases/tag/v1.0.0

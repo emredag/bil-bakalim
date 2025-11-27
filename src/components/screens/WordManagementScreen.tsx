@@ -456,7 +456,7 @@ export function WordManagementScreen() {
   }
 
   return (
-    <div className="min-h-screen bg-neutral-950">
+    <div className="min-h-screen overflow-y-auto bg-neutral-950">
       {/* Toast Container */}
       <ToastContainer toasts={toasts} position="top-right" />
 

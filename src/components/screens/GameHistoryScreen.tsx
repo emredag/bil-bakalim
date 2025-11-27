@@ -385,7 +385,7 @@ export function GameHistoryScreen() {
   // Empty state
   if (!loading && games.length === 0 && !hasActiveFilters) {
     return (
-      <div className="min-h-screen bg-neutral-950 p-4 md:p-6 lg:p-8">
+      <div className="min-h-screen overflow-y-auto bg-neutral-950 p-4 md:p-6 lg:p-8">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <div className="flex items-center gap-4 mb-6 md:mb-8">
@@ -421,7 +421,7 @@ export function GameHistoryScreen() {
   }
 
   return (
-    <div className="min-h-screen bg-neutral-950 p-4 md:p-6 lg:p-8">
+    <div className="min-h-screen overflow-y-auto bg-neutral-950 p-4 md:p-6 lg:p-8">
       <div className="max-w-7xl mx-auto space-y-6 md:space-y-8">
         {/* Header */}
         <div className="flex items-center justify-between gap-4 flex-wrap">

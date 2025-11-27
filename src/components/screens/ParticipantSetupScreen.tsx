@@ -241,11 +241,11 @@ export function ParticipantSetupScreen() {
   };
 
   return (
-    <div className="relative h-screen overflow-hidden bg-gradient-to-br from-neutral-950 via-neutral-900 to-neutral-950">
+    <div className="relative min-h-screen overflow-y-auto bg-gradient-to-br from-neutral-950 via-neutral-900 to-neutral-950">
       {/* Mesh Gradient Overlay */}
       <div className="absolute inset-0 hero-mesh-overlay opacity-20 pointer-events-none" />
 
-      <div className="relative safe-container max-w-[1400px] mx-auto h-full flex flex-col py-6 md:py-8 z-10">
+      <div className="relative safe-container max-w-[1400px] mx-auto flex flex-col py-6 md:py-8 z-10">
         {/* Header */}
         <header className="space-y-4 md:space-y-6 mb-6 md:mb-8">
           {/* Title Row */}

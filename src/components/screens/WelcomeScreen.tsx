@@ -53,7 +53,7 @@ export function WelcomeScreen() {
   );
 
   return (
-    <div className="relative h-screen overflow-hidden bg-gradient-to-br from-neutral-950 via-neutral-900 to-neutral-950 flex items-center justify-center p-4 md:p-6 lg:p-8">
+    <div className="relative min-h-screen overflow-y-auto bg-gradient-to-br from-neutral-950 via-neutral-900 to-neutral-950 flex items-center justify-center p-4 md:p-6 lg:p-8">
       {/* Mesh Gradient Overlay */}
       <div className="absolute inset-0 hero-mesh-overlay opacity-30 pointer-events-none" />
 
@@ -61,10 +61,10 @@ export function WelcomeScreen() {
         initial={{ opacity: 0, scale: 0.95, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        className="relative max-w-2xl w-full z-10"
+        className="relative max-w-2xl w-full mx-auto z-10 my-auto"
       >
         {/* Hero Card with Glassmorphism */}
-        <div className="glass-card rounded-2xl p-8 md:p-12 shadow-2xl border border-white/10 backdrop-blur-xl">
+        <div className="glass-card rounded-2xl p-6 sm:p-8 md:p-10 lg:p-12 shadow-2xl border border-white/10 backdrop-blur-xl">
           {/* Icon & Title */}
           <motion.div
             initial={{ y: -20, opacity: 0 }}

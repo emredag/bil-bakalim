@@ -142,7 +142,7 @@ export function ResultsMultiplayer({ session, onPlayAgain }: ResultsMultiplayerP
   const winner = participantsWithRank[0];
 
   return (
-    <div className="relative min-h-screen bg-neutral-950 p-4 md:p-6 lg:p-8">
+    <div className="relative min-h-screen overflow-y-auto bg-neutral-950 p-4 md:p-6 lg:p-8">
       {/* Mesh Gradient Background */}
       <div
         className="pointer-events-none fixed inset-0 opacity-[0.08]"

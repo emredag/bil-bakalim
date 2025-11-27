@@ -208,7 +208,7 @@ export function GameHistoryDetailScreen() {
       variants={fadeVariant}
       initial="initial"
       animate="animate"
-      className="min-h-screen bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900 p-4 md:p-8"
+      className="min-h-screen overflow-y-auto bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900 p-4 md:p-8"
     >
       <div className="max-w-6xl mx-auto space-y-6">
         {/* Header */}

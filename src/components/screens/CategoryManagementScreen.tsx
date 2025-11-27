@@ -414,7 +414,7 @@ export function CategoryManagementScreen() {
   ];
 
   return (
-    <div className="min-h-screen bg-neutral-950 p-4 md:p-6 lg:p-8">
+    <div className="min-h-screen overflow-y-auto bg-neutral-950 p-4 md:p-6 lg:p-8">
       <div className="max-w-7xl mx-auto space-y-6 md:space-y-8">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">

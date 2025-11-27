@@ -26,7 +26,7 @@ export const TurnTransition = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-900 via-secondary-900 to-neutral-950 flex items-center justify-center p-8">
+    <div className="min-h-screen overflow-y-auto bg-gradient-to-br from-primary-900 via-secondary-900 to-neutral-950 flex items-center justify-center p-8">
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}

@@ -93,7 +93,7 @@ project-root/
 - [x] Quick start guide
 - [x] Technology stack section
 - [x] Documentation links
-- [x] Repository URL: https://github.com/emredag/word-game-app
+- [x] Repository URL: https://github.com/emredag/bil-bakalim
 - [x] License information (MIT)
 - [x] Contributing section
 - [x] Contact information
@@ -332,7 +332,7 @@ project-root/
 
 ### Key Decisions:
 1. **No Screenshots:** User specifically requested no screenshots
-2. **GitHub URL:** https://github.com/emredag/word-game-app
+2. **GitHub URL:** https://github.com/emredag/bil-bakalim
 3. **Copyright:** Emre Dağ
 4. **License:** MIT License
 5. **Format:** GitHub Flavored Markdown

@@ -215,7 +215,7 @@ Information that helps understand the process but is not directly part of PRD.
 > Platform-specific paths:
 > - Windows: `%APPDATA%\com.wordgame.app\word-game.db`
 > - macOS: `~/Library/Application Support/com.wordgame.app/word-game.db`
-> - Linux: `~/.local/share/word-game-app/word-game.db`
+> - Linux: `~/.local/share/bil-bakalim/word-game.db`
 
 ---
 

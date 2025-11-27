@@ -42,8 +42,8 @@ Thank you for your interest in contributing to Bil Bakalım! This document provi
 
 ```bash
 # Clone the repository
-git clone https://github.com/emredag/word-game-app.git
-cd word-game-app
+git clone https://github.com/emredag/bil-bakalim.git
+cd bil-bakalim
 
 # Install dependencies
 npm install
@@ -55,7 +55,7 @@ npm run dev
 ### Project Structure
 
 ```
-word-game-app/
+bil-bakalim/
 ├── src/                    # React/TypeScript frontend
 │   ├── components/         # React components
 │   ├── store/              # Zustand state management
@@ -79,7 +79,7 @@ word-game-app/
 
 ### 1. Choose an Issue
 
-- Check [GitHub Issues](https://github.com/emredag/word-game-app/issues)
+- Check [GitHub Issues](https://github.com/emredag/bil-bakalim/issues)
 - Look for issues labeled `good first issue` or `help wanted`
 - Comment on the issue to claim it
 
@@ -476,8 +476,8 @@ When adding major features:
 
 ## Getting Help
 
-- **Questions**: Open a [Discussion](https://github.com/emredag/word-game-app/discussions)
-- **Bugs**: Create an [Issue](https://github.com/emredag/word-game-app/issues)
+- **Questions**: Open a [Discussion](https://github.com/emredag/bil-bakalim/discussions)
+- **Bugs**: Create an [Issue](https://github.com/emredag/bil-bakalim/issues)
 
 ---
 

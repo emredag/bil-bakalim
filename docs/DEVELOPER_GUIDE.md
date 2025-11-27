@@ -75,7 +75,7 @@ Kelime Oyunu, **Tauri 2.x** framework'ü kullanılarak geliştirilmiş bir masa�
 ## Proje Yapısı
 
 ```
-word-game-app/
+bil-bakalim/
 ├── src/                        # Frontend kaynak kodu
 │   ├── api/                    # Tauri command wrappers
 │   │   ├── category.ts         # Kategori API
@@ -159,8 +159,8 @@ word-game-app/
 
 ```bash
 # 1. Repository'yi klonlayın
-git clone https://github.com/emredag/word-game-app.git
-cd word-game-app
+git clone https://github.com/emredag/bil-bakalim.git
+cd bil-bakalim
 
 # 2. Node bağımlılıklarını yükleyin
 npm install

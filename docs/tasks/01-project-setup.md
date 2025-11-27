@@ -53,7 +53,7 @@ Technical scope of the task as per PRD.
 
 **Project Structure:**
 ```
-word-game-app/
+bil-bakalim/
 ├── src/               # React frontend
 ├── src-tauri/         # Rust backend
 ├── public/            # Static assets

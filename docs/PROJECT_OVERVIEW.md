@@ -2483,7 +2483,7 @@ npm run build -- --analyze
 - Tüm açık kaynak katkıda bulunanlar
 
 **Destek:**
-- GitHub Issues: https://github.com/emredag/word-game-app/issues
+- GitHub Issues: https://github.com/emredag/bil-bakalim/issues
 - Email: info@emredag.dev
 
 ---

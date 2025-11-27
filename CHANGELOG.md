@@ -58,5 +58,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 **Note:** For detailed development tasks, see `docs/tasks/` directory.
 
-[1.0.1]: https://github.com/emredag/word-game-app/releases/tag/v1.0.1
-[1.0.0]: https://github.com/emredag/word-game-app/releases/tag/v1.0.0
+[1.0.1]: https://github.com/emredag/bil-bakalim/releases/tag/v1.0.1
+[1.0.0]: https://github.com/emredag/bil-bakalim/releases/tag/v1.0.0

@@ -51,7 +51,7 @@ Bil Bakalım, sınıf içi eğitim ve yarışmalar için tasarlanmış modern bi
 
 ### Son Kullanıcılar İçin
 
-1. [Releases](https://github.com/emredag/word-game-app/releases) sayfasından platformunuza uygun kurulum dosyasını indirin:
+1. [Releases](https://github.com/emredag/bil-bakalim/releases) sayfasından platformunuza uygun kurulum dosyasını indirin:
    - **Windows:** `Bil.Bakalim_1.0.0_x64-setup.exe` veya `Bil.Bakalim_1.0.0_x64_en-US.msi`
    - **macOS:** `Bil.Bakalim_1.0.0_x64.dmg`
    - **Linux:** `bil-bakalim_1.0.0_amd64.deb` veya `bil-bakalim_1.0.0_amd64.AppImage`
@@ -71,8 +71,8 @@ Bil Bakalım, sınıf içi eğitim ve yarışmalar için tasarlanmış modern bi
 
 ```bash
 # Repository'yi klonlayın
-git clone https://github.com/emredag/word-game-app.git
-cd word-game-app
+git clone https://github.com/emredag/bil-bakalim.git
+cd bil-bakalim
 
 # Bağımlılıkları yükleyin
 npm install
@@ -249,7 +249,7 @@ Closes #123
 
 ## 🐛 Sorun Bildirimi
 
-Hata bulduysanız veya öneriniz varsa [GitHub Issues](https://github.com/emredag/word-game-app/issues) sayfasından bildirebilirsiniz.
+Hata bulduysanız veya öneriniz varsa [GitHub Issues](https://github.com/emredag/bil-bakalim/issues) sayfasından bildirebilirsiniz.
 
 ## 📄 Lisans
 
@@ -268,8 +268,8 @@ Copyright (c) 2025 Emre Dağ
 ## 📞 İletişim
 
 - **GitHub:** [@emredag](https://github.com/emredag)
-- **Repository:** [word-game-app](https://github.com/emredag/word-game-app)
-- **Issues:** [GitHub Issues](https://github.com/emredag/word-game-app/issues)
+- **Repository:** [bil-bakalim](https://github.com/emredag/bil-bakalim)
+- **Issues:** [GitHub Issues](https://github.com/emredag/bil-bakalim/issues)
 
 ---
 

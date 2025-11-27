@@ -10,11 +10,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/emredag/word-game-app.git"
+    "url": "https://github.com/emredag/bil-bakalim.git"
   },
-  "homepage": "https://github.com/emredag/word-game-app#readme",
+  "homepage": "https://github.com/emredag/bil-bakalim#readme",
   "bugs": {
-    "url": "https://github.com/emredag/word-game-app/issues"
+    "url": "https://github.com/emredag/bil-bakalim/issues"
   },
   "keywords": [
     "game",

@@ -983,7 +983,7 @@ export function MainMenuScreen() {
         <footer className="main-menu-footer">
           <p>v1.0.0 • MIT License • Emre Dağ</p>
           <a
-            href="https://github.com/emredag/word-game-app"
+            href="https://github.com/emredag/bil-bakalim"
             target="_blank"
             rel="noopener noreferrer"
             className="footer-link"

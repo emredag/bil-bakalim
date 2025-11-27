@@ -24,7 +24,7 @@ Bu rehber, Kelime Oyunu uygulamasını kullanmaya başlamanız için gereken tü
 
 ### Windows
 
-1. [Releases](https://github.com/emredag/word-game-app/releases) sayfasından `Kelime-Oyunu_1.0.0_x64_en-US.msi` dosyasını indirin
+1. [Releases](https://github.com/emredag/bil-bakalim/releases) sayfasından `Kelime-Oyunu_1.0.0_x64_en-US.msi` dosyasını indirin
 2. İndirilen `.msi` dosyasını çift tıklayarak açın
 3. Kurulum sihirbazını takip edin:
    - "Next" butonuna tıklayın
@@ -38,7 +38,7 @@ Bu rehber, Kelime Oyunu uygulamasını kullanmaya başlamanız için gereken tü
 
 ### macOS
 
-1. [Releases](https://github.com/emredag/word-game-app/releases) sayfasından `Kelime-Oyunu_1.0.0_x64.dmg` dosyasını indirin
+1. [Releases](https://github.com/emredag/bil-bakalim/releases) sayfasından `Kelime-Oyunu_1.0.0_x64.dmg` dosyasını indirin
 2. İndirilen `.dmg` dosyasını çift tıklayarak açın
 3. Açılan pencerede "Kelime Oyunu" ikonunu "Applications" klasörüne sürükleyin
 4. Applications klasöründen "Kelime Oyunu"nu başlatın
@@ -55,7 +55,7 @@ Bu rehber, Kelime Oyunu uygulamasını kullanmaya başlamanız için gereken tü
 
 ```bash
 # DEB dosyasını indirin
-wget https://github.com/emredag/word-game-app/releases/download/v1.0.0/kelime-oyunu_1.0.0_amd64.deb
+wget https://github.com/emredag/bil-bakalim/releases/download/v1.0.0/kelime-oyunu_1.0.0_amd64.deb
 
 # Kurulum
 sudo dpkg -i kelime-oyunu_1.0.0_amd64.deb
@@ -71,7 +71,7 @@ kelime-oyunu
 
 ```bash
 # AppImage dosyasını indirin
-wget https://github.com/emredag/word-game-app/releases/download/v1.0.0/kelime-oyunu_1.0.0_amd64.AppImage
+wget https://github.com/emredag/bil-bakalim/releases/download/v1.0.0/kelime-oyunu_1.0.0_amd64.AppImage
 
 # Çalıştırılabilir yapın
 chmod +x kelime-oyunu_1.0.0_amd64.AppImage
@@ -791,10 +791,10 @@ A: Evet! Veritabanını yedekleyin ve diğer bilgisayarda geri yükleyin.
 A: Yeni sürümü indirip yükleyin. Verileriniz korunur.
 
 **S: Kaynak koduna nasıl erişebilirim?**
-A: [GitHub repository](https://github.com/emredag/word-game-app)
+A: [GitHub repository](https://github.com/emredag/bil-bakalim)
 
 **S: Hata rapor etmek istiyorum, nereye yazmalıyım?**
-A: [GitHub Issues](https://github.com/emredag/word-game-app/issues) sayfasından.
+A: [GitHub Issues](https://github.com/emredag/bil-bakalim/issues) sayfasından.
 
 ### Kullanım Senaryoları
 
@@ -816,9 +816,9 @@ A: Kendi listelerinizi oluşturabilir veya topluluktan paylaşılan JSON dosyala
 
 ### Yardım Kaynakları
 
-- **GitHub Repository:** [word-game-app](https://github.com/emredag/word-game-app)
-- **Issues:** [Bug raporları ve özellik istekleri](https://github.com/emredag/word-game-app/issues)
-- **Dokümantasyon:** [docs/](https://github.com/emredag/word-game-app/tree/main/docs)
+- **GitHub Repository:** [bil-bakalim](https://github.com/emredag/bil-bakalim)
+- **Issues:** [Bug raporları ve özellik istekleri](https://github.com/emredag/bil-bakalim/issues)
+- **Dokümantasyon:** [docs/](https://github.com/emredag/bil-bakalim/tree/main/docs)
 
 ### İletişim
 

@@ -8,6 +8,7 @@
 import { motion } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
 import { Button } from '../ui/Button';
+import { Logo } from '../ui/Logo';
 import { LastGameSummary } from '../../types/database';
 
 export interface HeroSectionProps {
@@ -67,13 +68,13 @@ export function HeroSection({ onStartGame, lastGame, onResumeGame }: HeroSection
       <div className="relative z-10 flex flex-col items-center gap-6">
         {/* Title */}
         <h1
-          className="font-display font-extrabold text-white leading-tight tracking-tight"
+          className="font-display font-extrabold text-white leading-tight tracking-tight flex items-center gap-4"
           style={{
             fontSize: 'clamp(2.5rem, 6vw, 4rem)',
             letterSpacing: '-0.025em',
           }}
         >
-          🎯 Bil Bakalım
+          <Logo size={64} /> Bil Bakalım
         </h1>
 
         {/* Description */}

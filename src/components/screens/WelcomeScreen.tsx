@@ -7,8 +7,9 @@
  */
 
 import { motion } from 'framer-motion';
-import { Sparkles, Play, Database, Check } from 'lucide-react';
+import { Play, Database, Check } from 'lucide-react';
 import { useState, useEffect, useCallback } from 'react';
+import { Logo } from '../ui/Logo';
 import { useNavigate } from 'react-router-dom';
 import { markFirstLaunchCompleted } from '../../services/firstLaunch';
 import { ROUTES } from '../../routes/constants';
@@ -89,7 +90,7 @@ export function WelcomeScreen() {
               }}
               className="inline-flex items-center justify-center w-20 h-20 md:w-24 md:h-24 bg-gradient-to-br from-primary-600 to-secondary-600 rounded-2xl mb-6"
             >
-              <Sparkles className="w-10 h-10 md:w-12 md:h-12 text-white" />
+              <Logo size={96} />
             </motion.div>
 
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-secondary-400 mb-4 leading-tight">

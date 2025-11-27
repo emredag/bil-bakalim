@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.1] - 2025-11-27
+
+### Changed
+- Updated to current brand logo (converted from PNG to SVG)
+- Added logo to main "Bil Bakalım" title with rounded corners
+- Removed logo from "Yeni Yarışma Başlat" button
+
+### Fixed
+- Fixed scroll issues across all screens (14+ screens updated)
+- Improved WelcomeScreen responsiveness and centering
+- Applied consistent `min-h-screen overflow-y-auto` pattern throughout the app
+
 ## [1.0.0] - 2025-11-27
 
 ### Initial Release
@@ -46,4 +58,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 **Note:** For detailed development tasks, see `docs/tasks/` directory.
 
+[1.0.1]: https://github.com/emredag/word-game-app/releases/tag/v1.0.1
 [1.0.0]: https://github.com/emredag/word-game-app/releases/tag/v1.0.0

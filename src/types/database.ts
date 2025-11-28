@@ -77,6 +77,7 @@ export interface GameParticipant {
   words_found: number;
   words_skipped: number;
   letters_revealed: number;
+  elapsed_time_seconds?: number | null;
   rank: number | null;
   created_at: string;
 }

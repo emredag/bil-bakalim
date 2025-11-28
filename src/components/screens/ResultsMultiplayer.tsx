@@ -35,13 +35,23 @@ export function ResultsMultiplayer({ session, onPlayAgain }: ResultsMultiplayerP
   const navigate = useNavigate();
   const [expandedParticipants, setExpandedParticipants] = useState<Set<number>>(new Set());
 
-  // Sort participants by score (descending), then by words found (tiebreaker)
+  // Sort participants by official game rules:
+  // 1. Higher score wins
+  // 2. Fewer letters revealed wins (tiebreaker)
+  // 3. Less time wins (tiebreaker)
   const rankedParticipants = [...session.participants].sort((a, b) => {
+    // 1. Higher score wins
     if (b.score !== a.score) {
-      return b.score - a.score; // Higher score wins
+      return b.score - a.score;
     }
-    // Tiebreaker: More words found wins
-    return b.wordsFound - a.wordsFound;
+
+    // 2. Fewer letters revealed wins (inverse)
+    if (a.lettersRevealed !== b.lettersRevealed) {
+      return a.lettersRevealed - b.lettersRevealed;
+    }
+
+    // 3. Less time wins (inverse)
+    return a.elapsedTimeSeconds - b.elapsedTimeSeconds;
   });
 
   // Assign ranks (handle ties) - two-pass algorithm
@@ -51,13 +61,17 @@ export function ResultsMultiplayer({ session, onPlayAgain }: ResultsMultiplayerP
     originalIndex: index,
   }));
 
-  // Second pass: Adjust ranks for ties
+  // Second pass: Adjust ranks for ties (score + letters + time all equal)
   for (let i = 1; i < participantsWithRank.length; i++) {
     const current = participantsWithRank[i];
     const prev = participantsWithRank[i - 1];
 
-    if (current.score === prev.score && current.wordsFound === prev.wordsFound) {
-      // Tie detected - use previous rank
+    if (
+      current.score === prev.score &&
+      current.lettersRevealed === prev.lettersRevealed &&
+      current.elapsedTimeSeconds === prev.elapsedTimeSeconds
+    ) {
+      // True tie detected - use previous rank
       current.rank = prev.rank;
     }
   }
@@ -92,6 +106,7 @@ export function ResultsMultiplayer({ session, onPlayAgain }: ResultsMultiplayerP
         words_found: p.wordsFound,
         words_skipped: p.wordsSkipped,
         letters_revealed: p.lettersRevealed,
+        elapsed_time_seconds: p.elapsedTimeSeconds,
         rank: p.rank,
         word_results: p.words.map((word) => ({
           word: word.word,
@@ -269,6 +284,16 @@ export function ResultsMultiplayer({ session, onPlayAgain }: ResultsMultiplayerP
                               {participant.lettersRevealed}
                             </p>
                             <p className="text-xs text-neutral-400">Harf</p>
+                          </div>
+                          <div className="text-center">
+                            <p className="font-semibold tabular-nums text-neutral-300">
+                              {(() => {
+                                const mins = Math.floor(participant.elapsedTimeSeconds / 60);
+                                const secs = Math.floor(participant.elapsedTimeSeconds % 60);
+                                return `${mins}:${secs.toString().padStart(2, '0')}`;
+                              })()}
+                            </p>
+                            <p className="text-xs text-neutral-400">Süre</p>
                           </div>
                         </div>
                       </div>

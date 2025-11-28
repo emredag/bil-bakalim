@@ -127,8 +127,9 @@ pub fn get_game_participants(game_history_id: i32) -> Result<Vec<GameParticipant
     let conn = db::get_connection()?;
 
     let mut stmt = conn.prepare(
-        "SELECT id, game_history_id, participant_name, participant_type, 
-                score, words_found, words_skipped, letters_revealed, rank, created_at
+        "SELECT id, game_history_id, participant_name, participant_type,
+                score, words_found, words_skipped, letters_revealed,
+                elapsed_time_seconds, rank, created_at
          FROM game_participants
          WHERE game_history_id = ?1
          ORDER BY rank ASC, score DESC",
@@ -145,8 +146,9 @@ pub fn get_game_participants(game_history_id: i32) -> Result<Vec<GameParticipant
                 words_found: row.get(5)?,
                 words_skipped: row.get(6)?,
                 letters_revealed: row.get(7)?,
-                rank: row.get(8)?,
-                created_at: row.get(9)?,
+                elapsed_time_seconds: row.get(8)?,
+                rank: row.get(9)?,
+                created_at: row.get(10)?,
             })
         })?
         .collect::<Result<Vec<_>, _>>()?;
@@ -284,9 +286,9 @@ pub fn save_game_to_history(session: GameSessionData) -> Result<i32, AppError> {
     // Insert participants
     for participant in &session.participants {
         tx.execute(
-            "INSERT INTO game_participants 
-             (game_history_id, participant_name, participant_type, score, words_found, words_skipped, letters_revealed, rank)
-             VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)",
+            "INSERT INTO game_participants
+             (game_history_id, participant_name, participant_type, score, words_found, words_skipped, letters_revealed, elapsed_time_seconds, rank)
+             VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9)",
             params![
                 game_history_id,
                 participant.name,
@@ -295,6 +297,7 @@ pub fn save_game_to_history(session: GameSessionData) -> Result<i32, AppError> {
                 participant.words_found,
                 participant.words_skipped,
                 participant.letters_revealed,
+                participant.elapsed_time_seconds,
                 participant.rank
             ],
         )?;
@@ -354,6 +357,7 @@ pub struct ParticipantData {
     pub words_found: i32,
     pub words_skipped: i32,
     pub letters_revealed: i32,
+    pub elapsed_time_seconds: Option<i32>,
     pub rank: Option<i32>,
     pub word_results: Vec<WordResultData>,
 }

@@ -21,6 +21,8 @@ pub fn run_migrations(conn: &Connection) -> Result<()> {
 
     match create_all_tables(conn) {
         Ok(_) => {
+            // Run additional migrations
+            migrate_add_elapsed_time(conn)?;
             conn.execute_batch("COMMIT;")?;
             Ok(())
         }
@@ -132,6 +134,7 @@ fn create_game_participants_table(conn: &Connection) -> Result<()> {
             words_found INTEGER DEFAULT 0,
             words_skipped INTEGER DEFAULT 0,
             letters_revealed INTEGER DEFAULT 0,
+            elapsed_time_seconds INTEGER,
             rank INTEGER,
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY (game_history_id) REFERENCES game_history(id) ON DELETE CASCADE
@@ -162,6 +165,28 @@ fn create_game_word_results_table(conn: &Connection) -> Result<()> {
         )",
         [],
     )?;
+    Ok(())
+}
+
+/// Migration: Add elapsed_time_seconds column to game_participants
+///
+/// This migration adds the elapsed_time_seconds column if it doesn't exist.
+/// Safe to run multiple times (idempotent).
+fn migrate_add_elapsed_time(conn: &Connection) -> Result<()> {
+    // Check if column exists
+    let column_exists: bool = conn
+        .query_row(
+            "SELECT COUNT(*) FROM pragma_table_info('game_participants') WHERE name='elapsed_time_seconds'",
+            [],
+            |row| row.get::<_, i32>(0).map(|count| count > 0),
+        )?;
+
+    if !column_exists {
+        conn.execute(
+            "ALTER TABLE game_participants ADD COLUMN elapsed_time_seconds INTEGER",
+            [],
+        )?;
+    }
     Ok(())
 }
 

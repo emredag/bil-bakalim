@@ -25,6 +25,7 @@ export interface GameParticipant {
   words_found: number;
   words_skipped: number;
   letters_revealed: number;
+  elapsed_time_seconds?: number;
   rank: number;
 }
 
@@ -62,6 +63,7 @@ export interface ParticipantData {
   words_found: number;
   words_skipped: number;
   letters_revealed: number;
+  elapsed_time_seconds?: number;
   rank?: number;
   word_results: WordResultData[];
 }

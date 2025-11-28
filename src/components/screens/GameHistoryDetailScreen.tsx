@@ -257,27 +257,75 @@ export function GameHistoryDetailScreen() {
                 <p className="text-sm font-semibold text-white">{formatGameMode(game.game_mode)}</p>
               </div>
             </div>
-            <div className="flex items-center gap-3">
-              <Clock className="w-6 h-6 text-success-400" />
-              <div>
-                <p className="text-xs text-neutral-400">Süre</p>
-                <p className="text-sm font-semibold text-white">
-                  {formatPlayTime(game.total_time_seconds || 0)}
-                </p>
+            {game.game_mode === 'single' ? (
+              <div className="flex items-center gap-3">
+                <Clock className="w-6 h-6 text-success-400" />
+                <div>
+                  <p className="text-xs text-neutral-400">Süre</p>
+                  <p className="text-sm font-semibold text-white">
+                    {formatPlayTime(game.total_time_seconds || 0)}
+                  </p>
+                </div>
               </div>
-            </div>
+            ) : (
+              <div className="flex items-center gap-3">
+                <Clock className="w-6 h-6 text-success-400" />
+                <div>
+                  <p className="text-xs text-neutral-400">Yarışmacı Süreleri</p>
+                  <p className="text-sm font-semibold text-white">Tabloda</p>
+                </div>
+              </div>
+            )}
           </div>
         </Card>
 
-        {/* Ranking Table */}
-        <Card className="p-6">
-          <h2 className="text-2xl font-bold text-white mb-6">Sıralama</h2>
+        {/* Ranking/Performance Section */}
+        <Card className={`p-6 ${
+          game.game_mode === 'multi' ? 'bg-gradient-to-br from-primary-900/20 to-neutral-800/50 border-primary-500/30' :
+          game.game_mode === 'team' ? 'bg-gradient-to-br from-secondary-900/20 to-neutral-800/50 border-secondary-500/30' :
+          'bg-gradient-to-br from-success-900/20 to-neutral-800/50 border-success-500/30'
+        }`}>
+          {/* Mode-specific header */}
+          <div className="mb-6">
+            {game.game_mode === 'multi' && (
+              <div className="flex items-center gap-3 mb-2">
+                <span className="text-3xl">🏆</span>
+                <div>
+                  <h2 className="text-2xl font-bold text-white">Rekabetçi Sıralama</h2>
+                  <p className="text-sm text-primary-400">Yarışmacılar arasında kıyasıya mücadele</p>
+                </div>
+              </div>
+            )}
+            {game.game_mode === 'team' && (
+              <div className="flex items-center gap-3 mb-2">
+                <span className="text-3xl">👥</span>
+                <div>
+                  <h2 className="text-2xl font-bold text-white">Takım Sıralaması</h2>
+                  <p className="text-sm text-secondary-400">Takımların performans karşılaştırması</p>
+                </div>
+              </div>
+            )}
+            {game.game_mode === 'single' && (
+              <div className="flex items-center gap-3 mb-2">
+                <span className="text-3xl">📊</span>
+                <div>
+                  <h2 className="text-2xl font-bold text-white">Performans Özeti</h2>
+                  <p className="text-sm text-success-400">Kişisel başarı ve istatistikler</p>
+                </div>
+              </div>
+            )}
+          </div>
+
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
                 <tr className="border-b border-neutral-700">
-                  <th className="text-left py-3 px-4 text-sm font-semibold text-neutral-400">Sıra</th>
-                  <th className="text-left py-3 px-4 text-sm font-semibold text-neutral-400">İsim</th>
+                  {game.game_mode !== 'single' && (
+                    <th className="text-left py-3 px-4 text-sm font-semibold text-neutral-400">Sıra</th>
+                  )}
+                  <th className="text-left py-3 px-4 text-sm font-semibold text-neutral-400">
+                    {game.game_mode === 'team' ? 'Takım' : 'İsim'}
+                  </th>
                   <th className="text-center py-3 px-4 text-sm font-semibold text-neutral-400">
                     Puan
                   </th>
@@ -289,6 +337,9 @@ export function GameHistoryDetailScreen() {
                   </th>
                   <th className="text-center py-3 px-4 text-sm font-semibold text-neutral-400">
                     Harf
+                  </th>
+                  <th className="text-center py-3 px-4 text-sm font-semibold text-neutral-400">
+                    Süre
                   </th>
                   <th className="text-right py-3 px-4 text-sm font-semibold text-neutral-400">
                     Detay
@@ -302,17 +353,42 @@ export function GameHistoryDetailScreen() {
 
                   return (
                     <React.Fragment key={participant.id}>
-                      <tr className="border-b border-neutral-700/50 hover:bg-neutral-800/50 transition-colors">
+                      <tr className={`border-b border-neutral-700/50 hover:bg-neutral-800/50 transition-colors ${
+                        game.game_mode === 'multi' && participant.rank === 1 ? 'bg-primary-900/10' :
+                        game.game_mode === 'team' && participant.rank === 1 ? 'bg-secondary-900/10' :
+                        game.game_mode === 'single' ? 'bg-success-900/10' : ''
+                      }`}>
+                        {game.game_mode !== 'single' && (
+                          <td className="py-4 px-4">
+                            <div className="flex items-center gap-2">
+                              <span className="text-2xl">{getMedal(participant.rank)}</span>
+                              <span className={`font-bold ${
+                                participant.rank === 1 ? 'text-accent-400 text-xl' :
+                                participant.rank === 2 ? 'text-neutral-300 text-lg' :
+                                participant.rank === 3 ? 'text-accent-600 text-lg' :
+                                'text-white'
+                              }`}>{participant.rank}</span>
+                            </div>
+                          </td>
+                        )}
                         <td className="py-4 px-4">
                           <div className="flex items-center gap-2">
-                            <span className="text-lg">{getMedal(participant.rank)}</span>
-                            <span className="text-white font-semibold">{participant.rank}</span>
+                            <span className={`font-semibold ${
+                              participant.rank === 1 ? 'text-accent-400' : 'text-white'
+                            }`}>
+                              {participant.participant_name}
+                            </span>
+                            {game.game_mode === 'single' && (
+                              <span className="text-success-400 text-xs font-medium px-2 py-1 bg-success-900/30 rounded">
+                                📊 Kişisel
+                              </span>
+                            )}
+                            {game.game_mode === 'team' && (
+                              <span className="text-secondary-400 text-xs font-medium px-2 py-1 bg-secondary-900/30 rounded">
+                                👥 Takım
+                              </span>
+                            )}
                           </div>
-                        </td>
-                        <td className="py-4 px-4">
-                          <span className="text-white font-semibold">
-                            {participant.participant_name}
-                          </span>
                         </td>
                         <td className="py-4 px-4 text-center">
                           <span className="text-accent-400 font-bold text-lg">
@@ -334,6 +410,17 @@ export function GameHistoryDetailScreen() {
                             {participant.letters_revealed}
                           </span>
                         </td>
+                        <td className="py-4 px-4 text-center">
+                          <span className="text-neutral-300 font-medium">
+                            {participant.elapsed_time_seconds
+                              ? (() => {
+                                  const mins = Math.floor(participant.elapsed_time_seconds / 60);
+                                  const secs = Math.floor(participant.elapsed_time_seconds % 60);
+                                  return `${mins}:${secs.toString().padStart(2, '0')}`;
+                                })()
+                              : '-'}
+                          </span>
+                        </td>
                         <td className="py-4 px-4 text-right">
                           <button
                             onClick={() => toggleParticipant(participant.id)}
@@ -352,7 +439,7 @@ export function GameHistoryDetailScreen() {
                       {/* Expanded Word Results */}
                       {isExpanded && wordResults.length > 0 && (
                         <tr>
-                          <td colSpan={7} className="py-4 px-4 bg-neutral-800/30">
+                          <td colSpan={game.game_mode === 'single' ? 7 : 8} className="py-4 px-4 bg-neutral-800/30">
                             <motion.div
                               initial={{ height: 0, opacity: 0 }}
                               animate={{ height: 'auto', opacity: 1 }}

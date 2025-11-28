@@ -67,6 +67,7 @@ pub struct GameParticipant {
     pub words_found: i32,
     pub words_skipped: i32,
     pub letters_revealed: i32,
+    pub elapsed_time_seconds: Option<i32>,
     pub rank: Option<i32>,
     pub created_at: String,
 }

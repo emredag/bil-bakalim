@@ -5,6 +5,41 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2025-11-28
+
+### Fixed
+- **Game Rules Implementation**: Fixed winner determination algorithm to follow official game rules
+  - Ranking now correctly uses: Score → Letters Revealed (fewer wins) → Time (faster wins)
+  - Previously incorrect tiebreaker logic (words found) has been replaced
+- **Elapsed Time Tracking**: Added missing `elapsed_time_seconds` field to database
+  - Created database migration for `game_participants` table
+  - Updated backend models and commands to save/retrieve player times
+  - Fixed issue where time data was not persisted to game history
+
+### Added
+- **Enhanced Result Pages**: Added time column to all result displays
+  - ResultsMultiplayer: Shows individual player times in rankings
+  - ResultsTeamMode: Shows team completion times
+  - GameHistoryDetailScreen: Time data now visible in history details
+- **Mode-Specific History UI**: Differentiated game history detail screens by mode
+  - Single Player: Performance-focused layout with success theme (green)
+  - Multiplayer: Competitive layout with ranking emphasis and primary theme (blue)
+  - Team Mode: Team-focused layout with secondary theme (purple)
+  - Each mode now has distinct visual identity following design system
+
+### Changed
+- **History Detail UX**: Improved visual hierarchy and information architecture
+  - Removed "Rank" column from single player view (not applicable)
+  - Added mode-specific headers with emojis and descriptions
+  - Enhanced winner highlighting with mode-appropriate colors
+  - Fixed time display for multiplayer/team modes (was showing total, now shows "In Table")
+
+### Technical
+- Backend: Added `elapsed_time_seconds INTEGER` column to `game_participants` table
+- Frontend: Updated TypeScript types to include optional `elapsed_time_seconds` field
+- Database: Implemented idempotent migration with backward compatibility
+- UI: Applied design system color tokens consistently across all history views
+
 ## [1.0.1] - 2025-11-27
 
 ### Changed
@@ -58,5 +93,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 **Note:** For detailed development tasks, see `docs/tasks/` directory.
 
+[1.1.0]: https://github.com/emredag/bil-bakalim/releases/tag/v1.1.0
 [1.0.1]: https://github.com/emredag/bil-bakalim/releases/tag/v1.0.1
 [1.0.0]: https://github.com/emredag/bil-bakalim/releases/tag/v1.0.0

@@ -356,7 +356,7 @@ export const SettingsScreen: React.FC = () => {
           <CardContent className="space-y-4">
             <div className="space-y-2">
               <h3 className="text-xl font-bold text-neutral-100">Bil Bakalım</h3>
-              <p className="text-neutral-300">Versiyon: 1.0.2</p>
+              <p className="text-neutral-300">Versiyon: 1.1.0</p>
             </div>
 
             <div className="space-y-2">
@@ -369,7 +369,7 @@ export const SettingsScreen: React.FC = () => {
             <div className="flex flex-col gap-3">
               <Button
                 variant="secondary"
-                onClick={() => window.open('https://github.com/anthropics/claude-code', '_blank')}
+                onClick={() => window.open('https://github.com/emredag/bil-bakalim', '_blank')}
                 icon={<Github className="w-5 h-5" />}
                 className="w-full"
               >

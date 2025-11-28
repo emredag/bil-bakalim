@@ -40,13 +40,23 @@ export function ResultsTeamMode({ session, teams, onPlayAgain }: ResultsTeamMode
   const navigate = useNavigate();
   const [expandedTeams, setExpandedTeams] = useState<Set<number>>(new Set());
 
-  // Sort teams by score (descending), then by words found (tiebreaker)
+  // Sort teams by official game rules:
+  // 1. Higher score wins
+  // 2. Fewer letters revealed wins (tiebreaker)
+  // 3. Less time wins (tiebreaker)
   const rankedParticipants = [...session.participants].sort((a, b) => {
+    // 1. Higher score wins
     if (b.score !== a.score) {
-      return b.score - a.score; // Higher score wins
+      return b.score - a.score;
     }
-    // Tiebreaker: More words found wins
-    return b.wordsFound - a.wordsFound;
+
+    // 2. Fewer letters revealed wins (inverse)
+    if (a.lettersRevealed !== b.lettersRevealed) {
+      return a.lettersRevealed - b.lettersRevealed;
+    }
+
+    // 3. Less time wins (inverse)
+    return a.elapsedTimeSeconds - b.elapsedTimeSeconds;
   });
 
   // Assign ranks (handle ties) - two-pass algorithm
@@ -56,13 +66,17 @@ export function ResultsTeamMode({ session, teams, onPlayAgain }: ResultsTeamMode
     originalIndex: index,
   }));
 
-  // Second pass: Adjust ranks for ties
+  // Second pass: Adjust ranks for ties (score + letters + time all equal)
   for (let i = 1; i < participantsWithRank.length; i++) {
     const current = participantsWithRank[i];
     const prev = participantsWithRank[i - 1];
 
-    if (current.score === prev.score && current.wordsFound === prev.wordsFound) {
-      // Tie detected - use previous rank
+    if (
+      current.score === prev.score &&
+      current.lettersRevealed === prev.lettersRevealed &&
+      current.elapsedTimeSeconds === prev.elapsedTimeSeconds
+    ) {
+      // True tie detected - use previous rank
       current.rank = prev.rank;
     }
   }
@@ -97,6 +111,7 @@ export function ResultsTeamMode({ session, teams, onPlayAgain }: ResultsTeamMode
         words_found: p.wordsFound,
         words_skipped: p.wordsSkipped,
         letters_revealed: p.lettersRevealed,
+        elapsed_time_seconds: p.elapsedTimeSeconds,
         rank: p.rank,
         word_results: p.words.map((word) => ({
           word: word.word,
@@ -287,6 +302,16 @@ export function ResultsTeamMode({ session, teams, onPlayAgain }: ResultsTeamMode
                             <span>
                               Harf:{' '}
                               <span className="text-primary-400">{participant.lettersRevealed}</span>
+                            </span>
+                            <span>
+                              Süre:{' '}
+                              <span className="text-neutral-300">
+                                {(() => {
+                                  const mins = Math.floor(participant.elapsedTimeSeconds / 60);
+                                  const secs = Math.floor(participant.elapsedTimeSeconds % 60);
+                                  return `${mins}:${secs.toString().padStart(2, '0')}`;
+                                })()}
+                              </span>
                             </span>
                           </div>
 

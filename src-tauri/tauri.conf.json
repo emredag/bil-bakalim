@@ -58,11 +58,11 @@
     },
     "macOS": {
       "minimumSystemVersion": "10.15",
-      "entitlements": null,
+      "entitlements": "entitlements.plist",
       "exceptionDomain": null,
       "frameworks": [],
       "providerShortName": null,
-      "signingIdentity": null
+      "signingIdentity": "-"
     },
     "linux": {
       "deb": {

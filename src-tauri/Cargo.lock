@@ -263,7 +263,7 @@ name = "bil-bakalim"
 version = "1.1.0"
 dependencies = [
  "dirs",
- "rand 0.8.5",
+ "rand 0.9.2",
  "rusqlite",
  "serde",
  "serde_json",

@@ -187,13 +187,21 @@ Dialog'larda:
 
 ## 📚 Dokümantasyon
 
-- **[Kullanıcı Rehberi](docs/USER_GUIDE.md)** - Detaylı kullanım kılavuzu
-- **[Geliştirici Rehberi](docs/DEVELOPER_GUIDE.md)** - Mimari ve geliştirme rehberi
+### Kullanıcılar İçin
+- **[Kullanıcı Rehberi](docs/USER_GUIDE.md)** - Detaylı kullanım kılavuzu ve özellikler
+
+### Geliştiriciler İçin
+- **[Geliştirici Rehberi](docs/DEVELOPER_GUIDE.md)** - Kurulum, mimari ve geliştirme
 - **[API Dokümantasyonu](docs/API.md)** - Tauri komutları referansı
-- **[Mimari Dokümanı](docs/ARCHITECTURE.md)** - Sistem mimarisi
-- **[Katkıda Bulunma](CONTRIBUTING.md)** - Katkı rehberi
-- **[Kod Kalitesi](docs/CODE_QUALITY.md)** - Kalite standartları
-- **[Değişiklik Günlüğü](CHANGELOG.md)** - Sürüm notları
+- **[Mimari Dokümanı](docs/ARCHITECTURE.md)** - Sistem mimarisi ve veri akışı
+- **[Kod Kalitesi](docs/CODE_QUALITY.md)** - Kod standartları ve araçlar
+- **[Katkıda Bulunma](CONTRIBUTING.md)** - Katkı rehberi ve süreçleri
+- **[Code Signing Policy](CODE_SIGNING_POLICY.md)** - İmzalama politikası
+- **[Güvenlik Politikası](SECURITY.md)** - Güvenlik raporlama
+
+### Proje Bilgisi
+- **[Değişiklik Günlüğü](CHANGELOG.md)** - Sürüm notları ve geçmiş
+- **[Arşiv Dokümanları](docs/archive/)** - Tarihsel tasarım ve planlama belgeleri
 
 ## 🧪 Testing
 
@@ -251,7 +259,21 @@ Closes #123
 
 Hata bulduysanız veya öneriniz varsa [GitHub Issues](https://github.com/emredag/bil-bakalim/issues) sayfasından bildirebilirsiniz.
 
-## 📄 Lisans
+## � Code Signing
+
+**Free code signing provided by [SignPath.io](https://signpath.io), certificate by SignPath Foundation**
+
+All releases are signed with a certificate issued to SignPath Foundation for open source projects. For details, see our [Code Signing Policy](CODE_SIGNING_POLICY.md).
+
+**Team Roles:**
+- **Committers and Reviewers:** [Emre Dağ](https://github.com/emredag)
+- **Approvers:** [Emre Dağ](https://github.com/emredag)
+
+**Privacy Policy:** This program will not transfer any information to other networked systems unless specifically requested by the user or the person installing or operating it. See [Code Signing Policy](CODE_SIGNING_POLICY.md) for full privacy details.
+
+---
+
+## �📄 Lisans
 
 Bu proje [MIT License](LICENSE) altında lisanslanmıştır.
 

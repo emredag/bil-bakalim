@@ -28,7 +28,7 @@ jobs:
 
       - name: Create release
         id: create-release
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const { data } = await github.rest.repos.createRelease({
@@ -49,6 +49,10 @@ jobs:
             ### Değişiklikler
             
             Detaylar için [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/main/CHANGELOG.md) dosyasına bakın.
+
+            ---
+            
+            **Free code signing provided by [SignPath.io](https://signpath.io), certificate by SignPath Foundation**
             `,
               draft: true,
               prerelease: false
@@ -128,7 +132,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Publish release
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             await github.rest.repos.updateRelease({

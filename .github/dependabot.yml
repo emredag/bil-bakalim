@@ -1,0 +1,77 @@
+# Security Policy Configuration for GitHub
+
+# To enable GitHub Security features:
+# 1. Go to repository Settings
+# 2. Security & analysis section
+# 3. Enable:
+#    - Dependency graph
+#    - Dependabot alerts
+#    - Dependabot security updates
+#    - Code scanning (optional)
+#    - Secret scanning (optional for public repos)
+
+version: 2
+updates:
+  # Frontend dependencies (npm)
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "emredag"
+    labels:
+      - "dependencies"
+      - "npm"
+    # Auto-merge patch updates
+    versioning-strategy: increase-if-necessary
+    # Group updates for better PR management
+    groups:
+      react-ecosystem:
+        patterns:
+          - "react*"
+          - "@types/react*"
+      testing:
+        patterns:
+          - "vitest*"
+          - "@vitest/*"
+          - "@testing-library/*"
+      build-tools:
+        patterns:
+          - "vite*"
+          - "@vitejs/*"
+          - "typescript"
+          - "eslint*"
+          - "prettier"
+
+  # Backend dependencies (Cargo)
+  - package-ecosystem: "cargo"
+    directory: "/src-tauri"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "emredag"
+    labels:
+      - "dependencies"
+      - "rust"
+    groups:
+      tauri:
+        patterns:
+          - "tauri*"
+          - "@tauri-apps/*"
+
+  # GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "emredag"
+    labels:
+      - "dependencies"
+      - "github-actions"

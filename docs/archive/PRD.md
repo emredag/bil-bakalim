@@ -2371,13 +2371,8 @@ Closes #42
 
 - Otomatik security audit (npm audit, cargo audit)
 - Düzenli bağımlılık güncellemesi
-- Vulnerability monitoring (Dependabot)
 
 ### 24.2 Güvenlik Raporlama
-
-**Responsible Disclosure:**
-
-- SECURITY.md dosyası
 - Özel güvenlik e-postası
 - 90 gün disclosure timeline
 - Hall of Fame (raporlayan kişiler)

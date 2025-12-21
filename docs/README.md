@@ -40,13 +40,6 @@ Welcome to the Bil Bakalım documentation. This directory contains comprehensive
   - Testing guidelines
   - Pre-commit hooks
 
-## 🔐 Project Policies
-
-- **[SignPath Compliance](SIGNPATH_COMPLIANCE.md)** - Code signing policy
-  - SignPath Foundation requirements
-  - Compliance checklist
-  - Team roles and responsibilities
-
 ## 📦 Archive
 
 - **[archive/](archive/)** - Historical documentation
@@ -64,16 +57,13 @@ Welcome to the Bil Bakalım documentation. This directory contains comprehensive
 | [ARCHITECTURE.md](ARCHITECTURE.md) | System design and structure | Technical contributors |
 | [API.md](API.md) | Backend API reference | Developers |
 | [CODE_QUALITY.md](CODE_QUALITY.md) | Code standards | Contributors |
-| [SIGNPATH_COMPLIANCE.md](SIGNPATH_COMPLIANCE.md) | Code signing policy | Maintainers |
 
+## External Documentation
 ## External Documentation
 
 - **[Contributing Guide](../CONTRIBUTING.md)** - How to contribute to the project
-- **[Code Signing Policy](../CODE_SIGNING_POLICY.md)** - Signing and distribution policy
-- **[Security Policy](../SECURITY.md)** - Security reporting and measures
 - **[Changelog](../CHANGELOG.md)** - Version history and release notes
 - **[README](../README.md)** - Project overview and quick start
-
 ## Documentation Standards
 
 All documentation in this project follows these principles:

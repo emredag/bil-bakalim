@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MoreVertical } from 'lucide-react';
 
@@ -30,11 +31,30 @@ export interface QuickActionsMenuProps {
 export const QuickActionsMenu: React.FC<QuickActionsMenuProps> = ({ actions, className = '' }) => {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
+
+  // Calculate dropdown position when opening
+  useEffect(() => {
+    if (isOpen && buttonRef.current) {
+      const rect = buttonRef.current.getBoundingClientRect();
+      setDropdownPosition({
+        top: rect.bottom + 8, // 8px gap
+        left: rect.right - 192, // 192px is width (w-48)
+      });
+    }
+  }, [isOpen]);
 
   // Click outside to close
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+      const target = event.target as Node;
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(target) &&
+        buttonRef.current &&
+        !buttonRef.current.contains(target)
+      ) {
         setIsOpen(false);
       }
     };
@@ -65,11 +85,15 @@ export const QuickActionsMenu: React.FC<QuickActionsMenuProps> = ({ actions, cla
   };
 
   return (
-    <div className={`relative inline-block ${className}`} ref={menuRef}>
+    <div className={`relative inline-block ${className}`}>
       {/* Trigger Button */}
       <button
+        ref={buttonRef}
         type="button"
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={(e) => {
+          e.stopPropagation();
+          setIsOpen(!isOpen);
+        }}
         className="
           p-2 rounded-lg
           text-neutral-400 hover:text-neutral-200
@@ -84,56 +108,68 @@ export const QuickActionsMenu: React.FC<QuickActionsMenuProps> = ({ actions, cla
         <MoreVertical className="w-5 h-5" />
       </button>
 
-      {/* Dropdown Menu */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: -10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: -10 }}
-            transition={{ duration: 0.15 }}
-            className="
-              absolute right-0 mt-2 w-48
-              bg-neutral-800 border border-neutral-700
-              rounded-xl shadow-xl
-              py-2
-              z-50
-            "
-            role="menu"
-            aria-orientation="vertical"
-          >
-            {actions.map((action, index) => (
-              <button
-                key={index}
-                type="button"
-                onClick={() => handleActionClick(action)}
-                disabled={action.disabled}
-                className={`
-                  w-full px-4 py-2.5
-                  flex items-center gap-3
-                  text-left text-sm font-medium
-                  transition-colors duration-150
-                  ${
-                    action.variant === 'destructive'
-                      ? 'text-error-400 hover:bg-error-500/10'
-                      : 'text-neutral-200 hover:bg-neutral-700/50'
-                  }
-                  ${action.disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
-                  focus:outline-none focus:bg-neutral-700/50
-                `}
-                role="menuitem"
-              >
-                {action.icon && (
-                  <span className="w-5 h-5 flex-shrink-0" aria-hidden="true">
-                    {action.icon}
-                  </span>
-                )}
-                <span>{action.label}</span>
-              </button>
-            ))}
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Dropdown Menu - Rendered as Portal */}
+      {createPortal(
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              ref={menuRef}
+              initial={{ opacity: 0, scale: 0.95, y: -10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: -10 }}
+              transition={{ duration: 0.15 }}
+              style={{
+                position: 'fixed',
+                top: dropdownPosition.top,
+                left: Math.max(8, dropdownPosition.left), // Ensure it doesn't go off-screen
+              }}
+              className="
+                w-48
+                bg-neutral-800 border border-neutral-700
+                rounded-xl shadow-xl
+                py-2
+                z-[9999]
+              "
+              role="menu"
+              aria-orientation="vertical"
+            >
+              {actions.map((action, index) => (
+                <button
+                  key={index}
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleActionClick(action);
+                  }}
+                  disabled={action.disabled}
+                  className={`
+                    w-full px-4 py-2.5
+                    flex items-center gap-3
+                    text-left text-sm font-medium
+                    transition-colors duration-150
+                    ${
+                      action.variant === 'destructive'
+                        ? 'text-error-400 hover:bg-error-500/10'
+                        : 'text-neutral-200 hover:bg-neutral-700/50'
+                    }
+                    ${action.disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
+                    focus:outline-none focus:bg-neutral-700/50
+                  `}
+                  role="menuitem"
+                >
+                  {action.icon && (
+                    <span className="w-5 h-5 flex-shrink-0" aria-hidden="true">
+                      {action.icon}
+                    </span>
+                  )}
+                  <span>{action.label}</span>
+                </button>
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
     </div>
   );
 };

@@ -75,6 +75,7 @@ export interface GameParticipant {
   participant_type: 'player' | 'team';
   score: number;
   words_found: number;
+  words_wrong: number;
   words_skipped: number;
   letters_revealed: number;
   elapsed_time_seconds?: number | null;
@@ -92,7 +93,7 @@ export interface GameWordResult {
   participant_id: number;
   word: string;
   word_hint: string | null;
-  result: 'found' | 'skipped' | 'timeout';
+  result: 'found' | 'wrong' | 'skipped' | 'timeout';
   points_earned: number;
   letters_used: number;
   created_at: string;

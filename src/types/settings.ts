@@ -25,6 +25,9 @@ export interface ParsedSettings {
   animationSpeed: 'slow' | 'normal' | 'fast';
   showHints: boolean;
   showTutorial: boolean;
+  showGameButtons: boolean; // Show game control buttons on screen (for touch screens)
+  gameDuration: number; // Game duration in seconds (default 300)
+  guessTimerDuration: number; // Guess mode timer in seconds (default 30)
 }
 
 /**
@@ -38,4 +41,7 @@ export const DEFAULT_SETTINGS: ParsedSettings = {
   animationSpeed: 'normal',
   showHints: true,
   showTutorial: true,
+  showGameButtons: true, // Default: show buttons (touch screen mode)
+  gameDuration: 300, // 5 minutes default
+  guessTimerDuration: 30, // 30 seconds default
 };

@@ -28,8 +28,12 @@ export type LetterStatus = 'hidden' | 'revealed';
 
 /**
  * Word result type
+ * - found: Correct guess
+ * - wrong: Incorrect guess (penalty applied)
+ * - skipped: All letters revealed without guessing
+ * - timeout: Guess timer expired
  */
-export type WordResult = 'found' | 'skipped' | 'timeout';
+export type WordResult = 'found' | 'wrong' | 'skipped' | 'timeout';
 
 /**
  * Single player setup
@@ -93,11 +97,10 @@ export interface GameWord {
   hint: string;
   letterCount: number;
   letters: Letter[];
-  remainingGuesses: number; // Max 3 per word
   lettersRevealed: number;
-  hasMadeGuess: boolean; // IMPORTANT: Cannot reveal letters after guess (PRD rule)
+  hasMadeGuess: boolean; // Tracks if guess mode was used for this word
   result: WordResult | null;
-  pointsEarned: number;
+  pointsEarned: number; // Can be negative for wrong/timeout
 }
 
 /**
@@ -108,6 +111,7 @@ export interface ActiveParticipant {
   type: ParticipantType;
   score: number;
   wordsFound: number;
+  wordsWrong: number; // Wrong guesses count
   wordsSkipped: number;
   lettersRevealed: number;
   currentWordIndex: number;
@@ -115,7 +119,7 @@ export interface ActiveParticipant {
   isActive: boolean; // Currently playing
   // Multi/Team mode: Each participant gets their OWN 5-minute timer
   elapsedTimeSeconds: number; // Participant's individual time
-  totalTimeSeconds: number; // Always 300 (5 minutes per participant)
+  totalTimeSeconds: number; // Configurable via settings (default 300)
 }
 
 /**
@@ -135,11 +139,15 @@ export interface GameSession {
   participants: ActiveParticipant[];
   activeParticipantIndex: number;
 
-  // Timing - PRD: 5 minutes (300 seconds) total for all 14 words
-  totalTimeSeconds: number; // 300
+  // Timing - Configurable via settings (default 300 seconds)
+  totalTimeSeconds: number;
   elapsedTimeSeconds: number;
   isPaused: boolean;
   isInTransition: boolean; // Pause timer during word transitions (confetti, reveal)
+
+  // Guess mode state
+  isGuessing: boolean; // True when in guess mode (global timer paused)
+  guessTimeRemaining: number; // Countdown timer for guess mode
 
   // Timestamps
   startedAt: string | null;
@@ -151,8 +159,11 @@ export interface GameSession {
  */
 export interface GameConfig {
   categoryId: number;
+  categoryName: string;
+  categoryEmoji: string;
   mode: GameMode;
   setup: SinglePlayerSetup | MultiPlayerSetup | TeamModeSetup;
+  gameDuration: number; // Game duration in seconds (passed from settings)
 }
 
 /**
@@ -163,6 +174,7 @@ export interface ParticipantResult {
   type: ParticipantType;
   score: number;
   wordsFound: number;
+  wordsWrong: number; // Wrong guesses count
   wordsSkipped: number;
   lettersRevealed: number;
   rank: number;

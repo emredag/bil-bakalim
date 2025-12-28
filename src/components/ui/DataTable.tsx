@@ -21,6 +21,8 @@ export interface DataTableProps<T> {
   selectable?: boolean;
   selectedKeys?: string[];
   onSelectionChange?: (selectedKeys: string[]) => void;
+  // Row click handler
+  onRowClick?: (row: T) => void;
   // Other props
   zebra?: boolean;
   stickyHeader?: boolean;
@@ -53,6 +55,7 @@ export function DataTable<T>({
   selectable = false,
   selectedKeys = [],
   onSelectionChange,
+  onRowClick,
   zebra = true,
   stickyHeader = true,
   responsive = true,
@@ -101,7 +104,7 @@ export function DataTable<T>({
   return (
     <div
       className={`
-        overflow-x-auto scrollbar-dark
+        overflow-x-auto overflow-y-visible scrollbar-dark
         ${responsive ? 'w-full' : ''}
         ${className}
       `}
@@ -187,16 +190,18 @@ export function DataTable<T>({
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.02, duration: 0.2 }}
+                onClick={() => onRowClick?.(row)}
                 className={`
                   border-b border-neutral-700
                   hover:bg-neutral-800/50 transition-colors
                   ${zebra && index % 2 === 1 ? 'bg-neutral-800/30' : ''}
                   ${isSelected ? 'bg-primary-500/10' : ''}
+                  ${onRowClick ? 'cursor-pointer' : ''}
                 `}
               >
                 {/* Row Checkbox */}
                 {selectable && (
-                  <td className="px-4 py-3">
+                  <td className="px-4 py-3" onClick={(e) => e.stopPropagation()}>
                     <input
                       type="checkbox"
                       checked={isSelected}
@@ -219,6 +224,7 @@ export function DataTable<T>({
                   <td
                     key={column.key}
                     className="px-4 py-3 text-sm md:text-base text-neutral-300"
+                    onClick={column.key === 'actions' ? (e) => e.stopPropagation() : undefined}
                   >
                     {column.accessor(row)}
                   </td>

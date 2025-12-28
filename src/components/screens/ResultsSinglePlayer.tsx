@@ -23,9 +23,12 @@ import { saveGameToHistory, type GameSessionData } from '../../api/gameHistory';
 import CelebrationHero from '../results/CelebrationHero';
 import WordResultsGrid from '../results/WordResultsGrid';
 import { ResultsActions } from '../results/ResultsActions';
-
-// Global set to track saved session IDs (prevents duplicate saves in Strict Mode)
-const savedSessionIds = new Set<string>();
+import {
+  cleanupOldSessions,
+  isSessionSaved,
+  markSessionSaved,
+  unmarkSessionSaved,
+} from '../../utils/sessionTracker';
 
 interface ResultsSinglePlayerProps {
   session: GameSession;
@@ -40,13 +43,16 @@ export function ResultsSinglePlayer({ session, onPlayAgain }: ResultsSinglePlaye
 
   // Save game to history on mount (ONCE ONLY per session)
   useEffect(() => {
+    // Cleanup old sessions periodically
+    cleanupOldSessions();
+
     // Check if this session was already saved
-    if (savedSessionIds.has(session.id)) {
+    if (isSessionSaved(session.id)) {
       return;
     }
 
-    // Mark as saved immediately
-    savedSessionIds.add(session.id);
+    // Mark as saved immediately with timestamp
+    markSessionSaved(session.id);
 
     const gameData: GameSessionData = {
       category_id: session.categoryId,
@@ -61,6 +67,7 @@ export function ResultsSinglePlayer({ session, onPlayAgain }: ResultsSinglePlaye
           participant_type: participant.type,
           score: participant.score,
           words_found: participant.wordsFound,
+          words_wrong: participant.wordsWrong,
           words_skipped: participant.wordsSkipped,
           letters_revealed: participant.lettersRevealed,
           rank: 1,
@@ -79,14 +86,14 @@ export function ResultsSinglePlayer({ session, onPlayAgain }: ResultsSinglePlaye
       .catch((err) => {
         console.error('❌ Failed to save game to history:', err);
         // Remove from set on error so it can be retried
-        savedSessionIds.delete(session.id);
+        unmarkSessionSaved(session.id);
       });
   }, []); // Empty dependency array - run ONCE
 
   // Calculate stats
   const totalWords = words.length;
   const wordsFound = participant.wordsFound;
-  const wordsSkipped = participant.wordsSkipped;
+  const wordsWrong = participant.wordsWrong;
   const lettersRevealed = participant.lettersRevealed;
   // Use participant's elapsed time, not session's (which is not updated)
   const elapsedSeconds = participant.elapsedTimeSeconds;
@@ -155,7 +162,7 @@ export function ResultsSinglePlayer({ session, onPlayAgain }: ResultsSinglePlaye
             <p className="text-sm text-neutral-400 md:text-base">Bulunan Kelime</p>
           </motion.div>
 
-          {/* Words Skipped */}
+          {/* Words Skipped → Words Wrong */}
           <motion.div
             className="glass-card group cursor-default rounded-xl p-6 text-center transition-all hover:scale-102"
             initial={{ opacity: 0, y: 20 }}
@@ -163,12 +170,12 @@ export function ResultsSinglePlayer({ session, onPlayAgain }: ResultsSinglePlaye
             transition={{ delay: 0.5 }}
           >
             <div className="mb-3 flex justify-center">
-              <Zap className="h-8 w-8 text-warning-400" />
+              <Zap className="h-8 w-8 text-error-400" />
             </div>
-            <p className="mb-2 font-mono text-3xl font-bold tabular-nums text-warning-400 md:text-4xl">
-              {wordsSkipped}
+            <p className="mb-2 font-mono text-3xl font-bold tabular-nums text-error-400 md:text-4xl">
+              {wordsWrong}
             </p>
-            <p className="text-sm text-neutral-400 md:text-base">Pas Geçilen</p>
+            <p className="text-sm text-neutral-400 md:text-base">Yanlış Tahmin</p>
           </motion.div>
 
           {/* Letters Revealed */}

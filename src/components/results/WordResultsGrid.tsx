@@ -58,7 +58,12 @@ function WordDetailsModal({ word, onClose }: { word: GameWord; onClose: () => vo
           </div>
           <div className="rounded-lg bg-neutral-800/50 p-3 text-center">
             <p className="mb-1 text-xs text-neutral-400">Kazanılan Puan</p>
-            <p className="font-mono text-2xl font-bold text-accent-400">{word.pointsEarned}</p>
+            <p className={`font-mono text-2xl font-bold ${
+              word.pointsEarned < 0 ? 'text-error-400' : 
+              word.pointsEarned > 0 ? 'text-accent-400' : 'text-neutral-400'
+            }`}>
+              {word.pointsEarned > 0 ? `+${word.pointsEarned}` : word.pointsEarned}
+            </p>
           </div>
         </div>
 
@@ -87,7 +92,10 @@ export default function WordResultsGrid({ words }: WordResultsGridProps) {
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
         {words.map((word, index) => {
           const statusIcon =
-            word.result === 'found' ? '✅' : word.result === 'skipped' ? '⏭️' : '⏰';
+            word.result === 'found' ? '✅' : 
+            word.result === 'wrong' ? '❌' :
+            word.result === 'timeout' ? '⏰' :
+            word.result === 'skipped' ? '⏭️' : '❓';
 
           // Status-based styling
           let borderColor = 'border-neutral-700';
@@ -97,6 +105,9 @@ export default function WordResultsGrid({ words }: WordResultsGridProps) {
           if (word.result === 'found') {
             borderColor = 'border-success-500';
             bgColor = 'bg-success-500/10';
+          } else if (word.result === 'wrong') {
+            borderColor = 'border-error-500';
+            bgColor = 'bg-error-500/10';
           } else if (word.result === 'skipped') {
             borderColor = 'border-neutral-600';
             bgColor = 'bg-neutral-700/10';
@@ -124,9 +135,12 @@ export default function WordResultsGrid({ words }: WordResultsGridProps) {
               {/* Word */}
               <div className="mb-2 font-mono text-lg font-bold text-neutral-50">{word.word}</div>
 
-              {/* Points */}
-              <div className="font-mono text-sm font-semibold text-accent-400">
-                {word.pointsEarned > 0 ? `+${word.pointsEarned}` : '0'}
+              {/* Points - Red for negative, green for positive */}
+              <div className={`font-mono text-sm font-semibold ${
+                word.pointsEarned < 0 ? 'text-error-400' : 
+                word.pointsEarned > 0 ? 'text-accent-400' : 'text-neutral-400'
+              }`}>
+                {word.pointsEarned > 0 ? `+${word.pointsEarned}` : word.pointsEarned}
               </div>
 
               {/* Hover indicator */}

@@ -22,9 +22,12 @@ import CelebrationHero from '../results/CelebrationHero';
 import PodiumDisplay from '../results/PodiumDisplay';
 import WordResultsGrid from '../results/WordResultsGrid';
 import { ResultsActions } from '../results/ResultsActions';
-
-// Global set to track saved session IDs (prevents duplicate saves in Strict Mode)
-const savedSessionIds = new Set<string>();
+import {
+  cleanupOldSessions,
+  isSessionSaved,
+  markSessionSaved,
+  unmarkSessionSaved,
+} from '../../utils/sessionTracker';
 
 interface ResultsMultiplayerProps {
   session: GameSession;
@@ -78,13 +81,16 @@ export function ResultsMultiplayer({ session, onPlayAgain }: ResultsMultiplayerP
 
   // Save game to history on mount (ONCE ONLY per session)
   useEffect(() => {
+    // Cleanup old sessions periodically
+    cleanupOldSessions();
+
     // Check if this session was already saved
-    if (savedSessionIds.has(session.id)) {
+    if (isSessionSaved(session.id)) {
       return;
     }
 
     // Mark as saved immediately
-    savedSessionIds.add(session.id);
+    markSessionSaved(session.id);
 
     // Calculate total elapsed time from all participants
     const totalElapsedTime = participantsWithRank.reduce(
@@ -104,6 +110,7 @@ export function ResultsMultiplayer({ session, onPlayAgain }: ResultsMultiplayerP
         participant_type: p.type,
         score: p.score,
         words_found: p.wordsFound,
+        words_wrong: p.wordsWrong,
         words_skipped: p.wordsSkipped,
         letters_revealed: p.lettersRevealed,
         elapsed_time_seconds: p.elapsedTimeSeconds,
@@ -122,7 +129,7 @@ export function ResultsMultiplayer({ session, onPlayAgain }: ResultsMultiplayerP
       .catch((err) => {
         console.error('❌ Failed to save game to history:', err);
         // Remove from set on error so it can be retried
-        savedSessionIds.delete(session.id);
+        unmarkSessionSaved(session.id);
       });
   }, []); // Empty dependency array - run ONCE
 

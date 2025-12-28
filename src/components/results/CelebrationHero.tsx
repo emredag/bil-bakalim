@@ -14,6 +14,11 @@ interface CelebrationHeroProps {
  * Get celebration message based on score and mode
  */
 function getCelebrationMessage(score: number, mode: GameMode): string {
+  // Handle negative scores
+  if (score < 0) {
+    return 'Bir Dahaki Sefere!';
+  }
+  
   // Maximum possible score is 9,800 (all words with 0 hints)
   const percentage = (score / 9800) * 100;
 
@@ -23,8 +28,10 @@ function getCelebrationMessage(score: number, mode: GameMode): string {
     return mode === 'single' ? 'Harika Oyun!' : 'Muhteşem Bir Yarış!';
   } else if (percentage >= 50) {
     return 'İyi Oyun!';
-  } else {
+  } else if (percentage >= 25) {
     return 'Oyun Bitti!';
+  } else {
+    return 'Devam Et!';
   }
 }
 
@@ -110,8 +117,10 @@ export default function CelebrationHero({
           <div
             className="font-mono text-6xl font-bold md:text-7xl"
             style={{
-              color: 'rgb(251, 191, 36)', // accent-400
-              textShadow: '0 4px 20px rgba(245, 158, 11, 0.5)',
+              color: score < 0 ? 'rgb(248, 113, 113)' : 'rgb(251, 191, 36)', // error-400 for negative, accent-400 for positive
+              textShadow: score < 0 
+                ? '0 4px 20px rgba(239, 68, 68, 0.5)' 
+                : '0 4px 20px rgba(245, 158, 11, 0.5)',
             }}
           >
             <AnimatedNumber value={score} duration={2000} />

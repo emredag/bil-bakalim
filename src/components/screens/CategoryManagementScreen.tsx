@@ -42,7 +42,8 @@ import {
   QuickActionItem,
   BulkActionBar,
   BulkAction,
-  InlineEditCell
+  InlineEditCell,
+  Modal
 } from '../ui';
 import { CreateCategoryModal } from '../modals/CreateCategoryModal';
 import { EditCategoryModal } from '../modals/EditCategoryModal';
@@ -51,11 +52,13 @@ import {
   getAllCategories,
   validateCategory,
   updateCategory,
-  exportCategoryToJson
+  exportCategoryToJson,
+  importCategoryFromJson
 } from '../../api/category';
 import { Category, ValidationResult } from '../../types/database';
 import { ROUTES, buildRoute } from '../../routes/constants';
 import { useKeyboardShortcuts } from '../../hooks';
+import { useToast, ToastContainer } from '../ui/Toast';
 
 type SortKey = 'name' | 'words' | 'valid';
 type SortDirection = 'asc' | 'desc';
@@ -75,6 +78,7 @@ type SortDirection = 'asc' | 'desc';
  */
 export function CategoryManagementScreen() {
   const navigate = useNavigate();
+  const { toasts, showToast } = useToast();
 
   // State
   const [categories, setCategories] = useState<Category[]>([]);
@@ -85,6 +89,7 @@ export function CategoryManagementScreen() {
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [showImportCategoryModal, setShowImportCategoryModal] = useState(false);
 
   // Modal states
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -274,6 +279,68 @@ export function CategoryManagementScreen() {
     }
   };
 
+  // Handle import - needs a category to be selected
+  const handleImport = async () => {
+    if (selectedIds.length === 0) {
+      setShowImportCategoryModal(true);
+      return;
+    }
+
+    if (selectedIds.length > 1) {
+      showToast('Lütfen içe aktarma için tek bir kategori seçin', 'warning');
+      return;
+    }
+
+    const categoryId = parseInt(selectedIds[0]);
+    const category = categories.find((c) => c.id === categoryId);
+
+    if (!category) {
+      showToast('Seçili kategori bulunamadı', 'error');
+      return;
+    }
+
+    try {
+      const result = await importCategoryFromJson(categoryId);
+      showToast(result.message, 'success');
+      await loadCategories();
+    } catch (err) {
+      console.error('Import failed:', err);
+      const errorMessage = err instanceof Error ? err.message : 'JSON içe aktarma başarısız';
+
+      if (errorMessage.includes('iptal edildi')) {
+        return;
+      }
+
+      showToast(errorMessage, 'error');
+    }
+  };
+
+  // Handle import for a specific category
+  const handleImportForCategory = async (categoryId: number) => {
+    const category = categories.find((c) => c.id === categoryId);
+
+    if (!category) {
+      showToast('Kategori bulunamadı', 'error');
+      return;
+    }
+
+    try {
+      const result = await importCategoryFromJson(categoryId);
+      showToast(result.message, 'success');
+      setShowImportCategoryModal(false);
+      await loadCategories();
+    } catch (err) {
+      console.error('Import failed:', err);
+      const errorMessage = err instanceof Error ? err.message : 'JSON içe aktarma başarısız';
+
+      if (errorMessage.includes('iptal edildi')) {
+        return;
+      }
+
+      showToast(errorMessage, 'error');
+    }
+  };
+
   // Define table columns
   const columns: DataTableColumn<Category>[] = [
     {
@@ -451,7 +518,7 @@ export function CategoryManagementScreen() {
 
             <Button
               variant="secondary"
-              onClick={() => {/* TODO: Implement import */}}
+              onClick={handleImport}
               icon={<FileUp className="w-5 h-5" />}
             >
               İçe Aktar
@@ -525,7 +592,7 @@ export function CategoryManagementScreen() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
-            className="bg-neutral-900 rounded-2xl border border-neutral-800 overflow-hidden"
+            className="bg-neutral-900 rounded-2xl border border-neutral-800"
           >
             <DataTable
               data={processedCategories}
@@ -539,6 +606,7 @@ export function CategoryManagementScreen() {
               onSelectionChange={setSelectedIds}
               zebra
               stickyHeader
+              onRowClick={(category) => handleViewWords(category.id)}
             />
           </motion.div>
         )}
@@ -577,6 +645,48 @@ export function CategoryManagementScreen() {
         onClose={() => setDeletingCategory(null)}
         onSuccess={handleDeleteSuccess}
       />
+
+      {/* Import Category Selection Modal */}
+      <Modal
+        isOpen={showImportCategoryModal}
+        onClose={() => setShowImportCategoryModal(false)}
+        title="İçe Aktarılacak Kategori Seçin"
+        size="md"
+      >
+        <div className="space-y-4">
+          <p className="text-neutral-400 text-sm">
+            JSON dosyasındaki kelimelerin ekleneceği kategoriyi seçin:
+          </p>
+          <div className="max-h-64 overflow-y-auto space-y-2">
+            {categories.map((category) => (
+              <button
+                key={category.id}
+                onClick={() => handleImportForCategory(category.id)}
+                className="w-full flex items-center gap-3 p-3 rounded-lg bg-neutral-800 hover:bg-neutral-700 transition-colors text-left"
+              >
+                <span className="text-2xl">{category.emoji}</span>
+                <div>
+                  <p className="font-medium text-neutral-100">{category.name}</p>
+                  {category.description && (
+                    <p className="text-sm text-neutral-400">{category.description}</p>
+                  )}
+                </div>
+              </button>
+            ))}
+          </div>
+          <div className="flex justify-end pt-2">
+            <Button
+              variant="secondary"
+              onClick={() => setShowImportCategoryModal(false)}
+            >
+              İptal
+            </Button>
+          </div>
+        </div>
+      </Modal>
+
+      {/* Toast Container */}
+      <ToastContainer toasts={toasts} />
     </div>
   );
 }

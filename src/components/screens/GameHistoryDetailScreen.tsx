@@ -194,8 +194,7 @@ export function GameHistoryDetailScreen() {
       <div className="min-h-screen bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900 flex items-center justify-center p-4">
         <Card className="p-8 text-center">
           <p className="text-error-400 mb-4">{error || 'Oyun bulunamadı'}</p>
-          <Button variant="primary" onClick={() => navigate(ROUTES.HISTORY)}>
-            <ArrowLeft className="w-5 h-5 mr-2" />
+          <Button variant="primary" onClick={() => navigate(ROUTES.HISTORY)} icon={<ArrowLeft className="w-5 h-5" />}>
             Geri
           </Button>
         </Card>
@@ -213,8 +212,7 @@ export function GameHistoryDetailScreen() {
       <div className="max-w-6xl mx-auto space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
-          <Button variant="secondary" onClick={() => navigate(ROUTES.HISTORY)}>
-            <ArrowLeft className="w-5 h-5 mr-2" />
+          <Button variant="secondary" onClick={() => navigate(ROUTES.HISTORY)} icon={<ArrowLeft className="w-5 h-5" />}>
             Geri
           </Button>
           <h1 className="text-3xl md:text-4xl font-bold text-white">Yarışma Detayları</h1>
@@ -504,12 +502,10 @@ export function GameHistoryDetailScreen() {
         {/* Action Buttons */}
         <Card className="p-6">
           <div className="flex flex-wrap items-center justify-center gap-4">
-            <Button variant="primary" onClick={handlePlayAgain}>
-              <RefreshCw className="w-5 h-5 mr-2" />
+            <Button variant="primary" onClick={handlePlayAgain} icon={<RefreshCw className="w-5 h-5" />}>
               Bu Kategoride Tekrar Oyna
             </Button>
-            <Button variant="secondary" onClick={() => navigate(ROUTES.HOME)}>
-              <Home className="w-5 h-5 mr-2" />
+            <Button variant="secondary" onClick={() => navigate(ROUTES.HOME)} icon={<Home className="w-5 h-5" />}>
               Ana Menü
             </Button>
           </div>

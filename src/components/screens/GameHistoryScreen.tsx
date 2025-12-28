@@ -389,9 +389,7 @@ export function GameHistoryScreen() {
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <div className="flex items-center gap-4 mb-6 md:mb-8">
-            <Button variant="secondary" onClick={() => navigate(ROUTES.HOME)}>
-              <ArrowLeft className="w-5 h-5" />
-            </Button>
+            <Button variant="secondary" onClick={() => navigate(ROUTES.HOME)} icon={<ArrowLeft className="w-5 h-5" />} />
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-neutral-50">
               Oyun Geçmişi
             </h1>
@@ -426,9 +424,7 @@ export function GameHistoryScreen() {
         {/* Header */}
         <div className="flex items-center justify-between gap-4 flex-wrap">
           <div className="flex items-center gap-4">
-            <Button variant="secondary" onClick={() => navigate(ROUTES.HOME)}>
-              <ArrowLeft className="w-5 h-5" />
-            </Button>
+            <Button variant="secondary" onClick={() => navigate(ROUTES.HOME)} icon={<ArrowLeft className="w-5 h-5" />} />
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-neutral-50">
               Oyun Geçmişi
             </h1>
@@ -640,10 +636,9 @@ export function GameHistoryScreen() {
                 size="sm"
                 onClick={handleCompare}
                 disabled={selectedGameIds.size !== 2}
-                className="flex items-center gap-2"
+                icon={<GitCompare className="w-4 h-4" />}
               >
-                <GitCompare className="w-4 h-4" />
-                <span>Karşılaştır</span>
+                Karşılaştır
               </Button>
             </div>
           </motion.div>

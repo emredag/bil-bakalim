@@ -165,9 +165,7 @@ export const ComparisonModal: React.FC<ComparisonModalProps> = ({
               {/* Header */}
               <div className="flex items-center justify-between px-6 py-4 border-b border-neutral-700 bg-neutral-800/50">
                 <h2 className="text-xl font-bold text-neutral-50">Oyun Karşılaştırma</h2>
-                <Button variant="secondary" size="sm" onClick={onClose}>
-                  <X className="w-5 h-5" />
-                </Button>
+                <Button variant="secondary" size="sm" onClick={onClose} icon={<X className="w-5 h-5" />} />
               </div>
 
               {/* Content */}

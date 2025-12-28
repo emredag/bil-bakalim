@@ -186,8 +186,7 @@ export function HowToPlayScreen() {
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="flex items-center justify-between mb-6 md:mb-8">
-          <Button variant="secondary" onClick={() => navigate(ROUTES.HOME)} className="gap-2">
-            <ArrowLeft className="w-4 h-4" />
+          <Button variant="secondary" onClick={() => navigate(ROUTES.HOME)} icon={<ArrowLeft className="w-4 h-4" />}>
             Ana Menü
           </Button>
           <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white">Nasıl Oynanır?</h1>
@@ -199,8 +198,7 @@ export function HowToPlayScreen() {
 
         {/* Footer */}
         <div className="mt-8 text-center">
-          <Button size="lg" onClick={() => navigate(ROUTES.CATEGORY_SELECT)} className="gap-2">
-            <PlayCircle className="w-5 h-5" />
+          <Button size="lg" onClick={() => navigate(ROUTES.CATEGORY_SELECT)} icon={<PlayCircle className="w-5 h-5" />}>
             Hemen Oyna
           </Button>
         </div>
@@ -364,9 +362,8 @@ function TutorialTab({ currentStep, nextStep, prevStep }: TutorialTabProps) {
             variant="secondary"
             onClick={prevStep}
             disabled={currentStep === 0}
-            className="gap-2"
+            icon={<ChevronLeft className="w-4 h-4" />}
           >
-            <ChevronLeft className="w-4 h-4" />
             Önceki
           </Button>
 
@@ -377,7 +374,6 @@ function TutorialTab({ currentStep, nextStep, prevStep }: TutorialTabProps) {
           <Button
             onClick={nextStep}
             disabled={currentStep === TUTORIAL_STEPS.length - 1}
-            className="gap-2"
           >
             Sonraki
             <ChevronRight className="w-4 h-4" />

@@ -9,12 +9,9 @@ import { motion } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { Logo } from '../ui/Logo';
-import { LastGameSummary } from '../../types/database';
 
 export interface HeroSectionProps {
   onStartGame: () => void;
-  lastGame?: LastGameSummary | null;
-  onResumeGame?: (gameId: number) => void;
 }
 
 /**
@@ -36,12 +33,7 @@ const heroVariants = {
   },
 };
 
-export function HeroSection({ onStartGame, lastGame, onResumeGame }: HeroSectionProps) {
-  const handleResumeClick = () => {
-    if (lastGame && onResumeGame) {
-      onResumeGame(lastGame.id);
-    }
-  };
+export function HeroSection({ onStartGame }: HeroSectionProps) {
 
   return (
     <motion.section
@@ -97,19 +89,6 @@ export function HeroSection({ onStartGame, lastGame, onResumeGame }: HeroSection
         >
           Yeni Yarışma Başlat
         </Button>
-
-        {/* Optional: Continue last game link */}
-        {lastGame && onResumeGame && (
-          <p className="text-sm text-white/60 mt-2">
-            veya{' '}
-            <button
-              className="text-accent-400 hover:text-accent-300 underline font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent rounded px-1"
-              onClick={handleResumeClick}
-            >
-              son oyununa devam et
-            </button>
-          </p>
-        )}
       </div>
     </motion.section>
   );

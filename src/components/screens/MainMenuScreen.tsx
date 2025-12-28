@@ -5,8 +5,6 @@
  *
  * Hero-first dashboard with modern design:
  * - Hero section with prominent CTA
- * - Quick stats dashboard (3 cards)
- * - Recent activity section
  * - Quick actions grid (4 cards)
  * - Mesh gradient background
  * - Glassmorphism styling
@@ -16,10 +14,8 @@
 
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../routes/constants';
-import { useKeyboardShortcuts, useGameHistory } from '../../hooks';
+import { useKeyboardShortcuts } from '../../hooks';
 import { HeroSection } from '../main-menu/HeroSection';
-import { QuickStats } from '../main-menu/QuickStats';
-import { RecentActivity } from '../main-menu/RecentActivity';
 import { QuickActions } from '../main-menu/QuickActions';
 import './MainMenuScreen.css';
 
@@ -28,8 +24,6 @@ import './MainMenuScreen.css';
  *
  * Features:
  * - Modern hero-first layout
- * - Game statistics at a glance
- * - Recent activity display
  * - Quick access to all features
  * - TV-optimized for classroom projection
  * - Responsive: Mobile → Tablet → Desktop
@@ -40,9 +34,6 @@ export function MainMenuScreen() {
 
   // Global keyboard shortcuts
   useKeyboardShortcuts();
-
-  // Fetch game history data for stats and recent activity
-  const { stats, lastGame, loading } = useGameHistory();
 
   /**
    * Navigation handlers
@@ -55,21 +46,6 @@ export function MainMenuScreen() {
     void navigate(route);
   };
 
-  const handleViewGameDetails = (gameId: number) => {
-    void navigate(`${ROUTES.HISTORY}/${gameId}`);
-  };
-
-  const handlePlayAgain = () => {
-    // Navigate to category selection to start a new game
-    void navigate(ROUTES.CATEGORY_SELECT);
-  };
-
-  const handleResumeGame = (gameId: number) => {
-    // For now, navigate to game history detail
-    // In future, could implement actual game resume functionality
-    void navigate(`${ROUTES.HISTORY}/${gameId}`);
-  };
-
   return (
     <div className="main-menu-screen">
       {/* Mesh Gradient Background */}
@@ -78,22 +54,7 @@ export function MainMenuScreen() {
       {/* Main Container */}
       <div className="main-menu-container">
         {/* Hero Section with Primary CTA */}
-        <HeroSection
-          onStartGame={handleStartGame}
-          lastGame={lastGame}
-          onResumeGame={handleResumeGame}
-        />
-
-        {/* Quick Stats Dashboard */}
-        <QuickStats stats={stats} loading={loading} />
-
-        {/* Recent Activity */}
-        <RecentActivity
-          lastGame={lastGame}
-          loading={loading}
-          onViewDetails={handleViewGameDetails}
-          onPlayAgain={handlePlayAgain}
-        />
+        <HeroSection onStartGame={handleStartGame} />
 
         {/* Quick Actions Grid */}
         <QuickActions onNavigate={handleNavigate} />

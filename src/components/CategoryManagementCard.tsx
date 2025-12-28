@@ -99,9 +99,9 @@ export function CategoryManagementCard({
           onClick={onViewWords}
           className="w-full"
           aria-label={`${category.name} kategorisinin kelimelerini gör`}
+          icon={<Eye className="w-4 h-4 md:w-5 md:h-5" />}
         >
-          <Eye className="w-4 h-4 md:w-5 md:h-5 mr-2" />
-          <span className="text-sm md:text-base font-semibold">Kelimeleri Gör</span>
+          Kelimeleri Gör
         </Button>
 
         {/* Edit and Delete Buttons - Side by Side */}
@@ -112,9 +112,9 @@ export function CategoryManagementCard({
             onClick={onEdit}
             className="w-full"
             aria-label={`${category.name} kategorisini düzenle`}
+            icon={<Edit2 className="w-4 h-4 md:w-5 md:h-5" />}
           >
-            <Edit2 className="w-4 h-4 md:w-5 md:h-5 mr-1 md:mr-2" />
-            <span className="text-sm md:text-base font-semibold">Düzenle</span>
+            Düzenle
           </Button>
 
           {/* Delete Button - Disabled for default categories */}
@@ -126,9 +126,9 @@ export function CategoryManagementCard({
             aria-label={
               isDefault ? 'Varsayılan kategori silinemez' : `${category.name} kategorisini sil`
             }
+            icon={<Trash2 className="w-4 h-4 md:w-5 md:h-5" />}
           >
-            <Trash2 className="w-4 h-4 md:w-5 md:h-5 mr-1 md:mr-2" />
-            <span className="text-sm md:text-base font-semibold">Sil</span>
+            Sil
           </Button>
         </div>
       </div>

@@ -6,6 +6,7 @@
  * Layout:
  * - Horizontal flex: Timer | Score | Player | Category
  * - Circular progress timer (SVG-based)
+ * - Dual timer support: Global timer + Guess timer in guess mode
  * - Glassmorphism background with backdrop blur
  * - Animated score updates
  *
@@ -14,6 +15,7 @@
  * - Warning states (≤10s critical pulse)
  * - Active player/team badge
  * - Score count-up animation
+ * - Guess mode indicator with countdown
  */
 
 import React from 'react';
@@ -30,6 +32,9 @@ interface GameHeaderProps {
   // Timer
   remainingSeconds: number;
   totalSeconds: number;
+
+  // Guess mode (for visual indicator only, timer shown in ControlPanel)
+  isGuessing?: boolean;
 
   // Score & Progress
   currentScore: number;
@@ -49,6 +54,7 @@ export const GameHeader: React.FC<GameHeaderProps> = ({
   categoryEmoji,
   remainingSeconds,
   totalSeconds,
+  isGuessing = false,
   currentScore,
   wordsCompleted,
   totalWords,
@@ -63,13 +69,23 @@ export const GameHeader: React.FC<GameHeaderProps> = ({
   return (
     <header className="w-full">
       <div
-        className="flex items-center justify-between gap-4 md:gap-6 px-4 md:px-6 py-3 md:py-4
+        className={`flex items-center justify-between gap-4 md:gap-6 px-4 md:px-6 py-3 md:py-4
                    bg-neutral-900/70 backdrop-blur-xl
-                   border border-white/10 rounded-2xl shadow-2xl"
+                   border rounded-2xl shadow-2xl transition-colors duration-300
+                   ${isGuessing ? 'border-amber-500/50 ring-2 ring-amber-500/30' : 'border-white/10'}`}
       >
-        {/* Circular Timer */}
-        <div className="flex-shrink-0">
-          <CircularTimer seconds={remainingSeconds} total={totalSeconds} warning={isCritical} />
+        {/* Timer Section - Global timer only, guess timer shown in ControlPanel */}
+        <div className="flex items-center gap-3 flex-shrink-0">
+          {/* Global Timer - dims slightly during guess mode */}
+          <div className={`transition-opacity duration-300 ${isGuessing ? 'opacity-60' : 'opacity-100'}`}>
+            <CircularTimer 
+              seconds={remainingSeconds} 
+              total={totalSeconds} 
+              warning={isCritical} 
+              size="md"
+              paused={isGuessing}
+            />
+          </div>
         </div>
 
         {/* Score - Animated (Optimized for projection) */}

@@ -1,19 +1,26 @@
 /**
- * ControlPanel Component - PRD 4.5, ui-ux-design.md#game-screen
+ * ControlPanel Component - Game Control Panel
  *
- * TV Show Quality Control Panel (280px target height)
+ * Two-mode control panel for the word guessing game:
+ * 
+ * Normal Mode (isGuessing=false):
+ * - Shows "Harf Aç" button only (when showButtons=true)
+ * - "Tahmin Et" button is rendered separately in GameScreen
+ *
+ * Guess Mode (isGuessing=true):
+ * - Shows countdown timer prominently
+ * - Shows Doğru/Yanlış buttons (when showButtons=true)
  *
  * Features:
- * - 3 main action buttons: Harf Aç (H), Tahmin Et (T), Pas Geç (P)
- * - Info bar: Remaining guesses, letters revealed, remaining points
- * - Side controls: Pause, Sound toggle, Home (with confirmation)
+ * - showButtons toggle for projection mode (keyboard shortcuts only)
+ * - Glassmorphism design optimized for projection
  * - Minimum 48×48px touch targets
  * - Keyboard shortcuts displayed
  * - Fully responsive layout
  */
 
 import React from 'react';
-import { Eye, Check, X, SkipForward, Lightbulb, Target, TrendingUp } from 'lucide-react';
+import { Eye, Check, X, Lightbulb, TrendingUp, Clock } from 'lucide-react';
 import { Button } from '../ui/Button';
 
 interface ControlPanelProps {
@@ -21,20 +28,19 @@ interface ControlPanelProps {
   onRevealLetter: () => void;
   onGuessCorrect: () => void;
   onGuessWrong: () => void;
-  onSkip: () => void;
   onPause: () => void;
   onToggleSound: () => void;
   onHome: () => void;
 
   // States
   canRevealLetter: boolean;
-  canGuess: boolean;
-  canSkip: boolean;
   isInTransition: boolean;
+  isGuessing: boolean;
+  guessTimeRemaining: number;
   soundEnabled: boolean;
+  showButtons: boolean; // If false, only show info (keyboard shortcuts / projection mode)
 
   // Info
-  remainingGuesses: number;
   lettersRevealed: number;
   remainingPoints: number;
 
@@ -45,132 +51,135 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
   onRevealLetter,
   onGuessCorrect,
   onGuessWrong,
-  onSkip,
-  onPause: _onPause, // Side controls to be added in future update
-  onToggleSound: _onToggleSound, // Side controls to be added in future update
-  onHome: _onHome, // Side controls to be added in future update
+  onPause: _onPause,
+  onToggleSound: _onToggleSound,
+  onHome: _onHome,
   canRevealLetter,
-  canGuess,
-  canSkip,
   isInTransition,
-  soundEnabled: _soundEnabled, // Used with sound toggle control
-  remainingGuesses,
+  isGuessing,
+  guessTimeRemaining,
+  soundEnabled: _soundEnabled,
+  showButtons,
   lettersRevealed,
   remainingPoints,
   className = '',
 }) => {
+  // Format time for display
+  const formatTime = (seconds: number) => {
+    return seconds.toString();
+  };
+
+  // Determine if guess timer is in warning state (last 10 seconds)
+  const isTimerWarning = guessTimeRemaining <= 10 && guessTimeRemaining > 0;
+
   return (
     <div className={`w-full ${className}`} role="region" aria-label="Kontrol paneli">
-      <div className="flex flex-col items-center gap-4">
-        {/* Action Buttons - Floating Glassmorphism Container (Optimized for projection) */}
-        <div
-          className="flex items-center justify-center gap-3 lg:gap-4 px-6 py-4
-                     bg-neutral-900/70 backdrop-blur-xl
-                     border border-white/10 rounded-2xl shadow-2xl
-                     flex-wrap"
-        >
-          {/* Harf Aç Button */}
+      {/* Single row layout with all elements */}
+      <div
+        className="flex items-center justify-center gap-4 lg:gap-6 px-4 md:px-6 py-3 md:py-4
+                   bg-neutral-900/80 backdrop-blur-xl
+                   border border-white/10 rounded-2xl shadow-2xl"
+      >
+        {/* Info Section - Always visible */}
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
+            <Eye className="w-4 h-4 md:w-5 md:h-5 text-accent-400" aria-hidden="true" />
+            <span className="text-sm md:text-base text-neutral-300 tabular-nums">
+              <span className="font-bold text-neutral-50">{lettersRevealed}</span> harf
+            </span>
+          </div>
+          <div className="flex items-center gap-2">
+            <TrendingUp className="w-4 h-4 md:w-5 md:h-5 text-success-400" aria-hidden="true" />
+            <span className="text-sm md:text-base text-neutral-300 tabular-nums">
+              <span className="font-bold text-accent-400">{remainingPoints}</span> puan
+            </span>
+          </div>
+        </div>
+
+        {/* Guess Timer - Always visible when in guess mode */}
+        {isGuessing && (
+          <>
+            <div className="w-px h-8 bg-white/10" aria-hidden="true" />
+            <div
+              className={`flex items-center justify-center min-w-[80px] md:min-w-[100px] h-12 md:h-14 px-3 md:px-4
+                         rounded-xl border-2 transition-colors
+                         ${isTimerWarning 
+                           ? 'bg-error-500/30 border-error-500 animate-pulse' 
+                           : 'bg-accent-500/20 border-accent-500/50'}`}
+            >
+              <Clock className={`w-5 h-5 md:w-6 md:h-6 mr-2 ${isTimerWarning ? 'text-error-400' : 'text-accent-400'}`} />
+              <span className={`font-mono text-2xl md:text-3xl font-bold tabular-nums
+                               ${isTimerWarning ? 'text-error-400' : 'text-accent-100'}`}>
+                {formatTime(guessTimeRemaining)}
+              </span>
+            </div>
+          </>
+        )}
+
+        {/* Separator before buttons */}
+        {showButtons && (
+          <div className="w-px h-8 bg-white/10" aria-hidden="true" />
+        )}
+
+        {/* Action Buttons - Only when showButtons is true */}
+        {showButtons && !isGuessing && (
           <Button
             onClick={onRevealLetter}
             disabled={!canRevealLetter || isInTransition}
             variant="secondary"
             size="lg"
-            className="min-w-[140px] lg:min-w-[160px] h-16 lg:h-18 text-base lg:text-lg font-semibold flex-col gap-1"
+            className="min-w-[120px] md:min-w-[140px] h-12 md:h-14 text-sm md:text-base font-semibold"
             aria-label="Harf aç, klavye kısayolu H"
           >
-            <div className="flex items-center gap-2">
-              <Lightbulb className="w-6 h-6 lg:w-7 lg:h-7" aria-hidden="true" />
-              <span>Harf Aç</span>
-            </div>
-            <kbd className="px-2 py-0.5 bg-neutral-700/50 rounded text-xs lg:text-sm">H</kbd>
+            <Lightbulb className="w-5 h-5 md:w-6 md:h-6" aria-hidden="true" />
+            Harf Aç
+            <kbd className="ml-2 px-1.5 py-0.5 bg-neutral-700/50 rounded text-xs">H</kbd>
           </Button>
+        )}
 
-          {/* Doğru Button - Inline (replaces modal) */}
-          <Button
-            onClick={onGuessCorrect}
-            disabled={!canGuess || isInTransition}
-            variant="primary"
-            size="lg"
-            className="min-w-[140px] lg:min-w-[160px] h-16 lg:h-18 text-base lg:text-lg font-semibold flex-col gap-1
-                       bg-success-500/20 hover:bg-success-500/30
-                       border-2 border-success-500/50 hover:border-success-500
-                       text-success-100"
-            aria-label="Kelimeyi doğru bildiniz, klavye kısayolu D"
-          >
-            <div className="flex items-center gap-2">
-              <Check className="w-6 h-6 lg:w-7 lg:h-7" aria-hidden="true" />
-              <span>Doğru</span>
-            </div>
-            <kbd className="px-2 py-0.5 bg-success-700/50 rounded text-xs lg:text-sm">D</kbd>
-          </Button>
+        {/* Guess Mode Buttons - Only when showButtons is true and in guess mode */}
+        {showButtons && isGuessing && (
+          <>
+            <Button
+              onClick={onGuessCorrect}
+              disabled={isInTransition}
+              variant="primary"
+              size="lg"
+              className="min-w-[110px] md:min-w-[130px] h-12 md:h-14 text-sm md:text-base font-semibold
+                         bg-success-500/20 hover:bg-success-500/30
+                         border-2 border-success-500/50 hover:border-success-500
+                         text-success-100"
+              aria-label="Kelimeyi doğru bildiniz, klavye kısayolu D"
+            >
+              <Check className="w-5 h-5 md:w-6 md:h-6" aria-hidden="true" />
+              Doğru
+              <kbd className="ml-2 px-1.5 py-0.5 bg-success-700/50 rounded text-xs">D</kbd>
+            </Button>
 
-          {/* Yanlış Button - Inline (replaces modal) */}
-          <Button
-            onClick={onGuessWrong}
-            disabled={!canGuess || isInTransition}
-            variant="destructive"
-            size="lg"
-            className="min-w-[140px] lg:min-w-[160px] h-16 lg:h-18 text-base lg:text-lg font-semibold flex-col gap-1
-                       bg-error-500/20 hover:bg-error-500/30
-                       border-2 border-error-500/50 hover:border-error-500
-                       text-error-100"
-            aria-label="Kelimeyi yanlış bildiniz, klavye kısayolu Y"
-          >
-            <div className="flex items-center gap-2">
-              <X className="w-6 h-6 lg:w-7 lg:h-7" aria-hidden="true" />
-              <span>Yanlış</span>
-            </div>
-            <kbd className="px-2 py-0.5 bg-error-700/50 rounded text-xs lg:text-sm">Y</kbd>
-          </Button>
+            <Button
+              onClick={onGuessWrong}
+              disabled={isInTransition}
+              variant="destructive"
+              size="lg"
+              className="min-w-[110px] md:min-w-[130px] h-12 md:h-14 text-sm md:text-base font-semibold
+                         bg-error-500/20 hover:bg-error-500/30
+                         border-2 border-error-500/50 hover:border-error-500
+                         text-error-100"
+              aria-label="Kelimeyi yanlış bildiniz, klavye kısayolu Y"
+            >
+              <X className="w-5 h-5 md:w-6 md:h-6" aria-hidden="true" />
+              Yanlış
+              <kbd className="ml-2 px-1.5 py-0.5 bg-error-700/50 rounded text-xs">Y</kbd>
+            </Button>
+          </>
+        )}
 
-          {/* Atla Button */}
-          <Button
-            onClick={onSkip}
-            disabled={!canSkip || isInTransition}
-            variant="secondary"
-            size="lg"
-            className="min-w-[140px] lg:min-w-[160px] h-16 lg:h-18 text-base lg:text-lg font-semibold flex-col gap-1"
-            aria-label="Pas geç, klavye kısayolu P"
-          >
-            <div className="flex items-center gap-2">
-              <SkipForward className="w-6 h-6 lg:w-7 lg:h-7" aria-hidden="true" />
-              <span>Atla</span>
-            </div>
-            <kbd className="px-2 py-0.5 bg-neutral-700/50 rounded text-xs lg:text-sm">P</kbd>
-          </Button>
-        </div>
-
-        {/* Info Bar - Compact Glassmorphism (Optimized for projection) */}
-        <div
-          className="flex items-center justify-center gap-6 lg:gap-8 px-8 py-4 lg:px-10 lg:py-5
-                     bg-neutral-900/50 backdrop-blur-md
-                     border border-white/8 rounded-xl"
-        >
-          <div className="flex items-center gap-2 lg:gap-3">
-            <Target className="w-5 h-5 lg:w-6 lg:h-6 text-primary-400" aria-hidden="true" />
-            <span className="text-base lg:text-lg text-neutral-300">
-              <span className="font-bold text-neutral-50">{remainingGuesses}</span> tahmin
-            </span>
+        {/* Keyboard shortcuts hint when buttons are hidden */}
+        {!showButtons && (
+          <div className="text-xs text-neutral-500">
+            {isGuessing ? 'D: Doğru • Y: Yanlış' : 'H: Harf Aç • T: Tahmin Et'}
           </div>
-
-          <div className="w-px h-5 lg:h-6 bg-white/10" aria-hidden="true" />
-
-          <div className="flex items-center gap-2 lg:gap-3">
-            <Eye className="w-5 h-5 lg:w-6 lg:h-6 text-accent-400" aria-hidden="true" />
-            <span className="text-base lg:text-lg text-neutral-300">
-              <span className="font-bold text-neutral-50">{lettersRevealed}</span> harf
-            </span>
-          </div>
-
-          <div className="w-px h-5 lg:h-6 bg-white/10" aria-hidden="true" />
-
-          <div className="flex items-center gap-2 lg:gap-3">
-            <TrendingUp className="w-5 h-5 lg:w-6 lg:h-6 text-success-400" aria-hidden="true" />
-            <span className="text-base lg:text-lg text-neutral-300">
-              <span className="font-bold text-accent-400">+{remainingPoints}</span> puan
-            </span>
-          </div>
-        </div>
+        )}
       </div>
     </div>
   );

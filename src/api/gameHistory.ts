@@ -23,6 +23,7 @@ export interface GameParticipant {
   participant_type: string;
   score: number;
   words_found: number;
+  words_wrong: number;
   words_skipped: number;
   letters_revealed: number;
   elapsed_time_seconds?: number;
@@ -61,6 +62,7 @@ export interface ParticipantData {
   participant_type: string;
   score: number;
   words_found: number;
+  words_wrong: number;
   words_skipped: number;
   letters_revealed: number;
   elapsed_time_seconds?: number;

@@ -42,7 +42,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
       : 'border-neutral-700 focus:border-primary-500';
 
     // Icon padding
-    const iconPadding = icon ? 'pl-12' : '';
+    const iconPadding = icon ? 'pl-11 md:pl-12' : '';
 
     // Width
     const widthStyles = fullWidth ? 'w-full' : '';
@@ -78,7 +78,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
         <div className="relative">
           {/* Icon */}
           {icon && (
-            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-text-tertiary pointer-events-none">
+            <div className="absolute left-3 md:left-4 top-1/2 -translate-y-1/2 text-text-tertiary pointer-events-none">
               {icon}
             </div>
           )}

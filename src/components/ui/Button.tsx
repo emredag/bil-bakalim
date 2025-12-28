@@ -50,12 +50,13 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     // Base styles (Design System v2.0 - Enhanced)
     const baseStyles = `
       touch-target
-      inline-flex flex-row items-center justify-center gap-3
+      inline-flex flex-row flex-nowrap items-center justify-center gap-3
       font-semibold rounded-xl
       transition-all duration-200
       focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2
       disabled:opacity-60 disabled:cursor-not-allowed
       will-change-transform
+      whitespace-nowrap
     `;
 
     // Variant styles (Design System v2.0)

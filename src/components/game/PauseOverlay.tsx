@@ -62,7 +62,7 @@ export const PauseOverlay: React.FC<PauseOverlayProps> = ({ onResume, onHome }) 
             aria-label="Oyuna devam et, klavye kısayolu Space"
           >
             <Play className="w-6 h-6" aria-hidden="true" />
-            <span>Devam Et</span>
+            Devam Et
             <kbd className="ml-2 px-2 py-1 bg-primary-800 rounded text-sm">Space</kbd>
           </Button>
 
@@ -74,7 +74,7 @@ export const PauseOverlay: React.FC<PauseOverlayProps> = ({ onResume, onHome }) 
             aria-label="Ana menüye dön"
           >
             <Home className="w-6 h-6" aria-hidden="true" />
-            <span>Ana Menü</span>
+            Ana Menü
           </Button>
         </div>
 

@@ -60,10 +60,16 @@ export const SettingsScreen: React.FC = () => {
   const soundEnabled = useSettingsStore((state) => state.soundEnabled);
   const effectsVolume = useSettingsStore((state) => state.effectsVolume);
   const animationSpeed = useSettingsStore((state) => state.animationSpeed);
+  const showGameButtons = useSettingsStore((state) => state.showGameButtons);
+  const gameDuration = useSettingsStore((state) => state.gameDuration);
+  const guessTimerDuration = useSettingsStore((state) => state.guessTimerDuration);
 
   const setSoundEnabled = useSettingsStore((state) => state.setSoundEnabled);
   const setEffectsVolume = useSettingsStore((state) => state.setEffectsVolume);
   const setAnimationSpeed = useSettingsStore((state) => state.setAnimationSpeed);
+  const setShowGameButtons = useSettingsStore((state) => state.setShowGameButtons);
+  const setGameDuration = useSettingsStore((state) => state.setGameDuration);
+  const setGuessTimerDuration = useSettingsStore((state) => state.setGuessTimerDuration);
 
   // Local state
   const [dbSize, setDbSize] = useState<number>(0);
@@ -248,28 +254,70 @@ export const SettingsScreen: React.FC = () => {
             <CardTitle>Oyun Ayarları</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
-            {/* Default Time (read-only) */}
+            {/* Show Game Buttons Toggle */}
+            <Toggle
+              checked={showGameButtons}
+              onChange={(enabled) => {
+                setShowGameButtons(enabled);
+                toast.showToast(
+                  enabled 
+                    ? 'Oyun butonları gösterilecek (Dokunmatik Ekran Modu)' 
+                    : 'Oyun butonları gizlendi (Projeksiyon Modu - Klavye kısayollarını kullanın)',
+                  'success'
+                );
+              }}
+              label="Oyun Butonlarını Göster"
+              description="Kapalıyken sadece klavye kısayolları çalışır (Projeksiyon modu için)"
+            />
+
+            {/* Game Duration - Configurable (no min/max restriction) */}
             <div className="space-y-2">
               <label className="flex items-center gap-2 text-base md:text-lg font-semibold text-neutral-100">
                 <Clock className="w-5 h-5" />
-                Varsayılan Süre
+                Oyun Süresi (saniye)
               </label>
-              <div className="px-4 py-3 bg-neutral-700/50 border-2 border-neutral-600 rounded-lg text-neutral-300">
-                5 dakika (300 saniye)
+              <div className="flex items-center gap-4">
+                <input
+                  type="number"
+                  step="1"
+                  value={gameDuration}
+                  onChange={(e) => {
+                    const value = parseInt(e.target.value) || 1;
+                    setGameDuration(Math.max(1, value));
+                  }}
+                  className="w-32 px-4 py-3 bg-neutral-800 border-2 border-neutral-600 rounded-lg text-neutral-100 
+                    focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20
+                    [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                />
+                <span className="text-neutral-400">
+                  ({Math.floor(gameDuration / 60)} dakika {gameDuration % 60 > 0 ? `${gameDuration % 60} saniye` : ''})
+                </span>
               </div>
-              <p className="text-sm text-neutral-400">Oyun kuralları gereği değiştirilemez</p>
+              <p className="text-sm text-neutral-400">Her yarışmacının toplam oyun süresi</p>
             </div>
 
-            {/* Default Guesses (read-only) */}
+            {/* Guess Timer Duration - Configurable (no min/max restriction) */}
             <div className="space-y-2">
               <label className="flex items-center gap-2 text-base md:text-lg font-semibold text-neutral-100">
                 <Target className="w-5 h-5" />
-                Varsayılan Tahmin Hakkı
+                Tahmin Süresi (saniye)
               </label>
-              <div className="px-4 py-3 bg-neutral-700/50 border-2 border-neutral-600 rounded-lg text-neutral-300">
-                3 tahmin hakkı
+              <div className="flex items-center gap-4">
+                <input
+                  type="number"
+                  step="1"
+                  value={guessTimerDuration}
+                  onChange={(e) => {
+                    const value = parseInt(e.target.value) || 1;
+                    setGuessTimerDuration(Math.max(1, value));
+                  }}
+                  className="w-32 px-4 py-3 bg-neutral-800 border-2 border-neutral-600 rounded-lg text-neutral-100 
+                    focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20
+                    [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                />
+                <span className="text-neutral-400">saniye</span>
               </div>
-              <p className="text-sm text-neutral-400">Oyun kuralları gereği değiştirilemez</p>
+              <p className="text-sm text-neutral-400">"Tahmin Et" butonuna basıldıktan sonra verilen süre</p>
             </div>
 
             {/* Animation Speed */}

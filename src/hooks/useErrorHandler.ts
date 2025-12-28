@@ -6,19 +6,23 @@
  *
  * Usage:
  * ```tsx
- * const { handleError, showError } = useErrorHandler();
+ * const { handleError, showError, toasts } = useErrorHandler();
  *
  * try {
  *   await someAsyncOperation();
  * } catch (error) {
  *   handleError(error, { location: 'MyComponent' });
  * }
+ *
+ * // In JSX: <ToastContainer toasts={toasts} />
  * ```
  */
 
 import { useCallback } from 'react';
 import { errorHandler } from '../services/errorHandler';
+import { useToast } from '../components/ui/Toast';
 import type { ErrorContext } from '../types/errors';
+import type { ToastProps } from '../components/ui/Toast';
 
 export interface UseErrorHandlerReturn {
   /**
@@ -40,37 +44,50 @@ export interface UseErrorHandlerReturn {
    * Check if error is critical
    */
   isCritical: (error: unknown) => boolean;
+
+  /**
+   * Active toasts for ToastContainer
+   */
+  toasts: ToastProps[];
 }
 
 /**
- * Hook for error handling
- *
- * Note: This hook handles errors but doesn't display toasts directly.
- * For toast display, use the toast system separately or integrate it here.
+ * Hook for error handling with integrated toast notifications
  */
 export function useErrorHandler(): UseErrorHandlerReturn {
+  const { toasts, showToast } = useToast();
+
   /**
-   * Handle error with automatic logging and classification
+   * Map error handler toast variant to Toast component type
    */
-  const handleError = useCallback((error: unknown, context?: ErrorContext) => {
-    const result = errorHandler.handle(error, context);
-
-    // Here you would integrate with your toast system
-    if (result.shouldShowToast) {
-      // TODO: Integrate with actual toast system when available
-      // toast[result.toastVariant](result.message);
-    }
-  }, []);
+  const mapVariantToToastType = (
+    variant: 'info' | 'success' | 'warning' | 'error'
+  ): ToastProps['type'] => {
+    return variant;
+  };
 
   /**
-   * Show a custom error message
+   * Handle error with automatic logging and toast notification
+   */
+  const handleError = useCallback(
+    (error: unknown, context?: ErrorContext) => {
+      const result = errorHandler.handle(error, context);
+
+      if (result.shouldShowToast) {
+        showToast(result.message, mapVariantToToastType(result.toastVariant));
+      }
+    },
+    [showToast]
+  );
+
+  /**
+   * Show a custom error message via toast
    */
   const showError = useCallback(
-    (_message: string, _variant: 'info' | 'warning' | 'error' = 'error') => {
-      // TODO: Integrate with actual toast system
-      // toast[variant](message);
+    (message: string, variant: 'info' | 'warning' | 'error' = 'error') => {
+      showToast(message, mapVariantToToastType(variant));
     },
-    []
+    [showToast]
   );
 
   /**
@@ -92,5 +109,6 @@ export function useErrorHandler(): UseErrorHandlerReturn {
     showError,
     getUserMessage,
     isCritical,
+    toasts,
   };
 }

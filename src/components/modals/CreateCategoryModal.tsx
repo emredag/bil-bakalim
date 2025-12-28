@@ -300,8 +300,8 @@ export function CreateCategoryModal({
               variant="primary"
               onClick={handleSubmitAndAddWords}
               disabled={isSubmitting || !name.trim() || !emoji}
+              icon={<Plus className="w-5 h-5" />}
             >
-              <Plus className="w-5 h-5 mr-2" />
               {isSubmitting ? 'Oluşturuluyor...' : 'Oluştur ve Kelime Ekle'}
             </Button>
           </div>

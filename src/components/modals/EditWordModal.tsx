@@ -320,8 +320,8 @@ export function EditWordModal({
             loading={isSubmitting}
             disabled={isSubmitting || !hasChanges}
             className="flex-1"
+            icon={<Edit2 className="w-4 h-4" />}
           >
-            <Edit2 className="w-4 h-4 mr-2" />
             Güncelle
           </Button>
         </div>

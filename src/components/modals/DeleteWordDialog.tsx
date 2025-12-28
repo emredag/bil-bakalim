@@ -100,8 +100,8 @@ export function DeleteWordDialog({ isOpen, onClose, onSuccess, word }: DeleteWor
             loading={isDeleting}
             disabled={isDeleting}
             className="flex-1"
+            icon={<Trash2 className="w-4 h-4" />}
           >
-            <Trash2 className="w-4 h-4 mr-2" />
             Evet, Sil
           </Button>
         </div>

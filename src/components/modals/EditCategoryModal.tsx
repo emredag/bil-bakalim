@@ -8,7 +8,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Save } from 'lucide-react';
+import { Save } from 'lucide-react';
 import { Modal } from '../ui/Modal';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
@@ -133,20 +133,8 @@ export function EditCategoryModal({
 
   return (
     <>
-      <Modal isOpen={isOpen} onClose={onClose} size="xl">
+      <Modal isOpen={isOpen} onClose={onClose} size="xl" title="Kategoriyi Düzenle">
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Header */}
-          <div className="flex items-center justify-between">
-            <h2 className="text-2xl md:text-3xl font-bold text-white">Kategoriyi Düzenle</h2>
-            <button
-              type="button"
-              onClick={onClose}
-              className="text-neutral-400 hover:text-white transition-colors p-2 rounded-lg hover:bg-neutral-700"
-              aria-label="Kapat"
-            >
-              <X className="w-5 h-5" />
-            </button>
-          </div>
 
           {/* Warning for default category */}
           {category.is_default && (
@@ -254,8 +242,8 @@ export function EditCategoryModal({
               type="submit"
               variant="primary"
               disabled={isSubmitting || !name.trim() || !emoji}
+              icon={<Save className="w-5 h-5" />}
             >
-              <Save className="w-5 h-5 mr-2" />
               {isSubmitting ? 'Güncelleniyor...' : 'Güncelle'}
             </Button>
           </div>

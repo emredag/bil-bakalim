@@ -310,8 +310,8 @@ export function AddWordModal({
             loading={isSubmitting}
             disabled={isSubmitting}
             className="flex-1"
+            icon={<Plus className="w-4 h-4" />}
           >
-            <Plus className="w-4 h-4 mr-2" />
             Kaydet
           </Button>
         </div>

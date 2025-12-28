@@ -133,8 +133,8 @@ export function DeleteCategoryDialog({
             variant="destructive"
             onClick={handleDelete}
             disabled={isDeleting || category.is_default}
+            icon={<Trash2 className="w-5 h-5" />}
           >
-            <Trash2 className="w-5 h-5 mr-2" />
             {isDeleting ? 'Siliniyor...' : 'Evet, Sil'}
           </Button>
         </div>

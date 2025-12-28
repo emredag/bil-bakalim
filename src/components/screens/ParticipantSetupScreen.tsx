@@ -19,6 +19,7 @@ import { ArrowLeft, Play } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { useCategoryStore } from '../../store/categoryStore';
 import { useGameStore } from '../../store/gameStore';
+import { useSettingsStore } from '../../store/settingsStore';
 import { selectWordsForGame } from '../../services';
 import { ROUTES } from '../../routes/constants';
 import { SinglePlayerForm } from '../forms/SinglePlayerForm';
@@ -47,8 +48,8 @@ export function ParticipantSetupScreen() {
   // Store state
   const selectedCategory = useCategoryStore((state) => state.selectedCategory);
   const selectedMode = useCategoryStore((state) => state.selectedMode);
-  const gameSetup = useCategoryStore((state) => state.gameSetup);
   const setGameSetup = useCategoryStore((state) => state.setGameSetup);
+  const clearGameSetup = useCategoryStore((state) => state.clearGameSetup);
   const setSelectedMode = useCategoryStore((state) => state.setSelectedMode);
   const startGame = useGameStore((state) => state.startGame);
   const getValidation = useCategoryStore((state) => state.getValidation);
@@ -57,8 +58,7 @@ export function ParticipantSetupScreen() {
   const initializeSetup = (): SinglePlayerSetup | MultiPlayerSetup | TeamModeSetup | null => {
     if (!selectedMode) return null;
 
-    if (gameSetup) return gameSetup;
-
+    // Always start fresh - don't use previous gameSetup
     // Return default setup for each mode
     switch (selectedMode) {
       case 'single':
@@ -136,6 +136,7 @@ export function ParticipantSetupScreen() {
 
   // Handle back navigation
   const handleBack = () => {
+    clearGameSetup(); // Clear form data when going back
     setSelectedMode(null);
     navigate(ROUTES.MODE_SELECT);
   };
@@ -182,34 +183,24 @@ export function ParticipantSetupScreen() {
             status: 'hidden' as const,
           })),
           lettersRevealed: 0,
-          remainingGuesses: 3,
           hasMadeGuess: false,
           result: null,
           pointsEarned: 0,
         }))
       );
 
-      // Create game config
+      // Create game config with all required data
       const gameConfig = {
         categoryId: selectedCategory.id,
+        categoryName: selectedCategory.name,
+        categoryEmoji: selectedCategory.emoji,
         mode: selectedMode,
         setup: currentSetup,
+        gameDuration: useSettingsStore.getState().gameDuration,
       };
 
       // Start game in gameStore
       startGame(gameConfig, gameWords);
-
-      // Update session with category info
-      const session = useGameStore.getState().session;
-      if (session) {
-        useGameStore.setState({
-          session: {
-            ...session,
-            categoryName: selectedCategory.name,
-            categoryEmoji: selectedCategory.emoji,
-          },
-        });
-      }
 
       // Save setup and navigate to game screen
       setGameSetup(currentSetup);
@@ -254,10 +245,9 @@ export function ParticipantSetupScreen() {
               <Button
                 variant="secondary"
                 onClick={handleBack}
-                className="flex items-center gap-2"
+                icon={<ArrowLeft className="w-5 h-5" />}
                 aria-label="Mod seçimine dön"
               >
-                <ArrowLeft className="w-5 h-5" />
                 <span className="hidden md:inline">Geri</span>
               </Button>
               <div>
@@ -360,11 +350,11 @@ export function ParticipantSetupScreen() {
                 variant="primary"
                 onClick={handleStartGame}
                 disabled={!isValid}
-                className="w-full flex items-center justify-center gap-3 !py-4 text-lg font-bold shadow-lg hover:shadow-xl transition-shadow"
+                icon={<Play className="w-6 h-6" />}
+                className="w-full !py-4 text-lg font-bold shadow-lg hover:shadow-xl transition-shadow"
                 aria-label="Oyunu başlat"
               >
-                <Play className="w-6 h-6" />
-                <span>Oyunu Başlat</span>
+                Oyunu Başlat
               </Button>
 
               {/* Help Text */}

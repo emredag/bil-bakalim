@@ -276,9 +276,9 @@ const TeamCard: React.FC<TeamCardProps> = ({
             variant="secondary"
             onClick={() => onAddMember(teamIndex)}
             disabled={!canAddMember}
-            className="flex items-center gap-1 !py-1 !px-2 text-xs"
+            icon={<Plus className="w-3 h-3" />}
+            className="!py-1 !px-2 text-xs"
           >
-            <Plus className="w-3 h-3" />
             Ekle
           </Button>
         </div>
@@ -492,9 +492,9 @@ export const TeamForm: React.FC<TeamFormProps> = ({
           variant="primary"
           onClick={handleAddTeam}
           disabled={!canAddTeam}
-          className="flex items-center gap-2 shadow-lg hover:shadow-xl transition-shadow"
+          icon={<Plus className="w-5 h-5" />}
+          className="shadow-lg hover:shadow-xl transition-shadow"
         >
-          <Plus className="w-5 h-5" />
           Takım Ekle ({teams.length}/{CONSTRAINTS.TEAM.MAX_TEAMS})
         </Button>
       </div>

@@ -264,9 +264,9 @@ export const MultiPlayerForm: React.FC<MultiPlayerFormProps> = ({
             variant="primary"
             onClick={handleAddPlayer}
             disabled={!canAddPlayer}
-            className="flex items-center gap-2 shadow-lg hover:shadow-xl transition-shadow"
+            icon={<Plus className="w-5 h-5" />}
+            className="shadow-lg hover:shadow-xl transition-shadow"
           >
-            <Plus className="w-5 h-5" />
             <span className="hidden sm:inline">Oyuncu Ekle</span>
             <span className="sm:hidden">Ekle</span>
           </Button>

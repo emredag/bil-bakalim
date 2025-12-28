@@ -19,6 +19,9 @@ interface SettingsStore {
   animationSpeed: 'slow' | 'normal' | 'fast';
   showHints: boolean;
   showTutorial: boolean;
+  showGameButtons: boolean; // Show game control buttons on screen
+  gameDuration: number; // Game duration in seconds
+  guessTimerDuration: number; // Guess mode timer in seconds
 
   // Actions
   setSoundEnabled: (enabled: boolean) => void;
@@ -28,6 +31,9 @@ interface SettingsStore {
   setAnimationSpeed: (speed: 'slow' | 'normal' | 'fast') => void;
   setShowHints: (show: boolean) => void;
   setShowTutorial: (show: boolean) => void;
+  setShowGameButtons: (show: boolean) => void;
+  setGameDuration: (duration: number) => void;
+  setGuessTimerDuration: (duration: number) => void;
   resetToDefaults: () => void;
 
   // Batch update
@@ -67,6 +73,18 @@ export const useSettingsStore = create<SettingsStore>()(
 
         setShowTutorial: (show: boolean) => {
           set({ showTutorial: show });
+        },
+
+        setShowGameButtons: (show: boolean) => {
+          set({ showGameButtons: show });
+        },
+
+        setGameDuration: (duration: number) => {
+          set({ gameDuration: Math.max(1, duration) });
+        },
+
+        setGuessTimerDuration: (duration: number) => {
+          set({ guessTimerDuration: Math.max(1, duration) });
         },
 
         resetToDefaults: () => {

@@ -196,7 +196,6 @@ export async function selectWordsForGame(
           status: 'hidden' as const,
         })),
         lettersRevealed: 0,
-        remainingGuesses: 3, // PRD: max 3 guesses per word
         hasMadeGuess: false,
         result: null,
         pointsEarned: 0,

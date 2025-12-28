@@ -19,7 +19,23 @@ import type {
   GameState,
   Letter,
   WordResult,
+  SinglePlayerSetup,
+  MultiPlayerSetup,
+  TeamModeSetup,
 } from '../types/game';
+
+// Type guards for proper type narrowing
+function isSinglePlayerSetup(setup: GameConfig['setup']): setup is SinglePlayerSetup {
+  return 'playerName' in setup;
+}
+
+function isMultiPlayerSetup(setup: GameConfig['setup']): setup is MultiPlayerSetup {
+  return 'players' in setup && Array.isArray((setup as MultiPlayerSetup).players);
+}
+
+function isTeamModeSetup(setup: GameConfig['setup']): setup is TeamModeSetup {
+  return 'teams' in setup && Array.isArray((setup as TeamModeSetup).teams);
+}
 
 interface GameStore {
   // Current game session (null when not playing)
@@ -33,12 +49,18 @@ interface GameStore {
   resetGame: () => void;
 
   // Timer actions
-  tick: () => void; // Called every second
+  tick: () => void; // Called every second for global timer
+
+  // Guess mode actions
+  startGuess: (guessTimerDuration: number) => void; // Enter guess mode, pause global timer
+  guessTimerTick: () => void; // Called every second for guess timer
+  endGuessMode: () => void; // Exit guess mode, resume global timer
+  handleGuessTimeout: () => void; // Called when guess timer reaches 0
 
   // Word actions
   revealLetter: (participantIndex: number, wordIndex: number, letterIndex: number) => void;
   submitGuess: (participantIndex: number, wordIndex: number, isCorrect: boolean) => void;
-  skipWord: (participantIndex: number, wordIndex: number) => void;
+  markWordAsSkipped: (participantIndex: number, wordIndex: number) => void; // When all letters revealed
   nextWord: () => void; // Move to next word (after delay)
 
   // Transition actions
@@ -55,56 +77,60 @@ export const useGameStore = create<GameStore>()(
       session: null,
 
       startGame: (config: GameConfig, words: GameWord[][]) => {
+        // Use gameDuration from config (passed from caller who gets it from settings)
+        // This removes direct dependency on settingsStore within this store
+        const gameDuration = config.gameDuration;
+        
         const participants: ActiveParticipant[] = [];
 
-        // Create participants based on mode
-        if (config.mode === 'single') {
-          const setup = config.setup as any;
+        // Create participants based on mode with proper type guards
+        if (config.mode === 'single' && isSinglePlayerSetup(config.setup)) {
           participants.push({
-            name: setup.playerName,
+            name: config.setup.playerName,
             type: 'player',
             score: 0,
             wordsFound: 0,
+            wordsWrong: 0,
             wordsSkipped: 0,
             lettersRevealed: 0,
             currentWordIndex: 0,
             words: words[0],
             isActive: true,
             elapsedTimeSeconds: 0,
-            totalTimeSeconds: 300,
+            totalTimeSeconds: gameDuration,
           });
-        } else if (config.mode === 'multi') {
-          const setup = config.setup as any;
-          setup.players.forEach((playerName: string, index: number) => {
+        } else if (config.mode === 'multi' && isMultiPlayerSetup(config.setup)) {
+          config.setup.players.forEach((playerName: string, index: number) => {
             participants.push({
               name: playerName,
               type: 'player',
               score: 0,
               wordsFound: 0,
+              wordsWrong: 0,
               wordsSkipped: 0,
               lettersRevealed: 0,
               currentWordIndex: 0,
               words: words[index],
-              isActive: index === 0, // First player/team starts
-              elapsedTimeSeconds: 0, // Each participant starts with 0
-              totalTimeSeconds: 300, // Each participant gets 5 minutes
+              isActive: index === 0,
+              elapsedTimeSeconds: 0,
+              totalTimeSeconds: gameDuration,
             });
           });
-        } else if (config.mode === 'team') {
-          const setup = config.setup as any;
-          setup.teams.forEach((team: any, index: number) => {
+        } else if (config.mode === 'team' && isTeamModeSetup(config.setup)) {
+          config.setup.teams.forEach((team, index: number) => {
             participants.push({
               name: team.name,
               type: 'team',
               score: 0,
               wordsFound: 0,
+              wordsWrong: 0,
               wordsSkipped: 0,
               lettersRevealed: 0,
               currentWordIndex: 0,
               words: words[index],
-              isActive: index === 0, // First team starts
-              elapsedTimeSeconds: 0, // Each team starts with 0
-              totalTimeSeconds: 300, // Each team gets 5 minutes
+              isActive: index === 0,
+              elapsedTimeSeconds: 0,
+              totalTimeSeconds: gameDuration,
             });
           });
         }
@@ -112,16 +138,18 @@ export const useGameStore = create<GameStore>()(
         const session: GameSession = {
           id: crypto.randomUUID(),
           categoryId: config.categoryId,
-          categoryName: '', // Will be set by caller
-          categoryEmoji: '', // Will be set by caller
+          categoryName: config.categoryName,
+          categoryEmoji: config.categoryEmoji,
           mode: config.mode,
           state: 'playing',
           participants,
           activeParticipantIndex: 0,
-          totalTimeSeconds: 300, // PRD: 5 minutes for all words
+          totalTimeSeconds: gameDuration,
           elapsedTimeSeconds: 0,
           isPaused: false,
-          isInTransition: false, // Start without transition
+          isInTransition: false,
+          isGuessing: false,
+          guessTimeRemaining: 0,
           startedAt: new Date().toISOString(),
           finishedAt: null,
         };
@@ -174,7 +202,8 @@ export const useGameStore = create<GameStore>()(
 
       tick: () => {
         set((state) => {
-          if (!state.session || state.session.isPaused || state.session.isInTransition) return state;
+          // Don't tick if paused, in transition, or in guess mode
+          if (!state.session || state.session.isPaused || state.session.isInTransition || state.session.isGuessing) return state;
 
           // Get active participant
           const participants = [...state.session.participants];
@@ -233,6 +262,98 @@ export const useGameStore = create<GameStore>()(
         });
       },
 
+      // Enter guess mode - pause global timer, start guess countdown
+      startGuess: (guessTimerDuration: number) => {
+        set((state) => {
+          if (!state.session || state.session.isGuessing) return state;
+          
+          return {
+            session: {
+              ...state.session,
+              isGuessing: true,
+              guessTimeRemaining: guessTimerDuration,
+            },
+          };
+        });
+      },
+
+      // Tick the guess timer
+      guessTimerTick: () => {
+        set((state) => {
+          if (!state.session || !state.session.isGuessing || state.session.isPaused) return state;
+          
+          const newTimeRemaining = state.session.guessTimeRemaining - 1;
+          
+          return {
+            session: {
+              ...state.session,
+              guessTimeRemaining: Math.max(0, newTimeRemaining),
+            },
+          };
+        });
+      },
+
+      // Exit guess mode
+      endGuessMode: () => {
+        set((state) => {
+          if (!state.session) return state;
+          
+          return {
+            session: {
+              ...state.session,
+              isGuessing: false,
+              guessTimeRemaining: 0,
+            },
+          };
+        });
+      },
+
+      // Handle guess timeout - treat as wrong answer
+      handleGuessTimeout: () => {
+        set((state) => {
+          if (!state.session) return state;
+
+          const participants = [...state.session.participants];
+          const activeIndex = state.session.activeParticipantIndex;
+          const participant = { ...participants[activeIndex] };
+          const words = [...participant.words];
+          const wordIndex = participant.currentWordIndex;
+          const word = { ...words[wordIndex] };
+
+          // Mark as timeout
+          word.hasMadeGuess = true;
+          word.result = 'timeout';
+
+          // Calculate penalty: remaining points as negative
+          const basePoints = word.letterCount * 100;
+          const revealedPenalty = word.lettersRevealed * 100;
+          const penaltyPoints = -(basePoints - revealedPenalty);
+
+          word.pointsEarned = penaltyPoints;
+          participant.score += penaltyPoints; // Can go negative
+          participant.wordsWrong += 1;
+
+          // Reveal all letters
+          word.letters = word.letters.map((letter: Letter) => ({
+            ...letter,
+            status: 'revealed' as const,
+          }));
+
+          words[wordIndex] = word;
+          participant.words = words;
+          participants[activeIndex] = participant;
+
+          return {
+            session: {
+              ...state.session,
+              participants,
+              isGuessing: false,
+              guessTimeRemaining: 0,
+            },
+          };
+        });
+      },
+
       revealLetter: (participantIndex: number, wordIndex: number, letterIndex: number) => {
         set((state) => {
           if (!state.session) return state;
@@ -242,9 +363,9 @@ export const useGameStore = create<GameStore>()(
           const words = [...participant.words];
           const word = { ...words[wordIndex] };
 
-          // PRD Rule: Cannot reveal letters after making a guess
-          if (word.hasMadeGuess) {
-            console.warn('Cannot reveal letters after making a guess');
+          // Cannot reveal letters in guess mode or after guess made
+          if (state.session.isGuessing || word.hasMadeGuess) {
+            console.warn('Cannot reveal letters in guess mode or after guess');
             return state;
           }
 
@@ -255,8 +376,20 @@ export const useGameStore = create<GameStore>()(
           word.letters = letters;
           word.lettersRevealed += 1;
 
-          // Track letters revealed for statistics (penalty applied on correct guess)
+          // Track letters revealed for statistics
           participant.lettersRevealed += 1;
+
+          // Check if all letters are now revealed
+          const allRevealed = word.letters.every((l, i) => 
+            i === letterIndex ? true : l.status === 'revealed'
+          );
+          
+          if (allRevealed) {
+            // Mark as skipped when all letters revealed (no points, no penalty)
+            word.result = 'skipped';
+            word.pointsEarned = 0;
+            participant.wordsSkipped += 1;
+          }
 
           words[wordIndex] = word;
           participant.words = words;
@@ -282,41 +415,36 @@ export const useGameStore = create<GameStore>()(
 
           // Mark that a guess has been made
           word.hasMadeGuess = true;
-          word.remainingGuesses -= 1;
+
+          // Calculate points based on letters revealed
+          const basePoints = word.letterCount * 100;
+          const revealedPenalty = word.lettersRevealed * 100;
+          const currentValue = basePoints - revealedPenalty;
 
           if (isCorrect) {
+            // Correct guess: add points
+            word.result = 'found';
+            word.pointsEarned = currentValue;
+            participant.score += currentValue;
+            participant.wordsFound += 1;
+
             // Reveal all letters
             word.letters = word.letters.map((letter: Letter) => ({
               ...letter,
               status: 'revealed' as const,
             }));
-            word.result = 'found';
-
-            // Calculate points: Base points - (letters revealed × 100)
-            const basePoints = word.letterCount * 100; // Example: 4 letter = 400 points
-            const penalty = word.lettersRevealed * 100;
-            const earnedPoints = Math.max(0, basePoints - penalty);
-
-            word.pointsEarned = earnedPoints;
-            participant.score += earnedPoints;
-            participant.wordsFound += 1;
-
-            // NOTE: Do NOT move to next word here - will be done by nextWord() after delay
           } else {
-            // Wrong guess
-            if (word.remainingGuesses === 0) {
-              // Reveal all letters before auto-skip (so user can see the word)
-              word.letters = word.letters.map((letter: Letter) => ({
-                ...letter,
-                status: 'revealed' as const,
-              }));
+            // Wrong guess: subtract points (can go negative)
+            word.result = 'wrong';
+            word.pointsEarned = -currentValue;
+            participant.score -= currentValue;
+            participant.wordsWrong += 1;
 
-              // Auto-skip if no guesses left
-              word.result = 'skipped';
-              participant.wordsSkipped += 1;
-
-              // NOTE: Do NOT move to next word here - will be done by nextWord() after delay
-            }
+            // Reveal all letters
+            word.letters = word.letters.map((letter: Letter) => ({
+              ...letter,
+              status: 'revealed' as const,
+            }));
           }
 
           words[wordIndex] = word;
@@ -327,12 +455,15 @@ export const useGameStore = create<GameStore>()(
             session: {
               ...state.session,
               participants,
+              isGuessing: false,
+              guessTimeRemaining: 0,
             },
           };
         });
       },
 
-      skipWord: (participantIndex: number, wordIndex: number) => {
+      // Mark word as skipped (when all letters revealed)
+      markWordAsSkipped: (participantIndex: number, wordIndex: number) => {
         set((state) => {
           if (!state.session) return state;
 
@@ -341,17 +472,12 @@ export const useGameStore = create<GameStore>()(
           const words = [...participant.words];
           const word = { ...words[wordIndex] };
 
-          // Reveal all letters before skipping (so user can see the word)
-          word.letters = word.letters.map((letter: Letter) => ({
-            ...letter,
-            status: 'revealed' as const,
-          }));
+          // Already has a result, don't override
+          if (word.result !== null) return state;
 
           word.result = 'skipped';
           word.pointsEarned = 0;
           participant.wordsSkipped += 1;
-
-          // NOTE: Do NOT move to next word here - will be done by nextWord() after delay
 
           words[wordIndex] = word;
           participant.words = words;

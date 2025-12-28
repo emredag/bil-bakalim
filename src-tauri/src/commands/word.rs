@@ -38,8 +38,9 @@ pub fn add_word(category_id: i32, word: String, hint: String) -> Result<Word, Ap
     let conn = db::get_connection()?;
 
     // Convert word to uppercase and calculate letter count
+    // Use chars().count() for proper Unicode character counting (Turkish: ş, ğ, ü, ö, ç, ı, İ)
     let word_upper = word.to_uppercase();
-    let letter_count = word_upper.len() as i32;
+    let letter_count = word_upper.chars().count() as i32;
 
     // Validate letter count (4-10)
     if !(4..=10).contains(&letter_count) {
@@ -83,8 +84,9 @@ pub fn update_word(id: i32, word: String, hint: String) -> Result<Word, AppError
     let conn = db::get_connection()?;
 
     // Convert word to uppercase and calculate letter count
+    // Use chars().count() for proper Unicode character counting (Turkish: ş, ğ, ü, ö, ç, ı, İ)
     let word_upper = word.to_uppercase();
-    let letter_count = word_upper.len() as i32;
+    let letter_count = word_upper.chars().count() as i32;
 
     // Validate letter count (4-10)
     if !(4..=10).contains(&letter_count) {

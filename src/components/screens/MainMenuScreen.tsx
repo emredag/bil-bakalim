@@ -61,7 +61,7 @@ export function MainMenuScreen() {
 
         {/* Footer - Version and GitHub Link */}
         <footer className="main-menu-footer">
-          <p className="font-medium">v1.1.0 • MIT License</p>
+          <p className="font-medium">v1.2.0 • MIT License</p>
           <a
             href="https://github.com/emredag/bil-bakalim"
             target="_blank"

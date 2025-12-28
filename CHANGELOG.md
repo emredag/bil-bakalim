@@ -5,6 +5,49 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2025-12-28
+
+### Added
+- **Guess Mode (Tahmin Modu)**: Brand new dual-timer game mechanic
+  - "Tahmin Et" button enters guess mode with a configurable countdown timer (default 30s)
+  - Global game timer pauses during guess mode
+  - "Doğru/Yanlış" buttons for host to mark correct/wrong answers
+  - Wrong guesses now apply negative scoring (same point value deducted)
+  - Timeout automatically marks answer as wrong with penalty
+- **Configurable Timer Settings**: New settings for game customization
+  - Game duration setting (default 300 seconds / 5 minutes)
+  - Guess timer duration setting (default 30 seconds)
+  - Show/hide game buttons option for projection mode
+- **JSON Import for Categories**: Import words from JSON files into categories
+  - Category selection modal for import target
+  - Duplicate word detection and skip
+  - Success/error feedback with toast notifications
+- **DataTable Row Click Handler**: Click table rows to navigate (category management)
+- **Game Rules Documentation**: Added detailed documentation for guess mode mechanics
+
+### Changed
+- **CircularTimer Component**: Enhanced with multiple sizes (sm/md/lg), pause state, and accent colors
+- **ControlPanel Component**: Complete redesign for two-mode operation (normal/guess)
+- **GameHeader Component**: Added guess mode visual indicator with amber border
+- **Button Component**: Added `icon` prop for consistent icon placement (refactored across app)
+- **QuickActionsMenu**: Rendered as portal to fix dropdown overflow clipping issues
+- **Results Screens**: Added wrong guess tracking with negative score display
+- **Session Tracker Utility**: Added for preventing duplicate saves and memory leaks
+
+### Fixed
+- **Turkish Unicode Letter Counting**: Backend now uses `chars().count()` for proper ş, ğ, ü, ö, ç, ı, İ handling
+- **Navigation Race Condition**: Delayed resetGame in results screens to prevent redirect issues
+- **Game Setup Cleanup**: Clear form data on back navigation from participant setup
+- **Input Icon Padding**: Improved icon alignment in Input component
+- **PauseOverlay Button Text**: Updated to clearer Turkish labels
+
+### Technical
+- Added `words_wrong` field to GameParticipant and ParticipantData types
+- Added `guessTimeRemaining`, `isGuessing` state to game store
+- Implemented `startGuess`, `guessTimerTick`, `handleGuessTimeout`, `endGuessMode` actions
+- Added `WordResult` type with 'wrong' and 'timeout' values
+- HeroSection simplified by removing unused onManageCategories prop
+
 ## [1.1.0] - 2025-11-28
 
 ### Fixed
@@ -93,6 +136,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 **Note:** For detailed development tasks, see `docs/tasks/` directory.
 
+[1.2.0]: https://github.com/emredag/bil-bakalim/releases/tag/v1.2.0
 [1.1.0]: https://github.com/emredag/bil-bakalim/releases/tag/v1.1.0
 [1.0.1]: https://github.com/emredag/bil-bakalim/releases/tag/v1.0.1
 [1.0.0]: https://github.com/emredag/bil-bakalim/releases/tag/v1.0.0

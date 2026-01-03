@@ -253,7 +253,7 @@ export function GameHistoryScreen() {
 
       // Ask user where to save
       const filePath = await save({
-        defaultPath: `oyun-gecmisi-${new Date().toISOString().split('T')[0]}.csv`,
+        defaultPath: `bil-bakalim-oyun-gecmisi-${new Date().toISOString().split('T')[0]}.csv`,
         filters: [
           {
             name: 'CSV Dosyası',
@@ -389,7 +389,12 @@ export function GameHistoryScreen() {
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <div className="flex items-center gap-4 mb-6 md:mb-8">
-            <Button variant="secondary" onClick={() => navigate(ROUTES.HOME)} icon={<ArrowLeft className="w-5 h-5" />} />
+            <Button 
+              variant="secondary" 
+              onClick={() => navigate(ROUTES.HOME)} 
+              icon={<ArrowLeft className="w-5 h-5" />}
+              aria-label="Ana menüye dön"
+            />
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-neutral-50">
               Oyun Geçmişi
             </h1>
@@ -424,7 +429,12 @@ export function GameHistoryScreen() {
         {/* Header */}
         <div className="flex items-center justify-between gap-4 flex-wrap">
           <div className="flex items-center gap-4">
-            <Button variant="secondary" onClick={() => navigate(ROUTES.HOME)} icon={<ArrowLeft className="w-5 h-5" />} />
+            <Button 
+              variant="secondary" 
+              onClick={() => navigate(ROUTES.HOME)} 
+              icon={<ArrowLeft className="w-5 h-5" />}
+              aria-label="Ana menüye dön"
+            />
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-neutral-50">
               Oyun Geçmişi
             </h1>

@@ -217,7 +217,7 @@ export async function exportGameHistoryToJson(games: GameHistory[]): Promise<voi
 
   // Open save dialog
   const filePath = await save({
-    defaultPath: `oyun-gecmisi-${new Date().toISOString().split('T')[0]}.json`,
+    defaultPath: `bil-bakalim-oyun-gecmisi-${new Date().toISOString().split('T')[0]}.json`,
     filters: [
       {
         name: 'JSON Dosyası',

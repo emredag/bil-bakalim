@@ -96,7 +96,7 @@ export async function exportCategoryToJson(
 
   // Open save dialog
   const filePath = await save({
-    defaultPath: `${categoryName.toLowerCase().replace(/\s+/g, '-')}.json`,
+    defaultPath: `bil-bakalim-${categoryName.toLowerCase().replace(/\s+/g, '-')}.json`,
     filters: [
       {
         name: 'JSON',

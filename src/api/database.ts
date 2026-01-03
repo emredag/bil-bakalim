@@ -21,7 +21,7 @@ export async function backupDatabase(): Promise<string> {
   // Generate timestamp-based filename
   const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, -5); // Remove milliseconds and 'Z'
 
-  const defaultFilename = `word-game-backup-${timestamp}.db`;
+  const defaultFilename = `bil-bakalim-yedek-${timestamp}.db`;
 
   // Open save dialog
   const filePath = await save({

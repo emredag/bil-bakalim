@@ -35,7 +35,7 @@ export interface ParsedSettings {
  */
 export const DEFAULT_SETTINGS: ParsedSettings = {
   soundEnabled: true,
-  effectsVolume: 80,
+  effectsVolume: 100,
   theme: 'dark',
   language: 'tr',
   animationSpeed: 'normal',

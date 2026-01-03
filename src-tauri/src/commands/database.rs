@@ -91,14 +91,14 @@ pub fn reset_all_data() -> Result<String, AppError> {
     let conn = db::get_connection()?;
 
     // Delete all data from tables (in reverse dependency order)
-    conn.execute("DELETE FROM game_history_words", [])
+    conn.execute("DELETE FROM game_word_results", [])
         .map_err(|e| {
-            AppError::DatabaseError(format!("Failed to delete game history words: {}", e))
+            AppError::DatabaseError(format!("Failed to delete game word results: {}", e))
         })?;
 
-    conn.execute("DELETE FROM game_history_participants", [])
+    conn.execute("DELETE FROM game_participants", [])
         .map_err(|e| {
-            AppError::DatabaseError(format!("Failed to delete game history participants: {}", e))
+            AppError::DatabaseError(format!("Failed to delete game participants: {}", e))
         })?;
 
     conn.execute("DELETE FROM game_history", [])
@@ -118,7 +118,7 @@ pub fn reset_all_data() -> Result<String, AppError> {
     conn.execute(
         "INSERT INTO settings (key, value) VALUES
          ('sound_enabled', 'true'),
-         ('effects_volume', '80'),
+         ('effects_volume', '100'),
          ('animation_speed', 'normal'),
          ('theme', 'dark'),
          ('language', 'tr'),

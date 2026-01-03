@@ -24,3 +24,6 @@ export type { EditWordModalProps } from './EditWordModal';
 
 export { DeleteWordDialog } from './DeleteWordDialog';
 export type { DeleteWordDialogProps } from './DeleteWordDialog';
+
+// Update Notification
+export { UpdateNotification } from './UpdateNotification';

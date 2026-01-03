@@ -15,3 +15,18 @@ export {
 } from './wordService';
 
 export { soundService } from './soundService';
+
+export {
+  checkForUpdates,
+  checkForUpdatesIfNotDismissed,
+  dismissVersion,
+  clearDismissedVersion,
+  getCurrentVersion,
+  compareVersions,
+  isVersionDismissed,
+  detectPlatform,
+  type ReleaseInfo,
+  type VersionCheckResult,
+  type DownloadAsset,
+  type Platform,
+} from './versionService';

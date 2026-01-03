@@ -5,6 +5,33 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0] - 2025-01-27
+
+### Added
+- **Automatic Update Checking**: Check for new versions from GitHub Releases
+  - New `versionService.ts` for GitHub API integration
+  - `UpdateNotification` modal with platform-specific download links
+  - Manual version check button in Settings
+- **Settings Reset**: Reset all settings to default values with confirmation dialog
+- **Developer Info Section**: Added developer credits and version links to Settings
+
+### Changed
+- **Back Buttons**: Refactored to icon-only buttons with aria-labels for accessibility
+- **Export File Naming**: Changed prefix from "tahmin-oyunu" to "bil-bakalim"
+- **Default Effects Volume**: Changed default from 80 to 100
+
+### Fixed
+- **Database Table Names**: Corrected table names in reset_all_data function
+  - `game_history_words` → `game_word_results`
+  - `game_history_participants` → `game_participants`
+
+### Documentation
+- **How to Play Screen**: Complete rewrite with new game mechanics
+  - Dynamic timer values from settings
+  - Updated game flow explanation for normal/guess modes
+  - Improved keyboard shortcuts documentation
+  - Enhanced scoring explanation with penalty formula
+
 ## [1.2.0] - 2025-12-28
 
 ### Added

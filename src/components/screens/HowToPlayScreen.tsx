@@ -28,6 +28,7 @@ import { Card } from '../ui/Card';
 import { Tabs, type Tab } from '../ui/Tabs';
 import { ROUTES } from '../../routes/constants';
 import { useKeyboardShortcuts } from '../../hooks';
+import { useSettingsStore } from '../../store/settingsStore';
 
 /**
  * Tutorial Steps Data
@@ -60,27 +61,27 @@ const TUTORIAL_STEPS = [
   },
   {
     id: 4,
-    title: 'Kelimeyi Tahmin Edin',
-    icon: Target,
-    description: 'İpucunu kullanarak kelimeyi bulmaya çalışın',
-    note: 'Kapalı harflerden kelimeyi tahmin edin',
-    color: 'amber',
-  },
-  {
-    id: 5,
-    title: 'Harf Açın veya Tahmin Edin',
+    title: 'Harf Açın',
     icon: Lightbulb,
-    description: 'Harf açarak yardım alın (-100 puan) veya tahmin edin',
-    note: '⚠️ DİKKAT: Tahmin yaptıktan sonra harf alamazsınız!',
-    color: 'red',
+    description: 'Global süre (5 dk) akarken harf açabilirsiniz. Her açılan harf potansiyel puanınızı düşürür.',
+    note: '⚠️ DİKKAT: Tahmin moduna geçtikten sonra harf açılamaz!',
+    color: 'amber',
     warning: true,
   },
   {
+    id: 5,
+    title: 'Tahmin Et Butonuna Basın',
+    icon: Target,
+    description: 'Hazır olduğunuzda "Tahmin Et" butonuna basın.\n30 saniyelik tahmin süresi başlar ve global süre durur.',
+    note: 'Bu sürede Doğru veya Yanlış butonlarından birini seçmelisiniz.',
+    color: 'red',
+  },
+  {
     id: 6,
-    title: 'Puan Kazanın',
+    title: 'Sonuç Belirleme',
     icon: Trophy,
-    description: 'Daha az harf açarak daha çok puan kazanın',
-    note: 'Her harf açma -100 puan ceza getirir',
+    description: '✓ Doğru: Kalan harf puanı eklenir\n✗ Yanlış: Kalan harf puanı düşülür\n⏱️ 30sn dolarsa: Otomatik yanlış sayılır',
+    note: 'Tüm harfler açılırsa puan 0 olur (ne artı ne eksi)',
     color: 'yellow',
   },
 ];
@@ -103,13 +104,13 @@ const SCORING_TABLE = [
  */
 const KEYBOARD_SHORTCUTS = {
   game: [
-    { key: 'H', action: 'Harf Aç', description: 'Rastgele harf açar' },
-    { key: 'D', action: 'Doğru', description: 'Kelimeyi doğru bildiniz' },
-    { key: 'Y', action: 'Yanlış', description: 'Kelimeyi yanlış bildiniz' },
-    { key: 'P', action: 'Pas Geç', description: 'Pas geçme onayı ister' },
-    { key: 'Space', action: 'Duraklat', description: 'Oyunu duraklat' },
-    { key: 'M', action: 'Ses Aç/Kapat', description: 'Ses toggle' },
-    { key: 'Esc', action: 'Ana Menü', description: 'Ana menüye dön' },
+    { key: 'H', action: 'Harf Aç', description: 'Rastgele bir harf açar (normal modda)' },
+    { key: 'T', action: 'Tahmin Et', description: 'Tahmin moduna geç (normal modda)' },
+    { key: 'D', action: 'Doğru', description: 'Kelimeyi doğru bildiniz (tahmin modunda)' },
+    { key: 'Y', action: 'Yanlış', description: 'Kelimeyi yanlış bildiniz (tahmin modunda)' },
+    { key: 'Space', action: 'Duraklat', description: 'Oyunu duraklat/devam ettir' },
+    { key: 'M', action: 'Ses Aç/Kapat', description: 'Ses efektlerini aç/kapat' },
+    { key: 'Esc', action: 'Ana Menü', description: 'Ana menüye dön onayı' },
   ],
   dialog: [
     { key: 'Enter', action: 'Onayla', description: "Tüm onay dialog'larında" },
@@ -117,8 +118,9 @@ const KEYBOARD_SHORTCUTS = {
   ],
   global: [
     { key: 'F11', action: 'Tam ekran aç/kapat', description: 'Tüm ekranlar' },
-    { key: 'Ctrl/Cmd + Q', action: 'Uygulamadan çık', description: 'Tüm ekranlar' },
-    { key: 'Ctrl/Cmd + ,', action: 'Ayarlar', description: 'Tüm ekranlar' },
+    { key: 'M', action: 'Ses Aç/Kapat', description: 'Tüm ekranlarda (input dışında)' },
+    { key: 'Ctrl/Cmd + Q', action: 'Uygulamadan Çık', description: 'Tüm ekranlar' },
+    { key: 'Ctrl/Cmd + ,', action: 'Ayarlar', description: 'Ayarlar sayfasına git' },
     { key: 'Esc', action: 'Geri / İptal', description: 'Tüm ekranlar' },
   ],
 };
@@ -129,6 +131,10 @@ const KEYBOARD_SHORTCUTS = {
 export function HowToPlayScreen() {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(0);
+  
+  // Get timer settings from store
+  const gameDuration = useSettingsStore((state) => state.gameDuration);
+  const guessTimerDuration = useSettingsStore((state) => state.guessTimerDuration);
 
   // Global keyboard shortcuts (PRD Section 11.1)
   useKeyboardShortcuts();
@@ -159,13 +165,13 @@ export function HowToPlayScreen() {
       id: 'rules',
       label: 'Oyun Kuralları',
       icon: <Lightbulb className="w-4 h-4" />,
-      content: <RulesTab />,
+      content: <RulesTab gameDuration={gameDuration} guessTimerDuration={guessTimerDuration} />,
     },
     {
       id: 'tutorial',
       label: 'İnteraktif Rehber',
       icon: <PlayCircle className="w-4 h-4" />,
-      content: <TutorialTab currentStep={currentStep} nextStep={nextStep} prevStep={prevStep} />,
+      content: <TutorialTab currentStep={currentStep} nextStep={nextStep} prevStep={prevStep} gameDuration={gameDuration} guessTimerDuration={guessTimerDuration} />,
     },
     {
       id: 'scoring',
@@ -186,9 +192,12 @@ export function HowToPlayScreen() {
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="flex items-center justify-between mb-6 md:mb-8">
-          <Button variant="secondary" onClick={() => navigate(ROUTES.HOME)} icon={<ArrowLeft className="w-4 h-4" />}>
-            Ana Menü
-          </Button>
+          <Button 
+            variant="secondary" 
+            onClick={() => navigate(ROUTES.HOME)} 
+            icon={<ArrowLeft className="w-4 h-4" />}
+            aria-label="Ana menüye dön"
+          />
           <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white">Nasıl Oynanır?</h1>
           <div className="w-32" /> {/* Spacer for alignment */}
         </div>
@@ -243,7 +252,22 @@ function RuleItem({ icon, text, warning, highlight }: RuleItemProps) {
 /**
  * RulesTab Component
  */
-function RulesTab() {
+interface RulesTabProps {
+  gameDuration: number;
+  guessTimerDuration: number;
+}
+
+function RulesTab({ gameDuration, guessTimerDuration }: RulesTabProps) {
+  // Format duration for display
+  const formatDuration = (seconds: number): string => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    if (remainingSeconds === 0) {
+      return `${minutes} dakika (${seconds} saniye)`;
+    }
+    return `${minutes} dakika ${remainingSeconds} saniye (${seconds} saniye)`;
+  };
+
   return (
     <div>
       <Card className="p-6 md:p-8">
@@ -256,10 +280,11 @@ function RulesTab() {
             </h2>
             <div className="grid gap-3">
               <RuleItem icon="📝" text="Her yarışmacıya 14 kelime verilir" />
-              <RuleItem icon="⏱️" text="Toplam süre: 5 dakika (300 saniye) - tüm kelimeler için" />
-              <RuleItem icon="🎯" text="Her kelime için maksimum 3 tahmin hakkı" />
-              <RuleItem icon="💯" text="Her harf açma -100 puan ceza" />
-              <RuleItem icon="⚠️" text="Tahmin yaptıktan sonra harf alınamaz" warning />
+              <RuleItem icon="⏱️" text={`Global Süre: ${formatDuration(gameDuration)} - tüm oyun için geri sayar`} />
+              <RuleItem icon="🎯" text={`Tahmin Süresi: ${guessTimerDuration} saniye - 'Tahmin Et' butonuna basınca başlar`} highlight />
+              <RuleItem icon="⏸️" text={`Tahmin modunda global süre DURUR, ${guessTimerDuration}sn tahmin süresi akar`} />
+              <RuleItem icon="⌨️" text="Kontrol: Ekrandaki butonlar veya klavye kısayolları ile" />
+              <RuleItem icon="⚠️" text="Tahmin modunda harf açılamaz!" warning />
             </div>
           </div>
 
@@ -317,6 +342,45 @@ function RulesTab() {
               </div>
             </div>
           </div>
+
+          {/* Oyun Akışı */}
+          <div>
+            <h2 className="text-xl md:text-2xl font-bold text-white mb-4 flex items-center gap-2">
+              <PlayCircle className="w-6 h-6 text-primary-400" />
+              Oyun Akışı
+            </h2>
+            <div className="space-y-4">
+              <div className="bg-neutral-700/30 rounded-lg p-4">
+                <h3 className="text-lg font-semibold text-info-400 mb-2">1. Soru Modu (Normal)</h3>
+                <ul className="space-y-1 text-neutral-300 text-sm">
+                  <li>• Global süre ({Math.floor(gameDuration / 60)} dk) akar</li>
+                  <li>• "Harf Ver" ve "Tahmin Et" butonları aktif</li>
+                  <li>• İstediğiniz kadar harf açabilirsiniz</li>
+                  <li>• Klavye: H (harf aç), T (tahmin et)</li>
+                </ul>
+              </div>
+              <div className="bg-neutral-700/30 rounded-lg p-4">
+                <h3 className="text-lg font-semibold text-warning-400 mb-2">2. Tahmin Modu</h3>
+                <ul className="space-y-1 text-neutral-300 text-sm">
+                  <li>• "Tahmin Et" butonuna (veya T tuşuna) basınca aktif olur</li>
+                  <li>• Global süre DURUR</li>
+                  <li>• {guessTimerDuration} saniyelik geri sayım başlar</li>
+                  <li>• "Doğru" ve "Yanlış" butonları görünür</li>
+                  <li>• Harf açma devre dışı kalır</li>
+                  <li>• Klavye: D (doğru), Y (yanlış)</li>
+                </ul>
+              </div>
+              <div className="bg-neutral-700/30 rounded-lg p-4">
+                <h3 className="text-lg font-semibold text-success-400 mb-2">3. Sonuç & Geçiş</h3>
+                <ul className="space-y-1 text-neutral-300 text-sm">
+                  <li>• Doğru/Yanlış butonuna basılır veya {guessTimerDuration}sn dolar</li>
+                  <li>• Puan hesaplanır ve eklenir/çıkarılır</li>
+                  <li>• Otomatik olarak sonraki soruya geçilir</li>
+                  <li>• Global süre kaldığı yerden devam eder</li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
       </Card>
     </div>
@@ -330,15 +394,41 @@ interface TutorialTabProps {
   currentStep: number;
   nextStep: () => void;
   prevStep: () => void;
+  gameDuration: number;
+  guessTimerDuration: number;
 }
 
-function TutorialTab({ currentStep, nextStep, prevStep }: TutorialTabProps) {
+function TutorialTab({ currentStep, nextStep, prevStep, gameDuration, guessTimerDuration }: TutorialTabProps) {
+  // Generate dynamic tutorial steps with actual timer values
+  const dynamicSteps = TUTORIAL_STEPS.map((step) => {
+    if (step.id === 4) {
+      return {
+        ...step,
+        description: `Global süre (${Math.floor(gameDuration / 60)} dk) akarken harf açabilirsiniz. Her açılan harf potansiyel puanınızı düşürür.`,
+      };
+    }
+    if (step.id === 5) {
+      return {
+        ...step,
+        description: `Hazır olduğunuzda "Tahmin Et" butonuna (veya T tuşuna) basın.\n${guessTimerDuration} saniyelik tahmin süresi başlar ve global süre durur.`,
+        note: `Bu sürede Doğru (D tuşu) veya Yanlış (Y tuşu) seçimi yapmalısınız.`,
+      };
+    }
+    if (step.id === 6) {
+      return {
+        ...step,
+        description: `✓ Doğru: Kalan harf puanı eklenir\n✗ Yanlış: Kalan harf puanı düşülür\n⏱️ ${guessTimerDuration}sn dolarsa: Otomatik yanlış sayılır`,
+      };
+    }
+    return step;
+  });
+
   return (
     <div>
       <Card className="p-6 md:p-8">
         {/* Step Indicators */}
         <div className="flex items-center justify-center gap-2 mb-8">
-          {TUTORIAL_STEPS.map((step, index) => (
+          {dynamicSteps.map((step, index) => (
             <button
               key={step.id}
               className={`w-3 h-3 rounded-full transition-all ${
@@ -354,7 +444,7 @@ function TutorialTab({ currentStep, nextStep, prevStep }: TutorialTabProps) {
         </div>
 
         {/* Current Step */}
-        <TutorialStep step={TUTORIAL_STEPS[currentStep]} />
+        <TutorialStep step={dynamicSteps[currentStep]} />
 
         {/* Navigation */}
         <div className="flex items-center justify-between mt-8 pt-6 border-t border-neutral-700">
@@ -368,12 +458,12 @@ function TutorialTab({ currentStep, nextStep, prevStep }: TutorialTabProps) {
           </Button>
 
           <div className="text-neutral-400 text-sm">
-            Adım {currentStep + 1} / {TUTORIAL_STEPS.length}
+            Adım {currentStep + 1} / {dynamicSteps.length}
           </div>
 
           <Button
             onClick={nextStep}
-            disabled={currentStep === TUTORIAL_STEPS.length - 1}
+            disabled={currentStep === dynamicSteps.length - 1}
           >
             Sonraki
             <ChevronRight className="w-4 h-4" />
@@ -470,9 +560,26 @@ function ScoringTab() {
               Puan Hesaplama Formülü
             </h2>
             <div className="bg-neutral-700/50 rounded-lg p-4 font-mono text-sm md:text-base space-y-2">
-              <div className="text-success-400">basePuan = harfSayisi × 100</div>
-              <div className="text-error-400">toplamCeza = alinanHarfSayisi × 100</div>
-              <div className="text-accent-400">netPuan = max(0, basePuan - toplamCeza)</div>
+              <div className="text-info-400">harf_puani = 100</div>
+              <div className="text-success-400">mevcut_deger = (toplam_harf - acilan_harf) × 100</div>
+            </div>
+            <div className="mt-4 grid gap-2">
+              <div className="flex items-center gap-3 p-3 bg-success-500/10 rounded-lg">
+                <span className="text-xl">✓</span>
+                <span className="text-success-300"><strong>Doğru:</strong> Toplam Puan += Mevcut Değer</span>
+              </div>
+              <div className="flex items-center gap-3 p-3 bg-error-500/10 rounded-lg">
+                <span className="text-xl">✗</span>
+                <span className="text-error-300"><strong>Yanlış:</strong> Toplam Puan -= Mevcut Değer</span>
+              </div>
+              <div className="flex items-center gap-3 p-3 bg-warning-500/10 rounded-lg">
+                <span className="text-xl">⏱️</span>
+                <span className="text-warning-300"><strong>Süre Doldu:</strong> Toplam Puan -= Mevcut Değer (otomatik yanlış)</span>
+              </div>
+              <div className="flex items-center gap-3 p-3 bg-neutral-700/50 rounded-lg">
+                <span className="text-xl">📖</span>
+                <span className="text-neutral-300"><strong>Tüm Harfler Açık:</strong> Puan değişmez (0 değer)</span>
+              </div>
             </div>
           </div>
 
@@ -481,13 +588,13 @@ function ScoringTab() {
             <h3 className="text-lg font-semibold text-white mb-2">Örnek:</h3>
             <div className="space-y-1 text-neutral-300">
               <div>
-                • 8 harfli kelime: <span className="text-success-400">800 puan</span>
+                • 8 harfli kelime, 2 harf açıldı → Mevcut değer: <span className="text-accent-400 font-bold">(8-2) × 100 = 600</span>
               </div>
               <div>
-                • 2 harf açıldı: <span className="text-error-400">-200 puan</span>
+                • Doğru bilirse: <span className="text-success-400">+600 puan</span>
               </div>
               <div>
-                • Net puan: <span className="text-accent-400 font-bold">600</span>
+                • Yanlış bilirse: <span className="text-error-400">-600 puan</span>
               </div>
             </div>
           </div>
@@ -555,6 +662,15 @@ function ShortcutsTab() {
       <div className="grid gap-6">
         {/* Game Shortcuts */}
         <Card className="p-6 md:p-8">
+          <div className="bg-info-500/10 border border-info-500/20 rounded-lg p-4 mb-6">
+            <div className="flex items-start gap-3">
+              <span className="text-xl">⌨️</span>
+              <div>
+                <p className="text-info-300 font-semibold">Çoklu Kontrol Desteği</p>
+                <p className="text-neutral-400 text-sm">Bu oyun hem dokunmatik/mouse hem de klavye ile kontrol edilebilir. Akıllı tahta veya bilgisayar ortamında kullanabilirsiniz.</p>
+              </div>
+            </div>
+          </div>
           <h2 className="text-xl md:text-2xl font-bold text-white mb-4 flex items-center gap-2">
             <PlayCircle className="w-6 h-6 text-info-400" />
             Oyun Ekranı Kısayolları

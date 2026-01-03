@@ -12,6 +12,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { openUrl } from '@tauri-apps/plugin-opener';
 import {
   ArrowLeft,
   Volume2,
@@ -25,6 +26,10 @@ import {
   Target,
   Github,
   FileCode,
+  RotateCcw,
+  ExternalLink,
+  Linkedin,
+  Mail,
 } from 'lucide-react';
 import { useSettingsStore } from '../../store/settingsStore';
 import { soundService } from '../../services';
@@ -63,6 +68,7 @@ export const SettingsScreen: React.FC = () => {
   const showGameButtons = useSettingsStore((state) => state.showGameButtons);
   const gameDuration = useSettingsStore((state) => state.gameDuration);
   const guessTimerDuration = useSettingsStore((state) => state.guessTimerDuration);
+  const resetToDefaults = useSettingsStore((state) => state.resetToDefaults);
 
   const setSoundEnabled = useSettingsStore((state) => state.setSoundEnabled);
   const setEffectsVolume = useSettingsStore((state) => state.setEffectsVolume);
@@ -74,6 +80,7 @@ export const SettingsScreen: React.FC = () => {
   // Local state
   const [dbSize, setDbSize] = useState<number>(0);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
+  const [showSettingsResetConfirm, setShowSettingsResetConfirm] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
 
   // Load database size on mount
@@ -158,6 +165,10 @@ export const SettingsScreen: React.FC = () => {
     setIsProcessing(true);
     try {
       await resetAllData();
+      
+      // Also reset Zustand store to defaults (clears localStorage)
+      resetToDefaults();
+      
       setShowResetConfirm(false);
       toast.showToast('Tüm veriler sıfırlandı', 'success');
 
@@ -166,6 +177,7 @@ export const SettingsScreen: React.FC = () => {
         navigate(ROUTES.HOME);
       }, 1500);
     } catch (error) {
+      console.error('Reset failed:', error);
       toast.showToast('Sıfırlama başarısız oldu', 'error');
     } finally {
       setIsProcessing(false);
@@ -183,9 +195,7 @@ export const SettingsScreen: React.FC = () => {
             icon={<ArrowLeft className="w-5 h-5" />}
             onClick={handleBack}
             aria-label="Ana menüye dön"
-          >
-            Geri
-          </Button>
+          />
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-neutral-100">⚙️ Ayarlar</h1>
         </div>
 
@@ -374,7 +384,20 @@ export const SettingsScreen: React.FC = () => {
               Veritabanını Geri Yükle
             </Button>
 
-            {/* Reset Button */}
+            {/* Reset Settings Button */}
+            <Button
+              variant="secondary"
+              onClick={() => setShowSettingsResetConfirm(true)}
+              disabled={isProcessing}
+              icon={<RotateCcw className="w-5 h-5" />}
+              className="w-full"
+            >
+              Ayarları Sıfırla
+            </Button>
+
+            <div className="border-t border-neutral-700 my-4" />
+
+            {/* Reset All Data Button */}
             <Button
               variant="destructive"
               onClick={() => setShowResetConfirm(true)}
@@ -386,7 +409,7 @@ export const SettingsScreen: React.FC = () => {
             </Button>
 
             <p className="text-sm text-neutral-400">
-              ⚠️ Sıfırlama işlemi geri alınamaz. Yedek almayı unutmayın!
+              ⚠️ Tüm verileri sıfırlama işlemi geri alınamaz. Yedek almayı unutmayın!
             </p>
           </CardContent>
         </Card>
@@ -404,7 +427,30 @@ export const SettingsScreen: React.FC = () => {
           <CardContent className="space-y-4">
             <div className="space-y-2">
               <h3 className="text-xl font-bold text-neutral-100">Bil Bakalım</h3>
-              <p className="text-neutral-300">Versiyon: 1.1.0</p>
+              <p className="text-neutral-300">Versiyon: 1.2.0</p>
+            </div>
+
+            {/* Developer Info */}
+            <div className="p-4 bg-neutral-700/30 rounded-lg space-y-3">
+              <div className="flex items-center gap-2">
+                <span className="text-neutral-300">Geliştirici:</span>
+                <button
+                  onClick={() => openUrl('https://www.linkedin.com/in/emredag/')}
+                  className="text-primary-400 hover:text-primary-300 font-semibold flex items-center gap-1 transition-colors"
+                >
+                  Emre Dağ
+                  <Linkedin className="w-4 h-4" />
+                </button>
+              </div>
+              <div className="flex items-center gap-2">
+                <Mail className="w-4 h-4 text-neutral-400" />
+                <a
+                  href="mailto:info@emredag.dev"
+                  className="text-neutral-300 hover:text-primary-400 transition-colors"
+                >
+                  info@emredag.dev
+                </a>
+              </div>
             </div>
 
             <div className="space-y-2">
@@ -417,7 +463,7 @@ export const SettingsScreen: React.FC = () => {
             <div className="flex flex-col gap-3">
               <Button
                 variant="secondary"
-                onClick={() => window.open('https://github.com/emredag/bil-bakalim', '_blank')}
+                onClick={() => openUrl('https://github.com/emredag/bil-bakalim')}
                 icon={<Github className="w-5 h-5" />}
                 className="w-full"
               >
@@ -426,7 +472,16 @@ export const SettingsScreen: React.FC = () => {
 
               <Button
                 variant="secondary"
-                onClick={() => window.open('https://opensource.org/licenses/MIT', '_blank')}
+                onClick={() => openUrl('https://github.com/emredag/bil-bakalim/releases')}
+                icon={<ExternalLink className="w-5 h-5" />}
+                className="w-full"
+              >
+                Yeni Versiyonlar
+              </Button>
+
+              <Button
+                variant="secondary"
+                onClick={() => openUrl('https://opensource.org/licenses/MIT')}
                 icon={<FileCode className="w-5 h-5" />}
                 className="w-full"
               >
@@ -476,6 +531,50 @@ export const SettingsScreen: React.FC = () => {
               variant="destructive"
               onClick={handleResetConfirm}
               loading={isProcessing}
+              className="flex-1"
+            >
+              Evet, Sıfırla
+            </Button>
+          </div>
+        </div>
+      </Modal>
+
+      {/* Settings Reset Confirmation Modal */}
+      <Modal
+        isOpen={showSettingsResetConfirm}
+        onClose={() => setShowSettingsResetConfirm(false)}
+        title="Ayarları Sıfırla"
+        size="md"
+      >
+        <div className="space-y-4">
+          <p className="text-neutral-300">
+            Bu işlem aşağıdaki ayarları varsayılana döndürecektir:
+          </p>
+          <ul className="list-disc list-inside space-y-2 text-neutral-300 ml-4">
+            <li>Ses ayarları</li>
+            <li>Animasyon hızı</li>
+            <li>Oyun süresi ayarları</li>
+            <li>Ekran butonları tercihi</li>
+          </ul>
+          <p className="text-neutral-400">
+            📝 Kategoriler, kelimeler ve oyun geçmişi etkilenmez.
+          </p>
+
+          <div className="flex gap-3 pt-4">
+            <Button
+              variant="secondary"
+              onClick={() => setShowSettingsResetConfirm(false)}
+              className="flex-1"
+            >
+              İptal
+            </Button>
+            <Button
+              variant="primary"
+              onClick={() => {
+                resetToDefaults();
+                setShowSettingsResetConfirm(false);
+                toast.showToast('Ayarlar varsayılana sıfırlandı', 'success');
+              }}
               className="flex-1"
             >
               Evet, Sıfırla

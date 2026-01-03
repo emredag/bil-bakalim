@@ -13,6 +13,7 @@
  */
 
 import { useNavigate } from 'react-router-dom';
+import { openUrl } from '@tauri-apps/plugin-opener';
 import { ROUTES } from '../../routes/constants';
 import { useKeyboardShortcuts } from '../../hooks';
 import { HeroSection } from '../main-menu/HeroSection';
@@ -59,19 +60,25 @@ export function MainMenuScreen() {
         {/* Quick Actions Grid */}
         <QuickActions onNavigate={handleNavigate} />
 
-        {/* Footer - Version and GitHub Link */}
+        {/* Footer - Version, Developer and GitHub Link */}
         <footer className="main-menu-footer">
-          <p className="font-medium">v1.2.0 • MIT License</p>
-          <a
-            href="https://github.com/emredag/bil-bakalim"
-            target="_blank"
-            rel="noopener noreferrer"
+          <p className="font-medium">
+            v1.2.0 • 
+            <button
+              onClick={() => openUrl('https://www.linkedin.com/in/emredag/')}
+              className="ml-1 text-primary-400 hover:text-primary-300 transition-colors"
+            >
+              Emre Dağ
+            </button>
+          </p>
+          <button
+            onClick={() => openUrl('https://github.com/emredag/bil-bakalim')}
             className="footer-link"
             aria-label="GitHub repository"
           >
             <span>GitHub'da Görüntüle</span>
             <span>→</span>
-          </a>
+          </button>
         </footer>
       </div>
     </div>

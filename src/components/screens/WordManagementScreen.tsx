@@ -468,29 +468,26 @@ export function WordManagementScreen() {
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
+            className="flex items-center gap-4"
           >
             <Button
               variant="secondary"
               onClick={() => navigate(ROUTES.CATEGORY_MANAGEMENT)}
-              className="mb-4"
               icon={<ArrowLeft className="w-4 h-4" />}
-            >
-              Geri
-            </Button>
+              aria-label="Kategori yönetimine dön"
+            />
 
-            <div className="flex items-center gap-4">
-              <motion.div
-                className="text-5xl md:text-6xl"
-                initial={{ scale: 0.8 }}
-                animate={{ scale: 1 }}
-                transition={{ type: 'spring', stiffness: 200 }}
-              >
-                {category.emoji}
-              </motion.div>
-              <div>
-                <h1 className="text-3xl md:text-4xl font-bold text-neutral-50">{category.name}</h1>
-                <p className="text-lg text-neutral-400 mt-1">Kelime Yönetimi</p>
-              </div>
+            <motion.div
+              className="text-5xl md:text-6xl"
+              initial={{ scale: 0.8 }}
+              animate={{ scale: 1 }}
+              transition={{ type: 'spring', stiffness: 200 }}
+            >
+              {category.emoji}
+            </motion.div>
+            <div>
+              <h1 className="text-3xl md:text-4xl font-bold text-neutral-50">{category.name}</h1>
+              <p className="text-lg text-neutral-400 mt-1">Kelime Yönetimi</p>
             </div>
           </motion.div>
 
@@ -642,9 +639,8 @@ export function WordManagementScreen() {
               variant="secondary"
               onClick={() => navigate(ROUTES.CATEGORY_MANAGEMENT)}
               icon={<ArrowLeft className="w-4 h-4" />}
-            >
-              Kategori Yönetimine Dön
-            </Button>
+              aria-label="Kategori yönetimine dön"
+            />
           </motion.div>
         </div>
 

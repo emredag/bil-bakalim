@@ -484,7 +484,13 @@ export function CategoryManagementScreen() {
     <div className="min-h-screen overflow-y-auto bg-neutral-950 p-4 md:p-6 lg:p-8">
       <div className="max-w-7xl mx-auto space-y-6 md:space-y-8">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
+        <div className="flex items-center gap-4">
+          <Button
+            variant="secondary"
+            onClick={() => navigate(ROUTES.HOME)}
+            icon={<ArrowLeft className="w-5 h-5" />}
+            aria-label="Ana menüye dön"
+          />
           <div>
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-neutral-50 mb-2">
               📚 Kategori Yönetimi
@@ -493,15 +499,6 @@ export function CategoryManagementScreen() {
               Kategorileri oluşturun, düzenleyin ve yönetin
             </p>
           </div>
-
-          <Button
-            variant="secondary"
-            onClick={() => navigate(ROUTES.HOME)}
-            className="self-start md:self-auto"
-            icon={<ArrowLeft className="w-5 h-5" />}
-          >
-            Ana Menü
-          </Button>
         </div>
 
         {/* Top Toolbar: Actions and Search */}

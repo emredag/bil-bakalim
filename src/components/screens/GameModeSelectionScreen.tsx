@@ -120,9 +120,7 @@ export function GameModeSelectionScreen() {
                 onClick={handleBack}
                 icon={<ArrowLeft className="w-5 h-5" />}
                 aria-label="Kategori seçimine dön"
-              >
-                <span className="hidden md:inline">Geri</span>
-              </Button>
+              />
               <div>
                 <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-neutral-50 tracking-tight">
                   Oyun Modu Seçin

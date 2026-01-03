@@ -194,9 +194,12 @@ export function GameHistoryDetailScreen() {
       <div className="min-h-screen bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900 flex items-center justify-center p-4">
         <Card className="p-8 text-center">
           <p className="text-error-400 mb-4">{error || 'Oyun bulunamadı'}</p>
-          <Button variant="primary" onClick={() => navigate(ROUTES.HISTORY)} icon={<ArrowLeft className="w-5 h-5" />}>
-            Geri
-          </Button>
+          <Button 
+            variant="primary" 
+            onClick={() => navigate(ROUTES.HISTORY)} 
+            icon={<ArrowLeft className="w-5 h-5" />}
+            aria-label="Oyun geçmişine dön"
+          />
         </Card>
       </div>
     );
@@ -212,9 +215,12 @@ export function GameHistoryDetailScreen() {
       <div className="max-w-6xl mx-auto space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
-          <Button variant="secondary" onClick={() => navigate(ROUTES.HISTORY)} icon={<ArrowLeft className="w-5 h-5" />}>
-            Geri
-          </Button>
+          <Button 
+            variant="secondary" 
+            onClick={() => navigate(ROUTES.HISTORY)} 
+            icon={<ArrowLeft className="w-5 h-5" />}
+            aria-label="Oyun geçmişine dön"
+          />
           <h1 className="text-3xl md:text-4xl font-bold text-white">Yarışma Detayları</h1>
           <div className="w-24" /> {/* Spacer for center alignment */}
         </div>

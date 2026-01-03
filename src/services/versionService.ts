@@ -6,7 +6,7 @@
 
 // Current app version (should match tauri.conf.json)
 // TODO: Revert to '1.2.0' after testing
-const CURRENT_VERSION = '1.0.0';
+const CURRENT_VERSION = '1.3.0';
 
 // GitHub API endpoint for releases
 const GITHUB_RELEASES_API = 'https://api.github.com/repos/emredag/bil-bakalim/releases/latest';

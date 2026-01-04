@@ -1,6 +1,6 @@
 [package]
 name = "bil-bakalim"
-version = "1.3.0"
+version = "1.3.1"
 description = "Bil Bakalım - Interactive Word Guessing Game"
 authors = ["Emre Dağ <info@emredag.dev>"]
 edition = "2021"

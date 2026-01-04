@@ -8,9 +8,17 @@ const __dirname = dirname(__filename);
 
 const host = process.env.TAURI_DEV_HOST;
 
+// Read version from package.json
+import pkg from './package.json';
+
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+
+  // Inject version into code
+  define: {
+    '__APP_VERSION__': JSON.stringify(pkg.version),
+  },
 
   // Vite options tailored for Tauri development and only applied in `tauri dev` or `tauri build`
   //

@@ -49,6 +49,10 @@ jobs:
             ### Değişiklikler
             
             Detaylar için [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/main/CHANGELOG.md) dosyasına bakın.
+
+            ---
+            
+            **Free code signing provided by [SignPath.io](https://signpath.io), certificate by SignPath Foundation**
             `,
               draft: true,
               prerelease: false

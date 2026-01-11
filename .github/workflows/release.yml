@@ -20,7 +20,7 @@ jobs:
       version: ${{ steps.get-version.outputs.version }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Get version from tag
         id: get-version
@@ -49,6 +49,10 @@ jobs:
             ### Değişiklikler
             
             Detaylar için [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/main/CHANGELOG.md) dosyasına bakın.
+
+            ---
+            
+            **Free code signing provided by [SignPath.io](https://signpath.io), certificate by SignPath Foundation**
             `,
               draft: true,
               prerelease: false
@@ -62,7 +66,7 @@ jobs:
     runs-on: macos-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -95,7 +99,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
